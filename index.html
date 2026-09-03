@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ADL Trainer</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <div class="brand">Advanced Deep Learning <span>trainer</span></div>
+    <nav id="nav">
+      <button data-view="home"    class="on">Home</button>
+      <button data-view="exam">Exam</button>
+      <button data-view="drill">Practice</button>
+      <button data-view="browse">Database</button>
+      <button data-view="history">History</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="main"></main>
+
+<footer class="wrap">
+  <span id="stat"></span>
+  <span class="spacer"></span>
+  <button class="link" id="export">Export progress</button>
+  <button class="link" id="importBtn">Import</button>
+  <input type="file" id="importFile" accept="application/json" hidden>
+  <button class="link danger" id="reset">Reset progress</button>
+</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/katex/contrib/auto-render.min.js"></script>
+<script src="data/questions.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
