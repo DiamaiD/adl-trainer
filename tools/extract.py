@@ -45,6 +45,10 @@ EXAMS = {
                                         "e04_04_explain_b.tex"]},
     "05": {"weeks": "1-11", "explain": ["e05_03_explain_a.tex",
                                         "e05_04_explain_b.tex"]},
+    "06": {"weeks": "1-11", "explain": ["e06_03_explain_a.tex",
+                                        "e06_04_explain_b.tex"]},
+    "07": {"weeks": "1-11", "explain": ["e07_03_explain_a.tex",
+                                        "e07_04_explain_b.tex"]},
 }
 
 QHEAD = re.compile(r"\\qhead\{(\d+)\}\{([^}]*)\}\{([^}]*)\}")

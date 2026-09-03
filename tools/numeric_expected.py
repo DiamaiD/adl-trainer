@@ -45,4 +45,21 @@ EXPECTED = {
     "e05q46": [50790912, 2049],           # weights, factor for a third modality
     "e05q47": [500, 2000],                # EWC penalty at 0.1 and at 0.2
     "e05q48": [398131200, 39.8],          # evaluations per frame, seconds
+    # ------------------------------------------------------------- exam 06
+    "e06q43": [1179648, 133376, 8.84],    # standard, separable, ratio
+    "e06q44": [4096, 614, 18740508],      # tokens, masked, logits
+    "e06q45": [184, 256],                 # octree bytes, dense grid bytes
+    "e06q46": [0.177, 0.25],              # c_ij, and the self-coefficient
+    "e06q47": [8.318, 12, 11.09, 16],     # nats and bits at K=4096 and 65536
+    "e06q48": [0.5, -10, 15],             # the gamma=0.5 and gamma=4 vectors
+    # ------------------------------------------------------------- exam 07
+    # 3.22e9 would more often be written in scientific notation than in full,
+    # and numbers are matched literally -- so only the two a student is certain
+    # to write down are required here
+    "e07q43": [33, 63],                   # last effective kernel, and R
+    "e07q44": [4096, 64],                 # patches, and the ratio
+    "e07q45": [0.731, 0.313],             # p and loss at s=1
+    "e07q46": [0.83],                     # the vanishing-gradient threshold
+    "e07q47": [14, 28, 56, 42],           # weights, Adam states, total, removed
+    "e07q48": [0.817, 228],               # alpha-bar_10, and the step count
 }

@@ -1,29 +1,29 @@
 # ADL trainer
 
-A local study site over the five practice exams. **Double-click `index.html`.**
+A local study site over the seven practice exams. **Double-click `index.html`.**
 No server, no install, no internet — KaTeX is vendored in `vendor/katex`, and the
 questions are a plain script rather than a fetched file so `file://` works.
 
 ## What is in it
 
-All 300 questions from the LaTeX papers in `../Exams/src`:
+All 420 questions from the LaTeX papers in `../Exams/src`:
 
 | type | how you answer it | count |
 |---|---|---|
-| mark one | one option | 71 |
-| multiple select | any number of options | 75 |
-| ordering | drag the rows, or the ▲▼ buttons | 19 |
-| fill in the blanks | a dropdown at each blank, 5–7 choices | 31 |
-| assign the property | a dropdown per row, exactly the real choices | 10 |
-| numeric | type the numbers; marked to 0.5% | 28 |
-| short text / sketching / pseudo-code | **you mark yourself** | 66 |
+| mark one | one option | 100 |
+| multiple select | any number of options | 106 |
+| ordering | drag the rows, or the ▲▼ buttons | 27 |
+| fill in the blanks | a dropdown at each blank, 5–7 choices | 43 |
+| assign the property | a dropdown per row, exactly the real choices | 14 |
+| numeric | type the numbers; marked to 0.5% | 40 |
+| short text / sketching / pseudo-code | **you mark yourself** | 90 |
 
 The last row cannot be machine-marked, so the site does the honest thing: you
 write (or sketch on paper), submit, and it **always shows the model answer** —
 you then say whether you got it right. Until you do, the exam score counts the
 question as wrong and says so.
 
-**The papers' 43 figures are on the site too**, compiled out of the same TikZ
+**The papers' 50 figures are on the site too**, compiled out of the same TikZ
 source and converted to SVG, so they scale to any screen and print sharp. A
 figure that is part of the question sits under the stem; a figure that is part
 of the worked answer sits under the explanation. Tap one to open it full size.
@@ -47,7 +47,7 @@ target follows automatically.
   answered it.
 
 Questions are drawn **least-used first**, so nothing is over-served: after twelve
-50-question exams every question had been used 2 or 3 times.
+50-question exams every question had been used once or twice.
 
 Progress lives in the browser's localStorage for this file. *Export progress*
 writes it to a JSON file and *Import* reads one back — worth doing occasionally,

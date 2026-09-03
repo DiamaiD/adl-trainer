@@ -45,6 +45,7 @@ KATEX_OK = set("""
  begin end bmatrix pmatrix vmatrix matrix cases array aligned substack
  coloneqq mapstochar leadsto nearrow searrow uparrow downarrow updownarrow
  xrightarrow xleftarrow overset underset stackrel phantom mathring
+ Longrightarrow Longleftrightarrow longrightarrow longleftrightarrow
 """.split())
 
 
