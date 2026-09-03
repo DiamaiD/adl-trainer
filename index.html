@@ -27,16 +27,26 @@
 <footer class="wrap">
   <span id="stat"></span>
   <span class="spacer"></span>
+  <button class="link" id="syncBtn">Sync</button>
   <button class="link" id="export">Export progress</button>
   <button class="link" id="importBtn">Import</button>
   <input type="file" id="importFile" accept="application/json" hidden>
   <button class="link danger" id="reset">Reset progress</button>
 </footer>
+<div class="wrap"><div id="syncPanel" class="syncpanel" hidden></div></div>
 
 <script src="vendor/katex/katex.min.js"></script>
 <script src="vendor/katex/contrib/auto-render.min.js"></script>
 <script src="data/figures.js"></script>
 <script src="data/questions.js"></script>
 <script src="app.js"></script>
+<script>
+/* index.html?selftest runs tools/selftest.js and prints the results at the top */
+if (location.search.indexOf('selftest') >= 0) {
+  var s = document.createElement('script');
+  s.src = 'tools/selftest.js';
+  document.body.appendChild(s);
+}
+</script>
 </body>
 </html>

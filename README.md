@@ -60,9 +60,20 @@ then run it; after that every run is just a push and Pages rebuilds in about a
 minute. Nothing here is anyone else's material — the questions, the answers and
 the figures are all from `../Exams/src`, plus KaTeX under its MIT licence.
 
-Progress is stored per origin, so the phone and this PC keep **separate**
-histories. *Export progress* on one and *Import* on the other if you want them
-to agree.
+Browsers store progress per device, so the phone and the PC would drift apart.
+**Sync** in the footer fixes that: paste a GitHub token with only the `gist`
+scope and the site keeps one history in a secret gist. Do it on both devices
+with the same token.
+
+It **merges**, never overwrites — question counts take the maximum rather than
+the sum (so syncing twice cannot inflate them), sittings are matched on when
+they were submitted and what was on them, and where both sides have the same
+sitting the more self-marked copy wins. That makes it symmetric and idempotent:
+it does not matter which device syncs first, or how often. A sync that lands
+while a paper is open does not repaint it.
+
+*Export progress* / *Import* still work and also merge, if you would rather
+move a file about than hand over a token.
 
 ## Adding questions later
 
@@ -95,3 +106,11 @@ malformed.
 
 To write a question that has no LaTeX original, add it to `data/generated.json`
 by hand in the same shape and re-run the last two steps.
+
+## Checking the page itself
+
+`audit_data.py` checks the data. For the page, open **`index.html?selftest`** —
+`tools/selftest.js` runs 21 assertions and prints them at the top: that clicking
+an option really marks it, that the ordering buttons move a row, that a dropdown
+shows what you picked, and that merging two devices' progress is symmetric and
+idempotent. Each one is there because that bug was really here.

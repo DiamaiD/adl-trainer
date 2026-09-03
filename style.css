@@ -143,6 +143,29 @@ textarea.note{
 }
 textarea.note:focus{outline:0;border-color:var(--blue)}
 textarea.note:disabled{background:#fafbfc;color:var(--slate)}
+/* Device sync panel, opened from the footer. */
+.syncpanel{
+  border:1px solid var(--rule);border-radius:var(--radius);background:#fff;
+  padding:16px 18px;margin:0 0 24px;max-width:640px;
+}
+.syncpanel h4{margin:0 0 8px;color:var(--blue);font-size:15px}
+.syncpanel p.muted{margin:8px 0;font-size:13px;color:var(--grey)}
+.syncpanel ol{margin:10px 0;padding-left:20px;font-size:13.5px}
+.syncpanel li{margin:5px 0}
+.syncpanel code{background:var(--blue-l);padding:1px 5px;border-radius:4px}
+.syncrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0}
+input.tok{
+  flex:1 1 260px;font:inherit;font-size:13.5px;padding:8px 10px;
+  border:1px solid var(--rule);border-radius:6px;background:var(--paper);
+}
+input.tok:focus{outline:none;border-color:var(--blue)}
+button.go.small{padding:8px 14px;font-size:13.5px}
+.syncmsg{
+  margin:10px 0 0;font-size:13px;color:var(--green);
+  background:var(--green-l);border-radius:5px;padding:7px 10px;
+}
+.syncmsg.bad{color:var(--red);background:var(--red-l)}
+
 /* The papers' figures, as SVG. White ground because the drawings assume paper,
    and a tap opens the file full size -- useful on a phone. */
 .figs{margin:12px 0}

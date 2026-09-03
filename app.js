@@ -23,6 +23,168 @@ function load() {
 function save() {
   try { localStorage.setItem(KEY, JSON.stringify(S)); }
   catch (e) { console.warn('could not save progress', e); }
+  queuePush();
+}
+
+/* Combine two copies of the progress rather than letting one win: both devices
+ * may have moved on since they last agreed. Every rule below is idempotent and
+ * order-independent, so syncing twice, or syncing the other way round, gives
+ * the same answer. */
+const selfMarked = h => (h.answers || [])
+  .filter(a => a && typeof a === 'object' && (a.self === true || a.self === false))
+  .length;
+
+function merge(a, b) {
+  const out = blank();
+
+  // Max, not sum. We cannot tell an unsynced use on the other device from one
+  // we already know about, and over-counting would permanently distort the
+  // least-used-first draw. Max never inflates on a repeated sync.
+  out.uses = Object.assign({}, a.uses);
+  Object.keys(b.uses || {}).forEach(k => {
+    out.uses[k] = Math.max(out.uses[k] || 0, b.uses[k] || 0);
+  });
+
+  out.drillSeen = Array.from(new Set(
+    (a.drillSeen || []).concat(b.drillSeen || [])));
+
+  // A sitting is identified by when it was submitted and what was on it. If
+  // both sides have it, keep whichever has more self-marking done -- that is
+  // the copy someone did more work on.
+  const byId = new Map();
+  (a.history || []).concat(b.history || []).forEach(h => {
+    const k = (h.at || 0) + ':' + (h.ids || []).join(',');
+    const prev = byId.get(k);
+    if (!prev || selfMarked(h) > selfMarked(prev)) byId.set(k, h);
+  });
+  out.history = Array.from(byId.values())
+    .sort((x, y) => (y.at || 0) - (x.at || 0))
+    .slice(0, 100);
+
+  return out;
+}
+
+/* ------------------------------------------------------------------ sync */
+/* Progress is per-origin, so the phone and the PC would otherwise keep
+ * separate histories. This keeps them in step through a secret GitHub gist --
+ * no server to run, no account beyond the GitHub one, and the token only ever
+ * needs the "gist" scope, so it cannot touch anything else.
+ *
+ * The token is held in this browser's localStorage and is sent to api.github.com
+ * and nowhere else. */
+const SYNC_KEY = 'adl.trainer.sync.v1';
+const GIST_FILE = 'adl-trainer-progress.json';
+const GIST_DESC = 'ADL trainer progress (written by the trainer site)';
+const TOKEN_URL = 'https://github.com/settings/tokens/new' +
+  '?scopes=gist&description=ADL%20trainer%20sync';
+
+let SY = (() => {
+  try { return JSON.parse(localStorage.getItem(SYNC_KEY)) || {}; }
+  catch (e) { return {}; }
+})();
+const syncOn = () => !!(SY.token && SY.gistId);
+function saveSync() {
+  try { localStorage.setItem(SYNC_KEY, JSON.stringify(SY)); } catch (e) {}
+}
+
+let SITTING = false;                   // an exam is on screen and unsubmitted
+let syncState = { busy: false, msg: '', bad: false };
+function syncSay(msg, bad) {
+  syncState.msg = msg; syncState.bad = !!bad;
+  if (typeof paintSync === 'function') paintSync();
+}
+
+async function gh(path, opts) {
+  const r = await fetch('https://api.github.com' + path, Object.assign({
+    headers: {
+      Authorization: 'Bearer ' + SY.token,
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28'
+    }
+  }, opts || {}));
+  if (!r.ok) {
+    throw new Error(r.status === 401
+      ? 'GitHub rejected the token (401). Make a new one and paste it again.'
+      : 'GitHub returned ' + r.status + ' ' + r.statusText);
+  }
+  return r.json();
+}
+
+async function gistPull() {
+  const g = await gh('/gists/' + SY.gistId);
+  const f = g.files && g.files[GIST_FILE];
+  if (!f) throw new Error('That gist has no ' + GIST_FILE + ' in it.');
+  // The API inlines file content only up to 1 MB; past that it hands you a URL.
+  const text = f.truncated ? await (await fetch(f.raw_url)).text() : f.content;
+  return Object.assign(blank(), JSON.parse(text));
+}
+
+async function gistPush() {
+  const body = { files: {} };
+  body.files[GIST_FILE] = { content: JSON.stringify(S) };
+  await gh('/gists/' + SY.gistId, { method: 'PATCH', body: JSON.stringify(body) });
+}
+
+/* Pull, merge, push: after this both sides hold the same thing. */
+async function syncNow(quiet) {
+  if (!syncOn() || syncState.busy) return;
+  syncState.busy = true;
+  if (!quiet) syncSay('syncing…');
+  try {
+    S = merge(S, await gistPull());
+    localStorage.setItem(KEY, JSON.stringify(S));   // not save(): no push loop
+    await gistPush();
+    SY.at = Date.now(); saveSync();
+    syncState.busy = false;
+    syncSay('synced ' + new Date(SY.at).toLocaleTimeString());
+    stat();
+    // Repainting an unsubmitted paper would throw away the answers on screen.
+    if (!SITTING) show(VIEW);
+  } catch (e) {
+    syncState.busy = false;
+    syncSay(e.message, true);
+  }
+}
+
+/* Saving happens on every click during an exam, so pushes are batched. */
+let pushTimer = null;
+function queuePush() {
+  if (!syncOn()) return;
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(() => {
+    gistPush().then(() => {
+      SY.at = Date.now(); saveSync();
+      syncSay('synced ' + new Date(SY.at).toLocaleTimeString());
+    }).catch(e => syncSay(e.message, true));
+  }, 4000);
+}
+
+async function syncConnect(token) {
+  SY = { token: token.trim() };
+  syncSay('looking for your progress gist…');
+  try {
+    const mine = await gh('/gists?per_page=100');
+    const found = mine.find(g => g.files && g.files[GIST_FILE]);
+    if (found) {
+      SY.gistId = found.id;
+    } else {
+      const body = { description: GIST_DESC, public: false, files: {} };
+      body.files[GIST_FILE] = { content: JSON.stringify(S) };
+      SY.gistId = (await gh('/gists', {
+        method: 'POST', body: JSON.stringify(body)
+      })).id;
+    }
+    saveSync();
+    await syncNow();
+  } catch (e) {
+    SY = {}; saveSync();
+    syncSay(e.message, true);
+  }
+}
+
+function syncDisconnect() {
+  SY = {}; saveSync();
+  syncSay('not syncing — this device only');
 }
 
 /* --------------------------------------------------------------- helpers */
@@ -289,6 +451,11 @@ function card(q, idx, ans, mode, onChange) {
           const k = ans.indexOf(i);
           if (k >= 0) ans.splice(k, 1); else ans.push(i);
         }
+        // Repaint the ticks here rather than rebuilding the card: an exam
+        // holds one card per question and does not redraw them on a click,
+        // so without this your choice leaves no mark on the screen.
+        Array.from(list.children).forEach((node, j) =>
+          node.classList.toggle('sel', ans.includes(j)));
         onChange();
       });
       list.appendChild(o);
@@ -464,7 +631,10 @@ function card(q, idx, ans, mode, onChange) {
 
 /* ------------------------------------------------------------- the views */
 const main = () => $('#main');
+let VIEW = 'home';
 function show(view) {
+  VIEW = view;
+  SITTING = false;              // runExam sets it again if a paper is started
   document.querySelectorAll('#nav button')
     .forEach(b => b.classList.toggle('on', b.dataset.view === view));
   main().innerHTML = '';
@@ -548,6 +718,8 @@ function runExam(qs, restore) {
   m.innerHTML = '';
   const answers = restore ? restore.answers.map(copyAnswer) : qs.map(emptyAnswer);
   let marked = !!restore;
+  // A sync that lands mid-paper must not repaint the screen from under you.
+  SITTING = !marked;
   let entry = restore || null;          // the history record, for self-marks
 
   const head = el('div');
@@ -630,6 +802,7 @@ function runExam(qs, restore) {
       const b = el('button', 'go', 'Submit');
       b.addEventListener('click', () => {
         marked = true;
+        SITTING = false;
         entry = {
           at: Date.now(), ids: qs.map(q => q.id),
           answers: answers.map(copyAnswer),
@@ -827,6 +1000,74 @@ function vHistory() {
 document.querySelectorAll('#nav button').forEach(b =>
   b.addEventListener('click', () => show(b.dataset.view)));
 
+/* ----------------------------------------------------------- sync panel */
+function paintSync() {
+  const p = $('#syncPanel');
+  if (!p || p.hidden) return;
+  p.innerHTML = '';
+
+  if (syncOn()) {
+    p.appendChild(el('h4', null, 'Syncing through a private GitHub gist'));
+    p.appendChild(el('p', 'muted',
+      'Every device you connect with the same token shares one history. ' +
+      'Progress is merged, never overwritten, so nothing is lost if you ' +
+      'answered things on two devices.'));
+    const row = el('div', 'syncrow');
+    const now = el('button', 'go small', 'Sync now');
+    now.disabled = syncState.busy;
+    now.addEventListener('click', () => syncNow());
+    const off = el('button', 'go ghost small', 'Disconnect this device');
+    off.addEventListener('click', () => { syncDisconnect(); paintSync(); });
+    row.append(now, off);
+    p.appendChild(row);
+    p.appendChild(el('p', 'muted',
+      'Gist <code>' + SY.gistId + '</code>. Disconnecting removes the token ' +
+      'from this browser and leaves your progress and the gist alone.'));
+  } else {
+    p.appendChild(el('h4', null, 'Keep one history across your devices'));
+    p.appendChild(el('p', 'muted',
+      'Browsers keep this site’s progress per device, so the phone and ' +
+      'the PC drift apart. Give the site a GitHub token and it will keep ' +
+      'them in step through a secret gist — no server, nothing public.'));
+    const ol = el('ol', 'xl');
+    ol.innerHTML =
+      '<li>Open <a href="' + TOKEN_URL + '" target="_blank" rel="noopener">' +
+      'this pre-filled token page</a> — the <b>gist</b> box is already ' +
+      'ticked, and it is the only one that should be. Set the expiry to ' +
+      'something past your exam.</li>' +
+      '<li>Generate it, copy it, and paste it below.</li>' +
+      '<li>Do the same on your other device with the <i>same</i> token.</li>';
+    p.appendChild(ol);
+    const row = el('div', 'syncrow');
+    const inp = el('input', 'tok');
+    inp.type = 'password';
+    inp.placeholder = 'ghp_… (paste your token)';
+    inp.autocomplete = 'off';
+    const go = el('button', 'go small', 'Connect');
+    const fire = () => { if (inp.value.trim()) syncConnect(inp.value); };
+    go.addEventListener('click', fire);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') fire(); });
+    row.append(inp, go);
+    p.appendChild(row);
+    p.appendChild(el('p', 'muted',
+      'The token stays in this browser and is sent only to api.github.com. ' +
+      'With just the gist scope it can read and write your gists and nothing ' +
+      'else — not your repositories. Revoke it any time on the same ' +
+      'GitHub page.'));
+  }
+
+  if (syncState.msg) {
+    p.appendChild(el('p', 'syncmsg' + (syncState.bad ? ' bad' : ''),
+      syncState.msg));
+  }
+}
+$('#syncBtn').addEventListener('click', () => {
+  const p = $('#syncPanel');
+  p.hidden = !p.hidden;
+  paintSync();
+  if (!p.hidden) p.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+});
+
 $('#export').addEventListener('click', () => {
   const blob = new Blob([JSON.stringify(S, null, 1)], { type: 'application/json' });
   const a = el('a');
@@ -841,7 +1082,9 @@ $('#importFile').addEventListener('change', ev => {
   const r = new FileReader();
   r.onload = () => {
     try {
-      S = Object.assign(blank(), JSON.parse(r.result));
+      // Merge, so importing a file from the other device adds to what is here
+      // instead of throwing it away.
+      S = merge(S, Object.assign(blank(), JSON.parse(r.result)));
       save(); show('history');
     } catch (e) { alert('That file could not be read.'); }
   };
@@ -854,3 +1097,5 @@ $('#reset').addEventListener('click', () => {
 });
 
 show('home');
+/* Pick up whatever the other device did, before anything is answered here. */
+if (syncOn()) syncNow(true);
