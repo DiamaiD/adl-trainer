@@ -53,6 +53,17 @@ Progress lives in the browser's localStorage for this file. *Export progress*
 writes it to a JSON file and *Import* reads one back — worth doing occasionally,
 since clearing site data would otherwise take the history with it.
 
+## Getting at it from a phone
+
+`publish.cmd` puts the site on GitHub Pages. Sign in once with `gh auth login`,
+then run it; after that every run is just a push and Pages rebuilds in about a
+minute. Nothing here is anyone else's material — the questions, the answers and
+the figures are all from `../Exams/src`, plus KaTeX under its MIT licence.
+
+Progress is stored per origin, so the phone and this PC keep **separate**
+histories. *Export progress* on one and *Import* on the other if you want them
+to agree.
+
 ## Adding questions later
 
 Everything is generated from the exam LaTeX, so the site and the PDFs cannot
