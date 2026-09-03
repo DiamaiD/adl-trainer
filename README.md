@@ -21,8 +21,12 @@ All 180 questions from the LaTeX papers in `../Exams/src`:
 The last row cannot be machine-marked, so the site does the honest thing: you
 write (or sketch on paper), submit, and it **always shows the model answer** —
 you then say whether you got it right. Until you do, the exam score counts the
-question as wrong and says so. Where the PDF has a figure the web page cannot
-show, the question says which exam and question number to look at.
+question as wrong and says so.
+
+**The papers' 33 figures are on the site too**, compiled out of the same TikZ
+source and converted to SVG, so they scale to any screen and print sharp. A
+figure that is part of the question sits under the stem; a figure that is part
+of the worked answer sits under the explanation. Tap one to open it full size.
 
 **A drawn paper is made up like a real one.** The target composition is the
 database's own, which *is* the papers' composition, so a 50-question exam comes
@@ -57,8 +61,12 @@ drift apart. After editing a paper:
 ```
 python tools/extract.py      # LaTeX  -> data/generated.json
 python tools/build_data.py   # + hand-written choices -> data/questions.js
+python tools/figures.py      # TikZ -> data/fig/*.svg + data/figures.js
 python tools/audit_data.py   # checks nothing broke
 ```
+
+`figures.py` needs `pdflatex` and `dvisvgm` (both ship with MiKTeX) and takes a
+couple of minutes; skip it if you did not touch a picture.
 
 Three files are hand-written and are the only places you need to touch by hand:
 

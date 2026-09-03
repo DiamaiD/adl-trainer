@@ -218,6 +218,35 @@ function dropdown(choices, value, onPick, locked) {
 document.addEventListener('click', () =>
   document.querySelectorAll('.dd-menu').forEach(m => { m.hidden = true; }));
 
+/* ------------------------------------------------------------- figures */
+/* The papers' TikZ pictures, rendered to SVG by tools/figures.py. Text is
+ * outlined, so they need no fonts and scale to any screen. 'q' figures are
+ * part of the question, 'a' figures part of the worked answer. */
+const FIGS = window.FIGURES || {};
+function addFigs(box, q, side) {
+  const list = (FIGS[q.id] || {})[side] || [];
+  if (!list.length) return;
+  const wrap = el('div', 'figs');
+  list.forEach(src => {
+    const a = el('a', 'figlink');
+    a.href = src; a.target = '_blank'; a.rel = 'noopener';
+    a.title = 'open full size';
+    const img = el('img', 'fig');
+    img.src = src;
+    img.loading = 'lazy';
+    img.alt = 'figure from exam ' + q.exam + ', Q' + q.num;
+    a.appendChild(img);
+    wrap.appendChild(a);
+  });
+  box.appendChild(wrap);
+}
+/* an explanation block, with the answer's figures under it */
+function explain(q, title, html) {
+  const d = el('div', 'expl', '<h4>' + title + '</h4>' + html);
+  addFigs(d, q, 'a');
+  return d;
+}
+
 /* ---------------------------------------------------------- render a card */
 /* mode: 'answer' | 'marked' | 'reveal'  (reveal = database browser) */
 function card(q, idx, ans, mode, onChange) {
@@ -239,6 +268,7 @@ function card(q, idx, ans, mode, onChange) {
   }
   box.appendChild(head);
   if (q.stem) box.appendChild(el('div', 'stem', q.stem));
+  addFigs(box, q, 'q');
 
   if (q.type === 'single' || q.type === 'multi') {
     const list = el('div', 'opts' + (lock ? ' locked' : ''));
@@ -383,11 +413,6 @@ function card(q, idx, ans, mode, onChange) {
     }
 
   } else if (q.type === 'written') {
-    if (q.figq) {
-      box.appendChild(el('div', 'pdfnote',
-        'This question has a figure in the PDF — see exam ' + q.exam +
-        ', Q' + q.num + '.'));
-    }
     if (!reveal) {
       const ta = el('textarea', 'note');
       ta.rows = Math.max(4, Math.min(14, q.lines || 6));
@@ -402,15 +427,7 @@ function card(q, idx, ans, mode, onChange) {
     }
     /* the model answer is always shown once submitted -- the site cannot tell
      * whether you were right, so you need to see it in order to decide */
-    if (lock) {
-      box.appendChild(el('div', 'expl',
-        '<h4>Model answer</h4>' + q.explanation));
-      if (q.figa) {
-        box.appendChild(el('div', 'pdfnote',
-          'The worked answer has a figure in the PDF — see exam ' + q.exam +
-          ', Q' + q.num + '.'));
-      }
-    }
+    if (lock) box.appendChild(explain(q, 'Model answer', q.explanation));
     if (marked) {
       const bar = el('div', 'selfmark');
       bar.appendChild(el('span', 'sm-q', 'Did you get it right?'));
@@ -426,15 +443,15 @@ function card(q, idx, ans, mode, onChange) {
   }
 
   if (reveal && q.explanation && q.type !== 'written') {
-    box.appendChild(el('div', 'expl', '<h4>Explanation</h4>' + q.explanation));
+    box.appendChild(explain(q, 'Explanation', q.explanation));
   } else if (marked && !ok && q.explanation && q.type !== 'written') {
-    box.appendChild(el('div', 'expl', '<h4>Explanation</h4>' + q.explanation));
+    box.appendChild(explain(q, 'Explanation', q.explanation));
   } else if (marked && ok && q.explanation && q.type !== 'written') {
     const slot = el('div');
     const t = el('button', 'link', 'show the explanation anyway');
     t.addEventListener('click', () => {
       slot.innerHTML = '';
-      slot.appendChild(el('div', 'expl', '<h4>Explanation</h4>' + q.explanation));
+      slot.appendChild(explain(q, 'Explanation', q.explanation));
       tex(slot);
     });
     slot.appendChild(t);

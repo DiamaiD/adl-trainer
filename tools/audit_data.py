@@ -99,9 +99,47 @@ def main():
             bad_shape.append("%s: labels/answers mismatch" % q["id"])
         if not q.get("explanation"):
             bad_shape.append("%s: no explanation" % q["id"])
+        # A continuation box that opens its own chunk gets appended twice, and
+        # the result reads perfectly well -- so it is only ever caught here.
+        paras = [re.sub(r"<[^>]+>", "", p).strip()
+                 for p in re.findall(r"<p>(.*?)</p>", q.get("explanation", ""),
+                                     re.S)]
+        paras = [p for p in paras if len(p) >= 40]
+        if len(paras) != len(set(paras)):
+            bad_shape.append("%s: explanation repeats a paragraph" % q["id"])
 
-    print("%d questions checked" % len(db))
+    # Figures: every entry must point at a file that exists and at a question
+    # that exists, and every rendered SVG must be reachable from some question
+    # -- an orphan file means the site is silently hiding a drawing.
+    bad_fig = []
+    figsrc = io.open(os.path.join(HERE, "data", "figures.js"),
+                     encoding="utf-8").read()
+    figmap = json.loads(figsrc[figsrc.index("{"):figsrc.rindex(";")])
+    ids = {q["id"] for q in db}
+    used = set()
+    for qid, sides in sorted(figmap.items()):
+        if qid not in ids:
+            bad_fig.append("%s: figure for a question that is not in the db" % qid)
+        for side, paths in sorted(sides.items()):
+            for p in paths:
+                full = os.path.join(HERE, p.replace("/", os.sep))
+                if not os.path.exists(full):
+                    bad_fig.append("%s: %s is missing" % (qid, p))
+                used.add(os.path.basename(p))
+    figdir = os.path.join(HERE, "data", "fig")
+    for f in sorted(os.listdir(figdir)) if os.path.isdir(figdir) else []:
+        if f.endswith(".svg") and f not in used:
+            bad_fig.append("%s: rendered but no question shows it" % f)
+
+    nfig = sum(len(v) for d in figmap.values() for v in d.values())
+    print("%d questions checked, %d figures on %d of them"
+          % (len(db), nfig, len(figmap)))
     fail = False
+    if bad_fig:
+        fail = True
+        print("\nFigure problems:")
+        for b in bad_fig:
+            print("   " + b)
     if bad_text:
         fail = True
         print("\nLaTeX left in visible text:")

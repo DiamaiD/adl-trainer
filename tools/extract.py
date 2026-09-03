@@ -190,6 +190,11 @@ def explanations(tag):
         for i, (m, n) in enumerate(marks):
             if n is None:
                 continue
+            # A run of boxes for the same question is one chunk: the first
+            # already swallows the continuations, so letting a continuation
+            # open its own chunk would append the same text twice.
+            if i and marks[i - 1][1] == n:
+                continue
             end = len(txt)
             for m2, n2 in marks[i + 1:]:
                 if n2 != n:                    # a continuation box stays with it
@@ -285,10 +290,11 @@ def build():
             if sub:
                 lines = re.search(r"\\answerlines\{(\d+)\}", body)
                 stem = re.sub(r"\\answer(lines|box)\{[^}]*\}", "", body)
+                # The pictures themselves come from tools/figures.py, which
+                # renders them to SVG and keys them by question id; there is no
+                # flag to keep in step here.
                 rec.update(type="written", sub=sub,
                            lines=int(lines.group(1)) if lines else 8,
-                           figq=r"\begin{tikzpicture}" in stem,
-                           figa=figs.get(num, False),
                            stem=L.text(L.strip_env(stem, ["tikzpicture", "center"])))
                 db.append(rec)
                 continue

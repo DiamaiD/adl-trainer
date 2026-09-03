@@ -143,10 +143,17 @@ textarea.note{
 }
 textarea.note:focus{outline:0;border-color:var(--blue)}
 textarea.note:disabled{background:#fafbfc;color:var(--slate)}
-.pdfnote{
-  font-size:12.5px;color:var(--amber);background:var(--amber-l);
-  border-radius:5px;padding:6px 10px;margin:0 0 10px;
+/* The papers' figures, as SVG. White ground because the drawings assume paper,
+   and a tap opens the file full size -- useful on a phone. */
+.figs{margin:12px 0}
+.figlink{display:block;margin:10px 0;text-decoration:none}
+/* They are vector, so scaling a small diagram up costs nothing and makes the
+   labels legible -- at PDF size they are unreadable on screen. */
+img.fig{
+  display:block;width:100%;max-width:720px;height:auto;margin:0 auto;
+  background:#fff;border:1px solid var(--rule);border-radius:6px;padding:10px;
 }
+.expl img.fig{background:#fff}
 .selfmark{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
 .sm-q{font-size:13.5px;color:var(--grey)}
 button.sm{

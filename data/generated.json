@@ -914,8 +914,6 @@
   "type": "written",
   "sub": "text",
   "lines": 4,
-  "figq": false,
-  "figa": false,
   "stem": "State what a $1\\times1$ convolution does and why it is useful."
  },
  {
@@ -927,8 +925,6 @@
   "type": "written",
   "sub": "text",
   "lines": 4,
-  "figq": false,
-  "figa": false,
   "stem": "Explain why teacher forcing is used during training but not at inference."
  },
  {
@@ -940,8 +936,6 @@
   "type": "written",
   "sub": "text",
   "lines": 4,
-  "figq": false,
-  "figa": false,
   "stem": "BERT's masked-language-model objective treats masked tokens as conditionally independent given the corrupted input. Give one concrete way this can produce an incoherent prediction."
  },
  {
@@ -953,8 +947,6 @@
   "type": "written",
   "sub": "text",
   "lines": 4,
-  "figq": false,
-  "figa": true,
   "stem": "Explain why bipartite matching removes the need for non-maximum suppression."
  },
  {
@@ -966,8 +958,6 @@
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "figq": false,
-  "figa": false,
   "stem": "Regular sparse convolution suffers from the “dilation problem” and submanifold sparse convolution fixes it. State what the problem is, how SSC fixes it, and what capability is lost as a result."
  },
  {
@@ -979,8 +969,6 @@
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "figq": false,
-  "figa": true,
   "stem": "Explain over-smoothing, and why it is in tension with the only mechanism a GNN has for increasing its receptive field."
  },
  {
@@ -992,8 +980,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": true,
   "stem": "Why does training only on the hardest negatives risk network collapse? Use the triplet loss to show what a collapsed encoder would score."
  },
  {
@@ -1005,8 +991,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "An image encoder and a text encoder in a cross-modal retrieval system cannot share weights, yet their outputs must be comparable. Explain the problem and how the training objective solves it."
  },
  {
@@ -1018,8 +1002,6 @@
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "figq": false,
-  "figa": true,
   "stem": "Sketch, for a 1D input, how the receptive field of one output neuron grows through the three-layer stack of Q42. Draw the input axis once and mark, layer by layer, which input positions feed the neuron. Label the effective kernel size and the jump at each layer. Then state in one sentence why padding does not appear anywhere in your sketch."
  },
  {
@@ -1031,8 +1013,6 @@
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "figq": false,
-  "figa": true,
   "stem": "How is a single layer of the Transformer encoder structured? Sketch it and label the important components, including what must be done to the input before it enters the very first layer. Then explain in two or three sentences which of your sub-layers moves information between tokens and which does not, and why both the residual connections and the normalisation are there."
  },
  {
@@ -1044,8 +1024,6 @@
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "figq": true,
-  "figa": true,
   "stem": "Below are two $8\\times8$ patch grids representing the same feature map in two <em>successive</em> Swin blocks, with window size $M = 4$. On the left grid, draw the window partition used by W-MSA. On the right grid, draw the partition used by the following SW-MSA block. Mark one patch that lies in the same window as a given neighbour in one block but a different window in the other, and use it to explain in two sentences what the shift buys and what it costs."
  },
  {
@@ -1057,8 +1035,6 @@
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "figq": false,
-  "figa": true,
   "stem": "A single active site sits in an otherwise empty 2D grid. Sketch the set of active sites after one layer and after two layers, for (i) regular sparse convolution with a $3\\times3$ kernel and (ii) submanifold sparse convolution with the same kernel. Label the side length of the active region in each case. Then state, in one sentence each, the problem your first sketch demonstrates and the capability your second sketch gives up."
  },
  {
@@ -1070,8 +1046,6 @@
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "figq": false,
-  "figa": true,
   "stem": "Draw the same small set of five elements three times, and on each copy draw the interaction pattern permitted by (i) deep sets / PointNet, (ii) a GNN layer on a sparse graph, and (iii) a transformer encoder. Label each. Then use your three pictures to explain what a GNN buys over deep sets and what it gives up against a transformer."
  },
  {
@@ -1079,12 +1053,10 @@
   "exam": 1,
   "num": 60,
   "week": "W5",
-  "explanation": "<ol class='xl'><li>A <strong>message</strong> function taking <em>three</em> arguments, including $\\mathbf{e}_{ij}$ — that is what “supports edge features” means</li><li>An <strong>aggregation</strong> over $\\mathcal{N}(i)$, explicitly marked permutation invariant</li><li>An <strong>update</strong> function combining the node's own feature with the aggregate</li><li>A loop over all nodes, with the three stages in that order</li><li>The statement of what breaks without invariance</li></ol><pre class='code'>for each node i in V:\n    # 1. MESSAGE - one per incident edge, may read the edge feature\n    for each j in N(i):\n        m_ij = phi(x_i, x_j, e_ij)\n\n    # 2. AGGREGATE - must be PERMUTATION INVARIANT (sum / mean / max)\n    a_i = SUM_{j in N(i)} m_ij\n\n    # 3. UPDATE - combine the node's own state with the aggregate\n    x_i' = gamma(x_i, a_i)</pre><p><strong>Step 2 is the one that must be permutation invariant.</strong> Steps 1 and 3 are ordinary learned functions applied pointwise — $\\phi$ to each edge, $\\gamma$ to each node — and neither sees more than one item at a time, so neither can depend on ordering. Only the aggregation looks at a <em>collection</em>, and a collection is exactly where an order could sneak in.</p><p><strong>What breaks if it is not invariant.</strong> A graph has no canonical node ordering; the neighbours of $i$ arrive in whatever order the data structure happens to store them. If $\\bigoplus$ were order-sensitive — concatenation, or an RNN over the neighbour list — then relabelling the nodes would change $a_i$ and therefore the output. The same graph, stored two ways, would produce two different answers. <strong>The layer would no longer be permutation equivariant, and the graph-level readout on top of it would no longer be permutation invariant</strong> (Q22, Q23), so the model would be learning properties of the storage order rather than of the graph.</p><p><strong>The extra mark:</strong> name the choice and its consequence. <em>Sum</em> is the most expressive of the three — it can count, so it distinguishes neighbourhoods of different sizes; <em>mean</em> normalises away degree, which helps when degrees vary wildly but throws away exactly that count; <em>max</em> is robust to outliers and is what PointNet uses (Q19).</p><p><strong>Step 2 is the one that must be permutation invariant.</strong> Steps 1 and 3 are ordinary learned functions applied pointwise — $\\phi$ to each edge, $\\gamma$ to each node — and neither sees more than one item at a time, so neither can depend on ordering. Only the aggregation looks at a <em>collection</em>, and a collection is exactly where an order could sneak in.</p><p><strong>What breaks if it is not invariant.</strong> A graph has no canonical node ordering; the neighbours of $i$ arrive in whatever order the data structure happens to store them. If $\\bigoplus$ were order-sensitive — concatenation, or an RNN over the neighbour list — then relabelling the nodes would change $a_i$ and therefore the output. The same graph, stored two ways, would produce two different answers. <strong>The layer would no longer be permutation equivariant, and the graph-level readout on top of it would no longer be permutation invariant</strong> (Q22, Q23), so the model would be learning properties of the storage order rather than of the graph.</p><p><strong>The extra mark:</strong> name the choice and its consequence. <em>Sum</em> is the most expressive of the three — it can count, so it distinguishes neighbourhoods of different sizes; <em>mean</em> normalises away degree, which helps when degrees vary wildly but throws away exactly that count; <em>max</em> is robust to outliers and is what PointNet uses (Q19).</p>",
+  "explanation": "<ol class='xl'><li>A <strong>message</strong> function taking <em>three</em> arguments, including $\\mathbf{e}_{ij}$ — that is what “supports edge features” means</li><li>An <strong>aggregation</strong> over $\\mathcal{N}(i)$, explicitly marked permutation invariant</li><li>An <strong>update</strong> function combining the node's own feature with the aggregate</li><li>A loop over all nodes, with the three stages in that order</li><li>The statement of what breaks without invariance</li></ol><pre class='code'>for each node i in V:\n    # 1. MESSAGE - one per incident edge, may read the edge feature\n    for each j in N(i):\n        m_ij = phi(x_i, x_j, e_ij)\n\n    # 2. AGGREGATE - must be PERMUTATION INVARIANT (sum / mean / max)\n    a_i = SUM_{j in N(i)} m_ij\n\n    # 3. UPDATE - combine the node's own state with the aggregate\n    x_i' = gamma(x_i, a_i)</pre><p><strong>Step 2 is the one that must be permutation invariant.</strong> Steps 1 and 3 are ordinary learned functions applied pointwise — $\\phi$ to each edge, $\\gamma$ to each node — and neither sees more than one item at a time, so neither can depend on ordering. Only the aggregation looks at a <em>collection</em>, and a collection is exactly where an order could sneak in.</p><p><strong>What breaks if it is not invariant.</strong> A graph has no canonical node ordering; the neighbours of $i$ arrive in whatever order the data structure happens to store them. If $\\bigoplus$ were order-sensitive — concatenation, or an RNN over the neighbour list — then relabelling the nodes would change $a_i$ and therefore the output. The same graph, stored two ways, would produce two different answers. <strong>The layer would no longer be permutation equivariant, and the graph-level readout on top of it would no longer be permutation invariant</strong> (Q22, Q23), so the model would be learning properties of the storage order rather than of the graph.</p><p><strong>The extra mark:</strong> name the choice and its consequence. <em>Sum</em> is the most expressive of the three — it can count, so it distinguishes neighbourhoods of different sizes; <em>mean</em> normalises away degree, which helps when degrees vary wildly but throws away exactly that count; <em>max</em> is robust to outliers and is what PointNet uses (Q19).</p>",
   "type": "written",
   "sub": "code",
   "lines": 8,
-  "figq": false,
-  "figa": false,
   "stem": "Write pseudo-code for one message-passing layer that supports edge features, in the general MPNN form. Use $\\mathbf{x}_i$ for node features, $\\mathbf{e}_{ij}$ for edge features and $\\mathcal{N}(i)$ for the neighbourhood. Mark clearly which single step must be permutation invariant, and say in one sentence what breaks if it is not."
  },
  {
@@ -1128,7 +1100,7 @@
   "exam": 2,
   "num": 3,
   "week": "W7",
-  "explanation": "<p>Plain bilinear fusion computes the outer product $a\\,b^{\\!\\top}$ and nothing else. Tensor fusion appends a constant $1$ to each modality vector <em>first</em>, and only then takes the outer product. That one change is the whole idea, because the appended $1$ manufactures three extra blocks for free.</p><p><strong>Reading it.</strong> The single interaction block is surrounded by both unimodal blocks and a constant, so a downstream linear layer can recover the image-only answer, the text-only answer, a bias, or any mixture — without the interaction having to encode them. Plain bilinear fusion has <em>only</em> the blue block, so if one modality is missing or uninformative the product collapses and nothing survives.</p><p><strong>4th true, and it is the method's fatal flaw.</strong> With $d$-dimensional vectors the two-modality output has $(d+1)^2$ entries; three modalities give $(d+1)^3$. At $d = 128$ that is $129^3 \\approx 2.1$ million entries for <em>one</em> fused representation. This is why low-rank factorisations of tensor fusion exist at all.</p><p><strong>3rd false.</strong> Tensor fusion is a fixed algebraic construction applied to two <em>already pooled</em> vectors. Cross-modal attention aligns <em>sequences</em> — which word attends to which image region. They solve different problems and are routinely used together.</p><p><strong>4th true, and it is the method's fatal flaw.</strong> With $d$-dimensional vectors the two-modality output has $(d+1)^2$ entries; three modalities give $(d+1)^3$. At $d = 128$ that is $129^3 \\approx 2.1$ million entries for <em>one</em> fused representation. This is why low-rank factorisations of tensor fusion exist at all.</p><p><strong>3rd false.</strong> Tensor fusion is a fixed algebraic construction applied to two <em>already pooled</em> vectors. Cross-modal attention aligns <em>sequences</em> — which word attends to which image region. They solve different problems and are routinely used together.</p>",
+  "explanation": "<p>Plain bilinear fusion computes the outer product $a\\,b^{\\!\\top}$ and nothing else. Tensor fusion appends a constant $1$ to each modality vector <em>first</em>, and only then takes the outer product. That one change is the whole idea, because the appended $1$ manufactures three extra blocks for free.</p><p><strong>Reading it.</strong> The single interaction block is surrounded by both unimodal blocks and a constant, so a downstream linear layer can recover the image-only answer, the text-only answer, a bias, or any mixture — without the interaction having to encode them. Plain bilinear fusion has <em>only</em> the blue block, so if one modality is missing or uninformative the product collapses and nothing survives.</p><p><strong>4th true, and it is the method's fatal flaw.</strong> With $d$-dimensional vectors the two-modality output has $(d+1)^2$ entries; three modalities give $(d+1)^3$. At $d = 128$ that is $129^3 \\approx 2.1$ million entries for <em>one</em> fused representation. This is why low-rank factorisations of tensor fusion exist at all.</p><p><strong>3rd false.</strong> Tensor fusion is a fixed algebraic construction applied to two <em>already pooled</em> vectors. Cross-modal attention aligns <em>sequences</em> — which word attends to which image region. They solve different problems and are routinely used together.</p>",
   "type": "multi",
   "stem": "Mark all that are true of <strong>tensor fusion</strong> as against plain bilinear fusion:",
   "options": [
@@ -1993,8 +1965,6 @@
   "type": "written",
   "sub": "text",
   "lines": 4,
-  "figq": false,
-  "figa": false,
   "stem": "An image encoder and a text encoder in CLIP cannot share weights. Explain why not, and what supplies the alignment instead."
  },
  {
@@ -2006,8 +1976,6 @@
   "type": "written",
   "sub": "text",
   "lines": 4,
-  "figq": false,
-  "figa": false,
   "stem": "Distinguish <em>fusion</em> from <em>coordination</em>, and give one task that requires each."
  },
  {
@@ -2019,8 +1987,6 @@
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "figq": false,
-  "figa": false,
   "stem": "Contrastive methods such as SimCLR need negatives; DINO uses none. Explain what stops DINO collapsing, naming both mechanisms and what each one prevents."
  },
  {
@@ -2032,8 +1998,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "The masked autoencoder masks $75\\%$ of patches, while BERT masks about $15\\%$ of tokens. Explain why the image case can afford — and needs — so much more."
  },
  {
@@ -2045,8 +2009,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": true,
   "stem": "Explain how a gradient reversal layer makes a feature extractor domain-invariant, being precise about what happens in each of the two passes."
  },
  {
@@ -2058,8 +2020,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "State the stability–plasticity dilemma and explain why replay and regularisation attack it from opposite ends."
  },
  {
@@ -2071,8 +2031,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "Why is the score function easier to model than the density itself? Name the specific object that disappears."
  },
  {
@@ -2084,8 +2042,6 @@
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "figq": false,
-  "figa": false,
   "stem": "What does “annealing” mean in annealed Langevin dynamics, and why is a single noise level not enough?"
  },
  {
@@ -2097,8 +2053,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "In NeRF, why is the density $\\sigma$ predicted from position alone while the colour $\\mathbf{c}$ also takes the viewing direction? What would break if both took the direction?"
  },
  {
@@ -2110,8 +2064,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "3D Gaussian splatting uses no neural network for the scene, yet is trained by gradient descent. Explain what is being optimised and why this makes real-time rendering possible."
  },
  {
@@ -2123,8 +2075,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "In a recurrent state-space model, why is the state split into a deterministic part $h_t$ and a stochastic part $s_t$ rather than using one or the other alone?"
  },
  {
@@ -2136,8 +2086,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "Self-supervised pre-training and transfer learning both produce a backbone that is reused downstream. State the essential difference in what supplies the training signal, and one practical consequence of that difference."
  },
  {
@@ -2145,12 +2093,10 @@
   "exam": 2,
   "num": 57,
   "week": "W8",
-  "explanation": "<p>Everything below must appear in your sketch. Marks in a drawing question go to <em>labelled</em> components, so an unlabelled arrow scores nothing.</p><p><strong>Note the two directions that are easy to draw backwards.</strong> Weights travel <em>student</em> $\\to$ <em>teacher</em> (dashed green), gradients travel only <em>into the student</em> (blue). The teacher is never trained; it is a slow average of the student's past selves, which is why the setup is called self-distillation.</p><p><strong>Also note where centering sits</strong>: on the teacher branch, before its softmax, and it is a running mean over teacher outputs — not a normalisation of the student.</p><p><strong>Remove centering.</strong> Nothing counteracts sharpening, so the teacher's distribution gets ever more peaked and the same dimension wins for every image. Output collapses to a constant one-hot vector: perfect agreement, zero information.</p><p><strong>Remove sharpening</strong> (set $\\tau_t = \\tau_s$). Nothing counteracts centering, which subtracts the mean and therefore flattens. The teacher's output drifts to uniform, the student matches it, and again every image gets the same answer.</p><p><strong>Remove the stop-gradient.</strong> The loss can now be minimised by moving the <em>teacher</em> towards the student as well as the reverse. The two branches meet in the middle at the nearest constant, and collapse becomes directly reachable by gradient descent rather than something that has to be avoided — the asymmetry between the branches was the only thing making the objective non-trivial.</p><p><strong>Remove centering.</strong> Nothing counteracts sharpening, so the teacher's distribution gets ever more peaked and the same dimension wins for every image. Output collapses to a constant one-hot vector: perfect agreement, zero information.</p><p><strong>Remove sharpening</strong> (set $\\tau_t = \\tau_s$). Nothing counteracts centering, which subtracts the mean and therefore flattens. The teacher's output drifts to uniform, the student matches it, and again every image gets the same answer.</p><p><strong>Remove the stop-gradient.</strong> The loss can now be minimised by moving the <em>teacher</em> towards the student as well as the reverse. The two branches meet in the middle at the nearest constant, and collapse becomes directly reachable by gradient descent rather than something that has to be avoided — the asymmetry between the branches was the only thing making the objective non-trivial.</p>",
+  "explanation": "<p>Everything below must appear in your sketch. Marks in a drawing question go to <em>labelled</em> components, so an unlabelled arrow scores nothing.</p><p><strong>Note the two directions that are easy to draw backwards.</strong> Weights travel <em>student</em> $\\to$ <em>teacher</em> (dashed green), gradients travel only <em>into the student</em> (blue). The teacher is never trained; it is a slow average of the student's past selves, which is why the setup is called self-distillation.</p><p><strong>Also note where centering sits</strong>: on the teacher branch, before its softmax, and it is a running mean over teacher outputs — not a normalisation of the student.</p><p><strong>Remove centering.</strong> Nothing counteracts sharpening, so the teacher's distribution gets ever more peaked and the same dimension wins for every image. Output collapses to a constant one-hot vector: perfect agreement, zero information.</p><p><strong>Remove sharpening</strong> (set $\\tau_t = \\tau_s$). Nothing counteracts centering, which subtracts the mean and therefore flattens. The teacher's output drifts to uniform, the student matches it, and again every image gets the same answer.</p><p><strong>Remove the stop-gradient.</strong> The loss can now be minimised by moving the <em>teacher</em> towards the student as well as the reverse. The two branches meet in the middle at the nearest constant, and collapse becomes directly reachable by gradient descent rather than something that has to be avoided — the asymmetry between the branches was the only thing making the objective non-trivial.</p>",
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "figq": false,
-  "figa": true,
   "stem": "Sketch the DINO training setup and label its components: the two branches, what each one receives, the direction of the weight update between them, both softmax temperatures, and the two anti-collapse mechanisms. Then explain in three sentences what would happen if each mechanism were removed on its own."
  },
  {
@@ -2162,8 +2108,6 @@
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "figq": false,
-  "figa": false,
   "stem": "On one set of axes, sketch a one-dimensional bimodal data density $p(\\mathbf{x})$ and, beneath it, the score $\\nabla_{\\mathbf{x}}\\log p(\\mathbf{x})$. Mark the two modes, the valley between them, and the sign of the score in each region. Then use the sketch to explain (i) why Langevin dynamics without noise fails and (ii) why a low noise level alone cannot move a sample between the two modes."
  },
  {
@@ -2175,8 +2119,6 @@
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "figq": true,
-  "figa": false,
   "stem": "The figure below shows a camera, a ray through one pixel, and a scene containing one solid object. Mark on it: the sample points along the ray, the region where $\\sigma$ is large, the transmittance $T(t)$ as a curve beneath the ray, and the point that contributes most to the final pixel colour. Then explain in two sentences why samples <em>behind</em> the object contribute almost nothing, referring to your $T(t)$ curve."
  },
  {
@@ -2188,8 +2130,6 @@
   "type": "written",
   "sub": "code",
   "lines": 8,
-  "figq": false,
-  "figa": true,
   "stem": "Write pseudo-code for <strong>DDPM training</strong> (not sampling). Assume a dataset, a noise schedule $\\bar\\alpha_k$ for $k = 1 \\dots K$, and a network $\\varepsilon_\\theta(\\mathbf{x},k)$. Mark clearly which quantities are sampled fresh at every iteration, and state in one sentence why training does not require simulating the forward process step by step."
  },
  {
@@ -3140,8 +3080,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "Explain what batch normalisation computes during training, and what has to change at inference time and why."
  },
  {
@@ -3153,8 +3091,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "Distinguish vanishing from exploding gradients in a recurrent network. Name one remedy that addresses each, and say why the same remedy does not fix both."
  },
  {
@@ -3166,8 +3102,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "A single attention head at full width $d$ has about the same parameter count as $h$ heads of width $d/h$. So what is actually gained by splitting it?"
  },
  {
@@ -3179,8 +3113,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "BERT and GPT are both transformers pre-trained on raw text. State the difference in objective, and give one task each is suited to and one it is poorly suited to."
  },
  {
@@ -3192,8 +3124,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "A ViT needs far more training data than a comparable CNN before it wins. Explain why, in terms of what the CNN is given for free."
  },
  {
@@ -3205,8 +3135,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "Explain why a dense voxel grid is a poor default for 3D data, and what property of real 3D scenes the sparse and hierarchical methods exploit instead."
  },
  {
@@ -3218,8 +3146,6 @@
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "figq": false,
-  "figa": false,
   "stem": "Over-smoothing, over-squashing and under-reaching are three different failures of deep GNNs. State what each one is, in one sentence each."
  },
  {
@@ -3231,8 +3157,6 @@
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "figq": false,
-  "figa": false,
   "stem": "Explain why an embedding trained with a plain softmax classification loss is a poor choice for retrieval, and what angular-margin losses change about it."
  },
  {
@@ -3244,8 +3168,6 @@
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "figq": false,
-  "figa": true,
   "stem": "On three separate pairs of axes (loss against epoch), sketch the training and validation curves for a model that is <strong>underfitting</strong>, one that is <strong>fitting well</strong>, and one that is <strong>overfitting</strong>. Label both curves on each. Then state, for the underfitting and the overfitting case, one action you would take."
  },
  {
@@ -3257,8 +3179,6 @@
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "figq": false,
-  "figa": false,
   "stem": "Draw an anchor, a positive, and a circle of radius $\\mathcal{D}(a,p) + m$ around the anchor. On the same picture mark where an <strong>easy</strong>, a <strong>semi-hard</strong> and a <strong>hard</strong> negative each sit. Then explain in two sentences why training on the hard ones alone tends to collapse the network."
  },
  {
@@ -3270,8 +3190,6 @@
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "figq": false,
-  "figa": true,
   "stem": "Draw a small graph of four nodes twice: once as given, once with two of its nodes relabelled. Show what a permutation-<em>equivariant</em> node map does to the two copies, and what a permutation-<em>invariant</em> graph readout does. Then state in one sentence why a GNN needs both properties, at different points in the network."
  },
  {
@@ -3283,8 +3201,6 @@
   "type": "written",
   "sub": "code",
   "lines": 8,
-  "figq": false,
-  "figa": false,
   "stem": "Write pseudo-code for <strong>batch-hard</strong> triplet mining and the loss it feeds. Assume a structured batch of $P$ classes with $K$ samples each, an encoder $\\phi$, a distance $\\mathcal{D}$ and a margin $m$. Make clear which sample plays the anchor, and state in one sentence what goes wrong if the hardest negative is taken over the whole dataset rather than the batch."
  }
 ]
