@@ -235,5 +235,50 @@ window.FIGURES = {
   "a": [
    "data/fig/e07q59-a1.svg"
   ]
+ },
+ "e08q57": {
+  "a": [
+   "data/fig/e08q57-a1.svg"
+  ]
+ },
+ "e08q58": {
+  "a": [
+   "data/fig/e08q58-a1.svg"
+  ]
+ },
+ "e08q59": {
+  "a": [
+   "data/fig/e08q59-a1.svg"
+  ]
+ },
+ "e09q57": {
+  "a": [
+   "data/fig/e09q57-a1.svg"
+  ]
+ },
+ "e09q58": {
+  "a": [
+   "data/fig/e09q58-a1.svg"
+  ]
+ },
+ "e09q59": {
+  "a": [
+   "data/fig/e09q59-a1.svg"
+  ]
+ },
+ "e10q57": {
+  "a": [
+   "data/fig/e10q57-a1.svg"
+  ]
+ },
+ "e10q58": {
+  "a": [
+   "data/fig/e10q58-a1.svg"
+  ]
+ },
+ "e10q59": {
+  "a": [
+   "data/fig/e10q59-a1.svg"
+  ]
  }
 };

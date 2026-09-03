@@ -1,36 +1,36 @@
 # ADL trainer
 
-A local study site over the seven practice exams. **Double-click `index.html`.**
+A local study site over the ten practice exams. **Double-click `index.html`.**
 No server, no install, no internet — KaTeX is vendored in `vendor/katex`, and the
 questions are a plain script rather than a fetched file so `file://` works.
 
 ## What is in it
 
-All 420 questions from the LaTeX papers in `../Exams/src`:
+All 600 questions from the LaTeX papers in `../Exams/src`:
 
 | type | how you answer it | count |
 |---|---|---|
-| mark one | one option | 100 |
-| multiple select | any number of options | 106 |
-| ordering | drag the rows, or the ▲▼ buttons | 27 |
-| fill in the blanks | a dropdown at each blank, 5–7 choices | 43 |
-| assign the property | a dropdown per row, exactly the real choices | 14 |
-| numeric | type the numbers; marked to 0.5% | 40 |
-| short text / sketching / pseudo-code | **you mark yourself** | 90 |
+| mark one | one option | 139 |
+| multiple select | any number of options | 157 |
+| ordering | drag the rows, or the ▲▼ buttons | 39 |
+| fill in the blanks | a dropdown at each blank, 5–7 choices | 61 |
+| assign the property | a dropdown per row, exactly the real choices | 20 |
+| numeric | type the numbers; marked to 0.5% | 58 |
+| short text / sketching / pseudo-code | **you mark yourself** | 126 |
 
 The last row cannot be machine-marked, so the site does the honest thing: you
 write (or sketch on paper), submit, and it **always shows the model answer** —
 you then say whether you got it right. Until you do, the exam score counts the
 question as wrong and says so.
 
-**The papers' 50 figures are on the site too**, compiled out of the same TikZ
+**The papers' 59 figures are on the site too**, compiled out of the same TikZ
 source and converted to SVG, so they scale to any screen and print sharp. A
 figure that is part of the question sits under the stem; a figure that is part
 of the worked answer sits under the explanation. Tap one to open it full size.
 
 **A drawn paper is made up like a real one.** The target composition is the
 database's own, which *is* the papers' composition, so a 50-question exam comes
-out as roughly 12 mark-one, 12 multiple-select, 5 fill-in, 3 ordering, 2 assign,
+out as roughly 12 mark-one, 13 multiple-select, 5 fill-in, 3 ordering, 2 assign,
 5 numeric, 7 short text, 3 sketching and 1 pseudo-code. Add questions and the
 target follows automatically.
 
@@ -46,8 +46,8 @@ target follows automatically.
 - **History** — every exam you have sat, with the score, reopenable exactly as you
   answered it.
 
-Questions are drawn **least-used first**, so nothing is over-served: after twelve
-50-question exams every question had been used once or twice.
+Questions are drawn **least-used first**, so nothing is over-served: with 600 in
+the database, twelve 50-question exams get through every question exactly once.
 
 Progress lives in the browser's localStorage for this file. *Export progress*
 writes it to a JSON file and *Import* reads one back — worth doing occasionally,

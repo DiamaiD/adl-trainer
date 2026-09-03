@@ -62,4 +62,25 @@ EXPECTED = {
     "e07q46": [0.83],                     # the vanishing-gradient threshold
     "e07q47": [14, 28, 56, 42],           # weights, Adam states, total, removed
     "e07q48": [0.817, 228],               # alpha-bar_10, and the step count
+    # ------------------------------------------------------------- exam 08
+    "e08q43": [3072, 36864],              # flattened input, and weights
+    "e08q44": [64, 262144, 1048576],      # d_k, |W^O|, all four projections
+    "e08q45": [512, 96, 256, 192, 128, 384],   # Swin stages 1, 2 and 3
+    "e08q46": [53],                       # 3-hop receptive field, degree 4
+    "e08q47": [128, 3, 124, 47616],       # B, positives, negatives, batch-all
+    "e08q48": [0.607, 0.368, 0.223, 0.135, 0.394],  # transmittance, absorbed
+    # ------------------------------------------------------------- exam 09
+    "e09q43": [401920, 36928, 10.9],      # dense, conv, ratio
+    "e09q44": [3136, 9834496],            # tokens, and query-key pairs
+    "e09q45": [3411, 50541, 64],          # occupied at 32^3 and 128^3, growth
+    "e09q46": [0.5, 1, 2],                # cosine, distance, maximum
+    "e09q47": [8, 5.545, 65536],          # bits, nats, N for double
+    "e09q48": [12, 0.36],                 # DDPM seconds, ODE seconds
+    # ------------------------------------------------------------- exam 10
+    "e10q43": [56, 256, 295168, 924844032],    # shape, parameters, MACs
+    "e10q44": [197, 577, 8.58],           # sequence lengths, and the growth
+    "e10q45": [4, 10, 22],                # after 1, 2 and 3 layers
+    "e10q46": [128, 7, 120, 107520],      # B, positives, negatives, batch-all
+    "e10q47": [6.93, 10, 1048576],        # nats when guessing, bits, N
+    "e10q48": [61440000, 30.72, 2.56],    # evaluations, s/frame, hours
 }
