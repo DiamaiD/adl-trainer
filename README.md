@@ -1,29 +1,29 @@
 # ADL trainer
 
-A local study site over the three practice exams. **Double-click `index.html`.**
+A local study site over the five practice exams. **Double-click `index.html`.**
 No server, no install, no internet — KaTeX is vendored in `vendor/katex`, and the
 questions are a plain script rather than a fetched file so `file://` works.
 
 ## What is in it
 
-All 180 questions from the LaTeX papers in `../Exams/src`:
+All 300 questions from the LaTeX papers in `../Exams/src`:
 
 | type | how you answer it | count |
 |---|---|---|
-| mark one | one option | 42 |
-| multiple select | any number of options | 44 |
-| ordering | drag the rows, or the ▲▼ buttons | 11 |
-| fill in the blanks | a dropdown at each blank, 5–7 choices | 19 |
-| assign the property | a dropdown per row, exactly the real choices | 6 |
-| numeric | type the numbers; marked to 0.5% | 16 |
-| short text / sketching / pseudo-code | **you mark yourself** | 42 |
+| mark one | one option | 71 |
+| multiple select | any number of options | 75 |
+| ordering | drag the rows, or the ▲▼ buttons | 19 |
+| fill in the blanks | a dropdown at each blank, 5–7 choices | 31 |
+| assign the property | a dropdown per row, exactly the real choices | 10 |
+| numeric | type the numbers; marked to 0.5% | 28 |
+| short text / sketching / pseudo-code | **you mark yourself** | 66 |
 
 The last row cannot be machine-marked, so the site does the honest thing: you
 write (or sketch on paper), submit, and it **always shows the model answer** —
 you then say whether you got it right. Until you do, the exam score counts the
 question as wrong and says so.
 
-**The papers' 33 figures are on the site too**, compiled out of the same TikZ
+**The papers' 43 figures are on the site too**, compiled out of the same TikZ
 source and converted to SVG, so they scale to any screen and print sharp. A
 figure that is part of the question sits under the stem; a figure that is part
 of the worked answer sits under the explanation. Tap one to open it full size.
@@ -31,7 +31,7 @@ of the worked answer sits under the explanation. Tap one to open it full size.
 **A drawn paper is made up like a real one.** The target composition is the
 database's own, which *is* the papers' composition, so a 50-question exam comes
 out as roughly 12 mark-one, 12 multiple-select, 5 fill-in, 3 ordering, 2 assign,
-4 numeric, 8 short text, 3 sketching and 1 pseudo-code. Add questions and the
+5 numeric, 7 short text, 3 sketching and 1 pseudo-code. Add questions and the
 target follows automatically.
 
 ## The four screens
@@ -47,7 +47,7 @@ target follows automatically.
   answered it.
 
 Questions are drawn **least-used first**, so nothing is over-served: after twelve
-50-question exams every question had been used 4 or 5 times.
+50-question exams every question had been used 2 or 3 times.
 
 Progress lives in the browser's localStorage for this file. *Export progress*
 writes it to a JSON file and *Import* reads one back — worth doing occasionally,
@@ -110,7 +110,7 @@ by hand in the same shape and re-run the last two steps.
 ## Checking the page itself
 
 `audit_data.py` checks the data. For the page, open **`index.html?selftest`** —
-`tools/selftest.js` runs 21 assertions and prints them at the top: that clicking
+`tools/selftest.js` runs 37 assertions and prints them at the top: that clicking
 an option really marks it, that the ordering buttons move a row, that a dropdown
 shows what you picked, and that merging two devices' progress is symmetric and
 idempotent. Each one is there because that bug was really here.

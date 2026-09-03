@@ -87,6 +87,15 @@ def _convert(s):
             out.append(s[i:j])
             i = j
             continue
+        # \[ ... \] is display maths and must reach KaTeX untouched. Without
+        # this it fell through to the text rules, which strip backslashes:
+        # \sum_{i=1}^{d_k} came out as "_i=1^d_k".
+        if s.startswith(r"\[", i):
+            j = s.find(r"\]", i + 2)
+            j = len(s) if j < 0 else j + 2
+            out.append(s[i:j])
+            i = j
+            continue
         if c == "\\":
             hit = None
             for cmd, tag in TAGS:
@@ -119,6 +128,29 @@ DROP_ALL_ARGS = [r"\setlength", r"\addtolength", r"\setcounter",
                  r"\renewcommand", r"\newcommand", r"\pgfplotsset"]
 # environments that are pure layout: keep what is inside, drop the wrapper
 UNWRAP = ["center", "minipage", "scope", "adjustbox", "small", "footnotesize"]
+
+
+def _displays(s):
+    r"""Turn the display-maths environments into \[ \begin{aligned} .. \] .
+
+    KaTeX has no align*, but it has aligned, and _convert passes \[..\] through
+    untouched. Without this the whole block fell through to the text rules and
+    came back as "= 4 128 512^2 = 134,217,728" with every command stripped.
+    """
+    for env in ("align*", "align", "equation*", "equation", "gather*", "gather"):
+        b, e = r"\begin{%s}" % env, r"\end{%s}" % env
+        while True:
+            k = s.find(b)
+            if k < 0:
+                break
+            j = s.find(e, k)
+            if j < 0:
+                break
+            inner = s[k + len(b):j]
+            body = inner if env.startswith("equation") else \
+                r"\begin{aligned}" + inner + r"\end{aligned}"
+            s = s[:k] + r"\[" + body + r"\]" + s[j + len(e):]
+    return s
 
 
 def _drop_all_args(s):
@@ -203,6 +235,7 @@ def text(s):
     # before _convert, which walks the string breaking at every backslash --
     # so it would hand \setlength{\tabcolsep}{7pt} to the dropper in pieces
     s = _drop_all_args(s)
+    s = _displays(s)
     return re.sub(r"[ \t]+", " ", _convert(s)).strip()
 
 

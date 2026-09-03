@@ -33,6 +33,10 @@ EXAMS = {
            ["e02_03_explain_a.tex", "e02_04_explain_b.tex"]),
     "03": ("e03_01_questions.tex",
            ["e03_03_explain_a.tex", "e03_04_explain_b.tex"]),
+    "04": ("e04_01_questions.tex",
+           ["e04_03_explain_a.tex", "e04_04_explain_b.tex"]),
+    "05": ("e05_01_questions.tex",
+           ["e05_03_explain_a.tex", "e05_04_explain_b.tex"]),
 }
 
 HEAD = r"""\documentclass[tikz,border=3pt]{standalone}

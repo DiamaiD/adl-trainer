@@ -107,6 +107,22 @@
   t('no \\textbf inside maths (KaTeX renders it as red source)',
     mathTextbf.length === 0);
 
+  /* --- display maths must reach KaTeX and render ---------------------- */
+  const withDisplay = QUESTIONS.filter(q => (q.explanation || '').indexOf('\\[') >= 0);
+  t('some explanations use display maths', withDisplay.length > 0);
+  const probe = document.createElement('div');
+  document.body.appendChild(probe);
+  withDisplay.slice(0, 12).forEach(q => {
+    probe.appendChild(card(q, null, emptyAnswer(q), 'reveal', () => {}));
+  });
+  t('display maths renders as a KaTeX block',
+    probe.querySelectorAll('.katex-display').length > 0);
+  // KaTeX prints a failed formula in red and leaves the source visible; that
+  // is exactly how \textbf{R_{l-1}} inside maths showed up
+  t('no KaTeX errors anywhere in them',
+    probe.querySelectorAll('.katex-error').length === 0);
+  probe.remove();
+
   /* --- a sync landing mid-paper must not wipe the screen -------------- */
   t('SITTING is set while a paper is unsubmitted', SITTING === true);
   const node = cards[0].querySelector('.opts > *');

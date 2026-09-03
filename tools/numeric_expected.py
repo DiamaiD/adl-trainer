@@ -31,4 +31,18 @@ EXPECTED = {
     "e03q46": [9834496, 153664, 64],      # global pairs, windowed pairs, ratio
     "e03q47": [67, 8, 537],               # MB at 256^3, factor, MB at 512^3
     "e03q48": [2688, 32, 84],             # batch-all, batch-hard, ratio
+    # ------------------------------------------------------------- exam 04
+    "e04q43": [2, 16],                    # jump, receptive field
+    "e04q44": [64, 153664, 9834496],      # windows, windowed pairs, global pairs
+    "e04q45": [3, 5, 12],                 # components, rank(L), trace(L)
+    "e04q46": [10, 32768],                # bits certified, N for 15 bits
+    "e04q47": [16777216, 131072, 128],    # full, LoRA, compression
+    "e04q48": [0.9, 0.729],               # alpha, alpha-bar_3
+    # ------------------------------------------------------------- exam 05
+    "e05q43": [64, 134217728, 16777216],  # d_k, projection term, attention term
+    "e05q44": [11, 23, 12167],            # layers, side, active voxels
+    "e05q45": [128, 107520, 840],         # batch, batch-all, ratio
+    "e05q46": [50790912, 2049],           # weights, factor for a third modality
+    "e05q47": [500, 2000],                # EWC penalty at 0.1 and at 0.2
+    "e05q48": [398131200, 39.8],          # evaluations per frame, seconds
 }

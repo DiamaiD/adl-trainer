@@ -41,6 +41,10 @@ EXAMS = {
                                         "e02_04_explain_b.tex"]},
     "03": {"weeks": "1-6", "explain": ["e03_03_explain_a.tex",
                                        "e03_04_explain_b.tex"]},
+    "04": {"weeks": "1-11", "explain": ["e04_03_explain_a.tex",
+                                        "e04_04_explain_b.tex"]},
+    "05": {"weeks": "1-11", "explain": ["e05_03_explain_a.tex",
+                                        "e05_04_explain_b.tex"]},
 }
 
 QHEAD = re.compile(r"\\qhead\{(\d+)\}\{([^}]*)\}\{([^}]*)\}")
@@ -178,7 +182,11 @@ def rename_cmd_math_aware(s, old, text_new, math_new, in_math=False):
     """
     out, i = [], 0
     while i < len(s):
-        if s[i] == "$":
+        if s.startswith(r"\[", i) or s.startswith(r"\]", i):
+            in_math = not in_math          # display maths counts too
+            out.append(s[i:i + 2])
+            i += 2
+        elif s[i] == "$":
             in_math = not in_math
             out.append("$")
             i += 1
@@ -249,6 +257,9 @@ def explanations(tag):
             chunk = re.sub(r"\\qanswer\{", r"\\textbf{Answer: ", chunk)
             chunk = re.sub(r"\\qfilled\{", r"\\textbf{Filled in: ", chunk)
             chunk = rename_cmd_math_aware(chunk, r"\fbf", r"\textbf", r"\mathbf")
+            # \emph inside \text{} inside maths: legal in LaTeX, unknown to
+            # KaTeX, which has \textit instead
+            chunk = rename_cmd_math_aware(chunk, r"\emph", r"\emph", r"\textit")
             html = L.paragraphs(chunk)
             if not html:
                 continue
@@ -344,7 +355,15 @@ def split_filled(body):
     segs, answers, buf = [], [], []
     in_math, i, n = False, 0, len(body)
     while i < n:
-        if body[i] == "$" and (i == 0 or body[i - 1] != "\\"):
+        # \[ ... \] is maths too. Missing it left a display-mode blank being
+        # run through the text converter, which ate \mathbf and \top and
+        # returned "(x_1-x_2)^M(x_1-x_2)". Rewritten as $...$ so the dropdown
+        # and the sentence both render inline.
+        if body.startswith(r"\[", i) or body.startswith(r"\]", i):
+            in_math = not in_math
+            buf.append("$")
+            i += 2
+        elif body[i] == "$" and (i == 0 or body[i - 1] != "\\"):
             in_math = not in_math
             buf.append("$")
             i += 1

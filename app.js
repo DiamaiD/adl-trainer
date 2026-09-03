@@ -238,7 +238,10 @@ function tex(node) {
   if (!window.renderMathInElement) return;
   try {
     renderMathInElement(node, {
-      delimiters: [{ left: '$', right: '$', display: false }],
+      delimiters: [
+        { left: '\\[', right: '\\]', display: true },
+        { left: '$', right: '$', display: false }
+      ],
       throwOnError: false, ignoredTags: ['script', 'noscript', 'style', 'textarea']
     });
   } catch (e) { /* a bad expression must not take the page down */ }

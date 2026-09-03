@@ -40,6 +40,11 @@ KATEX_OK = set("""
  colon semicolon
  gg ll mid parallel top bot perp
  bigoplus bigotimes bigcup bigcap ell mathrel mathbin mathop hbar aleph
+ tanh sinh cosh arcsin arccos arctan deg det dim gcd sup inf liminf limsup
+ odot ominus oslash bullet iff implies impliedby iint iiint varinjlim
+ begin end bmatrix pmatrix vmatrix matrix cases array aligned substack
+ coloneqq mapstochar leadsto nearrow searrow uparrow downarrow updownarrow
+ xrightarrow xleftarrow overset underset stackrel phantom mathring
 """.split())
 
 
@@ -64,7 +69,9 @@ def main():
     db = json.loads(src[src.index("["):src.rindex(";")])
 
     bad_text, bad_math, bad_shape = {}, {}, []
-    math_re = re.compile(r"\$[^$]*\$")
+    # $...$ inline and \[...\] display: both go to KaTeX untouched, so both
+    # are maths for the purposes of these checks
+    math_re = re.compile(r"\$[^$]*\$|\\\[.*?\\\]", re.S)
     cmd_re = re.compile(r"\\([A-Za-z]+)")
 
     # Three things that survive the "stray LaTeX" check because they are
