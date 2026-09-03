@@ -163,6 +163,37 @@ def rename_cmd(s, old, new):
         i = end
 
 
+def rename_cmd_math_aware(s, old, text_new, math_new, in_math=False):
+    r"""Rename \fbf differently inside and outside maths.
+
+    \textbf switches to text mode, so \textbf{R_{l-1}} asks KaTeX to typeset a
+    subscript in text mode -- which it refuses, rendering the whole formula as
+    red source. In LaTeX this never showed, because \fbf is already mode-aware
+    and expands to a colour rather than \textbf inside maths. Outside maths
+    \textbf is right; inside it, \mathbf is.
+
+    The mode has to be tracked character by character rather than by splitting
+    on $...$: \fbf{$O(n)$} opens in text mode and its *argument* is maths, and
+    a split cuts that command in half.
+    """
+    out, i = [], 0
+    while i < len(s):
+        if s[i] == "$":
+            in_math = not in_math
+            out.append("$")
+            i += 1
+        elif s.startswith(old + "{", i):
+            inner, end = L.braced(s, i + len(old))
+            out.append("%s{%s}" % (
+                math_new if in_math else text_new,
+                rename_cmd_math_aware(inner, old, text_new, math_new, in_math)))
+            i = end
+        else:
+            out.append(s[i])
+            i += 1
+    return "".join(out)
+
+
 # --------------------------------------------------------- explanations
 def explanations(tag):
     """question number -> (explanation HTML, had a figure we could not bring).
@@ -217,7 +248,7 @@ def explanations(tag):
             chunk = re.sub(r"\\q(show|tag)\{\d+\}", "", chunk)
             chunk = re.sub(r"\\qanswer\{", r"\\textbf{Answer: ", chunk)
             chunk = re.sub(r"\\qfilled\{", r"\\textbf{Filled in: ", chunk)
-            chunk = rename_cmd(chunk, r"\fbf", r"\textbf")
+            chunk = rename_cmd_math_aware(chunk, r"\fbf", r"\textbf", r"\mathbf")
             html = L.paragraphs(chunk)
             if not html:
                 continue

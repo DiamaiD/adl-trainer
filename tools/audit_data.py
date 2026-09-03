@@ -67,10 +67,29 @@ def main():
     math_re = re.compile(r"\$[^$]*\$")
     cmd_re = re.compile(r"\\([A-Za-z]+)")
 
+    # Three things that survive the "stray LaTeX" check because they are
+    # syntactically fine, and still render as nonsense:
+    #   \textbf inside maths -> KaTeX refuses a subscript in text mode and
+    #     prints the whole formula as red source
+    #   <strong></strong>    -> a command was renamed but lost its argument
+    #   layout leftovers     -> a multi-argument layout command dropped only
+    #     its first argument, so "7pt" is now a paragraph of the answer
+    bad_render = []
+    LEFTOVERS = ("7pt", "@{}", "tabcolsep", "c c c@", "\\setlength")
     for q in db:
         for where, val in fields(q):
             if not val:
                 continue
+            for m in math_re.findall(val):
+                if "\\textbf" in m or "\\emph" in m:
+                    bad_render.append("%s.%s: text-mode command inside maths"
+                                      % (q["id"], where))
+            if "<strong></strong>" in val or "<em></em>" in val:
+                bad_render.append("%s.%s: emphasis with no content" % (q["id"], where))
+            for junk in LEFTOVERS:
+                if junk in val:
+                    bad_render.append("%s.%s: layout leftover %r"
+                                      % (q["id"], where, junk))
             outside = math_re.sub(" ", val)
             for c in cmd_re.findall(outside):
                 bad_text.setdefault(c, []).append(q["id"] + "." + where)
@@ -150,6 +169,11 @@ def main():
         print("\nCommands inside maths that KaTeX may not know:")
         for c, w in sorted(bad_math.items()):
             print("   \\%-12s %d places, e.g. %s" % (c, len(w), w[0]))
+    if bad_render:
+        fail = True
+        print("\nWould render as nonsense:")
+        for b in sorted(set(bad_render)):
+            print("   " + b)
     if bad_shape:
         fail = True
         print("\nMalformed records:")

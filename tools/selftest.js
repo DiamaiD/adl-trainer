@@ -79,6 +79,34 @@
     t(qs[i].type + ': the pick shows in the button', !/dd-empty/.test(btn.className));
   });
 
+  /* --- a marked fill-in shows the correction, spaced ------------------ */
+  const fb = one('blanks');
+  const wrongAns = fb.correct.map((c, k) => (c + 1) % fb.choices[k].length);
+  const fbCard = card(fb, null, wrongAns, 'marked', () => {});
+  document.body.appendChild(fbCard);
+  const fixes = fbCard.querySelectorAll('.blankfix');
+  t('blanks: every wrong blank gets a correction',
+    fixes.length === fb.correct.length);
+  t('blanks: the dropdowns are marked wrong',
+    fbCard.querySelectorAll('.dd-btn.bad').length === fb.correct.length);
+  t('blanks: the correction is not glued to the next word',
+    Array.from(fixes).every(f => parseFloat(getComputedStyle(f).marginRight) > 0
+      || f.classList.contains('tight')));
+  const rightCard = card(fb, null, fb.correct.slice(), 'marked', () => {});
+  t('blanks: a right answer gets no correction',
+    rightCard.querySelectorAll('.blankfix').length === 0);
+  fbCard.remove();
+
+  /* --- explanations must not contain render junk ---------------------- */
+  const junk = /7pt|@\{\}|tabcolsep|<strong><\/strong>/;
+  const dirty = QUESTIONS.filter(q => junk.test(q.explanation || ''));
+  t('no layout leftovers in any explanation', dirty.length === 0);
+  const mathTextbf = QUESTIONS.filter(q =>
+    (String(q.explanation || '').match(/\$[^$]*\$/g) || [])
+      .some(m => m.indexOf('\\textbf') >= 0));
+  t('no \\textbf inside maths (KaTeX renders it as red source)',
+    mathTextbf.length === 0);
+
   /* --- a sync landing mid-paper must not wipe the screen -------------- */
   t('SITTING is set while a paper is unsubmitted', SITTING === true);
   const node = cards[0].querySelector('.opts > *');

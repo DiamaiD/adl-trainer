@@ -554,6 +554,7 @@ function card(q, idx, ans, mode, onChange) {
   } else if (q.type === 'blanks') {
     const p = el('div', 'blanks');
     let b = 0;
+    let lastFix = null;          // so a correction followed by "." closes up
     q.segments.forEach(seg => {
       if (seg === null) {
         const k = b++;
@@ -564,12 +565,21 @@ function card(q, idx, ans, mode, onChange) {
         if (marked) dd.btn.classList.add(ans[k] === q.correct[k] ? 'ok' : 'bad');
         p.appendChild(dd.node);
         if (marked && ans[k] !== q.correct[k]) {
-          const w = el('span', 'answer-was', ' → ');
-          w.appendChild(el('span', null, choices[q.correct[k]]));
+          // its own class, not .answer-was: that one is a block used by the
+          // numeric branch, and inline it left the correction glued to the
+          // word after it
+          const w = el('span', 'blankfix');
+          w.appendChild(el('span', 'ar', '→'));
+          w.appendChild(el('span', 'to', choices[q.correct[k]]));
           p.appendChild(w);
+          lastFix = w;
         }
       } else {
-        p.appendChild(el('span', null, seg));
+        if (lastFix && /^\s*[.,;:!?)]/.test(seg.replace(/<[^>]*>/g, ''))) {
+          lastFix.classList.add('tight');
+        }
+        lastFix = null;
+        p.appendChild(el('span', 'seg', seg));
       }
     });
     box.appendChild(p);

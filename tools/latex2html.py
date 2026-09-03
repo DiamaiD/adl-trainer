@@ -112,13 +112,41 @@ SENT_L, SENT_R = "\u0001", "\u0002"
 
 # commands whose argument is layout, not content -- drop command and argument
 DROP_ARG = [r"\color", r"\textcolor", r"\vspace", r"\hspace", r"\label",
-            r"\setlength", r"\renewcommand", r"\newcommand", r"\includegraphics",
-            r"\addcontentsline", r"\markboth", r"\caption"]
+            r"\includegraphics", r"\addcontentsline", r"\markboth", r"\caption"]
+# these take more than one argument, and dropping only the first leaves the
+# rest as text -- \setlength{\tabcolsep}{7pt} was printing "7pt" into the page
+DROP_ALL_ARGS = [r"\setlength", r"\addtolength", r"\setcounter",
+                 r"\renewcommand", r"\newcommand", r"\pgfplotsset"]
 # environments that are pure layout: keep what is inside, drop the wrapper
 UNWRAP = ["center", "minipage", "scope", "adjustbox", "small", "footnotesize"]
 
 
+def _drop_all_args(s):
+    """Drop a command together with every {..} and [..] group that follows it."""
+    for cmd in DROP_ALL_ARGS:
+        while True:
+            k = s.find(cmd)
+            if k < 0:
+                break
+            j = k + len(cmd)
+            while j < len(s):
+                if s[j] == "{":
+                    _, j = braced(s, j)
+                elif s[j] == "[":
+                    e = s.find("]", j)
+                    if e < 0:
+                        break
+                    j = e + 1
+                elif s[j] in " \t":          # spaces only: a newline ends it
+                    j += 1
+                else:
+                    break
+            s = s[:k] + s[j:]
+    return s
+
+
 def _drop_args(s):
+    s = _drop_all_args(s)
     for cmd in DROP_ARG:
         while True:
             k = s.find(cmd + "{")
@@ -172,6 +200,9 @@ def text(s):
     """LaTeX body text -> HTML, with $...$ handed to KaTeX untouched."""
     s = re.sub(r"(?<!\\)%.*", "", s)
     s = s.replace("\n", " ")
+    # before _convert, which walks the string breaking at every backslash --
+    # so it would hand \setlength{\tabcolsep}{7pt} to the dropper in pieces
+    s = _drop_all_args(s)
     return re.sub(r"[ \t]+", " ", _convert(s)).strip()
 
 
@@ -199,11 +230,22 @@ def tabular(inner):
     """A LaTeX tabular -> an HTML table. These carry real content in the
     explanations (the complexity table, the three invariances), so dropping
     them would gut the answer."""
-    inner = re.sub(r"\\begin\{tabular\}(\[[^\]]*\])?\{[^}]*\}", "", inner)
+    # The column spec must be matched brace-balanced: {@{}l c c c@{}} contains
+    # braces of its own, so a [^}]* pattern stops inside @{ and leaves
+    # "l c c c@" behind as a heading.
+    # _env_span hands us everything after \begin{tabular}, so `inner` opens
+    # with the spec itself, optionally preceded by a [t]/[b] placement.
+    m = re.match(r"\s*(\[[^\]]*\])?\s*\{", inner)
+    if m:
+        _, end = braced(inner, m.end() - 1)
+        inner = inner[end:]
     inner = re.sub(r"\\(top|mid|bottom|cmid)rule(\([^)]*\))?(\{[^}]*\})?", "", inner)
     inner = inner.replace(r"\rowgap", "").replace(r"\hline", "")
     rows = []
     for raw in re.split(r"\\\\", inner):
+        # \\[7pt] leaves the optional spacing argument at the head of the next
+        # row, where it becomes a cell reading "7pt"
+        raw = re.sub(r"^\s*\[[^\]]*\]", "", raw)
         cells = [c.strip() for c in re.split(r"(?<!\\)&", raw)]
         cells = [text(c) for c in cells]
         if any(cells):
