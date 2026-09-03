@@ -264,6 +264,18 @@ const TYPENAME = {
 const stratum = q => q.type + (q.sub ? ':' + q.sub : '');
 const label = q => TYPENAME[stratum(q)] || TYPENAME[q.type];
 
+/* In paper order, not alphabetical, so the picker reads like Part A to Part H. */
+const STRATA = ['single', 'multi', 'order', 'blanks', 'assign', 'numeric',
+  'written:text', 'written:sketch', 'written:code']
+  .filter(k => DB.some(q => stratum(q) === k));
+
+/* Which questions a set of filters admits. Nothing selected means no filter --
+ * choosing every week is the same as choosing none, and saying so beats making
+ * you tick eleven boxes to get the default. */
+const poolFor = (weeks, types) => DB.filter(q =>
+  (!weeks || !weeks.length || weeks.includes(q.week)) &&
+  (!types || !types.length || types.includes(stratum(q))));
+
 /* How a drawn paper should be made up. The target is the database's own
  * composition, which *is* the papers' composition because the database was
  * extracted from them -- so a 50-question exam comes out looking like a real
@@ -294,8 +306,8 @@ function allocate(n, groups) {
 
 /* Draw n questions: balanced by type, and least-used first inside each type so
  * everything gets seen about equally often. */
-function pick(n, weeks) {
-  const pool = DB.filter(q => !weeks || !weeks.length || weeks.includes(q.week));
+function pick(n, weeks, types) {
+  const pool = poolFor(weeks, types);
   if (!pool.length) return [];
   n = Math.min(n, pool.length);
 
@@ -328,6 +340,7 @@ const emptyAnswer = q => {
   if (q.type === 'blanks') return q.choices.map(() => null);
   if (q.type === 'assign') return q.labels.map(() => null);
   if (q.type === 'written') return { text: '', self: null };
+  if (q.type === 'numeric') return (q.expected || ['']).map(() => '');
   return '';
 };
 const copyAnswer = a => (a && typeof a === 'object')
@@ -340,12 +353,21 @@ function numbersIn(s) {
   return (String(s).replace(/[,  ]/g, '')
     .match(/-?\d+(?:\.\d+)?/g) || []).map(Number);
 }
-/* A numeric answer is right when every quantity the model answer asks for
- * turns up in what you typed. Formatting, order and extra working are free. */
+const near = (g, v) => Math.abs(g - v) <= Math.max(1e-9, Math.abs(v) * 0.005);
+/* One box per quantity, so a hit is per box: every number you typed in *that*
+ * box is considered, and half a percent is close enough. Working inside a box
+ * is free -- "3072 = 32*32*3" hits 3072.
+ *
+ * A sitting recorded before the boxes existed stored one string for the whole
+ * answer. Those are still markable, the old way: any number anywhere counts
+ * for any quantity. History has to reopen exactly as it was answered. */
 function numericHits(q, typed) {
+  const want = q.expected || [];
+  if (Array.isArray(typed)) {
+    return want.map((v, i) => numbersIn(typed[i] || '').some(g => near(g, v)));
+  }
   const got = numbersIn(typed);
-  return (q.expected || []).map(v =>
-    got.some(g => Math.abs(g - v) <= Math.max(1e-9, Math.abs(v) * 0.005)));
+  return want.map(v => got.some(g => near(g, v)));
 }
 
 function isRight(q, a) {
@@ -369,7 +391,8 @@ const isPending = (q, a) => q.type === 'written' && (!a || a.self === null);
 function answered(q, a) {
   if (q.type === 'single' || q.type === 'multi') return a.length > 0;
   if (q.type === 'blanks' || q.type === 'assign') return a.some(v => v !== null);
-  if (q.type === 'numeric') return String(a).trim() !== '';
+  if (q.type === 'numeric') return Array.isArray(a)
+    ? a.some(v => String(v).trim() !== '') : String(a).trim() !== '';
   if (q.type === 'written') return q.sub === 'sketch' ||
     ((a && a.text) || '').trim() !== '';
   return true;                                   // ordering always has an order
@@ -609,14 +632,15 @@ function card(q, idx, ans, mode, onChange) {
   } else if (q.type === 'numeric') {
     if (reveal) {
       box.appendChild(el('div', 'expl', '<h4>Answer</h4>' + q.answer));
-    } else {
+
+    } else if (!Array.isArray(ans)) {
+      /* A sitting from before the per-quantity boxes existed. Reopen it the
+         way it was answered rather than pretending it was typed in boxes. */
       const inp = el('input', 'num');
       inp.type = 'text';
-      inp.placeholder = 'your answer — numbers, in any order';
       inp.value = ans || '';
-      inp.disabled = lock;
+      inp.disabled = true;
       if (marked) inp.classList.add(isRight(q, ans) ? 'ok' : 'bad');
-      inp.addEventListener('input', () => { onChange(inp.value); });
       box.appendChild(inp);
       if (marked) {
         const hits = numericHits(q, ans);
@@ -627,6 +651,33 @@ function card(q, idx, ans, mode, onChange) {
         }
         box.appendChild(el('div', 'expl', '<h4>Answer</h4>' + q.answer));
       }
+
+    } else {
+      /* One box per quantity the question asks for, each labelled, so there is
+         nothing to work out about how to type three numbers into one field --
+         and a wrong one can be pointed at individually. */
+      const hits = marked ? numericHits(q, ans) : null;
+      const grid = el('div', 'nums');
+      (q.expected || []).forEach((want, k) => {
+        const row = el('div', 'numrow');
+        row.appendChild(el('label', 'numlab',
+          (q.expectLabels && q.expectLabels[k]) || ('quantity ' + (k + 1))));
+        const inp = el('input', 'num');
+        inp.type = 'text';
+        inp.placeholder = '…';
+        inp.value = ans[k] || '';
+        inp.disabled = lock;
+        if (marked) inp.classList.add(hits[k] ? 'ok' : 'bad');
+        inp.addEventListener('input', () => { ans[k] = inp.value; onChange(); });
+        row.appendChild(inp);
+        if (marked && !hits[k]) row.appendChild(el('span', 'answer-was',
+          '→ ' + want));
+        grid.appendChild(row);
+      });
+      box.appendChild(grid);
+      if (!lock) box.appendChild(el('div', 'hint',
+        'One box per quantity. Working inside a box is fine — only the numbers in it are read, to within half a percent.'));
+      if (marked) box.appendChild(el('div', 'expl', '<h4>Answer</h4>' + q.answer));
     }
 
   } else if (q.type === 'written') {
@@ -728,6 +779,71 @@ function vHome() {
 }
 
 /* ------------------------------------------------------------------ exam */
+/* The weeks and question-type pickers, shared by Exam and Practice.
+ *
+ * Viktor: "I should be able to choose what type of questions I want to be
+ * asked, so for example everything but pseudo code and text." That is a
+ * standing preference rather than a per-sitting one, so the last choice is
+ * remembered -- separately per screen, and outside the synced progress, since
+ * it is about this machine's habits and not about what has been learned. */
+const PREF_KEY = 'adl.trainer.prefs.v1';
+let P = {};
+try { P = JSON.parse(localStorage.getItem(PREF_KEY)) || {}; } catch (e) { P = {}; }
+const savePrefs = () => {
+  try { localStorage.setItem(PREF_KEY, JSON.stringify(P)); } catch (e) { /* full */ }
+};
+
+function filters(scope) {
+  const box = el('div', 'filters');
+  const was = P[scope] || {};
+
+  const column = (title, items, chosen, note) => {
+    const wrap = el('div', 'filt');
+    wrap.appendChild(el('div', 'filt-h', title));
+    const sel = el('select', 'plain');
+    sel.multiple = true;
+    sel.size = Math.max(6, Math.min(items.length, 14));   // show them all
+    items.forEach(it => {
+      const o = el('option', null, `${it.text} (${it.n})`);
+      o.value = it.value;
+      o.selected = chosen.indexOf(it.value) !== -1;
+      sel.appendChild(o);
+    });
+    wrap.appendChild(sel);
+    wrap.appendChild(el('div', 'filt-n', note));
+    box.appendChild(wrap);
+    return sel;
+  };
+
+  const wk = column('Weeks',
+    // a handful of questions straddle two weeks and are tagged "W8--W9"
+    WEEKS.map(w => ({ value: w, text: w.replace('--', '–'),
+      n: DB.filter(q => q.week === w).length })),
+    was.weeks || [], 'none selected = every week');
+  const ty = column('Question types',
+    STRATA.map(s => ({ value: s, text: TYPENAME[s],
+      n: DB.filter(q => stratum(q) === s).length })),
+    was.types || [], 'none selected = every type');
+
+  const clear = el('button', 'link', 'clear both');
+  clear.addEventListener('click', () => {
+    [...wk.options, ...ty.options].forEach(o => { o.selected = false; });
+    wk.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+  // on the types column's note line, where the eye already is
+  ty.parentNode.querySelector('.filt-n').append(' · ', clear);
+
+  const read = sel => [...sel.selectedOptions].map(o => o.value);
+  return {
+    node: box,
+    weeks: () => read(wk),
+    types: () => read(ty),
+    pool: () => poolFor(read(wk), read(ty)),
+    onChange: fn => box.addEventListener('change', fn),
+    remember: () => { P[scope] = { weeks: read(wk), types: read(ty) }; savePrefs(); }
+  };
+}
+
 function vExamSetup() {
   const m = main();
   m.appendChild(el('h1', null, 'Sit an exam'));
@@ -740,26 +856,33 @@ function vExamSetup() {
   n.max = String(DB.length); n.value = String(Math.min(50, DB.length));
   n.style.width = '90px';
   c.appendChild(n);
+  m.appendChild(c);
 
-  c.appendChild(el('label', null, 'Weeks'));
-  const wk = el('select', 'plain');
-  wk.multiple = true; wk.size = 6; wk.style.minWidth = '150px';
-  WEEKS.forEach(w => {
-    const o = el('option', null, `${w} (${DB.filter(q => q.week === w).length})`);
-    o.value = w; wk.appendChild(o);
-  });
-  c.appendChild(wk);
-  c.appendChild(el('span', null, '<span style="color:var(--grey);font-size:13px">none selected = all weeks</span>'));
+  const f = filters('exam');
+  m.appendChild(f.node);
+
+  const tally = el('div', 'lead');
+  m.appendChild(tally);
+  const refresh = () => {
+    const k = f.pool().length;
+    n.max = String(Math.max(1, k));
+    if (parseInt(n.value, 10) > k) n.value = String(k);
+    tally.innerHTML = k
+      ? `<b>${k}</b> question${k === 1 ? '' : 's'} match. The paper keeps the ` +
+        'mix of whatever you have left in.'
+      : '<b>Nothing matches.</b> Widen the weeks or the types.';
+  };
+  f.onChange(refresh);
+  refresh();
 
   const go = el('button', 'go', 'Start');
   go.addEventListener('click', () => {
-    const weeks = [...wk.selectedOptions].map(o => o.value);
-    const qs = pick(Math.max(1, parseInt(n.value, 10) || 50), weeks);
+    const qs = pick(Math.max(1, parseInt(n.value, 10) || 50), f.weeks(), f.types());
     if (!qs.length) { alert('No questions match that filter.'); return; }
+    f.remember();
     countUse(qs.map(q => q.id));
     runExam(qs);
   });
-  m.appendChild(c);
   m.appendChild(go);
 }
 
@@ -832,7 +955,8 @@ function runExam(qs, restore) {
   const drawCard = i => {
     const node = card(qs[i], i, answers[i], marked ? 'marked' : 'answer',
       v => {
-        if (qs[i].type === 'numeric') answers[i] = v;
+        // every answer shape is mutated in place, so there is nothing to
+        // assign back -- only the self-mark needs to be acted on
         if (v === 'self') { persist(); drawHead(); redraw(i); return; }
         if (!marked) drawHead();
       });
@@ -879,25 +1003,28 @@ function vDrill() {
   m.appendChild(el('p', 'lead',
     'One at a time, marked as soon as you submit. Least-used questions come up first.'));
 
-  const c = el('div', 'controls');
-  c.appendChild(el('label', null, 'Weeks'));
-  const wk = el('select', 'plain');
-  wk.multiple = true; wk.size = 6; wk.style.minWidth = '150px';
-  WEEKS.forEach(w => {
-    const o = el('option', null, `${w} (${DB.filter(q => q.week === w).length})`);
-    o.value = w; wk.appendChild(o);
-  });
-  c.appendChild(wk);
-  const go = el('button', 'go', 'Start');
-  c.appendChild(go);
-  m.appendChild(c);
+  const f = filters('drill');
+  m.appendChild(f.node);
 
+  const tally = el('div', 'lead');
+  m.appendChild(tally);
+  const refresh = () => {
+    const k = f.pool().length;
+    tally.innerHTML = k
+      ? `<b>${k}</b> question${k === 1 ? '' : 's'} in the queue.`
+      : '<b>Nothing matches.</b> Widen the weeks or the types.';
+  };
+  f.onChange(refresh);
+  refresh();
+
+  const go = el('button', 'go', 'Start');
   go.addEventListener('click', () => {
-    const weeks = [...wk.selectedOptions].map(o => o.value);
-    const pool = pick(DB.length, weeks);
+    const pool = pick(DB.length, f.weeks(), f.types());
     if (!pool.length) { alert('No questions match that filter.'); return; }
+    f.remember();
     drillOne(pool, 0, { right: 0, done: 0 });
   });
+  m.appendChild(go);
 }
 
 function drillOne(pool, i, tally) {
@@ -937,10 +1064,7 @@ function drillOne(pool, i, tally) {
   const paint = () => {
     holder.innerHTML = ''; foot.innerHTML = '';
     holder.appendChild(card(q, null, ans, marked ? 'marked' : 'answer',
-      v => {
-        if (q.type === 'numeric') ans = v;
-        if (v === 'self') { settle(); paint(); }
-      }));
+      v => { if (v === 'self') { settle(); paint(); } }));
     if (!marked) {
       const b = el('button', 'go', 'Submit');
       b.addEventListener('click', () => {

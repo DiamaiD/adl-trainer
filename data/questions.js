@@ -1045,6 +1045,9 @@ window.QUESTIONS = [
   "answer": "$\\mathbf{19}$",
   "expected": [
    19
+  ],
+  "expectLabels": [
+   "receptive field of L3"
   ]
  },
  {
@@ -1059,6 +1062,10 @@ window.QUESTIONS = [
   "expected": [
    64,
    262144
+  ],
+  "expectLabels": [
+   "$d_k$",
+   "parameters in $W^{O}$"
   ]
  },
  {
@@ -1074,6 +1081,11 @@ window.QUESTIONS = [
    128,
    128,
    192
+  ],
+  "expectLabels": [
+   "height",
+   "width",
+   "channels"
   ]
  },
  {
@@ -1087,6 +1099,9 @@ window.QUESTIONS = [
   "answer": "$\\mathbf{64{,}480}$",
   "expected": [
    64480
+  ],
+  "expectLabels": [
+   "learnable parameters"
   ]
  },
  {
@@ -1102,6 +1117,11 @@ window.QUESTIONS = [
    3000,
    30,
    100
+  ],
+  "expectLabels": [
+   "batch-all triplets",
+   "batch-hard triplets",
+   "ratio"
   ]
  },
  {
@@ -2341,6 +2361,11 @@ window.QUESTIONS = [
    49,
    196,
    16
+  ],
+  "expectLabels": [
+   "encoder tokens",
+   "decoder tokens",
+   "attention term smaller by"
   ]
  },
  {
@@ -2355,6 +2380,10 @@ window.QUESTIONS = [
   "expected": [
    65536,
    0.39
+  ],
+  "expectLabels": [
+   "adapter parameters",
+   "percent of the matrix"
   ]
  },
  {
@@ -2370,6 +2399,11 @@ window.QUESTIONS = [
    14,
    56,
    4
+  ],
+  "expectLabels": [
+   "weights alone, GB",
+   "weights + gradients + Adam, GB",
+   "ratio"
   ]
  },
  {
@@ -2384,6 +2418,10 @@ window.QUESTIONS = [
   "expected": [
    100,
    50
+  ],
+  "expectLabels": [
+   "guided evaluations",
+   "unguided evaluations"
   ]
  },
  {
@@ -2397,6 +2435,9 @@ window.QUESTIONS = [
   "answer": "$\\mathbf{92{,}160{,}000}$ evaluations per frame",
   "expected": [
    92160000
+  ],
+  "expectLabels": [
+   "evaluations per frame"
   ]
  },
  {
@@ -3634,6 +3675,12 @@ window.QUESTIONS = [
    112,
    64,
    9472
+  ],
+  "expectLabels": [
+   "output height",
+   "output width",
+   "output channels",
+   "parameters"
   ]
  },
  {
@@ -3647,6 +3694,9 @@ window.QUESTIONS = [
   "answer": "$\\mathbf{235{,}146}$",
   "expected": [
    235146
+  ],
+  "expectLabels": [
+   "learnable parameters"
   ]
  },
  {
@@ -3662,6 +3712,11 @@ window.QUESTIONS = [
    64,
    2359296,
    4718592
+  ],
+  "expectLabels": [
+   "$d_k$",
+   "the four attention projections",
+   "the feed-forward network"
   ]
  },
  {
@@ -3677,6 +3732,11 @@ window.QUESTIONS = [
    9834496,
    153664,
    64
+  ],
+  "expectLabels": [
+   "global query–key pairs",
+   "windowed query–key pairs",
+   "ratio"
   ]
  },
  {
@@ -3692,6 +3752,11 @@ window.QUESTIONS = [
    67,
    8,
    537
+  ],
+  "expectLabels": [
+   "$256^3$, MB",
+   "factor at $512^3$",
+   "$512^3$, MB"
   ]
  },
  {
@@ -3707,6 +3772,11 @@ window.QUESTIONS = [
    2688,
    32,
    84
+  ],
+  "expectLabels": [
+   "batch-all triplets",
+   "batch-hard triplets",
+   "ratio"
   ]
  },
  {
@@ -5072,6 +5142,10 @@ window.QUESTIONS = [
   "expected": [
    2,
    16
+  ],
+  "expectLabels": [
+   "jump $J$",
+   "receptive field $R$"
   ]
  },
  {
@@ -5086,7 +5160,14 @@ window.QUESTIONS = [
   "expected": [
    64,
    153664,
-   9834496
+   9834496,
+   64
+  ],
+  "expectLabels": [
+   "windows",
+   "windowed query–key pairs",
+   "global query–key pairs",
+   "ratio"
   ]
  },
  {
@@ -5101,7 +5182,14 @@ window.QUESTIONS = [
   "expected": [
    3,
    5,
-   12
+   12,
+   3
+  ],
+  "expectLabels": [
+   "connected components",
+   "$\\operatorname{rank}(L)$",
+   "$\\operatorname{trace}(L)$",
+   "multiplicity of the eigenvalue $0$"
   ]
  },
  {
@@ -5115,7 +5203,13 @@ window.QUESTIONS = [
   "answer": "$\\mathbf{10}$ bits $= \\mathbf{6.93}$ nats; $N \\ge \\mathbf{32{,}768}$ for $15$ bits",
   "expected": [
    10,
+   6.93,
    32768
+  ],
+  "expectLabels": [
+   "ceiling, bits",
+   "ceiling, nats",
+   "$N$ needed for 15 bits"
   ]
  },
  {
@@ -5131,6 +5225,11 @@ window.QUESTIONS = [
    16777216,
    131072,
    128
+  ],
+  "expectLabels": [
+   "full fine-tuning parameters",
+   "LoRA parameters",
+   "compression ratio"
   ]
  },
  {
@@ -5144,7 +5243,15 @@ window.QUESTIONS = [
   "answer": "$\\alpha = \\mathbf{0.9}$; $\\bar\\alpha_3 = \\mathbf{0.729}$; coefficients $\\mathbf{0.854}$ and $\\mathbf{0.521}$",
   "expected": [
    0.9,
-   0.729
+   0.729,
+   0.854,
+   0.521
+  ],
+  "expectLabels": [
+   "$\\alpha$",
+   "$\\bar\\alpha_3$",
+   "coefficient of $\\mathbf{x}_0$",
+   "coefficient of $\\varepsilon$"
   ]
  },
  {
@@ -6503,7 +6610,14 @@ window.QUESTIONS = [
   "expected": [
    64,
    134217728,
-   16777216
+   16777216,
+   150994944
+  ],
+  "expectLabels": [
+   "$d_k$",
+   "$4nd^2$",
+   "$2n^2d$",
+   "total"
   ]
  },
  {
@@ -6519,6 +6633,11 @@ window.QUESTIONS = [
    11,
    23,
    12167
+  ],
+  "expectLabels": [
+   "layers $L$",
+   "side length",
+   "active voxels"
   ]
  },
  {
@@ -6533,7 +6652,14 @@ window.QUESTIONS = [
   "expected": [
    128,
    107520,
+   128,
    840
+  ],
+  "expectLabels": [
+   "batch size $B$",
+   "batch-all triplets",
+   "batch-hard triplets",
+   "ratio"
   ]
  },
  {
@@ -6547,7 +6673,13 @@ window.QUESTIONS = [
   "answer": "$\\mathbf{5.08\\times10^{7}}$, then $\\mathbf{1.04\\times10^{11}}$ — a factor of $\\mathbf{2049}$",
   "expected": [
    50790912,
+   104070578688,
    2049
+  ],
+  "expectLabels": [
+   "weights, two modalities",
+   "weights, three modalities",
+   "factor"
   ]
  },
  {
@@ -6562,6 +6694,10 @@ window.QUESTIONS = [
   "expected": [
    500,
    2000
+  ],
+  "expectLabels": [
+   "$\\Omega_i$ at $\\Delta\\theta = 0.1$",
+   "$\\Omega_i$ at $\\Delta\\theta = 0.2$"
   ]
  },
  {
@@ -6576,6 +6712,10 @@ window.QUESTIONS = [
   "expected": [
    398131200,
    39.8
+  ],
+  "expectLabels": [
+   "evaluations per frame",
+   "seconds per frame"
   ]
  },
  {
@@ -7954,6 +8094,11 @@ window.QUESTIONS = [
    1179648,
    133376,
    8.84
+  ],
+  "expectLabels": [
+   "standard convolution",
+   "depthwise separable",
+   "ratio"
   ]
  },
  {
@@ -7969,6 +8114,11 @@ window.QUESTIONS = [
    4096,
    614,
    18740508
+  ],
+  "expectLabels": [
+   "tokens in the batch",
+   "masked positions",
+   "logits from the MLM head"
   ]
  },
  {
@@ -7983,6 +8133,10 @@ window.QUESTIONS = [
   "expected": [
    184,
    256
+  ],
+  "expectLabels": [
+   "octree, bytes",
+   "dense $4^3$ grid, bytes"
   ]
  },
  {
@@ -7996,7 +8150,13 @@ window.QUESTIONS = [
   "answer": "$c_{ij} = \\mathbf{0.177}$; $c_{ii} = \\mathbf{0.25}$; unnormalised both $\\mathbf{1}$",
   "expected": [
    0.177,
-   0.25
+   0.25,
+   1
+  ],
+  "expectLabels": [
+   "$c_{ij}$",
+   "$c_{ii}$",
+   "unnormalised, both"
   ]
  },
  {
@@ -8013,6 +8173,12 @@ window.QUESTIONS = [
    12,
    11.09,
    16
+  ],
+  "expectLabels": [
+   "$K = 4096$, nats",
+   "$K = 4096$, bits",
+   "$K = 65{,}536$, nats",
+   "$K = 65{,}536$, bits"
   ]
  },
  {
@@ -8026,8 +8192,19 @@ window.QUESTIONS = [
   "answer": "$[0.5,\\ 1]^{\\top}$; $[-1,\\ 3]^{\\top}$; $[-10,\\ 15]^{\\top}$",
   "expected": [
    0.5,
+   1,
+   -1,
+   3,
    -10,
    15
+  ],
+  "expectLabels": [
+   "$\\gamma = 0.5$, first component",
+   "$\\gamma = 0.5$, second",
+   "$\\gamma = 1$, first",
+   "$\\gamma = 1$, second",
+   "$\\gamma = 4$, first",
+   "$\\gamma = 4$, second"
   ]
  },
  {
@@ -9375,8 +9552,20 @@ window.QUESTIONS = [
   "stem": "Five $3\\times3$ convolutions at stride $1$ have dilations $1, 2, 4, 8, 16$. Give the effective kernel size at each layer and the receptive field after the last one.",
   "answer": "$K^{\\text{eff}} = \\mathbf{3, 5, 9, 17, 33}$; $R = \\mathbf{63}$",
   "expected": [
+   3,
+   5,
+   9,
+   17,
    33,
    63
+  ],
+  "expectLabels": [
+   "$K^{\\text{eff}}$, layer 1",
+   "layer 2",
+   "layer 3",
+   "layer 4",
+   "layer 5",
+   "receptive field $R$"
   ]
  },
  {
@@ -9389,8 +9578,14 @@ window.QUESTIONS = [
   "stem": "A feature map is $64\\times64$ patches with $C = 96$ and window size $M = 8$. Using the attention terms $2(hw)^2C$ and $2M^2hwC$, give both and their ratio.",
   "answer": "$\\mathbf{3.22\\times10^{9}}$ against $\\mathbf{5.03\\times10^{7}}$; ratio $\\mathbf{64}$",
   "expected": [
-   4096,
+   3221225472,
+   50331648,
    64
+  ],
+  "expectLabels": [
+   "global term $2(hw)^2C$",
+   "window term $2M^2hwC$",
+   "ratio"
   ]
  },
  {
@@ -9404,7 +9599,13 @@ window.QUESTIONS = [
   "answer": "$p = \\mathbf{0.731}$, loss $\\mathbf{0.313}$; against $p \\approx \\mathbf{1}$, loss $\\approx \\mathbf{10^{-13}}$",
   "expected": [
    0.731,
-   0.313
+   0.313,
+   1
+  ],
+  "expectLabels": [
+   "$p$ at $s = 1$",
+   "loss at $s = 1$",
+   "$p$ at $s = 30$, to 3 dp"
   ]
  },
  {
@@ -9418,6 +9619,9 @@ window.QUESTIONS = [
   "answer": "$\\tau\\ln(N-1) \\approx \\mathbf{0.83}$",
   "expected": [
    0.83
+  ],
+  "expectLabels": [
+   "$\\tau\\ln(N-1)$"
   ]
  },
  {
@@ -9431,9 +9635,17 @@ window.QUESTIONS = [
   "answer": "$14 + 14 + 28 = \\mathbf{56}$ GB; LoRA removes $\\mathbf{42}$, leaving a $\\mathbf{14}$ GB floor",
   "expected": [
    14,
+   14,
    28,
    56,
    42
+  ],
+  "expectLabels": [
+   "weights, GB",
+   "gradients, GB",
+   "Adam's two states, GB",
+   "total, GB",
+   "removed by LoRA, GB"
   ]
  },
  {
@@ -9448,6 +9660,10 @@ window.QUESTIONS = [
   "expected": [
    0.817,
    228
+  ],
+  "expectLabels": [
+   "$\\bar\\alpha_{10}$",
+   "steps until $\\bar\\alpha_k < 0.01$"
   ]
  },
  {
@@ -10757,6 +10973,10 @@ window.QUESTIONS = [
   "expected": [
    3072,
    36864
+  ],
+  "expectLabels": [
+   "input dimension",
+   "weights"
   ]
  },
  {
@@ -10772,6 +10992,11 @@ window.QUESTIONS = [
    64,
    262144,
    1048576
+  ],
+  "expectLabels": [
+   "$d_k$",
+   "parameters in $W^{O}$",
+   "all four projections"
   ]
  },
  {
@@ -10790,6 +11015,14 @@ window.QUESTIONS = [
    192,
    128,
    384
+  ],
+  "expectLabels": [
+   "stage 1 resolution",
+   "stage 1 channels",
+   "stage 2 resolution",
+   "stage 2 channels",
+   "stage 3 resolution",
+   "stage 3 channels"
   ]
  },
  {
@@ -10803,6 +11036,9 @@ window.QUESTIONS = [
   "answer": "$\\mathbf{53}$ nodes",
   "expected": [
    53
+  ],
+  "expectLabels": [
+   "nodes after 3 layers"
   ]
  },
  {
@@ -10819,6 +11055,12 @@ window.QUESTIONS = [
    3,
    124,
    47616
+  ],
+  "expectLabels": [
+   "batch size $B$",
+   "positives per anchor",
+   "negatives per anchor",
+   "batch-all triplets"
   ]
  },
  {
@@ -10836,6 +11078,13 @@ window.QUESTIONS = [
    0.223,
    0.135,
    0.394
+  ],
+  "expectLabels": [
+   "$T$ at $t = 1$",
+   "$T$ at $t = 2$",
+   "$T$ at $t = 3$",
+   "$T$ at $t = 4$",
+   "absorbed in the first unit"
   ]
  },
  {
@@ -12130,6 +12379,11 @@ window.QUESTIONS = [
    401920,
    36928,
    10.9
+  ],
+  "expectLabels": [
+   "dense layer parameters",
+   "convolution parameters",
+   "ratio"
   ]
  },
  {
@@ -12144,6 +12398,10 @@ window.QUESTIONS = [
   "expected": [
    3136,
    9834496
+  ],
+  "expectLabels": [
+   "tokens",
+   "query–key pairs"
   ]
  },
  {
@@ -12159,6 +12417,11 @@ window.QUESTIONS = [
    3411,
    50541,
    64
+  ],
+  "expectLabels": [
+   "occupied at $32^3$",
+   "occupied at $128^3$",
+   "the grid grew by"
   ]
  },
  {
@@ -12174,6 +12437,11 @@ window.QUESTIONS = [
    0.5,
    1,
    2
+  ],
+  "expectLabels": [
+   "cosine similarity",
+   "Euclidean distance",
+   "largest distance on the sphere"
   ]
  },
  {
@@ -12189,6 +12457,11 @@ window.QUESTIONS = [
    8,
    5.545,
    65536
+  ],
+  "expectLabels": [
+   "ceiling, bits",
+   "ceiling, nats",
+   "$N$ to double the bits"
   ]
  },
  {
@@ -12203,6 +12476,10 @@ window.QUESTIONS = [
   "expected": [
    12,
    0.36
+  ],
+  "expectLabels": [
+   "DDPM, seconds",
+   "ODE solver, seconds"
   ]
  },
  {
@@ -13523,9 +13800,17 @@ window.QUESTIONS = [
   "answer": "$56\\times56\\times256$; $\\mathbf{295{,}168}$ parameters; $\\approx\\mathbf{9.25\\times10^{8}}$ MACs",
   "expected": [
    56,
+   56,
    256,
    295168,
    924844032
+  ],
+  "expectLabels": [
+   "output height",
+   "output width",
+   "output channels",
+   "parameters",
+   "multiply–accumulates"
   ]
  },
  {
@@ -13541,6 +13826,11 @@ window.QUESTIONS = [
    197,
    577,
    8.58
+  ],
+  "expectLabels": [
+   "sequence length at $224$",
+   "sequence length at $384$",
+   "the attention matrix grows by"
   ]
  },
  {
@@ -13556,6 +13846,11 @@ window.QUESTIONS = [
    4,
    10,
    22
+  ],
+  "expectLabels": [
+   "after 1 layer",
+   "after 2 layers",
+   "after 3 layers"
   ]
  },
  {
@@ -13571,7 +13866,15 @@ window.QUESTIONS = [
    128,
    7,
    120,
-   107520
+   107520,
+   128
+  ],
+  "expectLabels": [
+   "batch size $B$",
+   "positives per anchor",
+   "negatives per anchor",
+   "batch-all triplets",
+   "batch-hard triplets"
   ]
  },
  {
@@ -13587,6 +13890,11 @@ window.QUESTIONS = [
    6.93,
    10,
    1048576
+  ],
+  "expectLabels": [
+   "loss when guessing, nats",
+   "ceiling, bits",
+   "$N$ to double the ceiling"
   ]
  },
  {
@@ -13602,6 +13910,11 @@ window.QUESTIONS = [
    61440000,
    30.72,
    2.56
+  ],
+  "expectLabels": [
+   "evaluations per frame",
+   "seconds per frame",
+   "hours for the video"
   ]
  },
  {

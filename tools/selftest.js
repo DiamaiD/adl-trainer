@@ -79,6 +79,67 @@
     t(qs[i].type + ': the pick shows in the button', !/dd-empty/.test(btn.className));
   });
 
+  /* --- numeric: one labelled box per quantity ------------------------- */
+  /* Viktor asked for three boxes when the question asks for three numbers.
+     The bug this guards against is subtler than the missing boxes: with one
+     free-text field, marking was order-free, so a right answer typed into the
+     wrong slot -- or the same number twice -- passed. */
+  const nq = QUESTIONS.filter(q => q.type === 'numeric' &&
+    q.expected.length >= 3 && q.expected[0] !== q.expected[1])[0];
+  const nBoxes = cards[5].querySelectorAll('.nums input.num');
+  t('numeric: a box per quantity the question asks for',
+    nBoxes.length === qs[5].expected.length);
+  t('numeric: every box is labelled',
+    cards[5].querySelectorAll('.nums .numlab').length === nBoxes.length &&
+    Array.from(cards[5].querySelectorAll('.nums .numlab'))
+      .every(l => l.textContent.trim().length > 0));
+  t('numeric: it says how to type into a box',
+    /half a percent/.test(cards[5].textContent));
+
+  t('numeric: every question has a label for every number',
+    QUESTIONS.filter(q => q.type === 'numeric').every(q =>
+      q.expectLabels && q.expectLabels.length === q.expected.length));
+
+  const allRight = nq.expected.map(String);
+  t('numeric: the right number in every box is right',
+    isRight(nq, allRight));
+  t('numeric: working inside a box still counts',
+    isRight(nq, nq.expected.map((v, i) => i ? String(v) : v + ' = a bit of working')));
+  const swapped = allRight.slice();
+  [swapped[0], swapped[1]] = [swapped[1], swapped[0]];
+  t('numeric: two right numbers in the wrong boxes are wrong',
+    !isRight(nq, swapped));
+  t('numeric: a half-percent slip is still accepted',
+    isRight(nq, nq.expected.map(v => String(v * 1.004))));
+  t('numeric: a five-percent slip is not',
+    nq.expected.every(v => v === 0) || !isRight(nq, nq.expected.map(v => String(v * 1.05))));
+  t('numeric: an empty answer is not "answered"',
+    !answered(nq, emptyAnswer(nq)));
+  // a sitting saved before the boxes existed is one string, and must still open
+  t('numeric: a pre-boxes answer still marks',
+    isRight(nq, nq.expected.join(', ')));
+  const legacy = card(nq, null, nq.expected.join(', '), 'marked', () => {});
+  t('numeric: a pre-boxes answer reopens as it was typed',
+    legacy.querySelectorAll('.nums').length === 0 &&
+    legacy.querySelectorAll('input.num').length === 1);
+
+  /* --- choosing which types get asked --------------------------------- */
+  const noWriting = STRATA.filter(s => s.indexOf('written') !== 0);
+  t('types: filtering drops the excluded ones',
+    poolFor([], noWriting).every(q => q.type !== 'written'));
+  t('types: and keeps the rest',
+    poolFor([], noWriting).length ===
+      QUESTIONS.filter(q => q.type !== 'written').length);
+  t('types: nothing selected means everything',
+    poolFor([], []).length === QUESTIONS.length);
+  t('types: weeks and types compose',
+    poolFor(['W1'], ['numeric']).every(q => q.week === 'W1' && q.type === 'numeric'));
+  const drawn = pick(12, [], ['single', 'multi']);
+  t('types: a drawn paper respects the filter',
+    drawn.length === 12 && drawn.every(q => q.type === 'single' || q.type === 'multi'));
+  t('types: every stratum in the database is offerable',
+    QUESTIONS.every(q => STRATA.indexOf(q.type + (q.sub ? ':' + q.sub : '')) !== -1));
+
   /* --- a marked fill-in shows the correction, spaced ------------------ */
   const fb = one('blanks');
   const wrongAns = fb.correct.map((c, k) => (c + 1) % fb.choices[k].length);

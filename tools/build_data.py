@@ -36,10 +36,23 @@ def main():
     for q in src:
         q.pop("raw_answers", None)
         if q["type"] == "numeric":
-            if q["id"] not in EXPECTED:
+            # One labelled box per quantity: the site marks each separately and
+            # says which one is wrong, so a pair must be (label, value) and the
+            # label must actually name something.
+            want = EXPECTED.get(q["id"])
+            if want is None:
                 problems.append("%s: no expected numbers written" % q["id"])
-            else:
-                q["expected"] = EXPECTED[q["id"]]
+                continue
+            bad = [p for p in want
+                   if not (isinstance(p, tuple) and len(p) == 2
+                           and isinstance(p[0], str) and p[0].strip()
+                           and isinstance(p[1], (int, float)))]
+            if bad:
+                problems.append("%s: %d entries are not (label, number): %r"
+                                % (q["id"], len(bad), bad[:2]))
+                continue
+            q["expected"] = [v for _, v in want]
+            q["expectLabels"] = [lab for lab, _ in want]
             continue
         if q["type"] != "blanks":
             continue
@@ -89,6 +102,10 @@ def main():
     nblank = sum(len(q["choices"]) for q in src if q["type"] == "blanks")
     nopt = sum(len(c) for q in src if q["type"] == "blanks" for c in q["choices"])
     print("   %d blanks, %.1f choices each on average" % (nblank, nopt / nblank))
+    nums = [q for q in src if q["type"] == "numeric"]
+    nfield = sum(len(q["expected"]) for q in nums)
+    print("   %d numeric boxes over %d questions, %.1f each"
+          % (nfield, len(nums), nfield / len(nums)))
 
 
 if __name__ == "__main__":

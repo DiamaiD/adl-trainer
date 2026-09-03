@@ -206,13 +206,31 @@ pre.code{
   overflow-x:auto;font:12.5px/1.5 Consolas,monospace;margin:8px 0;
 }
 
-/* ---------------------------------------------------------- misc */
+/* ---------------------------------------------------------- numeric */
+/* One box per quantity the question asks for, each with the label that says
+   which quantity it is -- so "give the resolution, the parameters and the
+   MACs" is three boxes and not a puzzle about how to type three numbers into
+   one. The label column is fixed so the boxes line up down the card. */
+.nums{margin:12px 0;display:flex;flex-direction:column;gap:8px}
+.numrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.numlab{
+  flex:0 0 240px;font-size:13.5px;color:var(--slate);text-align:right;
+}
+.numrow input.num{flex:0 1 190px;max-width:190px}
+.numrow .answer-was{margin-top:0;white-space:nowrap}
+@media (max-width:640px){
+  .numrow{gap:4px}
+  .numlab{flex:1 1 100%;text-align:left}
+}
 input.num{
   font:inherit;border:1px solid var(--rule);border-radius:6px;padding:7px 10px;
   width:100%;max-width:460px;
 }
 input.num.ok{border-color:var(--green);background:var(--green-l)}
 input.num.bad{border-color:var(--red);background:var(--red-l)}
+.hint{font-size:12.5px;color:var(--grey);margin-top:8px}
+
+/* ---------------------------------------------------------- misc */
 .expl{
   margin-top:14px;padding:12px 14px;background:var(--blue-l);
   border-radius:6px;font-size:14px;
@@ -233,6 +251,14 @@ button.link{background:0;border:0;color:var(--blue);cursor:pointer;font:inherit;
   font-size:13px;text-decoration:underline;padding:0}
 button.link.danger{color:var(--red)}
 .controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 22px}
+/* Weeks and question types side by side, each a labelled column, so it reads
+   as two filters rather than as a row of unexplained boxes. */
+.filters{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;margin:0 0 6px}
+.filt{display:flex;flex-direction:column;gap:6px;min-width:190px}
+.filt-h{font-size:14px;font-weight:600;color:var(--slate)}
+.filt-n{font-size:12.5px;color:var(--grey)}
+.filt select.plain{min-width:190px;padding:4px 6px}
+.filt-n button.link{font-size:12.5px}
 .controls label{font-size:14px;color:var(--grey)}
 select.plain,input.plain{
   font:inherit;border:1px solid var(--rule);border-radius:6px;padding:7px 10px;background:#fff;

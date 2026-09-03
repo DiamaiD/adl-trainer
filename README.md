@@ -15,8 +15,14 @@ All 600 questions from the LaTeX papers in `../Exams/src`:
 | ordering | drag the rows, or the ▲▼ buttons | 39 |
 | fill in the blanks | a dropdown at each blank, 5–7 choices | 61 |
 | assign the property | a dropdown per row, exactly the real choices | 20 |
-| numeric | type the numbers; marked to 0.5% | 58 |
+| numeric | one labelled box per quantity; marked to 0.5% | 58 |
 | short text / sketching / pseudo-code | **you mark yourself** | 126 |
+
+A numeric question that asks for three numbers gets **three boxes**, each with
+the label that says which quantity it is — "output channels", "parameters",
+"multiply–accumulates" — and each marked on its own, so a wrong one is pointed
+at rather than hidden in a right-looking line. Working inside a box is free:
+only the numbers in it are read, to within half a percent.
 
 The last row cannot be machine-marked, so the site does the honest thing: you
 write (or sketch on paper), submit, and it **always shows the model answer** —
@@ -45,6 +51,11 @@ target follows automatically.
   with a text filter and a type filter.
 - **History** — every exam you have sat, with the score, reopenable exactly as you
   answered it.
+
+**Exam** and **Practice** are filtered the same way: pick **weeks**, pick
+**question types**, or leave either empty for all of it. "Everything but pseudo-code and short text" is two
+clicks, and the count under the pickers says how many questions are left before
+you start. What you chose last is remembered, per screen.
 
 Questions are drawn **least-used first**, so nothing is over-served: with 600 in
 the database, twelve 50-question exams get through every question exactly once.
@@ -95,12 +106,15 @@ Three files are hand-written and are the only places you need to touch by hand:
 - `tools/blank_options.py` — the dropdown choices for each fill-in blank. The
   distractors are deliberate near-misses (*equivariant* against *invariant*,
   `J_{l-1}` against `J_l`), not filler.
-- `tools/numeric_expected.py` — the quantities a numeric answer must contain.
+- `tools/numeric_expected.py` — one `(label, value)` pair per quantity a
+  numeric answer must contain. The label is what the box on the page says, so
+  it has to name the quantity, not describe it.
 - `tools/latex2html.py` — the LaTeX-to-HTML conversion for text; maths is passed
   straight to KaTeX.
 
 `build_data.py` refuses to write the database if a fill-in question has no
-choices or fewer than five; `audit_data.py` fails if any LaTeX leaked into
+choices or fewer than five, or if a numeric question's entries are not
+(label, number) pairs; `audit_data.py` fails if any LaTeX leaked into
 visible text, if a maths command is one KaTeX will not render, or if a record is
 malformed.
 
@@ -110,7 +124,7 @@ by hand in the same shape and re-run the last two steps.
 ## Checking the page itself
 
 `audit_data.py` checks the data. For the page, open **`index.html?selftest`** —
-`tools/selftest.js` runs 37 assertions and prints them at the top: that clicking
+`tools/selftest.js` runs 58 assertions and prints them at the top: that clicking
 an option really marks it, that the ordering buttons move a row, that a dropdown
 shows what you picked, and that merging two devices' progress is symmetric and
 idempotent. Each one is there because that bug was really here.
