@@ -38,6 +38,17 @@
   t('history stays capped at 100',
     merge({ uses: {}, drillSeen: [], history: many }, blank()).history.length === 100);
 
+  /* --- the token complaints, which stand in for GitHub's bare 401 ----- */
+  const good = 'ghp_' + 'a'.repeat(36);
+  t('a well-formed classic token is accepted', tokenComplaint(good) === '');
+  t('a short paste is named as such', /cut short/.test(tokenComplaint(good.slice(0, 30))));
+  t('a long paste is caught too', /40/.test(tokenComplaint(good + 'aaa')));
+  t('a fine-grained token is explained',
+    /fine-grained/.test(tokenComplaint('github_pat_' + 'a'.repeat(60))));
+  t('junk is rejected', /should start/.test(tokenComplaint('hello')));
+  t('the complaint says how much was pasted',
+    /\b30\b/.test(tokenComplaint('ghp_' + 'a'.repeat(26))));
+
   /* --- answering a paper gives visible feedback ----------------------- */
   const qs = ['single', 'multi', 'order', 'blanks', 'assign', 'numeric', 'written']
     .map(one);

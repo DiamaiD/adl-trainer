@@ -88,6 +88,7 @@ function saveSync() {
 }
 
 let SITTING = false;                   // an exam is on screen and unsubmitted
+let tokenDraft = '';                   // kept so a failed Connect need not retype
 let syncState = { busy: false, msg: '', bad: false };
 function syncSay(msg, bad) {
   syncState.msg = msg; syncState.bad = !!bad;
@@ -103,9 +104,22 @@ async function gh(path, opts) {
     }
   }, opts || {}));
   if (!r.ok) {
-    throw new Error(r.status === 401
-      ? 'GitHub rejected the token (401). Make a new one and paste it again.'
-      : 'GitHub returned ' + r.status + ' ' + r.statusText);
+    // Say what GitHub actually said. A canned "rejected" message sends you
+    // hunting for a token problem when the real cause is a short paste.
+    let why = '';
+    try { why = (await r.json()).message || ''; } catch (e) {}
+    let hint = '';
+    if (r.status === 401) {
+      hint = ' — the token was not accepted. Most often the paste was ' +
+             'incomplete: a classic token is exactly 40 characters and ' +
+             'starts "ghp_". Copy it again with the button on the GitHub page.';
+    } else if (r.status === 403 || r.status === 404) {
+      hint = ' — the token is valid but not allowed to do this. It needs the ' +
+             '"gist" scope, and it must be a classic token: fine-grained ' +
+             'tokens (they start "github_pat_") cannot use gists at all.';
+    }
+    throw new Error('GitHub returned ' + r.status +
+                    (why ? ' (' + why + ')' : '') + hint);
   }
   return r.json();
 }
@@ -159,8 +173,31 @@ function queuePush() {
   }, 4000);
 }
 
+/* Catch the two things that actually go wrong before spending a request on
+ * them, because GitHub's own answer to both is a bare 401. */
+function tokenComplaint(tok) {
+  if (/^github_pat_/.test(tok)) {
+    return 'That is a fine-grained token. Those cannot touch gists at all — ' +
+           'you need a classic one, from the "Tokens (classic)" section, with ' +
+           'the gist box ticked.';
+  }
+  if (!/^gh[pousr]_/.test(tok)) {
+    return 'That does not look like a GitHub token — it should start "ghp_". ' +
+           'You pasted ' + tok.length + ' characters.';
+  }
+  if (tok.length !== 40) {
+    return 'That token is ' + tok.length + ' characters; a classic one is ' +
+           'exactly 40. The paste was probably cut short — copy it again with ' +
+           'the copy button on the GitHub page.';
+  }
+  return '';
+}
+
 async function syncConnect(token) {
-  SY = { token: token.trim() };
+  const tok = token.trim();
+  const complaint = tokenComplaint(tok);
+  if (complaint) { syncSay(complaint, true); return; }
+  SY = { token: tok };
   syncSay('looking for your progress gist…');
   try {
     const mine = await gh('/gists?per_page=100');
@@ -1035,7 +1072,11 @@ function paintSync() {
       'this pre-filled token page</a> — the <b>gist</b> box is already ' +
       'ticked, and it is the only one that should be. Set the expiry to ' +
       'something past your exam.</li>' +
-      '<li>Generate it, copy it, and paste it below.</li>' +
+      '<li>It must be a <b>classic</b> token (starts <code>ghp_</code>, ' +
+      '40 characters). Fine-grained ones — <code>github_pat_…</code> — ' +
+      'cannot use gists.</li>' +
+      '<li>Copy it with GitHub’s copy button, not by selecting it, and paste ' +
+      'it below.</li>' +
       '<li>Do the same on your other device with the <i>same</i> token.</li>';
     p.appendChild(ol);
     const row = el('div', 'syncrow');
@@ -1043,6 +1084,8 @@ function paintSync() {
     inp.type = 'password';
     inp.placeholder = 'ghp_… (paste your token)';
     inp.autocomplete = 'off';
+    inp.value = tokenDraft;              // survives the repaint after an error
+    inp.addEventListener('input', () => { tokenDraft = inp.value; });
     const go = el('button', 'go small', 'Connect');
     const fire = () => { if (inp.value.trim()) syncConnect(inp.value); };
     go.addEventListener('click', fire);
