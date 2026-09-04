@@ -193,6 +193,70 @@
   t('the answer on screen survives',
     document.querySelectorAll('#main .q')[0].querySelector('.opts > *').className === before);
 
+
+  /* --- practice: Back, and surviving a reload ------------------------- */
+  /* All four exist because Viktor hit them: no way back to the previous
+     question, "missed" printed in the row's green, and a reload -- or Chrome
+     discarding a backgrounded tab -- throwing away the queue and the score. */
+  (function () {
+    const pool = QUESTIONS.slice(0, 4);
+    drillOne(pool, 0, { right: 0, done: 0 });
+    const btn = txt => Array.from(document.querySelectorAll('#main button.go'))
+      .filter(b => txt.test(b.textContent));
+    btn(/submit/i)[0].click();
+    const back0 = btn(/back/i);
+    t('practice: a Back button exists', back0.length === 1);
+    t('practice: it is disabled on the first question', back0[0].disabled);
+    btn(/next/i)[0].click();
+    btn(/submit/i)[0].click();
+    const back1 = btn(/back/i);
+    t('practice: enabled once past the first', !back1[0].disabled);
+    const tally_before = DRILL.tally.done;
+    back1[0].click();
+    t('practice: Back returns to the previous question',
+      /Question 1 of 4/.test(document.querySelector('#main .lead').textContent));
+    // and it comes back marked, with its explanation -- re-asking it blank
+    // would not be going back, it would be starting over
+    t('practice: the previous question comes back marked',
+      btn(/next/i).length === 1 && btn(/submit/i).length === 0);
+    t('practice: with its explanation showing',
+      document.querySelectorAll('#main .expl').length > 0);
+    t('practice: and the score is not counted twice', tally_before === DRILL.tally.done);
+
+    btn(/next/i)[0].click();
+    const saved = JSON.parse(localStorage.getItem(DRILL_KEY) || 'null');
+    t('practice: the run is written to storage',
+      !!saved && saved.ids.length === 4);
+    t('practice: with the position in it', saved.i === 1);
+    t('practice: and loadDrill rebuilds it', !!loadDrill());
+
+    /* Chrome can hand back an empty document after a tab is discarded. */
+    document.getElementById('main').innerHTML = '';
+    document.dispatchEvent(new Event('visibilitychange'));
+    t('a blanked page repaints itself',
+      document.getElementById('main').children.length > 0);
+
+    // leaving practice must clear the saved run, or it reappears next visit
+    show('home');
+    t('leaving practice clears the saved run',
+      localStorage.getItem(DRILL_KEY) === null);
+  })();
+
+  /* --- a missed option is red, not green ------------------------------ */
+  (function () {
+    const mq = QUESTIONS.filter(q => q.type === 'multi' &&
+                                     q.correct.length >= 2)[0];
+    if (!mq) { t('multi: a missed option is red', true); return; }
+    const partial = [mq.correct[0]];
+    const c = card(mq, null, partial, 'marked', () => {});
+    document.body.appendChild(c);
+    const miss = c.querySelector('.why.missed');
+    t('multi: a missed option is labelled', !!miss);
+    t('multi: and the label is red',
+      !!miss && getComputedStyle(miss).color === 'rgb(169, 50, 38)');
+    c.remove();
+  })();
+
   /* --- report --------------------------------------------------------- */
   const fails = out.filter(s => s[0] === 'F').length;
   const pre = document.createElement('pre');

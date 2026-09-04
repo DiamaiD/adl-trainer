@@ -47,6 +47,10 @@ target follows automatically.
   did not tick is red too**. Every question you got wrong gets the full
   explanation, not just the part you missed.
 - **Practice** — one question at a time, marked the moment you submit, then Next.
+  **Back** re-opens the previous question exactly as you left it, marked and with
+  its explanation, and does not re-count it. A run in progress survives a reload
+  or a tab being discarded: the queue, your place in it, your answers and the
+  running score are all kept.
 - **Database** — every question with its answer and explanation, grouped by week,
   with a text filter and a type filter.
 - **History** — every exam you have sat, with the score, reopenable exactly as you
@@ -121,10 +125,15 @@ malformed.
 To write a question that has no LaTeX original, add it to `data/generated.json`
 by hand in the same shape and re-run the last two steps.
 
+`audit_data.py` also refuses a **fill-in option that breaks its own sentence** —
+"is a a norm", "an D-map", "its loss lies exactly 0". An option you can discard
+on grammar alone is not a distractor, and twenty-one blanks shipped that way
+before anyone read the sentences with each choice substituted.
+
 ## Checking the page itself
 
 `audit_data.py` checks the data. For the page, open **`index.html?selftest`** —
-`tools/selftest.js` runs 58 assertions and prints them at the top: that clicking
+`tools/selftest.js` runs 66 assertions and prints them at the top: that clicking
 an option really marks it, that the ordering buttons move a row, that a dropdown
 shows what you picked, and that merging two devices' progress is symmetric and
 idempotent. Each one is there because that bug was really here.

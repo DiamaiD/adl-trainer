@@ -288,3 +288,8 @@ table.list tr.click:hover td{background:var(--blue-l)}
 .pill.r{background:var(--red-l);color:var(--red)}
 .katex{font-size:1.02em}
 code{background:#eef1f5;border-radius:3px;padding:1px 4px;font-size:.92em}
+
+/* "missed" is a mistake, not a note: red, like every other thing you got
+   wrong. Before this it inherited the row's green, because the row is green
+   when the option was one of the right ones. */
+.opt.ok .why.missed{color:var(--red)}

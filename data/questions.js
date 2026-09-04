@@ -870,10 +870,10 @@ window.QUESTIONS = [
   "exam": 1,
   "num": 36,
   "week": "W6",
-  "explanation": "<p><strong>Filled in: A distance satisfying every metric axiom except identity of indiscernibles is a <strong>pseudo-metric</strong>. Training only on hard negatives risks <strong>network collapse</strong>, because a constant encoder pays exactly <strong>$m$</strong> (the margin) per triplet.</strong> Identity of indiscernibles is the axiom $\\mathcal{D}(x,y) = 0 \\Rightarrow x = y$. Drop it and you permit $\\mathcal{D}(x,y) = 0$ for genuinely different $x$ and $y$ — which is <em>exactly</em> what a collapsed encoder produces, mapping everything to one point.</p><p><strong>So the two blanks are the same failure seen from two directions</strong>, and the third blank explains why gradient descent finds it. With the triplet loss $\\max(0,\\ \\mathcal{D}(a,p) - \\mathcal{D}(a,n) + m)$, a constant encoder makes both distances $0$ and the loss exactly $m$ on every triplet — a flat, finite, easily reached plateau. Feed the network only its hardest negatives and that plateau can be a better deal than solving the actual problem. See Q53.</p>",
+  "explanation": "<p><strong>Filled in: A distance satisfying every metric axiom except identity of indiscernibles is called <strong>a pseudo-metric</strong>. Training only on hard negatives risks <strong>network collapse</strong>, because a constant encoder pays exactly <strong>$m$</strong> (the margin) per triplet.</strong> Identity of indiscernibles is the axiom $\\mathcal{D}(x,y) = 0 \\Rightarrow x = y$. Drop it and you permit $\\mathcal{D}(x,y) = 0$ for genuinely different $x$ and $y$ — which is <em>exactly</em> what a collapsed encoder produces, mapping everything to one point.</p><p><strong>So the two blanks are the same failure seen from two directions</strong>, and the third blank explains why gradient descent finds it. With the triplet loss $\\max(0,\\ \\mathcal{D}(a,p) - \\mathcal{D}(a,n) + m)$, a constant encoder makes both distances $0$ and the loss exactly $m$ on every triplet — a flat, finite, easily reached plateau. Feed the network only its hardest negatives and that plateau can be a better deal than solving the actual problem. See Q53.</p>",
   "type": "blanks",
   "segments": [
-   "A distance satisfying every metric axiom except identity of indiscernibles is a",
+   "A distance satisfying every metric axiom except identity of indiscernibles is called",
    null,
    ". Training only on hard negatives risks",
    null,
@@ -882,18 +882,18 @@ window.QUESTIONS = [
    "(the margin) per triplet."
   ],
   "answers": [
-   "pseudo-metric",
+   "a pseudo-metric",
    "network collapse",
    "$m$"
   ],
   "choices": [
    [
-    "ultrametric",
-    "pseudo-metric",
-    "semi-metric",
-    "premetric",
+    "an ultrametric",
+    "a pseudo-metric",
+    "a semi-metric",
+    "a premetric",
     "a norm",
-    "quasi-metric"
+    "a quasi-metric"
    ],
    [
     "overfitting",
@@ -924,7 +924,7 @@ window.QUESTIONS = [
   "week": "W1",
   "explanation": "<p>With $C_{\\text{in}} = C_{\\text{out}} = 64$, biases excluded:</p><table class='xt'><tr><th></th><th><strong>layer</strong></th><th><strong>parameters</strong></th><th><strong>arithmetic</strong></th></tr><tr><td>b</td><td>$1\\times1$ convolution</td><td>$4{,}096$</td><td>$1 \\cdot 64 \\cdot 64$</td></tr><tr><td>d</td><td>$3\\times3$ depthwise separable</td><td>$4{,}672$</td><td>$9\\cdot64 \\;+\\; 64\\cdot64$</td></tr><tr><td>a</td><td>standard $3\\times3$ convolution</td><td>$36{,}864$</td><td>$9 \\cdot 64 \\cdot 64$</td></tr><tr><td>c</td><td>fully-connected on $8\\times8\\times64$</td><td>$262{,}144$</td><td>$4{,}096 \\cdot 64$</td></tr></table><p><strong>The instructive gap is d against a</strong>: depthwise separable splits one $3\\times3$ convolution into a per-channel spatial filter ($9 \\cdot 64$) plus a $1\\times1$ mixing convolution ($64 \\cdot 64$), and that sum is roughly $8\\times$ smaller than the product it replaces. <strong>And c against everything</strong>: the fully-connected layer is two orders of magnitude larger, because it has one weight per (input position, input channel, output) triple and shares nothing.</p>",
   "type": "order",
-  "stem": "Arrange these by number of learnable parameters, <em>fewest</em> to <em>most</em>, with $C_{\\text{in}} = C_{\\text{out}} = 64$ and a $3\\times3$ kernel where applicable (biases excluded):",
+  "stem": "Arrange these layer types by number of learnable parameters, <em>fewest</em> to <em>most</em>, with $C_{\\text{in}} = C_{\\text{out}} = 64$ and a $3\\times3$ kernel where applicable (biases excluded):",
   "items": [
    "standard $3\\times3$ convolution",
    "$1\\times1$ convolution",
@@ -968,7 +968,7 @@ window.QUESTIONS = [
   "week": "W5",
   "explanation": "<p>This is one axis, and nearly every set-like architecture in the course sits somewhere on it: <strong>how much interaction between elements does the layer permit?</strong></p><table class='xt'><tr><th><strong>model</strong></th><th><strong>interaction</strong></th><th><strong>edges in the implied graph</strong></th></tr><tr><td>deep sets / PointNet</td><td>none</td><td>no edges</td></tr><tr><td>GNN on a sparse graph</td><td>along edges only</td><td>the graph's own edges</td></tr><tr><td>transformer encoder</td><td>all-to-all</td><td>complete graph</td></tr></table><p><strong>A transformer is a GNN on a complete graph</strong> — that identification is worth carrying, because it explains both why attention is expressive and why it costs $O(n^2)$ while a sparse GNN costs $O(|\\mathcal{E}|)$. Q59 draws it.</p>",
   "type": "order",
-  "stem": "Order these by how much they constrain which elements may interact, from <em>most</em> constrained to <em>least</em>:",
+  "stem": "Order these attention patterns by how much they constrain which elements may interact, from <em>most</em> constrained to <em>least</em>:",
   "items": [
    "a transformer encoder",
    "deep sets / PointNet",
@@ -987,7 +987,7 @@ window.QUESTIONS = [
   "week": "W2",
   "explanation": "<table class='xt'><tr><th><strong>variant</strong></th><th><strong>fixes</strong></th><th><strong>how</strong></th></tr><tr><td>Transformer-XL</td><td><strong>c</strong> context discontinuity</td><td>caches the previous segment's hidden states and lets the current segment attend to them</td></tr><tr><td>Compressive</td><td><strong>d</strong> old memories discarded</td><td>compresses rather than drops the oldest cached states</td></tr><tr><td>Universal</td><td><strong>b</strong> extrapolation failure</td><td>recurrence over <em>refinement steps</em> applied to all positions in parallel, with adaptive depth</td></tr><tr><td>Sparse</td><td><strong>a</strong> quadratic memory</td><td>attends to a structured subset of positions instead of all of them</td></tr></table><p><strong>XL and Compressive are the pair most often swapped.</strong> XL introduces the memory; Compressive is the follow-up that stops the memory being thrown away. If you can say “one adds the cache, the other stops the cache being deleted” you have both.</p>",
   "type": "assign",
-  "stem": "Write next to each variant the letter of the problem it was designed to solve:",
+  "stem": "Write next to each efficient-transformer variant the letter of the problem it was designed to solve:",
   "labels": [
    "Transformer-XL",
    "Compressive Transformer",
@@ -1832,12 +1832,12 @@ window.QUESTIONS = [
   "exam": 2,
   "num": 28,
   "week": "W8",
-  "explanation": "<p><strong>Filled in: In DINO the teacher's weights are an <strong>exponential moving average</strong> of the student's, and a <strong>stop-gradient</strong> is applied to the teacher branch. Centering prevents collapse onto a <strong>fixed, non-uniform (always the same peak)</strong> teacher distribution; sharpening prevents collapse onto a <strong>uniform</strong> one.</strong> <strong>The second half is the one people reverse.</strong> Centering fights the <em>fixed non-uniform</em> failure — every input landing on the same one or two output dimensions. Sharpening fights the <em>uniform</em> failure — every output flat, carrying no information at all.</p><p>The reliable way to remember which is which: <em>centering flattens, so it must be fighting a peak; sharpening peaks, so it must be fighting flatness.</em> Each mechanism causes the very failure the other one prevents, which is why neither works alone and both are present. See the figure at Q57.</p>",
+  "explanation": "<p><strong>Filled in: In DINO the teacher's weights are <strong>an exponential moving average</strong> of the student's. A <strong>stop-gradient</strong> is applied to the teacher branch. Centering prevents collapse onto a <strong>fixed, non-uniform (always the same peak)</strong> teacher distribution; sharpening prevents collapse onto a <strong>uniform</strong> one.</strong> <strong>The second half is the one people reverse.</strong> Centering fights the <em>fixed non-uniform</em> failure — every input landing on the same one or two output dimensions. Sharpening fights the <em>uniform</em> failure — every output flat, carrying no information at all.</p><p>The reliable way to remember which is which: <em>centering flattens, so it must be fighting a peak; sharpening peaks, so it must be fighting flatness.</em> Each mechanism causes the very failure the other one prevents, which is why neither works alone and both are present. See the figure at Q57.</p>",
   "type": "blanks",
   "segments": [
-   "In DINO the teacher's weights are an",
+   "In DINO the teacher's weights are",
    null,
-   "of the student's, and a",
+   "of the student's. A",
    null,
    "is applied to the teacher branch. Centering prevents collapse onto a",
    null,
@@ -1846,7 +1846,7 @@ window.QUESTIONS = [
    "one."
   ],
   "answers": [
-   "exponential moving average",
+   "an exponential moving average",
    "stop-gradient",
    "fixed, non-uniform (always the same peak)",
    "uniform"
@@ -1854,7 +1854,7 @@ window.QUESTIONS = [
   "choices": [
    [
     "a gradient update",
-    "exponential moving average",
+    "an exponential moving average",
     "an exact copy",
     "a running variance",
     "a momentum of the gradients",
@@ -2076,14 +2076,14 @@ window.QUESTIONS = [
   "exam": 2,
   "num": 32,
   "week": "W10",
-  "explanation": "<p><strong>Filled in: In the SDE $\\mathrm{d}\\mathbf{x} = f(\\mathbf{x},t)\\,\\mathrm{d}t + g(t)\\,\\mathrm{d}\\mathbf{w}$, the term $f$ is the <strong>drift</strong>, the term $g$ is the <strong>diffusion term</strong>, and $\\mathbf{w}$ is a <strong>Wiener process</strong> (Brownian motion). DDPM corresponds to the <strong>variance-preserving</strong> choice and NCSN to the <strong>variance-exploding</strong> one.</strong> The <strong>drift</strong> $f$ is the deterministic pull; the <strong>diffusion term</strong> $g$ sets how much noise is injected; a <strong>Wiener process</strong> is Brownian motion, whose increments are independent Gaussians with variance proportional to $\\mathrm{d}t$.</p><p><strong>The names describe the dashed green curve.</strong> VP <em>shrinks the signal as it adds noise</em>, so the total variance is held at $1$ — $f$ is a decay term pulling $\\mathbf{x}$ towards zero, and $\\mathbf{x}_T$ ends up as standard Gaussian noise. VE leaves the data alone and piles noise on top, so the variance runs away to $\\sigma_{\\max}^2$ — $f = 0$, and $\\mathbf{x}_T$ is the data drowned in enormous noise. Both destroy the data; the difference is whether the scale is held fixed, and <em>that</em> is what the two names are recording.</p>",
+  "explanation": "<p><strong>Filled in: In the SDE $\\mathrm{d}\\mathbf{x} = f(\\mathbf{x},t)\\,\\mathrm{d}t + g(t)\\,\\mathrm{d}\\mathbf{w}$, the term $f$ is the <strong>drift</strong>, the term $g$ is the <strong>diffusion term</strong>, and $\\mathbf{w}$ is <strong>a Wiener process</strong> (Brownian motion). DDPM corresponds to the <strong>variance-preserving</strong> choice and NCSN to the <strong>variance-exploding</strong> one.</strong> The <strong>drift</strong> $f$ is the deterministic pull; the <strong>diffusion term</strong> $g$ sets how much noise is injected; a <strong>Wiener process</strong> is Brownian motion, whose increments are independent Gaussians with variance proportional to $\\mathrm{d}t$.</p><p><strong>The names describe the dashed green curve.</strong> VP <em>shrinks the signal as it adds noise</em>, so the total variance is held at $1$ — $f$ is a decay term pulling $\\mathbf{x}$ towards zero, and $\\mathbf{x}_T$ ends up as standard Gaussian noise. VE leaves the data alone and piles noise on top, so the variance runs away to $\\sigma_{\\max}^2$ — $f = 0$, and $\\mathbf{x}_T$ is the data drowned in enormous noise. Both destroy the data; the difference is whether the scale is held fixed, and <em>that</em> is what the two names are recording.</p>",
   "type": "blanks",
   "segments": [
    "In the SDE $\\mathrm{d}\\mathbf{x} = f(\\mathbf{x},t)\\,\\mathrm{d}t + g(t)\\,\\mathrm{d}\\mathbf{w}$, the term $f$ is the",
    null,
    ", the term $g$ is the",
    null,
-   ", and $\\mathbf{w}$ is a",
+   ", and $\\mathbf{w}$ is",
    null,
    "(Brownian motion). DDPM corresponds to the",
    null,
@@ -2094,7 +2094,7 @@ window.QUESTIONS = [
   "answers": [
    "drift",
    "diffusion term",
-   "Wiener process",
+   "a Wiener process",
    "variance-preserving",
    "variance-exploding"
   ],
@@ -2114,11 +2114,11 @@ window.QUESTIONS = [
     "step size"
    ],
    [
-    "Gaussian mixture",
-    "Poisson process",
-    "Markov chain",
-    "Ornstein–Uhlenbeck process",
-    "Wiener process"
+    "a Gaussian mixture",
+    "a Poisson process",
+    "a Markov chain",
+    "an Ornstein–Uhlenbeck process",
+    "a Wiener process"
    ],
    [
     "variance-preserving",
@@ -3385,9 +3385,9 @@ window.QUESTIONS = [
    ],
    [
     "monotone",
-    "asymmetric",
+    "non-symmetric",
     "symmetric",
-    "injective",
+    "one-to-one",
     "linear"
    ],
    [
@@ -3434,7 +3434,7 @@ window.QUESTIONS = [
    [
     "sigmoid",
     "softmax",
-    "a hard max",
+    "hard max",
     "layer normalisation",
     "$L_2$ normalisation"
    ],
@@ -4744,10 +4744,10 @@ window.QUESTIONS = [
   "exam": 4,
   "num": 34,
   "week": "W8",
-  "explanation": "<p><strong>Filled in: DINO's teacher is an <strong>exponential moving average</strong> of the student and receives a <strong>stop-gradient</strong>, so no gradient ever reaches it. Collapse is prevented by two operations that oppose one another: <strong>centering</strong> pushes the teacher towards uniform and <strong>sharpening</strong> pushes it away. The two temperatures satisfy $\\tau_s \\mathbf{>} \\tau_t$.</strong> <strong>Why the teacher needs both rules.</strong> If the teacher were simply a copy of the student, the target would move exactly as fast as the thing chasing it and there would be nothing to chase. The EMA, $\\theta_t \\leftarrow m\\theta_t + (1-m)\\theta_s$ with $m$ rising from $0.996$ towards $1$, makes the teacher a slow average of the student's recent past — a more stable target than the student itself. The stop-gradient then prevents the trivial solution of dragging the teacher down to meet the student.</p><p><strong>Why the temperatures are ordered that way.</strong> $\\tau_t = 0.04$ makes the teacher's distribution sharp, which maximises $\\lVert P_s - P_t\\rVert$ and so keeps the gradient $(P_s - P_t)/\\tau_s$ from dying. The student's $\\tau_s = 0.1$ is larger for a separate reason: that $1/\\tau_s$ factor multiplies the gradient, and a small $\\tau_s$ would make it explode. The two temperatures are solving two different problems, which is why they are not equal.</p><p><strong>The pair is the answer, never one of them</strong> — see Q22 for why each is exactly the other's failure case.</p>",
+  "explanation": "<p><strong>Filled in: DINO's teacher is <strong>an exponential moving average</strong> of the student and receives a <strong>stop-gradient</strong>, so no gradient ever reaches it. Collapse is prevented by two operations that oppose one another: <strong>centering</strong> pushes the teacher towards uniform and <strong>sharpening</strong> pushes it away. The two temperatures satisfy $\\tau_s \\mathbf{>} \\tau_t$.</strong> <strong>Why the teacher needs both rules.</strong> If the teacher were simply a copy of the student, the target would move exactly as fast as the thing chasing it and there would be nothing to chase. The EMA, $\\theta_t \\leftarrow m\\theta_t + (1-m)\\theta_s$ with $m$ rising from $0.996$ towards $1$, makes the teacher a slow average of the student's recent past — a more stable target than the student itself. The stop-gradient then prevents the trivial solution of dragging the teacher down to meet the student.</p><p><strong>Why the temperatures are ordered that way.</strong> $\\tau_t = 0.04$ makes the teacher's distribution sharp, which maximises $\\lVert P_s - P_t\\rVert$ and so keeps the gradient $(P_s - P_t)/\\tau_s$ from dying. The student's $\\tau_s = 0.1$ is larger for a separate reason: that $1/\\tau_s$ factor multiplies the gradient, and a small $\\tau_s$ would make it explode. The two temperatures are solving two different problems, which is why they are not equal.</p><p><strong>The pair is the answer, never one of them</strong> — see Q22 for why each is exactly the other's failure case.</p>",
   "type": "blanks",
   "segments": [
-   "DINO's teacher is an",
+   "DINO's teacher is",
    null,
    "of the student and receives a",
    null,
@@ -4760,7 +4760,7 @@ window.QUESTIONS = [
    "$ \\tau_t$."
   ],
   "answers": [
-   "exponential moving average",
+   "an exponential moving average",
    "stop-gradient",
    "centering",
    "sharpening",
@@ -4768,12 +4768,12 @@ window.QUESTIONS = [
   ],
   "choices": [
    [
-    "larger pre-trained model",
-    "gradient-free clone",
-    "randomly reinitialised copy",
-    "frozen snapshot",
-    "exact copy",
-    "exponential moving average"
+    "a larger pre-trained model",
+    "a gradient-free clone",
+    "a randomly reinitialised copy",
+    "a frozen snapshot",
+    "an exact copy",
+    "an exponential moving average"
    ],
    [
     "detached loss",
@@ -7541,11 +7541,11 @@ window.QUESTIONS = [
     "$L_{\\text{box}}(b_i, \\hat b_j)$"
    ],
    [
-    "the Viterbi algorithm",
+    "Viterbi",
     "Hungarian",
     "non-maximum suppression",
     "greedy nearest-neighbour matching",
-    "the Sinkhorn algorithm"
+    "Sinkhorn"
    ],
    [
     "a subgradient",
@@ -7877,7 +7877,7 @@ window.QUESTIONS = [
   "choices": [
    [
     "median",
-    "anchor point",
+    "centre of mass",
     "mean",
     "surface normal",
     "vertex position"
@@ -7890,11 +7890,11 @@ window.QUESTIONS = [
     "radius"
    ],
    [
-    "reflectance",
-    "density",
+    "isotropy",
+    "emissivity",
     "albedo",
     "opacity",
-    "blending weight"
+    "anisotropy"
    ],
    [
     "a texture lookup",
@@ -7921,7 +7921,7 @@ window.QUESTIONS = [
     "ReLU",
     "softmax",
     "sigmoid",
-    "a hard clamp",
+    "hard clamp",
     "$\\tanh$"
    ],
    [
@@ -8034,7 +8034,7 @@ window.QUESTIONS = [
   "week": "W3",
   "explanation": "<p>Each is one idea, and the rest of the architecture follows from it.</p><p><strong>ViT — an image as a sequence of patches.</strong> Everything else is a consequence: the quadratic cost, the weak inductive bias, the appetite for data, the <code>[class]</code> token.</p><p><strong>Swin — shifted windows.</strong> Attention inside an $M\\times M$ window is linear in patches, and shifting the partition between blocks is what stops the window boundaries from becoming permanent walls. Patch merging then adds the multi-scale hierarchy ViT lacks.</p><p><strong>DETR — detection as direct set prediction.</strong> From that one reframing come the object queries, the Hungarian matching, and the removal of anchors and NMS.</p><p><strong>Point Transformer — vector attention with a relative position encoding.</strong> Subtraction in place of the dot product gives a weight <em>per channel</em> rather than a scalar, and $\\delta = \\theta(\\mathbf{p}_i - \\mathbf{p}_j)$ enters twice, once in the weights and once in the values.</p><p>Note that three of the four are the same manoeuvre — take a domain, find a tokenisation, let attention relate the tokens — and the differences are all in which pairs are allowed to interact and how the weight is computed.</p>",
   "type": "assign",
-  "stem": "Write next to each model the letter of its defining move:",
+  "stem": "Write next to each vision transformer the letter of its defining move:",
   "labels": [
    "ViT",
    "Swin",
@@ -8061,7 +8061,7 @@ window.QUESTIONS = [
   "week": "W6",
   "explanation": "<p>What each one needs from you is a better organising question than what each one optimises, because it is what decides which you can actually use.</p><table class='xt'><tr><th><strong>Objective</strong></th><th><strong>Needs</strong></th><th><strong>Mining?</strong></th></tr><tr><td>contrastive</td><td>a pair, labelled similar or dissimilar</td><td>some</td></tr><tr><td>triplet</td><td>anchor, positive, negative</td><td>yes, and it is critical</td></tr><tr><td>ArcFace</td><td>a fixed class list</td><td><strong>none</strong></td></tr><tr><td>centre loss</td><td>a learned centre per class, on top of softmax</td><td>none</td></tr></table><p><strong>The decision this drives.</strong> With no class labels — only “these two belong together” — the angular-margin family is unavailable, because it needs a column of $W$ per identity. With a fixed, known identity list and a wish for a guaranteed gap, ArcFace is the better answer and it removes the mining problem entirely, which is the thing most likely to go wrong in a triplet pipeline.</p><p><strong>And the reason mining is critical for exactly one of them.</strong> The triplet loss has a collapse solution costing exactly $m$, and hard negatives cost more than that, so a mining strategy that feeds the network its hardest negatives makes collapse the cheaper option. The contrastive loss has absolute targets rather than relative ones and does not have this particular failure; ArcFace has no pairs at all.</p>",
   "type": "assign",
-  "stem": "Write next to each objective the letter of what it needs:",
+  "stem": "Write next to each similarity-learning objective the letter of what it needs:",
   "labels": [
    "contrastive",
    "triplet",
@@ -9012,11 +9012,11 @@ window.QUESTIONS = [
     "$h \\circ g\\bigl(\\gamma(x_1),\\dots,\\gamma(x_n)\\bigr)$"
    ],
    [
-    "a convolution over the point list",
-    "a T-Net",
-    "a transformer encoder",
+    "convolution over the point list",
+    "T-Net",
+    "transformer encoder",
     "shared per-point MLP",
-    "a per-point MLP with its own weights at each point"
+    "per-point MLP with its own weights at each point"
    ],
    [
     "invertible",
@@ -9337,7 +9337,7 @@ window.QUESTIONS = [
    [
     "deterministic",
     "recurrent",
-    "observed",
+    "discrete",
     "latent",
     "stochastic"
    ],
@@ -9358,7 +9358,7 @@ window.QUESTIONS = [
    [
     "deterministic",
     "stochastic",
-    "observed",
+    "discrete",
     "recurrent",
     "convolutional"
    ],
@@ -9495,7 +9495,7 @@ window.QUESTIONS = [
   "week": "W5",
   "explanation": "<p>Everything in the family is the same template with a different $c_{ij}$: \\[ \\mathbf{h}_i = \\phi\\Bigl(\\mathbf{x}_i,\\ \\bigoplus_{j\\in\\mathcal{N}_i} c_{ij}\\,\\psi(\\mathbf{x}_j)\\Bigr) \\]</p><table class='xt'><tr><th></th><th><strong>weight</strong></th><th><strong>depends on</strong></th><th><strong>edge features?</strong></th></tr><tr><td>deep sets</td><td>—</td><td>nothing; there are no edges</td><td>—</td></tr><tr><td>GCN</td><td>$1/\\sqrt{\\tilde D_{ii}\\tilde D_{jj}}$</td><td>structure only (isotropic)</td><td>no</td></tr><tr><td>GAT</td><td>$\\alpha_{ij} = a(\\mathbf{x}_i,\\mathbf{x}_j)$</td><td>the two nodes' features (anisotropic)</td><td>no</td></tr><tr><td>MPNN</td><td>a learned vector message</td><td>both nodes <em>and</em> the edge</td><td><strong>yes</strong></td></tr></table><p><strong>The axis is how much the weight is allowed to know.</strong> Deep sets knows nothing, because it has no adjacency at all — it is invariant and ignores the graph, which is why it is on this list as the degenerate case. GCN knows the degrees, so its weights are decided by the shape of the graph before any features are seen. GAT learns them from the features, which is what <em>anisotropic</em> means. MPNN goes furthest and sends a whole vector rather than a scalar weight, and it is the only one that can read a property of the edge itself — a single bond against a double bond.</p><p><strong>And the cost of going further.</strong> MPNN is the most expressive and the most expensive: a message per edge, computed by a network, rather than a scalar multiply.</p>",
   "type": "assign",
-  "stem": "Write next to each layer the letter of how it weights a neighbour:",
+  "stem": "Write next to each graph neural network layer the letter of how it weights a neighbour:",
   "labels": [
    "GCN",
    "GAT",
@@ -9522,7 +9522,7 @@ window.QUESTIONS = [
   "week": "W8",
   "explanation": "<table class='xt'><tr><th></th><th><strong>compares against</strong></th><th><strong>the problem it solves</strong></th></tr><tr><td>SimCLR</td><td>the rest of the batch</td><td>— (the baseline)</td></tr><tr><td>MoCo</td><td>a queue of stored features</td><td>decoupling $N$ from the batch size</td></tr><tr><td>DINO</td><td>an EMA teacher, no negatives</td><td>negatives entirely</td></tr><tr><td>MAE</td><td>the raw pixels it hid</td><td>negatives, and the cost of the encoder</td></tr></table><p><strong>Read it as a sequence of fixes.</strong> SimCLR needs many negatives and gets them from the batch, so the batch must be enormous — $8192$ — because the exact gradient keeps every one of them in the backward graph. MoCo stores <em>feature vectors</em> in a FIFO queue instead: no gradient, $65{,}536 \\times 128 \\times 4$ bytes is about $32$ MB, and MoCo v2 matches SimCLR at a batch of $256$. The momentum key encoder is what keeps old queue entries comparable with new queries.</p><p><strong>Then DINO removes negatives altogether</strong>, and inherits the failure that negatives were preventing: collapse. Centering and sharpening, together, are the cure.</p><p><strong>And MAE sidesteps the whole question</strong> by reconstructing the input rather than comparing anything — no pairs, no negatives, no teacher, and the encoder sees only a quarter of the tokens.</p><p><strong>The remaining flaw shared by the first two:</strong> false negatives. Two photographs of different dogs are pushed apart, and more data makes it more likely, not less.</p>",
   "type": "assign",
-  "stem": "Write next to each method the letter of what it compares against:",
+  "stem": "Write next to each self-supervised method the letter of what it compares against:",
   "labels": [
    "SimCLR",
    "MoCo",
@@ -10502,7 +10502,7 @@ window.QUESTIONS = [
     "point count"
    ],
    [
-    "invertible",
+    "reversible",
     "continuous",
     "linear",
     "monotone",
@@ -10851,7 +10851,7 @@ window.QUESTIONS = [
   "week": "W6",
   "explanation": "<p>Enrol, embed, sort, return.</p><p><strong>The order matters because enrolment is not training.</strong> Storing a gallery identity is one forward pass and an append — no gradient step, no retraining, no change to the model. That is the property the entire lecture exists to obtain, and putting it first in the sequence is the point: the gallery can grow between queries, and the encoder never knows.</p><p><strong>The three tasks share these steps and stop at different places.</strong> <em>Verification</em> needs only “embed both, compare against a threshold $\\tau$” — no gallery at all. <em>Ranking</em> stops after the sort. <em>Recognition</em> takes the argument minimum, which is step (d). One trained map, three uses.</p><p><strong>And what makes the sort meaningful.</strong> The triangle inequality. Without it the ordering would not be consistent — you could have a cycle of nearest neighbours — and a threshold would not partition the space into anything resembling clusters. That is the axiom worth keeping even when identity of indiscernibles is deliberately dropped.</p>",
   "type": "order",
-  "stem": "Order the use of a trained embedding for recognition at test time:",
+  "stem": "A metric-learning encoder has been trained. Order its use for open-set recognition against a gallery, at test time:",
   "items": [
    "sort the gallery by distance to the query",
    "embed the query with the trained encoder",
@@ -10941,7 +10941,7 @@ window.QUESTIONS = [
   "week": "W10",
   "explanation": "<p>Every family is an answer to the same question: $Z = \\int e^{-\\beta E}$ cannot be computed, so what do you do instead?</p><p><strong>Autoregressive — change what you normalise.</strong> Factorise $p(\\mathbf{x}) = \\prod_i p(x_i \\mid \\mathbf{x}_{1:i-1})$. Each factor is a distribution over one variable, usually categorical, so its normalisation is a softmax over a vocabulary. The integral never appears. Price: generation is sequential.</p><p><strong>Latent variable — normalise something you chose.</strong> Sample $\\mathbf{z}$ from a prior <em>you</em> specified, so it needs no normalising, then $\\mathbf{x}$ from $p(\\mathbf{x}\\mid\\mathbf{z})$. Price: the marginal likelihood becomes an intractable integral of its own, hence the ELBO.</p><p><strong>Flow-based — transport instead of integrate.</strong> Make the map invertible and change-of-variables gives the exact density from the prior and a Jacobian determinant. Price: every layer must be invertible with a cheap determinant, and $h = d$.</p><p><strong>Score-based — delete the constant.</strong> Differentiate $\\log p$ with respect to $\\mathbf{x}$ and $Z$ vanishes because it does not depend on $\\mathbf{x}$. Price: you no longer have a density at all, only its gradient — which turns out to be enough to sample from, and that is the whole of the second half of the lecture.</p>",
   "type": "assign",
-  "stem": "Write next to each family the letter of how it escapes the normalising constant:",
+  "stem": "Write next to each family of generative model the letter of how it escapes the normalising constant:",
   "labels": [
    "autoregressive",
    "latent variable",
@@ -11243,14 +11243,14 @@ window.QUESTIONS = [
   "exam": 9,
   "num": 2,
   "week": "W1",
-  "explanation": "<p>A plain sequence model emits one output per input step, so the output length is fixed to the input length. Translation, summarisation and speech recognition all break that: seven words in, eleven out, and the number is not known in advance.</p><p><strong>What the split buys.</strong> The encoder consumes the whole input and produces a representation; the decoder then generates for as long as it likes, stopping when it emits an end-of-sequence token. The two lengths are decoupled because the two halves run separately, and the decoder's own length is decided at run time by the model rather than by the input.</p><p><strong>Why not (a).</strong> Dimensionality is unrelated — a CNN handles high-dimensional inputs with no decoder at all.</p><p><strong>Why not (c).</strong> Classification produces one output regardless of input length, which is the case an encoder alone handles perfectly well; BERT is encoder-only for exactly this reason.</p><p>The three shapes worth being able to name: <em>encoder-only</em> for understanding (BERT), <em>decoder-only</em> for generation (GPT), <em>encoder–decoder</em> for transformation between sequences of different lengths (T5, the original transformer).</p>",
+  "explanation": "<p><strong>Two things have to be true at once, and (b) states both.</strong> The output is a <em>sequence</em> — so something must generate it step by step, which is a decoder. And each output position may depend on <em>any</em> part of the input, with no positional correspondence between the two — so the whole input must be encoded and made available, which is an encoder plus cross-attention. Take either half away and a simpler shape suffices.</p><p><strong>Why (c) is the wrong answer, and it is the tempting one.</strong> Differing lengths is neither necessary nor sufficient. Not necessary: translating a sentence into another of exactly the same length still needs an encoder–decoder, because word seven of the output does not correspond to word seven of the input. Not sufficient: a decoder-only model produces outputs of whatever length it likes — GPT does nothing else — by concatenating prompt and continuation into one stream. Length is a <em>symptom</em> of the real property, which is the absence of positional correspondence, and quoting the symptom as the criterion is the error.</p><p><strong>Why (d) is the other tempting one.</strong> Bidirectional attention over the input is what an encoder gives you, and BERT provides it with no decoder at all. Wanting to read the input in both directions argues for an encoder; it says nothing about whether you also need a decoder.</p><p><strong>Why (a) is unrelated.</strong> A CNN handles high-dimensional inputs with no decoder anywhere.</p><p><strong>The three shapes, stated by what each one can and cannot do.</strong> <em>Encoder-only</em> (BERT): reads the whole input at once, produces a fixed set of representations, cannot generate. <em>Decoder-only</em> (GPT): generates freely, but every token attends only to what precedes it in one stream, so “input” and “output” are not separate objects. <em>Encoder–decoder</em> (T5, the original transformer): a bidirectional read of a complete input, plus generation that can attend to all of it — which is exactly the case where neither of the other two will do.</p><p><strong>And the honest caveat, because the boundary has moved.</strong> A decoder-only model with a long enough context does most encoder–decoder tasks perfectly well today, by putting the source in the prompt. What it gives up is the bidirectional read of the input: in a causal stream, the first source token cannot see the last one. Whether that matters is an empirical question, and the answer has increasingly been “less than expected”.</p>",
   "type": "single",
-  "stem": "An encoder–decoder architecture is needed when:",
+  "stem": "Which of these is the reason to reach for the encoder–decoder shape rather than for encoder-only or decoder-only?",
   "options": [
    "the input is high-dimensional",
-   "the input and output sequences have different lengths",
-   "the task is classification rather than regression",
-   "the data is unlabelled"
+   "the output is a sequence produced from a <em>complete</em> input, with no positional correspondence between the two, and its length is decided by the model",
+   "the input and the output have different lengths",
+   "the task needs bidirectional attention over the input"
   ],
   "correct": [
    1
@@ -11844,9 +11844,9 @@ window.QUESTIONS = [
    [
     "attention blocks",
     "feed-forward blocks",
-    "the output head",
-    "the embedding table",
-    "the positional encodings"
+    "output head",
+    "embedding table",
+    "positional encodings"
    ]
   ],
   "correct": [
@@ -12006,16 +12006,16 @@ window.QUESTIONS = [
   "exam": 9,
   "num": 34,
   "week": "W6",
-  "explanation": "<p><strong>Filled in: The contrastive loss states an <strong>absolute</strong> target, while the triplet loss states a <strong>relative</strong> one — which is why the second <strong>permits intra-class variance</strong>. A negative is useful only when its loss lies <strong>strictly between $0$ and $m$</strong>, because a collapsed encoder pays exactly <strong>$m$</strong> on every triplet.</strong> <strong>Why “absolute” is the right criticism of the contrastive loss.</strong> It names distances: similar pairs to $0$, dissimilar pairs to at least $m$. But how similar two photographs of one person <em>should</em> be depends on lighting, pose and expression, and one global constant cannot express that. The triplet loss asks only that the positive be closer than the negative by $m$, which is a statement about an ordering rather than about a distance — so a class may occupy as much of the space as it needs, provided it stays separated.</p><p><strong>Why the useful window is exactly $(0, m)$.</strong> Below $0$ there is no gradient: an easy negative already satisfies the margin and the hinge clips it. Above $m$ you are in the hard region, and a hard negative costs the network <em>more</em> than the constant map does — so a diet of them makes collapse the cheaper solution and gradient descent takes it. Semi-hard negatives are precisely those in between: expensive enough to produce a gradient, cheap enough that collapsing would make things worse.</p><p><strong>The number $m$ is what makes the argument work.</strong> $\\phi \\equiv \\mathbf{c}$ gives $\\mathcal{D}_p = \\mathcal{D}_n = 0$, so $\\mathcal{L} = \\max\\{0, 0-0+m\\} = m$ on every triplet — and it is the value everything else is being compared against.</p><p><strong>Also accepted:</strong> “a fixed distance” / “a comparison” or “an ordering”; “it does not force every same-class pair to the same distance”; “between zero and the margin”.</p>",
+  "explanation": "<p><strong>Filled in: The contrastive loss states a target that is <strong>absolute</strong>, while the triplet loss states one that is <strong>relative</strong>, which is why the second <strong>permits intra-class variance</strong>. A negative is useful only when its loss is <strong>strictly between $0$ and $m$</strong>, because a collapsed encoder pays exactly <strong>$m$</strong> on every triplet.</strong> <strong>Why “absolute” is the right criticism of the contrastive loss.</strong> It names distances: similar pairs to $0$, dissimilar pairs to at least $m$. But how similar two photographs of one person <em>should</em> be depends on lighting, pose and expression, and one global constant cannot express that. The triplet loss asks only that the positive be closer than the negative by $m$, which is a statement about an ordering rather than about a distance — so a class may occupy as much of the space as it needs, provided it stays separated.</p><p><strong>Why the useful window is exactly $(0, m)$.</strong> Below $0$ there is no gradient: an easy negative already satisfies the margin and the hinge clips it. Above $m$ you are in the hard region, and a hard negative costs the network <em>more</em> than the constant map does — so a diet of them makes collapse the cheaper solution and gradient descent takes it. Semi-hard negatives are precisely those in between: expensive enough to produce a gradient, cheap enough that collapsing would make things worse.</p><p><strong>The number $m$ is what makes the argument work.</strong> $\\phi \\equiv \\mathbf{c}$ gives $\\mathcal{D}_p = \\mathcal{D}_n = 0$, so $\\mathcal{L} = \\max\\{0, 0-0+m\\} = m$ on every triplet — and it is the value everything else is being compared against.</p><p><strong>Also accepted:</strong> “a fixed distance” / “a comparison” or “an ordering”; “it does not force every same-class pair to the same distance”; “between zero and the margin”.</p>",
   "type": "blanks",
   "segments": [
-   "The contrastive loss states an",
+   "The contrastive loss states a target that is",
    null,
-   "target, while the triplet loss states a",
+   ", while the triplet loss states one that is",
    null,
-   "one — which is why the second",
+   ", which is why the second",
    null,
-   ". A negative is useful only when its loss lies",
+   ". A negative is useful only when its loss is",
    null,
    ", because a collapsed encoder pays exactly",
    null,
@@ -12030,18 +12030,18 @@ window.QUESTIONS = [
   ],
   "choices": [
    [
-    "an ordering",
-    "a ranking",
+    "soft",
+    "ordinal",
     "absolute",
     "relative",
-    "a soft"
+    "global"
    ],
    [
-    "a global",
+    "global",
     "relative",
     "absolute",
-    "a fixed-distance",
-    "a hard"
+    "fixed",
+    "hard"
    ],
    [
     "guarantees separation",
@@ -12319,7 +12319,7 @@ window.QUESTIONS = [
   "week": "W1",
   "explanation": "<table class='xt'><tr><th><strong>symptom</strong></th><th><strong>diagnosis</strong></th><th><strong>what to do</strong></th></tr><tr><td>both errors high, flat</td><td>underfitting</td><td>more capacity, train longer, less regularisation</td></tr><tr><td>training down, validation up</td><td>overfitting</td><td>more data, augmentation, regularisation, stop earlier</td></tr><tr><td>many ReLUs at exactly $0$</td><td>dead units</td><td>lower the learning rate, fix the init scale</td></tr><tr><td>gradients near $0$ everywhere</td><td>vanishing gradients</td><td>residuals, better init, a different activation</td></tr></table><p><strong>The first two are the pair most often confused, and they need opposite treatment.</strong> A small gap with both curves high is a model that cannot fit; adding regularisation to it makes matters worse. A widening gap is a model fitting noise. Reading the <em>gap</em> rather than either curve alone is what distinguishes them.</p><p><strong>The last two are both “the gradient is small” and are different faults.</strong> Vanishing gradients are a property of the <em>architecture</em> — a product of many small factors down the depth — and are fixed structurally. Dead ReLUs are a property of the <em>units</em>: the pre-activation is negative for every input, so the output and the gradient are exactly zero and nothing can revive them. The tell is that the activations sit at precisely $0$ rather than merely small.</p>",
   "type": "assign",
-  "stem": "Write next to each symptom the letter of what it indicates:",
+  "stem": "A network is training badly. Write next to each symptom the letter of what it indicates:",
   "labels": [
    "both errors high and flat",
    "training falls, validation rises",
@@ -12346,7 +12346,7 @@ window.QUESTIONS = [
   "week": "W8",
   "explanation": "<p>Each is in the lecture to make one point about what self-supervision and foundation models buy.</p><p><strong>YOLO-World — an open vocabulary.</strong> A CLIP text encoder plus a contrastive objective turns detection from a fixed class list into something you can extend by <em>typing a class name</em>. The demonstration is that the answer set need not be decided at training time.</p><p><strong>SPINO — how little labelling is left.</strong> Panoptic segmentation from <strong>ten</strong> labelled images, on frozen DINOv2 features. The point is not the method but the number: when the representation is good enough, the labelled data required collapses.</p><p><strong>TerrainNet — supervision from an unexpected place.</strong> The labels come from <em>sound</em>: an unsupervised acoustic classifier hears what the vehicle is driving over, and odometry says where that was in the image. A modality nobody was trying to model becomes the annotator.</p><p><strong>TARL — self-supervision beyond images.</strong> Contrastive learning over point-cloud segments across timestamps: the positive pair is the same physical thing seen at two moments, so time supplies the correspondence and no augmentation has to be invented. That is the general case; images, needing manufactured positives, are the odd one.</p>",
   "type": "assign",
-  "stem": "Write next to each system the letter of what it demonstrates:",
+  "stem": "Write next to each named system from the course the letter of what it demonstrates:",
   "labels": [
    "YOLO-World",
    "SPINO",
@@ -13742,7 +13742,7 @@ window.QUESTIONS = [
   "week": "W5",
   "explanation": "<table class='xt'><tr><th><strong>failure</strong></th><th><strong>cause</strong></th><th><strong>what actually helps</strong></th></tr><tr><td>over-smoothing</td><td>repeated averaging</td><td>fewer layers, residuals, jumping knowledge</td></tr><tr><td>over-squashing</td><td>a bottleneck in the graph</td><td>rewiring, a virtual global node</td></tr><tr><td>under-reaching</td><td>the target is further than $L$ hops</td><td><em>more</em> layers, or a global node</td></tr><tr><td>order sensitivity</td><td>a non-symmetric aggregator</td><td>use sum, mean or max — or randomise the order</td></tr></table><p><strong>The three that get confused all look like “the message did not arrive”</strong>, and they need opposite treatment. Under-reaching is the message not <em>existing</em>: the node is more than $L$ hops away and no path of length $L$ reaches it, so adding layers is the cure. Over-squashing is the message existing but being funnelled through a narrow cut and compressed, along with an exponentially growing neighbourhood, into a fixed-size vector. Over-smoothing is everything arriving and averaging into mush, so adding layers makes it <em>worse</em>.</p><p><strong>Which is why “my GNN cannot see far enough, so I will add layers” is a trap.</strong> It fixes under-reaching and causes over-smoothing, and the usual outcome is a deeper model that performs worse for a different reason than the one you started with. The genuine fix for range without depth is to change the graph: a virtual node joined to everything gives every pair a path of length two, at $O(N)$ extra edges and at the cost of partly defeating the point of using a graph at all.</p><p><strong>And the fourth is a different kind of fault entirely.</strong> Order sensitivity is not about the graph; it is about the aggregator. Sum, mean and max are symmetric in their arguments, so the output cannot depend on the order the neighbours were listed. An LSTM aggregator is not, which is why GraphSAGE applies it to randomly permuted neighbourhoods — a deliberate breach of the invariance, bought back statistically in exchange for expressive power.</p>",
   "type": "assign",
-  "stem": "Write next to each failure the letter of its cause:",
+  "stem": "Write next to each failure mode of a graph neural network the letter of its cause:",
   "labels": [
    "over-smoothing",
    "over-squashing",
@@ -13769,7 +13769,7 @@ window.QUESTIONS = [
   "week": "W10",
   "explanation": "<p><strong>VAE $\\to$ a lower bound.</strong> The ELBO is what is maximised, and it equals the log-likelihood minus $\\mathrm{KL}(q \\Vert p)$ — a non-negative gap you cannot measure. So a VAE's reported number is a bound on the likelihood, not the likelihood, and comparing two VAEs by it compares bounds of unknown tightness.</p><p><strong>GAN $\\to$ nothing.</strong> There is no density anywhere in the model. The generator is a map from noise to samples, and asking it for $p(\\mathbf{x})$ is not a hard computation — it is a question the object does not answer. Evaluation therefore falls back to sample statistics: FID, Inception score, human judgement, all of which measure something correlated with quality rather than quality itself.</p><p><strong>Flow $\\to$ the exact number.</strong> Change of variables gives $\\log p(\\mathbf{x}) = \\log p(\\mathbf{z}) + \\log\\lvert\\det \\partial\\mathbf{z}/\\partial\\mathbf{x}\\rvert$ with no approximation — and the price is paid in the architecture, which must be invertible with a tractable Jacobian determinant, so the layers you are permitted to use are severely restricted. Exactness bought with expressiveness.</p><p><strong>Diffusion $\\to$ a bound, through extra machinery.</strong> Training is a denoising regression, and it is a bound on the likelihood only after some derivation. A likelihood can be extracted via the probability-flow ODE, but that is additional apparatus rather than something the training objective hands you.</p><p><strong>The point the row makes together, and it is worth the sentence:</strong> likelihood is not the same thing as sample quality. Flows report exact numbers and produce less impressive images than GANs, which report nothing. And a high likelihood does not even mean in-distribution — models routinely assign higher likelihood to a different dataset than to their own test set.</p>",
   "type": "assign",
-  "stem": "Write next to each family the letter of what it can honestly report:",
+  "stem": "Write next to each family of generative model the letter of what it can honestly report about its own likelihood:",
   "labels": [
    "VAE",
    "GAN",

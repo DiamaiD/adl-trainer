@@ -88,6 +88,7 @@ function saveSync() {
 }
 
 let SITTING = false;                   // an exam is on screen and unsubmitted
+let DRILL = null;                      // the practice run in progress, if any
 let tokenDraft = '';                   // kept so a failed Connect need not retype
 let syncState = { busy: false, msg: '', bad: false };
 function syncSay(msg, bad) {
@@ -506,7 +507,8 @@ function card(q, idx, ans, mode, onChange) {
       const o = el('div', cls);
       o.appendChild(el('span', 'box'));
       o.appendChild(el('span', 'txt', text));
-      if (marked && right && !chosen) o.appendChild(el('span', 'why', 'missed'));
+      if (marked && right && !chosen)
+        o.appendChild(el('span', 'why missed', 'missed'));
       if (marked && !right && chosen) o.appendChild(el('span', 'why', 'wrongly picked'));
       if (!lock) o.addEventListener('click', () => {
         if (q.type === 'single') ans.splice(0, ans.length, i);
@@ -736,6 +738,8 @@ let VIEW = 'home';
 function show(view) {
   VIEW = view;
   SITTING = false;              // runExam sets it again if a paper is started
+  // navigating away ends the practice run; drillOne re-saves it on the way in
+  if (view !== 'drill') { DRILL = null; saveDrill(null); }
   document.querySelectorAll('#nav button')
     .forEach(b => b.classList.toggle('on', b.dataset.view === view));
   main().innerHTML = '';
@@ -787,6 +791,27 @@ function vHome() {
  * remembered -- separately per screen, and outside the synced progress, since
  * it is about this machine's habits and not about what has been learned. */
 const PREF_KEY = 'adl.trainer.prefs.v1';
+/* A practice run lived only in memory, so a reload -- or Chrome discarding a
+ * backgrounded tab -- threw away both the queue and the running tally. It is
+ * cheap to keep: the question ids, where you are in them, and the score. */
+const DRILL_KEY = 'adl.trainer.drill.v1';
+function saveDrill(state) {
+  try {
+    if (state) localStorage.setItem(DRILL_KEY, JSON.stringify(state));
+    else localStorage.removeItem(DRILL_KEY);
+  } catch (e) { /* full or blocked; the run still works, it just will not resume */ }
+}
+function loadDrill() {
+  try {
+    const d = JSON.parse(localStorage.getItem(DRILL_KEY));
+    if (!d || !Array.isArray(d.ids)) return null;
+    const pool = d.ids.map(id => DB.find(q => q.id === id)).filter(Boolean);
+    // a rebuilt database can drop a question out from under a saved run
+    if (pool.length !== d.ids.length) return null;
+    return { pool: pool, i: d.i, tally: d.tally,
+             state: Array.isArray(d.state) ? d.state : null };
+  } catch (e) { return null; }
+}
 let P = {};
 try { P = JSON.parse(localStorage.getItem(PREF_KEY)) || {}; } catch (e) { P = {}; }
 const savePrefs = () => {
@@ -1022,69 +1047,85 @@ function vDrill() {
     const pool = pick(DB.length, f.weeks(), f.types());
     if (!pool.length) { alert('No questions match that filter.'); return; }
     f.remember();
-    drillOne(pool, 0, { right: 0, done: 0 });
+    drillOne(pool, 0, { right: 0, done: 0 }, null);
   });
   m.appendChild(go);
 }
 
-function drillOne(pool, i, tally) {
+function drillOne(pool, i, tally, state) {
   const m = main();
   m.innerHTML = '';
+  /* The answers live in `state`, one entry per question, so Back can re-open a
+     question exactly as it was left -- marked, with its explanation showing --
+     and so a reload can restore the whole run. */
+  state = state || pool.map(() => null);
+  DRILL = { pool: pool, i: i, tally: tally, state: state };
+  saveDrill(i >= pool.length ? null : {
+    ids: pool.map(q => q.id), i: i, tally: tally, state: state
+  });
+
   if (i >= pool.length) {
     m.appendChild(el('h1', null, 'Done'));
-    m.appendChild(el('p', 'lead',
-      `${tally.right} of ${tally.done} correct.`));
+    m.appendChild(el('p', 'lead', `${tally.right} of ${tally.done} correct.`));
     const b = el('button', 'go', 'Back to practice');
     b.addEventListener('click', () => show('drill'));
     m.appendChild(b);
     return;
   }
-  const q = pool[i];
-  countUse([q.id]);
-  /* every type mutates its answer in place except numeric, which is a plain
-     string and so is handed back through the change callback */
-  let ans = emptyAnswer(q);
-  let marked = false;
 
-  m.appendChild(el('p', 'lead',
-    `Question ${i + 1} of ${pool.length} · ${tally.right}/${tally.done} correct so far`));
+  const q = pool[i];
+  if (!state[i]) {
+    state[i] = { ans: emptyAnswer(q), marked: false, gave: 0, counted: false };
+    countUse([q.id]);              // only the first time this one is served
+  }
+  const st = state[i];
+
+  m.appendChild(el('p', 'lead', `Question ${i + 1} of ${pool.length} · ${tally.right}/${tally.done} correct so far`));
   const holder = el('div'); m.appendChild(holder);
   const foot = el('div'); m.appendChild(foot);
 
-  /* settle() is idempotent, so changing your mind about a self-mark corrects
-     the running tally instead of adding to it a second time */
-  let counted = false, gave = 0;
+  /* settle() is idempotent across visits as well as within one: `counted` and
+     `gave` are stored with the question, so revisiting it corrects the running
+     tally rather than adding to it again. */
   const settle = () => {
-    if (!counted) { tally.done++; counted = true; }
-    const now = isRight(q, ans) ? 1 : 0;
-    tally.right += now - gave;
-    gave = now;
+    const now = isRight(q, st.ans) ? 1 : 0;
+    if (!st.counted) { tally.done++;  st.counted = true; }
+    tally.right += now - st.gave;
+    st.gave = now;
   };
 
   const paint = () => {
     holder.innerHTML = ''; foot.innerHTML = '';
-    holder.appendChild(card(q, null, ans, marked ? 'marked' : 'answer',
-      v => { if (v === 'self') { settle(); paint(); } }));
-    if (!marked) {
+    holder.appendChild(card(q, null, st.ans, st.marked ? 'marked' : 'answer',
+      v => { if (v === 'self') { settle(); paint(); } saveDrill({
+               ids: pool.map(x => x.id), i: i, tally: tally, state: state }); }));
+    const back = el('button', 'go ghost', '\u2190 Back');
+    back.disabled = i === 0;
+    back.addEventListener('click', () => drillOne(pool, i - 1, tally, state));
+    if (!st.marked) {
       const b = el('button', 'go', 'Submit');
       b.addEventListener('click', () => {
-        marked = true;
-        if (!isPending(q, ans)) settle();   // written ones wait for your mark
+        st.marked = true;
+        if (!isPending(q, st.ans)) settle();  // written ones wait for your mark
         paint();
         window.scrollTo(0, 0);
       });
-      foot.appendChild(b);
+      back.style.marginLeft = '10px';
+      foot.append(b, back);
     } else {
-      const next = el('button', 'go', 'Next →');
-      next.addEventListener('click', () => drillOne(pool, i + 1, tally));
+      const next = el('button', 'go', 'Next \u2192');
+      next.addEventListener('click', () => drillOne(pool, i + 1, tally, state));
+      back.style.marginLeft = '10px';
       const stop = el('button', 'go ghost', 'Stop here');
       stop.style.marginLeft = '10px';
-      stop.addEventListener('click', () => drillOne(pool, pool.length, tally));
-      foot.append(next, stop);
+      stop.addEventListener('click', () =>
+        drillOne(pool, pool.length, tally, state));
+      foot.append(next, back, stop);
     }
   };
   paint();
 }
+
 
 /* -------------------------------------------------------------- database */
 function vBrowse() {
@@ -1276,6 +1317,33 @@ $('#reset').addEventListener('click', () => {
   }
 });
 
-show('home');
+/* A practice run left unfinished is picked up where it was, rather than
+ * silently discarded -- reloading used to cost you the queue and the score. */
+const RESUME = loadDrill();
+if (RESUME) {
+  show('drill');
+  drillOne(RESUME.pool, RESUME.i, RESUME.tally, RESUME.state);
+} else {
+  show('home');
+}
+
+/* Chrome may discard a backgrounded tab and restore it with an empty document,
+ * which is the blank page you get after switching away and back. Nothing in the
+ * app can prevent the discard, but it can notice and redraw itself. */
+function repaintIfBlank() {
+  if (document.visibilityState !== 'visible') return;
+  const m = document.getElementById('main');
+  if (m && m.children.length === 0) {
+    if (DRILL && DRILL.i < DRILL.pool.length) {
+      drillOne(DRILL.pool, DRILL.i, DRILL.tally, DRILL.state);
+    } else if (!SITTING) {
+      show(VIEW);
+    }
+  }
+}
+document.addEventListener('visibilitychange', repaintIfBlank);
+window.addEventListener('pageshow', repaintIfBlank);
+window.addEventListener('focus', repaintIfBlank);
+
 /* Pick up whatever the other device did, before anything is answered here. */
 if (syncOn()) syncNow(true);

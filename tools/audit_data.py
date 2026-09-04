@@ -49,6 +49,69 @@ KATEX_OK = set("""
 """.split())
 
 
+
+# ---------------------------------------------------------------------------
+# A fill-in option that makes the sentence ungrammatical can be discarded
+# without knowing anything, which defeats the question. Twenty-one blanks
+# shipped that way before anyone read the sentences aloud.
+#
+# "one", "uniform" and friends start with a vowel *letter* and a consonant
+# *sound*, so they take "a" -- the exceptions below are the whole reason this
+# check is precise enough to be worth failing a build over.
+CONSONANT_SOUND = ("one", "uni", "eu", "ubiq", "user", "usual", "util")
+VOWEL_SOUND = ("hour", "honest", "heir")
+FRAME_VERBS = ("lies", "lie", "sits", "sit", "falls", "fall")
+
+
+def _takes_an(word):
+    w = word.lower().lstrip("$\\{(")
+    if w.startswith(CONSONANT_SOUND):
+        return False
+    if w.startswith(VOWEL_SOUND):
+        return True
+    return bool(w) and w[0] in "aeiou"
+
+
+def blank_grammar(db, distractors):
+    """[(qid, blank, why)] for every option that breaks its own sentence."""
+    out = []
+    for q in db:
+        if q.get("type") != "blanks":
+            continue
+        pools = distractors.get(q["id"], [])
+        before, cur = [], ""
+        for s in q.get("segments", []):
+            if s is None:
+                before.append(cur)
+                cur = ""
+            else:
+                cur = s
+        for k, ans in enumerate(q.get("answers", [])):
+            opts = [ans] + [w for w in (pools[k] if k < len(pools) else [])
+                            if w != ans]
+            pre = " ".join(re.sub(r"<[^>]+>", " ", before[k] if k < len(before)
+                                  else "").split())
+            last = (re.split(r"\s+", pre)[-1].lower().strip(".,;:")
+                    if pre else "")
+            for o in opts:
+                t = re.sub(r"<[^>]+>", "", o).strip()
+                low = t.lower()
+                if last in ("a", "an", "the") and re.match(r"(a|an|the)\s", low):
+                    out.append((q["id"], k + 1,
+                                '"%s %s" -- two articles' % (last, t)))
+                elif last == "a" and _takes_an(t):
+                    out.append((q["id"], k + 1, '"a %s" -- wants "an"' % t))
+                elif last == "an" and t[:1].isalpha() and not _takes_an(t):
+                    out.append((q["id"], k + 1, '"an %s" -- wants "a"' % t))
+                elif last in FRAME_VERBS and not re.match(
+                        r"(strictly |just )?(between|at|in|on|of|to|from|by|"
+                        r"with|over|under|within|above|below|no |more |less )",
+                        low):
+                    out.append((q["id"], k + 1,
+                                '"%s %s" -- not a phrase that verb can take'
+                                % (last, t)))
+    return out
+
 def fields(q):
     out = [("stem", q.get("stem", "")), ("answer", q.get("answer", "")),
            ("explanation", q.get("explanation", ""))]
@@ -158,6 +221,11 @@ def main():
         if f.endswith(".svg") and f not in used:
             bad_fig.append("%s: rendered but no question shows it" % f)
 
+
+    # every fill-in option has to read in its own sentence
+    sys.path.insert(0, os.path.join(HERE, "tools"))
+    from blank_options import DISTRACTORS
+    bad_blank = blank_grammar(db, DISTRACTORS)
     nfig = sum(len(v) for d in figmap.values() for v in d.values())
     print("%d questions checked, %d figures on %d of them"
           % (len(db), nfig, len(figmap)))
@@ -167,6 +235,11 @@ def main():
         print("\nFigure problems:")
         for b in bad_fig:
             print("   " + b)
+    if bad_blank:
+        fail = True
+        print("\nFill-in options that break their own sentence:")
+        for qid, k, why in bad_blank:
+            print("   %s blank %d: %s" % (qid, k, why))
     if bad_text:
         fail = True
         print("\nLaTeX left in visible text:")
