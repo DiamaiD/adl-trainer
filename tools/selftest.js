@@ -158,6 +158,25 @@
     rightCard.querySelectorAll('.blankfix').length === 0);
   fbCard.remove();
 
+  /* --- a blank that ends a sentence keeps its full stop ---------------- */
+  const punc = QUESTIONS.filter(q => q.type === 'blanks'
+    && q.segments.some((s, i) => i > 0 && q.segments[i - 1] === null
+      && typeof s === 'string' && /^\s*[.,;:!?)]/.test(s)));
+  t('blanks: some blank ends a sentence, so this is worth testing',
+    punc.length > 0);
+  const puncCard = card(punc[0], null, emptyAnswer(punc[0]), 'answer', () => {});
+  document.body.appendChild(puncCard);
+  const glued = puncCard.querySelectorAll('.glued');
+  t('blanks: the trailing punctuation is glued to its dropdown',
+    glued.length > 0);
+  t('blanks: and the pair cannot be broken across lines',
+    Array.from(glued).every(g => getComputedStyle(g).whiteSpace === 'nowrap'
+      && g.querySelector('.dd') && /^[.,;:!?)]+$/.test(g.lastChild.textContent)));
+  t('blanks: no segment is left starting with a stranded full stop',
+    Array.from(puncCard.querySelectorAll('.blanks > .seg'))
+      .every(s => !/^\s*[.,;:!?)]/.test(s.textContent)));
+  puncCard.remove();
+
   /* --- explanations must not contain render junk ---------------------- */
   const junk = /7pt|@\{\}|tabcolsep|<strong><\/strong>/;
   const dirty = QUESTIONS.filter(q => junk.test(q.explanation || ''));
@@ -255,6 +274,27 @@
     t('multi: and the label is red',
       !!miss && getComputedStyle(miss).color === 'rgb(169, 50, 38)');
     c.remove();
+  })();
+
+  /* --- references to other questions resolve on the card --------------- */
+  const strip = s => String(s || '').replace(/<[^>]*>/g, '');
+  t('no stem or option names another question by number',
+    QUESTIONS.every(q => !/\bQ\d+\b/.test(strip(q.stem) +
+      strip((q.options || []).join(' ')) + strip((q.segments || []).join(' ')))));
+  (function () {
+    const withRef = QUESTIONS.find(q => /\bQ\d+\b/.test(strip(q.explanation)));
+    t('some explanation refers to another question, so this is worth testing', !!withRef);
+    if (withRef) {
+      const c = card(withRef, null, emptyAnswer(withRef), 'reveal', () => {});
+      document.body.appendChild(c);
+      const refs = c.querySelectorAll('.expl .qref');
+      t('the reference is rendered as a note', refs.length > 0);
+      t('and the note carries the referenced stem',
+        Array.from(refs).every(r => (r.getAttribute('title') || '').length > 12));
+      c.remove();
+    }
+    const out = linkRefs('see $Q_1$ only', QUESTIONS[0]);
+    t('maths is left alone by the resolver', out === 'see $Q_1$ only');
   })();
 
   /* --- report --------------------------------------------------------- */

@@ -146,7 +146,11 @@ def main():
     #   layout leftovers     -> a multi-argument layout command dropped only
     #     its first argument, so "7pt" is now a paragraph of the answer
     bad_render = []
-    LEFTOVERS = ("7pt", "@{}", "tabcolsep", "c c c@", "\\setlength")
+    # "tabular": a converted table never prints its own environment name, so
+    # seeing it means one was not converted -- a tabular nested in a tabular
+    # cell, which printed "tabular@c|cc@" and merged five tables into nonsense.
+    # "@{}" does not catch it: the grouping-brace strip leaves "@cc@" behind.
+    LEFTOVERS = ("7pt", "@{}", "tabcolsep", "c c c@", "\\setlength", "tabular")
     for q in db:
         for where, val in fields(q):
             if not val:
@@ -161,6 +165,12 @@ def main():
                 if junk in val:
                     bad_render.append("%s.%s: layout leftover %r"
                                       % (q["id"], where, junk))
+            # A card is read on its own. "the stack of Q42" is unanswerable
+            # there, so a stem or option that points at another question by
+            # number is a defect; the explanation may still refer back.
+            if where != "explanation" and re.search(r"\bQ\d+\b", re.sub(r"<[^>]*>", "", val)):
+                bad_render.append("%s.%s: refers to another question by number"
+                                  % (q["id"], where))
             outside = math_re.sub(" ", val)
             for c in cmd_re.findall(outside):
                 bad_text.setdefault(c, []).append(q["id"] + "." + where)

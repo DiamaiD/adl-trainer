@@ -14,6 +14,7 @@ import random
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import latex2html as L
 from blank_options import DISTRACTORS
 from numeric_expected import EXPECTED
 
@@ -52,7 +53,9 @@ def main():
                                 % (q["id"], len(bad), bad[:2]))
                 continue
             q["expected"] = [v for _, v in want]
-            q["expectLabels"] = [lab for lab, _ in want]
+            # through the same converter as everything else, or a label writes
+            # "multiply--adds" on the page where the question says "multiply-adds"
+            q["expectLabels"] = [L.text(lab) for lab, _ in want]
             continue
         if q["type"] != "blanks":
             continue

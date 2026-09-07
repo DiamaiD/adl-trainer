@@ -217,6 +217,11 @@ def _plain(s):
         s = s.replace(c, "")
     for sp in SPACES:
         s = s.replace(sp, " ")
+    # A blank written "\rule{2.6cm}{0.4pt}\;," leaves a space in front of the
+    # comma. On paper that space is the gap after the answer line; on the page
+    # it strands the comma, and a line break can put it alone at the start of
+    # the next line. Punctuation never wants a space before it.
+    s = re.sub(r"[ \t]+([,.;:!?])", r"\1", s)
     s = s.replace("---", "\u2014").replace("--", "\u2013")
     s = s.replace("``", "\u201c").replace("''", "\u201d")
     s = s.replace(r"\%", "%").replace(r"\&", "&amp;").replace(r"\_", "_")
@@ -232,6 +237,9 @@ def text(s):
     """LaTeX body text -> HTML, with $...$ handed to KaTeX untouched."""
     s = re.sub(r"(?<!\\)%.*", "", s)
     s = s.replace("\n", " ")
+    # "\\[3pt]" is a line break with extra space, but its second half reads as
+    # the start of display maths, and everything after it was left unconverted.
+    s = re.sub(r"\\\\\[[^\]]*\]", r"\\\\", s)
     # before _convert, which walks the string breaking at every backslash --
     # so it would hand \setlength{\tabcolsep}{7pt} to the dropper in pieces
     s = _drop_all_args(s)

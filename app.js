@@ -466,9 +466,32 @@ function addFigs(box, q, side) {
   });
   box.appendChild(wrap);
 }
+/* "See Q42" inside an explanation is a dead pointer on a card. Each such
+ * reference becomes an inline note carrying the referenced question's stem,
+ * so the reader has the context without leaving the card. Same paper unless
+ * the text says "paper 0N" next to it. Tags and $maths$ are left untouched. */
+function stemText(t) {
+  let s = t.stem || (t.segments ? t.segments.map(x => x === null ? '___' : x).join(' ') : '');
+  s = s.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  return s.length > 320 ? s.slice(0, 317) + '...' : s;
+}
+function linkRefs(html, q) {
+  if (!/\bQ\d+\b/.test(html)) return html;
+  const attr = s => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+                      .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const re = /(<[^>]*>|\$[^$]*\$)|(?:(?:paper|exam)\s*0?(\d+)(?:'s)?\s+)?\bQ(\d+)\b(?:\s+of\s+(?:paper|exam)\s*0?(\d+))?/gi;
+  return html.replace(re, (m, keep, p1, num, p2) => {
+    if (keep) return keep;
+    const exam = +(p1 || p2 || q.exam);
+    const t = QUESTIONS.find(x => x.exam === exam && x.num === +num);
+    if (!t) return m;
+    return '<span class="qref" title="' + attr('Exam ' + exam + ', Q' + num + ': ' + stemText(t))
+      + '">' + m + '</span>';
+  });
+}
 /* an explanation block, with the answer's figures under it */
 function explain(q, title, html) {
-  const d = el('div', 'expl', '<h4>' + title + '</h4>' + html);
+  const d = el('div', 'expl', '<h4>' + title + '</h4>' + linkRefs(html, q));
   addFigs(d, q, 'a');
   return d;
 }
@@ -583,6 +606,7 @@ function card(q, idx, ans, mode, onChange) {
     const p = el('div', 'blanks');
     let b = 0;
     let lastFix = null;          // so a correction followed by "." closes up
+    let lastDD = null;           // so a blank that ends a sentence keeps its "."
     q.segments.forEach(seg => {
       if (seg === null) {
         const k = b++;
@@ -592,6 +616,7 @@ function card(q, idx, ans, mode, onChange) {
         if (reveal) dd.btn.classList.add('ok');
         if (marked) dd.btn.classList.add(ans[k] === q.correct[k] ? 'ok' : 'bad');
         p.appendChild(dd.node);
+        lastDD = dd.node;
         if (marked && ans[k] !== q.correct[k]) {
           // its own class, not .answer-was: that one is a block used by the
           // numeric branch, and inline it left the correction glued to the
@@ -601,13 +626,25 @@ function card(q, idx, ans, mode, onChange) {
           w.appendChild(el('span', 'to', choices[q.correct[k]]));
           p.appendChild(w);
           lastFix = w;
+          lastDD = null;
         }
       } else {
-        if (lastFix && /^\s*[.,;:!?)]/.test(seg.replace(/<[^>]*>/g, ''))) {
-          lastFix.classList.add('tight');
+        // A blank that ends a sentence leaves the next segment starting with
+        // the full stop. Rendered as an ordinary span the browser may break the
+        // line in front of it, stranding ". Wrapping it in" at the left margin.
+        const lead = /^\s*([.,;:!?)]+)/.exec(seg);
+        if (lastFix && lead) lastFix.classList.add('tight');
+        if (lastDD && lead && !lastFix) {
+          const nw = el('span', 'glued');
+          p.removeChild(lastDD);
+          nw.appendChild(lastDD);
+          nw.appendChild(el('span', 'seg', lead[1]));
+          p.appendChild(nw);
+          seg = seg.slice(lead[0].length);
         }
         lastFix = null;
-        p.appendChild(el('span', 'seg', seg));
+        lastDD = null;
+        if (seg.trim()) p.appendChild(el('span', 'seg', seg));
       }
     });
     box.appendChild(p);
@@ -762,7 +799,7 @@ function vHome() {
   const m = main();
   m.appendChild(el('h1', null, 'Advanced Deep Learning — trainer'));
   m.appendChild(el('p', 'lead',
-    `${DB.length} questions across weeks 1–11, pulled from the three practice papers.`));
+    `${DB.length} questions across weeks 1–11, pulled from the ten practice papers.`));
   const cards = el('div', 'cards');
   const add = (view, title, text) => {
     const c = el('div', 'card');
@@ -1110,17 +1147,18 @@ function drillOne(pool, i, tally, state) {
         paint();
         window.scrollTo(0, 0);
       });
-      back.style.marginLeft = '10px';
-      foot.append(b, back);
+      // reading order matches direction: Back on the left, forward on the right
+      b.style.marginLeft = '10px';
+      foot.append(back, b);
     } else {
       const next = el('button', 'go', 'Next \u2192');
       next.addEventListener('click', () => drillOne(pool, i + 1, tally, state));
-      back.style.marginLeft = '10px';
+      next.style.marginLeft = '10px';
       const stop = el('button', 'go ghost', 'Stop here');
       stop.style.marginLeft = '10px';
       stop.addEventListener('click', () =>
         drillOne(pool, pool.length, tally, state));
-      foot.append(next, back, stop);
+      foot.append(back, next, stop);
     }
   };
   paint();
