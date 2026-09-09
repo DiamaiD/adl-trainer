@@ -212,6 +212,41 @@ def rename_cmd_math_aware(s, old, text_new, math_new, in_math=False):
     return "".join(out)
 
 
+# ------------------------------------------------------ marking schemes
+# A written answer ends with \begin{markscheme}{N} \mk{p}{text} ... which the
+# site turns into a self-marking checklist. It is lifted out of the
+# explanation here (the list would otherwise print twice) and kept per
+# question number, filled in by explanations() and read by build().
+SCHEMES = {}
+
+
+def lift_schemes(chunk):
+    """(chunk without its markscheme, [{"pts": p, "text": html}] or None)."""
+    m = re.search(r"\\begin\{markscheme\}\{(\d+)\}(.*?)\\end\{markscheme\}", chunk, re.S)
+    if not m:
+        return chunk, None
+    body, items, i = m.group(2), [], 0
+    while True:
+        j = body.find(r"\mk{", i)
+        if j < 0:
+            break
+        k = body.index("}", j)
+        pts = int(body[j + 4:k])
+        depth, t0, t = 0, k + 1, k + 1          # the text may nest braces
+        while True:
+            if body[t] == "{":
+                depth += 1
+            elif body[t] == "}":
+                depth -= 1
+                if depth == 0:
+                    break
+            t += 1
+        items.append({"pts": pts, "text": L.text(body[t0 + 1:t])})
+        i = t + 1
+    rest = chunk[:m.start()] + chunk[m.end():]
+    return rest, {"total": int(m.group(1)), "items": items}
+
+
 # --------------------------------------------------------- explanations
 def explanations(tag):
     """question number -> (explanation HTML, had a figure we could not bring).
@@ -256,6 +291,9 @@ def explanations(tag):
             if 0 <= sec < end:
                 end = sec
             chunk = txt[m.end():end]
+            chunk, scheme = lift_schemes(chunk)
+            if scheme:
+                SCHEMES[(tag, n)] = scheme
             chunk = chunk.replace(r"\end{keybox}", "\n\n")
             chunk = re.sub(r"\\begin\{(keybox|exbox|pitbox|exambox)\}(\[[^\]]*\])?",
                            "\n\n", chunk)
@@ -345,9 +383,15 @@ def build():
                 # The pictures themselves come from tools/figures.py, which
                 # renders them to SVG and keys them by question id; there is no
                 # flag to keep in step here.
+                stem = re.sub(r"\\qpts\{[^}]*\}", "", stem)
                 rec.update(type="written", sub=sub,
                            lines=int(lines.group(1)) if lines else 8,
                            stem=L.text(L.strip_env(stem, ["tikzpicture", "center"])))
+                # what the points are given for: the site's self-marking checklist
+                scheme = SCHEMES.get((tag, num))
+                if scheme:
+                    rec["scheme"] = scheme["items"]
+                    rec["pts"] = scheme["total"]
                 db.append(rec)
                 continue
     return db

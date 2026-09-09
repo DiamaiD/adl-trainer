@@ -199,6 +199,22 @@ def main():
             bad_shape.append("%s: labels/answers mismatch" % q["id"])
         if not q.get("explanation"):
             bad_shape.append("%s: no explanation" % q["id"])
+        # A written question is worth its points and its answer says what
+        # they are for; the site's checklist adds the item points up, so
+        # they must sum to the question's value.
+        if t == "written":
+            sch = q.get("scheme")
+            if not sch:
+                bad_shape.append("%s: written question without a marking scheme" % q["id"])
+            elif not q.get("pts"):
+                bad_shape.append("%s: marking scheme but no point value" % q["id"])
+            elif sum(it["pts"] for it in sch) != q["pts"]:
+                bad_shape.append("%s: scheme items sum to %d, question is worth %d"
+                                 % (q["id"], sum(it["pts"] for it in sch), q["pts"]))
+            elif any(not it["text"].strip() for it in sch):
+                bad_shape.append("%s: a scheme item has no text" % q["id"])
+            if "markscheme" in q.get("explanation", "") or "\\mk{" in q.get("explanation", ""):
+                bad_shape.append("%s: marking scheme left inside the explanation" % q["id"])
         # A continuation box that opens its own chunk gets appended twice, and
         # the result reads perfectly well -- so it is only ever caught here.
         paras = [re.sub(r"<[^>]+>", "", p).strip()

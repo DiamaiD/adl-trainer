@@ -31,7 +31,8 @@ function save() {
  * order-independent, so syncing twice, or syncing the other way round, gives
  * the same answer. */
 const selfMarked = h => (h.answers || [])
-  .filter(a => a && typeof a === 'object' && (a.self === true || a.self === false))
+  .filter(a => a && typeof a === 'object'
+    && (a.self === true || a.self === false || Array.isArray(a.self)))
   .length;
 
 function merge(a, b) {
@@ -383,10 +384,36 @@ function isRight(q, a) {
       numericHits(q, a).every(Boolean);
     /* nothing can mark an essay or a sketch, so you do -- until you have, it
      * is neither right nor wrong, which `pending` below reports separately */
-    case 'written': return !!(a && a.self === true);
+    case 'written': return !!a && a.self !== null && a.self !== undefined
+      && writtenGot(q, a) === maxMarks(q);
   }
   return false;
 }
+
+/* How many marks a question is worth, and how many you got. Every machine-
+ * marked question is one mark. A written question is worth its point value,
+ * and its answer carries a marking scheme -- "2 marks: names the collider
+ * ...". You tick the items your answer contained and the marks add up, so
+ * three of five is three. A record marked before the schemes existed holds
+ * true/false: full marks or none. */
+const hasScheme = q => q.type === 'written' && Array.isArray(q.scheme) && q.scheme.length > 0;
+const maxMarks = q => hasScheme(q) ? q.pts : 1;
+function writtenGot(q, a) {
+  if (!a || a.self === null || a.self === undefined) return 0;
+  if (a.self === true) return maxMarks(q);
+  if (a.self === false) return 0;
+  if (Array.isArray(a.self) && hasScheme(q)) {
+    return q.scheme.reduce((n, it, k) => n + (a.self[k] ? it.pts : 0), 0);
+  }
+  return 0;
+}
+function marks(q, a) {
+  if (q.type === 'written') return { max: maxMarks(q), got: writtenGot(q, a) };
+  return { max: 1, got: isRight(q, a) ? 1 : 0 };
+}
+const totalMarks = qs => qs.reduce((n, q) => n + maxMarks(q), 0);
+const gotMarks = (qs, answers) =>
+  qs.reduce((n, q, i) => n + marks(q, answers[i]).got, 0);
 const isPending = (q, a) => q.type === 'written' && (!a || a.self === null);
 
 function answered(q, a) {
@@ -497,23 +524,73 @@ function explain(q, title, html) {
 }
 
 /* ---------------------------------------------------------- render a card */
+/* The marking scheme of a written question: what the points are given for.
+ * In the database it is a plain list; after a submit it is a checklist -- tick
+ * the items your answer contained and the marks add up. An answer marked
+ * before the schemes existed (self true/false) shows as all or none ticked. */
+function schemeList(q, ans, onChange) {
+  const live = !!onChange;
+  const ticks = Array.isArray(ans && ans.self) ? ans.self.slice()
+    : q.scheme.map(() => !!(ans && ans.self === true));
+  const wrap = el('div', 'scheme' + (live ? ' live' : ''));
+  const got = q.scheme.reduce((n, it, k) => n + (ticks[k] ? it.pts : 0), 0);
+  wrap.appendChild(el('div', 'scheme-h', live
+    ? `Tick what your answer contained — <b>${got} of ${q.pts}</b> marks`
+    : `Marking scheme — ${q.pts} marks`));
+  q.scheme.forEach((it, k) => {
+    const row = el(live ? 'button' : 'div', 'mkrow' + (live && ticks[k] ? ' on' : ''));
+    if (live) row.type = 'button';
+    row.appendChild(el('span', 'mkbox', live && ticks[k] ? '✓' : ''));
+    row.appendChild(el('span', 'mkpts', it.pts + (it.pts === 1 ? ' mark' : ' marks')));
+    row.appendChild(el('span', 'mktext', it.text));
+    if (live) {
+      row.addEventListener('click', () => {
+        ticks[k] = !ticks[k];
+        ans.self = ticks.slice();
+        onChange('self');
+      });
+    }
+    wrap.appendChild(row);
+  });
+  if (live) {
+    const quick = el('div', 'scheme-quick');
+    [['all of it', true], ['none of it', false]].forEach(([text, val]) => {
+      const b = el('button', 'link', text);
+      b.addEventListener('click', () => {
+        ans.self = q.scheme.map(() => val);
+        onChange('self');
+      });
+      quick.appendChild(b);
+    });
+    wrap.appendChild(quick);
+  }
+  return wrap;
+}
+
 /* mode: 'answer' | 'marked' | 'reveal'  (reveal = database browser) */
 function card(q, idx, ans, mode, onChange) {
   const marked = mode === 'marked', reveal = mode === 'reveal';
   const lock = marked || reveal;
   const pending = marked && isPending(q, ans);
   const ok = marked ? isRight(q, ans) : null;
+  // a written answer can be part right: some marks, not all
+  const mk = marked ? marks(q, ans) : null;
+  const partial = marked && !pending && !ok && mk.got > 0;
 
   const box = el('div', 'q' + (marked
-    ? (pending ? ' pending' : ok ? ' right' : ' wrong') : ''));
+    ? (pending ? ' pending' : ok ? ' right' : partial ? ' partial' : ' wrong') : ''));
   const head = el('div', 'qhead');
   if (idx !== null) head.appendChild(el('span', 'qnum', 'Q' + (idx + 1)));
   head.appendChild(el('span', 'tag', q.week));
   head.appendChild(el('span', 'tag', label(q)));
   head.appendChild(el('span', 'tag', 'exam ' + q.exam + ' · Q' + q.num));
+  // a written question is worth its points, and says so
+  if (q.pts) head.appendChild(el('span', 'tag pts', q.pts + ' points'));
   if (marked) {
-    head.appendChild(el('span', 'pill ' + (pending ? 'a' : ok ? 'g' : 'r'),
-      pending ? 'mark yourself' : ok ? 'correct' : 'wrong'));
+    const text = pending ? 'mark yourself'
+      : hasScheme(q) ? `${mk.got} / ${mk.max} marks`
+      : ok ? 'correct' : 'wrong';
+    head.appendChild(el('span', 'pill ' + (pending || partial ? 'a' : ok ? 'g' : 'r'), text));
   }
   box.appendChild(head);
   if (q.stem) box.appendChild(el('div', 'stem', q.stem));
@@ -735,7 +812,9 @@ function card(q, idx, ans, mode, onChange) {
     /* the model answer is always shown once submitted -- the site cannot tell
      * whether you were right, so you need to see it in order to decide */
     if (lock) box.appendChild(explain(q, 'Model answer', q.explanation));
-    if (marked) {
+    if (lock && hasScheme(q)) {
+      box.appendChild(schemeList(q, ans, marked ? onChange : null));
+    } else if (marked) {
       const bar = el('div', 'selfmark');
       bar.appendChild(el('span', 'sm-q', 'Did you get it right?'));
       [['right', true, 'I got it right'], ['wrong', false, 'I got it wrong']]
@@ -965,8 +1044,11 @@ function runExam(qs, restore) {
   m.appendChild(foot);
   const nodes = [];
 
+  // marks, not questions: a written question is worth its points, and a
+  // part-right answer to it counts the points it earned
   const tally = () => ({
-    right: qs.filter((q, i) => isRight(q, answers[i])).length,
+    right: gotMarks(qs, answers),
+    outOf: totalMarks(qs),
     pending: qs.filter((q, i) => isPending(q, answers[i])).length
   });
 
@@ -979,11 +1061,11 @@ function runExam(qs, restore) {
       return;
     }
     const t = tally();
-    const pct = Math.round(100 * t.right / qs.length);
+    const pct = Math.round(100 * t.right / t.outOf);
     const s = el('div', 'score');
     s.appendChild(el('div', null,
-      `<div class="big">${t.right} / ${qs.length}</div>` +
-      `<div class="sub">${pct}% correct</div>`));
+      `<div class="big">${t.right} / ${t.outOf}</div>` +
+      `<div class="sub">${pct}% of the marks</div>`));
     const bar = el('div', 'bar-t');
     const fill = el('i');
     fill.style.width = pct + '%';
@@ -992,9 +1074,10 @@ function runExam(qs, restore) {
     const by = {};
     qs.forEach((q, i) => {
       const k = label(q);
+      const mk = marks(q, answers[i]);
       by[k] = by[k] || [0, 0];
-      by[k][1]++;
-      if (isRight(q, answers[i])) by[k][0]++;
+      by[k][1] += mk.max;
+      by[k][0] += mk.got;
     });
     s.appendChild(el('div', 'sub', Object.keys(by).sort()
       .map(k => `${k} ${by[k][0]}/${by[k][1]}`).join(' · ')));
@@ -1042,7 +1125,7 @@ function runExam(qs, restore) {
         entry = {
           at: Date.now(), ids: qs.map(q => q.id),
           answers: answers.map(copyAnswer),
-          right: tally().right, pending: tally().pending, total: qs.length
+          right: tally().right, pending: tally().pending, total: tally().outOf
         };
         S.history.unshift(entry);
         S.history = S.history.slice(0, 100);
@@ -1103,7 +1186,8 @@ function drillOne(pool, i, tally, state) {
 
   if (i >= pool.length) {
     m.appendChild(el('h1', null, 'Done'));
-    m.appendChild(el('p', 'lead', `${tally.right} of ${tally.done} correct.`));
+    m.appendChild(el('p', 'lead',
+      `${tally.right} of ${tally.outOf || tally.done} marks, over ${tally.done} questions.`));
     const b = el('button', 'go', 'Back to practice');
     b.addEventListener('click', () => show('drill'));
     m.appendChild(b);
@@ -1117,7 +1201,7 @@ function drillOne(pool, i, tally, state) {
   }
   const st = state[i];
 
-  m.appendChild(el('p', 'lead', `Question ${i + 1} of ${pool.length} · ${tally.right}/${tally.done} correct so far`));
+  m.appendChild(el('p', 'lead', `Question ${i + 1} of ${pool.length} · ${tally.right}/${tally.outOf || tally.done} marks so far`));
   const holder = el('div'); m.appendChild(holder);
   const foot = el('div'); m.appendChild(foot);
 
@@ -1125,8 +1209,12 @@ function drillOne(pool, i, tally, state) {
      `gave` are stored with the question, so revisiting it corrects the running
      tally rather than adding to it again. */
   const settle = () => {
-    const now = isRight(q, st.ans) ? 1 : 0;
-    if (!st.counted) { tally.done++;  st.counted = true; }
+    const now = marks(q, st.ans).got;
+    if (!st.counted) {
+      tally.done++;
+      tally.outOf = (tally.outOf || 0) + marks(q, st.ans).max;
+      st.counted = true;
+    }
     tally.right += now - st.gave;
     st.gave = now;
   };

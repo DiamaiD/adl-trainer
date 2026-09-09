@@ -299,3 +299,20 @@ code{background:#eef1f5;border-radius:3px;padding:1px 4px;font-size:.92em}
    wrong. Before this it inherited the row's green, because the row is green
    when the option was one of the right ones. */
 .opt.ok .why.missed{color:var(--red)}
+/* marking scheme of a written answer: a list in the database, a checklist after submit */
+.scheme{margin-top:12px;border:1px solid var(--rule);border-radius:8px;padding:10px 12px;background:var(--card-2,#f7f8fa)}
+.scheme-h{font-size:13.5px;color:var(--grey);margin-bottom:6px}
+.scheme-h b{color:var(--slate)}
+.mkrow{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:6px 8px;margin:2px 0;border:1px solid transparent;border-radius:6px;background:transparent;color:inherit;font:inherit}
+.scheme.live .mkrow{cursor:pointer}
+.scheme.live .mkrow:hover{border-color:var(--rule);background:var(--card,#fff)}
+.scheme.live .mkrow.on{border-color:var(--green);background:var(--green-l)}
+.mkbox{flex:0 0 18px;height:18px;border:1.5px solid var(--grey);border-radius:4px;font-size:12px;line-height:15px;text-align:center;color:var(--green)}
+.scheme:not(.live) .mkbox{display:none}
+.mkrow.on .mkbox{border-color:var(--green)}
+.mkpts{flex:0 0 58px;font-weight:600;color:var(--amber);font-size:13px;padding-top:1px}
+.mktext{flex:1}
+.scheme-quick{margin-top:6px;font-size:13px;color:var(--grey)}
+.scheme-quick button.link{margin-right:12px}
+.q.partial{border-left-color:var(--amber)}
+.tag.pts{border-color:var(--amber);color:var(--amber);background:var(--amber-l,#fff6e5)}

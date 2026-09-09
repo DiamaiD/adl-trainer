@@ -1133,7 +1133,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 4,
-  "stem": "State what a $1\\times1$ convolution does and why it is useful."
+  "stem": "State what a $1\\times1$ convolution does and why it is useful.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that at each spatial position it applies a learned linear map from the $C_{\\text{in}}$ channel values to $C_{\\text{out}}$ — a fully-connected layer across channels, shared over all positions"
+   },
+   {
+    "pts": 1,
+    "text": "names one use: changing the channel depth cheaply (ResNet bottleneck, the pointwise half of a depthwise separable convolution)"
+   },
+   {
+    "pts": 1,
+    "text": "names a second use: mixing channel information, or adding depth and non-linearity, at cost $C_{\\text{in}}C_{\\text{out}}$ instead of $K^2 C_{\\text{in}}C_{\\text{out}}$"
+   },
+   {
+    "pts": 1,
+    "text": "states that it changes neither the receptive field nor the spatial resolution"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e01q48",
@@ -1144,7 +1163,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 4,
-  "stem": "Explain why teacher forcing is used during training but not at inference."
+  "stem": "Explain why teacher forcing is used during training but not at inference.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "defines teacher forcing: the ground-truth prefix is fed as input instead of the model's own previous outputs"
+   },
+   {
+    "pts": 1,
+    "text": "training reason 1: the whole target is known, so every position is processed in parallel in one forward pass, with the causal mask hiding the future"
+   },
+   {
+    "pts": 1,
+    "text": "training reason 2: an early mistake cannot poison every later position, so training is more stable"
+   },
+   {
+    "pts": 1,
+    "text": "inference: there is no ground truth, so the model must consume its own predictions one token at a time — generation is sequential"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e01q49",
@@ -1155,7 +1193,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 4,
-  "stem": "BERT's masked-language-model objective treats masked tokens as conditionally independent given the corrupted input. Give one concrete way this can produce an incoherent prediction."
+  "stem": "BERT's masked-language-model objective treats masked tokens as conditionally independent given the corrupted input. Give one concrete way this can produce an incoherent prediction.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that each masked position is predicted from the same encoder output independently of the other masked positions — nothing in the objective couples them"
+   },
+   {
+    "pts": 1,
+    "text": "gives a concrete example with two masked positions that each have two plausible fillers (“New York” / “San Francisco” or similar)"
+   },
+   {
+    "pts": 1,
+    "text": "shows the incoherent cross-product (“New Francisco”) receives substantial probability because each half is individually likely"
+   }
+  ],
+  "pts": 3
  },
  {
   "id": "e01q50",
@@ -1166,7 +1219,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 4,
-  "stem": "Explain why bipartite matching removes the need for non-maximum suppression."
+  "stem": "Explain why bipartite matching removes the need for non-maximum suppression.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states why NMS existed: anchor-based detectors emit many overlapping boxes per object, and NMS deletes the duplicates as a hand-written post-process"
+   },
+   {
+    "pts": 1,
+    "text": "states that the Hungarian matching is one-to-one, so exactly one prediction is matched per object and every other prediction — near-duplicates included — is assigned “no object” and trained towards it"
+   },
+   {
+    "pts": 1,
+    "text": "concludes that duplicates are penalised in the loss during training rather than filtered afterwards, so the model learns a duplicate-free set output"
+   }
+  ],
+  "pts": 3
  },
  {
   "id": "e01q51",
@@ -1177,7 +1245,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "Regular sparse convolution suffers from the “dilation problem” and submanifold sparse convolution fixes it. State what the problem is, how SSC fixes it, and what capability is lost as a result."
+  "stem": "Regular sparse convolution suffers from the “dilation problem” and submanifold sparse convolution fixes it. State what the problem is, how SSC fixes it, and what capability is lost as a result.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states the problem: regular SC writes an output wherever the kernel overlaps any active site, so one voxel grows to a cube of side $1+2L$ and the tensor stops being sparse"
+   },
+   {
+    "pts": 1,
+    "text": "states the fix: SSC restricts the output locations to sites that were already active, so the active set stays exactly fixed"
+   },
+   {
+    "pts": 1,
+    "text": "notes that SSC still reads inactive neighbours as zeros, so the receptive field still grows — only the active set is frozen"
+   },
+   {
+    "pts": 1,
+    "text": "states what is lost: components not already connected through active sites can never exchange information, because SSC never writes to inactive locations"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e01q52",
@@ -1188,7 +1275,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "Explain over-smoothing, and why it is in tension with the only mechanism a GNN has for increasing its receptive field."
+  "stem": "Explain over-smoothing, and why it is in tension with the only mechanism a GNN has for increasing its receptive field.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that neighbourhood aggregation is an average, i.e. a low-pass filter on the signal over the graph"
+   },
+   {
+    "pts": 1,
+    "text": "states the consequence: applied repeatedly, features within a connected component converge to the same vector and nodes become indistinguishable"
+   },
+   {
+    "pts": 1,
+    "text": "states that one layer moves information one hop, so stacking $L$ layers is the only mechanism a GNN has for an $L$-hop receptive field"
+   },
+   {
+    "pts": 1,
+    "text": "makes the tension explicit: the depth needed for reach is the same number of rounds of smoothing, so no choice of $L$ gets one without the other"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e01q53",
@@ -1199,7 +1305,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Why does training only on the hardest negatives risk network collapse? Use the triplet loss to show what a collapsed encoder would score."
+  "stem": "Why does training only on the hardest negatives risk network collapse? Use the triplet loss to show what a collapsed encoder would score.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that the hardest negatives are dominated by mislabelled samples, so mining them trains the network hardest on noise"
+   },
+   {
+    "pts": 1,
+    "text": "writes the triplet loss $\\max\\{0,\\ \\mathcal{D}_p - \\mathcal{D}_n + m\\}$ and sets $\\mathcal{D}_p = \\mathcal{D}_n = 0$ for a collapsed encoder"
+   },
+   {
+    "pts": 1,
+    "text": "obtains a loss of exactly $m$ per triplet — finite and uniform"
+   },
+   {
+    "pts": 1,
+    "text": "compares: hard triplets pay more than $m$, so collapsing lowers the loss and, once reached, every gradient is zero and the network never recovers"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e01q54",
@@ -1210,7 +1335,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "An image encoder and a text encoder in a cross-modal retrieval system cannot share weights, yet their outputs must be comparable. Explain the problem and how the training objective solves it."
+  "stem": "An image encoder and a text encoder in a cross-modal retrieval system cannot share weights, yet their outputs must be comparable. Explain the problem and how the training objective solves it.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that in a single-modality Siamese network the shared weights are what guarantee both inputs land in one space"
+   },
+   {
+    "pts": 1,
+    "text": "states that an image encoder and a text encoder take different input types and need different architectures, so nothing structural makes their outputs comparable"
+   },
+   {
+    "pts": 1,
+    "text": "states that a contrastive loss over matched pairs pulls each true image–caption pair together and pushes mismatched pairs apart — the shared space is learned"
+   },
+   {
+    "pts": 1,
+    "text": "states the consequence: the alignment is only as good as the pairing supervision"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e01q55",
@@ -1221,7 +1365,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "A 1D network has three layers: L1 convolution ($K=5$, $S=1$, $P=2$, $D=1$); L2 convolution ($K=3$, $S=2$, $P=1$, $D=1$); L3 dilated convolution ($K=3$, $S=1$, $P=2$, $D=3$). Sketch, for a 1D input, how the receptive field of one output neuron grows through this stack. Draw the input axis once and mark, layer by layer, which input positions feed the neuron. Label the effective kernel size and the jump at each layer. Then state in one sentence why padding does not appear anywhere in your sketch."
+  "stem": "A 1D network has three layers: L1 convolution ($K=5$, $S=1$, $P=2$, $D=1$); L2 convolution ($K=3$, $S=2$, $P=1$, $D=1$); L3 dilated convolution ($K=3$, $S=1$, $P=2$, $D=3$). Sketch, for a 1D input, how the receptive field of one output neuron grows through this stack. Draw the input axis once and mark, layer by layer, which input positions feed the neuron. Label the effective kernel size and the jump at each layer. Then state in one sentence why padding does not appear anywhere in your sketch.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws one numbered input axis and marks, layer by layer, the input positions feeding a single chosen output"
+   },
+   {
+    "pts": 1,
+    "text": "labels $K_{\\text{eff}} = 5, 3, 7$ at L1, L2, L3, with the $7$ shown as $3(3-1)+1$"
+   },
+   {
+    "pts": 1,
+    "text": "labels the jump entering each layer as $1, 1, 2$"
+   },
+   {
+    "pts": 1,
+    "text": "draws L3's three taps spaced three L2-units apart and labels the final span as $19$ positions, inputs $0$ to $18$"
+   },
+   {
+    "pts": 1,
+    "text": "states that padding changes only where an output sits, not how far it reaches"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e01q56",
@@ -1232,7 +1399,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "How is a single layer of the Transformer encoder structured? Sketch it and label the important components, including what must be done to the input before it enters the very first layer. Then explain in two or three sentences which of your sub-layers moves information between tokens and which does not, and why both the residual connections and the normalisation are there."
+  "stem": "How is a single layer of the Transformer encoder structured? Sketch it and label the important components, including what must be done to the input before it enters the very first layer. Then explain in two or three sentences which of your sub-layers moves information between tokens and which does not, and why both the residual connections and the normalisation are there.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the input embedding with positional encoding added ($\\oplus$) before the first layer"
+   },
+   {
+    "pts": 1,
+    "text": "draws the two sub-layers labelled multi-head self-attention and position-wise feed-forward, in that order, each followed by Add &amp;amp; Norm"
+   },
+   {
+    "pts": 1,
+    "text": "draws a residual arrow bypassing each sub-layer and marks the stack with $N\\times$"
+   },
+   {
+    "pts": 1,
+    "text": "states that self-attention is the sub-layer that mixes across tokens and the FFN transforms each token independently with shared weights"
+   },
+   {
+    "pts": 1,
+    "text": "explains that the residual gives gradients a path past each sub-layer (depth trainable) and the normalisation stabilises the activation scale"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e01q57",
@@ -1243,7 +1433,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Below are two $8\\times8$ patch grids representing the same feature map in two <em>successive</em> Swin blocks, with window size $M = 4$. On the left grid, draw the window partition used by W-MSA. On the right grid, draw the partition used by the following SW-MSA block. Mark one patch that lies in the same window as a given neighbour in one block but a different window in the other, and use it to explain in two sentences what the shift buys and what it costs."
+  "stem": "Below are two $8\\times8$ patch grids representing the same feature map in two <em>successive</em> Swin blocks, with window size $M = 4$. On the left grid, draw the window partition used by W-MSA. On the right grid, draw the partition used by the following SW-MSA block. Mark one patch that lies in the same window as a given neighbour in one block but a different window in the other, and use it to explain in two sentences what the shift buys and what it costs.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws four $4\\times4$ windows aligned to the top-left corner in block $\\ell$, labelled W-MSA"
+   },
+   {
+    "pts": 1,
+    "text": "draws the partition displaced by $\\lfloor M/2\\rfloor = 2$ in both directions in block $\\ell+1$, giving nine unequal regions, labelled SW-MSA"
+   },
+   {
+    "pts": 1,
+    "text": "marks a patch and a neighbour that share a window in one block but not in the other"
+   },
+   {
+    "pts": 1,
+    "text": "states what the shift buys — cross-window connections, so information can flow across the whole map — and what it costs: an irregular partition, handled by a cyclic shift plus a mask"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e01q58",
@@ -1254,7 +1463,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "A single active site sits in an otherwise empty 2D grid. Sketch the set of active sites after one layer and after two layers, for (i) regular sparse convolution with a $3\\times3$ kernel and (ii) submanifold sparse convolution with the same kernel. Label the side length of the active region in each case. Then state, in one sentence each, the problem your first sketch demonstrates and the capability your second sketch gives up."
+  "stem": "A single active site sits in an otherwise empty 2D grid. Sketch the set of active sites after one layer and after two layers, for (i) regular sparse convolution with a $3\\times3$ kernel and (ii) submanifold sparse convolution with the same kernel. Label the side length of the active region in each case. Then state, in one sentence each, the problem your first sketch demonstrates and the capability your second sketch gives up.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the single starting site, then regular SC after one and two layers as a $3\\times3$ and a $5\\times5$ block"
+   },
+   {
+    "pts": 1,
+    "text": "draws SSC after one and two layers as still exactly one active site"
+   },
+   {
+    "pts": 1,
+    "text": "labels the side lengths: $1 \\to 3 \\to 5$ (side $1+2L$) for SC and $1$ at every depth for SSC"
+   },
+   {
+    "pts": 1,
+    "text": "states the problem: the active set grows as $(1+2L)^3$ while the surface has not grown, so sparsity is destroyed"
+   },
+   {
+    "pts": 1,
+    "text": "states the lost capability: two disconnected components can never communicate, because SSC never writes to an inactive site"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e01q59",
@@ -1265,7 +1497,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw the same small set of five elements three times, and on each copy draw the interaction pattern permitted by (i) deep sets / PointNet, (ii) a GNN layer on a sparse graph, and (iii) a transformer encoder. Label each. Then use your three pictures to explain what a GNN buys over deep sets and what it gives up against a transformer."
+  "stem": "Draw the same small set of five elements three times, and on each copy draw the interaction pattern permitted by (i) deep sets / PointNet, (ii) a GNN layer on a sparse graph, and (iii) a transformer encoder. Label each. Then use your three pictures to explain what a GNN buys over deep sets and what it gives up against a transformer.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the same five elements three times, with no edges at all on the deep sets / PointNet copy"
+   },
+   {
+    "pts": 1,
+    "text": "draws only the graph's own sparse edges on the GNN copy and every pair connected on the transformer copy, all three labelled"
+   },
+   {
+    "pts": 1,
+    "text": "explains what a GNN buys: the edges enter the computation, whereas deep sets can only compute a function of the multiset of features"
+   },
+   {
+    "pts": 1,
+    "text": "explains what a GNN gives up: a transformer connects every pair in one layer (path length $1$) at $O(n^2)$, while a sparse GNN needs one layer per hop at $O(|\\mathcal{E}|)$"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e01q60",
@@ -1276,7 +1527,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "code",
   "lines": 8,
-  "stem": "Write pseudo-code for one message-passing layer that supports edge features, in the general MPNN form. Use $\\mathbf{x}_i$ for node features, $\\mathbf{e}_{ij}$ for edge features and $\\mathcal{N}(i)$ for the neighbourhood. Mark clearly which single step must be permutation invariant, and say in one sentence what breaks if it is not."
+  "stem": "Write pseudo-code for one message-passing layer that supports edge features, in the general MPNN form. Use $\\mathbf{x}_i$ for node features, $\\mathbf{e}_{ij}$ for edge features and $\\mathcal{N}(i)$ for the neighbourhood. Mark clearly which single step must be permutation invariant, and say in one sentence what breaks if it is not.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "writes a message function $\\phi(\\mathbf{x}_i, \\mathbf{x}_j, \\mathbf{e}_{ij})$ that takes the edge feature as an argument"
+   },
+   {
+    "pts": 1,
+    "text": "writes an aggregation over $\\mathcal{N}(i)$ using sum, mean or max"
+   },
+   {
+    "pts": 1,
+    "text": "writes an update $\\gamma(\\mathbf{x}_i, \\mathbf{a}_i)$ that combines the node's own feature with the aggregate, inside a loop over all nodes"
+   },
+   {
+    "pts": 1,
+    "text": "marks the aggregation as the single step that must be permutation invariant"
+   },
+   {
+    "pts": 1,
+    "text": "states what breaks otherwise: relabelling the nodes or changing the storage order would change the output, so the layer is no longer permutation equivariant"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e02q01",
@@ -2449,7 +2723,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 4,
-  "stem": "An image encoder and a text encoder in CLIP cannot share weights. Explain why not, and what supplies the alignment instead."
+  "stem": "An image encoder and a text encoder in CLIP cannot share weights. Explain why not, and what supplies the alignment instead.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that weight sharing needs a shared input space, and a pixel grid and a token sequence have no single function defined on both"
+   },
+   {
+    "pts": 1,
+    "text": "states that what the encoders share is only the output space (same-dimension normalised vectors), which by itself guarantees no agreement"
+   },
+   {
+    "pts": 1,
+    "text": "names the contrastive (InfoNCE) loss over the $N \\times N$ similarity matrix as what supplies the alignment"
+   },
+   {
+    "pts": 1,
+    "text": "states that matched image–caption pairs are pulled together and mismatched pairs pushed apart, so the alignment is learned"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e02q46",
@@ -2460,7 +2753,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 4,
-  "stem": "Distinguish <em>fusion</em> from <em>coordination</em>, and give one task that requires each."
+  "stem": "Distinguish <em>fusion</em> from <em>coordination</em>, and give one task that requires each.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "defines fusion: one joint representation built from both modalities"
+   },
+   {
+    "pts": 1,
+    "text": "defines coordination: one representation per modality, aligned in a shared space"
+   },
+   {
+    "pts": 1,
+    "text": "gives a task that needs fusion, e.g. camera $+$ LiDAR detection, where a single decision consumes both inputs"
+   },
+   {
+    "pts": 1,
+    "text": "gives a task that needs coordination, e.g. cross-modal retrieval, where a query is embedded once and compared by dot product against pre-computed candidates"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e02q47",
@@ -2471,7 +2783,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "Contrastive methods such as SimCLR need negatives; DINO uses none. Explain what stops DINO collapsing, naming both mechanisms and what each one prevents."
+  "stem": "Contrastive methods such as SimCLR need negatives; DINO uses none. Explain what stops DINO collapsing, naming both mechanisms and what each one prevents.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states why collapse is available: a constant output gives perfect student–teacher agreement and zero loss, and with no negatives nothing punishes it"
+   },
+   {
+    "pts": 1,
+    "text": "names centering (subtracting a running mean from the teacher output) and states that it prevents collapse onto one dominant dimension"
+   },
+   {
+    "pts": 1,
+    "text": "names sharpening (a low teacher temperature) and states that it prevents collapse onto the uniform distribution"
+   },
+   {
+    "pts": 1,
+    "text": "states that each mechanism alone drives the output into the failure the other prevents, so they are only stable together"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e02q48",
@@ -2482,7 +2813,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "The masked autoencoder masks $75\\%$ of patches, while BERT masks about $15\\%$ of tokens. Explain why the image case can afford — and needs — so much more."
+  "stem": "The masked autoencoder masks $75\\%$ of patches, while BERT masks about $15\\%$ of tokens. Explain why the image case can afford — and needs — so much more.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "“needs”: images are spatially redundant, so a low mask ratio leaves a task solvable by interpolating from the neighbours with no semantics"
+   },
+   {
+    "pts": 1,
+    "text": "states that at $75\\%$ the missing region exceeds its context, so the model must infer what the object is to complete it"
+   },
+   {
+    "pts": 1,
+    "text": "“can afford”: language is information-dense, so $15\\%$ is already hard and masking most of a sentence leaves targets that are undetermined"
+   },
+   {
+    "pts": 1,
+    "text": "adds that because the encoder skips masked patches, the high ratio also makes MAE cheaper ($49$ tokens instead of $196$)"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e02q49",
@@ -2493,7 +2843,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain how a gradient reversal layer makes a feature extractor domain-invariant, being precise about what happens in each of the two passes."
+  "stem": "Explain how a gradient reversal layer makes a feature extractor domain-invariant, being precise about what happens in each of the two passes.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "forward pass: the GRL is the identity, so the domain classifier sees the features unaltered"
+   },
+   {
+    "pts": 1,
+    "text": "backward pass: the gradient from the domain classifier is multiplied by $-\\lambda$ before it reaches the feature extractor"
+   },
+   {
+    "pts": 1,
+    "text": "states the effect: the extractor is driven to maximise the domain loss while the classifier minimises it, so the equilibrium is features from which the domain cannot be told"
+   },
+   {
+    "pts": 1,
+    "text": "states that the label head's gradient is unmodified, so the same features stay discriminative for the task"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e02q50",
@@ -2504,7 +2873,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "State the stability–plasticity dilemma and explain why replay and regularisation attack it from opposite ends."
+  "stem": "State the stability–plasticity dilemma and explain why replay and regularisation attack it from opposite ends.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states the dilemma: plasticity is the ability to learn new tasks, stability the ability to retain old ones, and raising either tends to lower the other"
+   },
+   {
+    "pts": 1,
+    "text": "replay intervenes on the data: old examples are stored or generated and mixed into each batch, so the loss again contains the old task"
+   },
+   {
+    "pts": 1,
+    "text": "regularisation intervenes on the parameters: moving weights that mattered to old tasks is penalised (EWC's Fisher-weighted term), with no old data stored"
+   },
+   {
+    "pts": 1,
+    "text": "states the two costs: replay pays in memory, regularisation pays in capacity"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e02q51",
@@ -2515,7 +2903,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Why is the score function easier to model than the density itself? Name the specific object that disappears."
+  "stem": "Why is the score function easier to model than the density itself? Name the specific object that disappears.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "names the partition function $Z$ — the integral over all of data space — as the object that disappears"
+   },
+   {
+    "pts": 1,
+    "text": "derives why: $\\nabla_{\\mathbf{x}}\\log p = \\nabla_{\\mathbf{x}}\\log\\tilde p - \\nabla_{\\mathbf{x}}\\log Z$ and the second term is zero because $Z$ does not depend on $\\mathbf{x}$"
+   },
+   {
+    "pts": 1,
+    "text": "gives the second reason: a score needs no non-negativity or integrate-to-one constraint, so any $\\mathbb{R}^d \\to \\mathbb{R}^d$ network fits it as plain regression"
+   }
+  ],
+  "pts": 3
  },
  {
   "id": "e02q52",
@@ -2526,7 +2929,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "What does “annealing” mean in annealed Langevin dynamics, and why is a single noise level not enough?"
+  "stem": "What does “annealing” mean in annealed Langevin dynamics, and why is a single noise level not enough?",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "defines annealing: Langevin is run through a decreasing sequence $\\sigma_L > \\dots > \\sigma_1$ with several steps at each level"
+   },
+   {
+    "pts": 1,
+    "text": "states that each level's final state is the next level's initialisation"
+   },
+   {
+    "pts": 1,
+    "text": "small $\\sigma$ alone fails: the score is trained only near the data, so from a noise start the first steps are untrained extrapolation"
+   },
+   {
+    "pts": 1,
+    "text": "large $\\sigma$ alone fails: the score is reliable everywhere but the distribution sampled is the data blurred by heavy noise"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e02q53",
@@ -2537,7 +2959,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "In NeRF, why is the density $\\sigma$ predicted from position alone while the colour $\\mathbf{c}$ also takes the viewing direction? What would break if both took the direction?"
+  "stem": "In NeRF, why is the density $\\sigma$ predicted from position alone while the colour $\\mathbf{c}$ also takes the viewing direction? What would break if both took the direction?",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that density is geometry, a property of the scene and not of the camera"
+   },
+   {
+    "pts": 1,
+    "text": "states that colour legitimately varies with direction because of specularity and lighting"
+   },
+   {
+    "pts": 1,
+    "text": "states what would break: a direction-dependent $\\sigma$ lets the network fit each training view with its own geometry (a billboard per camera), so training loss is zero and novel views are nonsense"
+   },
+   {
+    "pts": 1,
+    "text": "concludes that $\\sigma = \\sigma(x,y,z)$ forces every ray through a point to agree on whether matter is there — multi-view consistency is enforced by the parameterisation"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e02q54",
@@ -2548,7 +2989,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "3D Gaussian splatting uses no neural network for the scene, yet is trained by gradient descent. Explain what is being optimised and why this makes real-time rendering possible."
+  "stem": "3D Gaussian splatting uses no neural network for the scene, yet is trained by gradient descent. Explain what is being optimised and why this makes real-time rendering possible.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "names the optimised parameters of each Gaussian: mean, covariance (scale and rotation), opacity and view-dependent colour coefficients"
+   },
+   {
+    "pts": 1,
+    "text": "states that the number of Gaussians is also optimised, by densification (split or clone) and pruning"
+   },
+   {
+    "pts": 1,
+    "text": "states that rendering is projection, depth sorting and alpha-blending of the primitives — rasterisation with no network query"
+   },
+   {
+    "pts": 1,
+    "text": "contrasts with NeRF, whose scene lives inside the network and costs millions of MLP evaluations per frame, which is why 3DGS is real-time"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e02q55",
@@ -2559,7 +3019,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "In a recurrent state-space model, why is the state split into a deterministic part $h_t$ and a stochastic part $s_t$ rather than using one or the other alone?"
+  "stem": "In a recurrent state-space model, why is the state split into a deterministic part $h_t$ and a stochastic part $s_t$ rather than using one or the other alone?",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "purely stochastic fails: every fact must survive a sampling step at every iteration, so long-horizon memory degrades"
+   },
+   {
+    "pts": 1,
+    "text": "purely deterministic fails: it can predict only one future, so it averages over genuinely uncertain outcomes and cannot represent that uncertainty"
+   },
+   {
+    "pts": 1,
+    "text": "states the split: $h_t = f(h_{t-1}, s_{t-1}, a_{t-1})$ carries context along a noiseless channel while $s_t \\sim p(s_t \\mid h_t)$ carries the branching"
+   }
+  ],
+  "pts": 3
  },
  {
   "id": "e02q56",
@@ -2570,7 +3045,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Self-supervised pre-training and transfer learning both produce a backbone that is reused downstream. State the essential difference in what supplies the training signal, and one practical consequence of that difference."
+  "stem": "Self-supervised pre-training and transfer learning both produce a backbone that is reused downstream. State the essential difference in what supplies the training signal, and one practical consequence of that difference.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that transfer learning's signal comes from labels on a different (source) task"
+   },
+   {
+    "pts": 1,
+    "text": "states that self-supervision's signal comes from structure within the unlabelled data itself (the masked patch, the other crop)"
+   },
+   {
+    "pts": 1,
+    "text": "notes that the procedure is otherwise the same — pre-train, discard the head, attach a new one — so the supervision source is the whole difference"
+   },
+   {
+    "pts": 1,
+    "text": "gives a practical consequence: scale, because annotation cost stops being the limit, or the representation no longer being shaped by a fixed label set"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e02q57",
@@ -2581,7 +3075,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Sketch the DINO training setup and label its components: the two branches, what each one receives, the direction of the weight update between them, both softmax temperatures, and the two anti-collapse mechanisms. Then explain in three sentences what would happen if each mechanism were removed on its own."
+  "stem": "Sketch the DINO training setup and label its components: the two branches, what each one receives, the direction of the weight update between them, both softmax temperatures, and the two anti-collapse mechanisms. Then explain in three sentences what would happen if each mechanism were removed on its own.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws two branches, the student receiving global $+$ local crops and the teacher global crops only, meeting in a cross-entropy loss"
+   },
+   {
+    "pts": 1,
+    "text": "draws the weight update as an EMA flowing student $\\to$ teacher, and gradients flowing only into the student, with a stop-gradient on the teacher branch"
+   },
+   {
+    "pts": 1,
+    "text": "labels both softmax temperatures with $\\tau_t < \\tau_s$ and places centering on the teacher branch before its softmax"
+   },
+   {
+    "pts": 1,
+    "text": "written: without centering the teacher peaks on one dimension and every image gets the same one-hot; without sharpening it drifts to uniform"
+   },
+   {
+    "pts": 1,
+    "text": "written: without the stop-gradient the teacher can move towards the student and collapse becomes directly reachable by gradient descent"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e02q58",
@@ -2592,7 +3109,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "On one set of axes, sketch a one-dimensional bimodal data density $p(\\mathbf{x})$ and, beneath it, the score $\\nabla_{\\mathbf{x}}\\log p(\\mathbf{x})$. Mark the two modes, the valley between them, and the sign of the score in each region. Then use the sketch to explain (i) why Langevin dynamics without noise fails and (ii) why a low noise level alone cannot move a sample between the two modes."
+  "stem": "On one set of axes, sketch a one-dimensional bimodal data density $p(\\mathbf{x})$ and, beneath it, the score $\\nabla_{\\mathbf{x}}\\log p(\\mathbf{x})$. Mark the two modes, the valley between them, and the sign of the score in each region. Then use the sketch to explain (i) why Langevin dynamics without noise fails and (ii) why a low noise level alone cannot move a sample between the two modes.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws two humps of unequal height with a valley between, and marks both modes and the valley"
+   },
+   {
+    "pts": 1,
+    "text": "draws the score beneath with zeros at both modes and the valley, positive on every left flank, negative on every right flank, pointing inwards in the tails"
+   },
+   {
+    "pts": 1,
+    "text": "(i) states that without noise the update is gradient ascent on $\\log p$, so every run climbs to the nearest mode and stops — the mode, not the distribution"
+   },
+   {
+    "pts": 1,
+    "text": "(ii) states that between a mode and the valley the score points back at the mode, so small noise must fight it across the whole valley and is undone"
+   },
+   {
+    "pts": 1,
+    "text": "(ii) adds that at small $\\sigma$ the score in the low-density valley is untrained extrapolation, so it is unreliable there"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e02q59",
@@ -2603,7 +3143,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "The figure below shows a camera, a ray through one pixel, and a scene containing one solid object. Mark on it: the sample points along the ray, the region where $\\sigma$ is large, the transmittance $T(t)$ as a curve beneath the ray, and the point that contributes most to the final pixel colour. Then explain in two sentences why samples <em>behind</em> the object contribute almost nothing, referring to your $T(t)$ curve."
+  "stem": "The figure below shows a camera, a ray through one pixel, and a scene containing one solid object. Mark on it: the sample points along the ray, the region where $\\sigma$ is large, the transmittance $T(t)$ as a curve beneath the ray, and the point that contributes most to the final pixel colour. Then explain in two sentences why samples <em>behind</em> the object contribute almost nothing, referring to your $T(t)$ curve.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "marks sample points along the ray and the region of large $\\sigma$ inside the object, with $\\sigma$ near zero elsewhere"
+   },
+   {
+    "pts": 1,
+    "text": "draws $T(t)$ flat at $1$ up to the front face, falling steeply through the object, pinned near $0$ behind it"
+   },
+   {
+    "pts": 1,
+    "text": "marks the contributing point at the front surface, where $w = T\\sigma$ peaks because $\\sigma$ has just switched on while $T$ is still high"
+   },
+   {
+    "pts": 1,
+    "text": "written: samples behind the object have a good $\\sigma$ and colour but their weight $T(t)\\sigma(t)$ contains $T \\approx 0$, so occlusion falls out of the transmittance automatically"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e02q60",
@@ -2614,7 +3173,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "code",
   "lines": 8,
-  "stem": "Write pseudo-code for <strong>DDPM training</strong> (not sampling). Assume a dataset, a noise schedule $\\bar\\alpha_k$ for $k = 1 \\dots K$, and a network $\\varepsilon_\\theta(\\mathbf{x},k)$. Mark clearly which quantities are sampled fresh at every iteration, and state in one sentence why training does not require simulating the forward process step by step."
+  "stem": "Write pseudo-code for <strong>DDPM training</strong> (not sampling). Assume a dataset, a noise schedule $\\bar\\alpha_k$ for $k = 1 \\dots K$, and a network $\\varepsilon_\\theta(\\mathbf{x},k)$. Mark clearly which quantities are sampled fresh at every iteration, and state in one sentence why training does not require simulating the forward process step by step.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "writes a repeat-until-converged loop that draws $\\mathbf{x}_0$ from the dataset"
+   },
+   {
+    "pts": 1,
+    "text": "samples $k \\sim \\mathcal{U}\\{1,\\dots,K\\}$ and $\\varepsilon \\sim \\mathcal{N}(\\mathbf{0},\\mathbf{I})$ fresh every iteration, and marks all three draws as fresh"
+   },
+   {
+    "pts": 1,
+    "text": "writes the closed form $\\mathbf{x}_k = \\sqrt{\\bar\\alpha_k}\\,\\mathbf{x}_0 + \\sqrt{1-\\bar\\alpha_k}\\,\\varepsilon$"
+   },
+   {
+    "pts": 1,
+    "text": "takes a gradient step on $\\lVert \\varepsilon - \\varepsilon_\\theta(\\mathbf{x}_k,k)\\rVert^2$"
+   },
+   {
+    "pts": 1,
+    "text": "states why no simulation is needed: the forward chain is a composition of Gaussians, so $q(\\mathbf{x}_k \\mid \\mathbf{x}_0)$ is Gaussian in closed form and any $k$ is reached in one step"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e03q01",
@@ -3788,7 +4370,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what batch normalisation computes during training, and what has to change at inference time and why."
+  "stem": "Explain what batch normalisation computes during training, and what has to change at inference time and why.",
+  "scheme": [
+   {
+    "pts": 2,
+    "text": "states that in training each channel is standardised with the current mini-batch's mean and variance, then rescaled by the learned $\\gamma$ and $\\beta$"
+   },
+   {
+    "pts": 1,
+    "text": "states that at inference the running averages of the training statistics are used instead of batch statistics"
+   },
+   {
+    "pts": 1,
+    "text": "explains why: there may be no batch at test time, and one input's prediction must not depend on what else is in the batch"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e03q50",
@@ -3799,7 +4396,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Distinguish vanishing from exploding gradients in a recurrent network. Name one remedy that addresses each, and say why the same remedy does not fix both."
+  "stem": "Distinguish vanishing from exploding gradients in a recurrent network. Name one remedy that addresses each, and say why the same remedy does not fix both.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that both arise from the same recurrent Jacobian being multiplied once per time step: a factor below $1$ shrinks the gradient to nothing, above $1$ blows it up"
+   },
+   {
+    "pts": 1,
+    "text": "names gradient clipping as the remedy for exploding gradients"
+   },
+   {
+    "pts": 1,
+    "text": "names an architectural path with derivative close to $1$ (LSTM cell state or gates, skip connections) as the remedy for vanishing gradients"
+   },
+   {
+    "pts": 1,
+    "text": "explains why clipping cannot fix vanishing: it only bounds a gradient from above, and a vanished gradient has no direction left to rescale"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e03q51",
@@ -3810,7 +4426,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "A single attention head at full width $d$ has about the same parameter count as $h$ heads of width $d/h$. So what is actually gained by splitting it?"
+  "stem": "A single attention head at full width $d$ has about the same parameter count as $h$ heads of width $d/h$. So what is actually gained by splitting it?",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that one head yields a single softmax distribution over positions per query, so competing relations have to be averaged into one set of weights"
+   },
+   {
+    "pts": 1,
+    "text": "states that $h$ heads yield $h$ separate distributions, combined afterwards by $W^O$ — several attention patterns at once, not more capacity"
+   },
+   {
+    "pts": 1,
+    "text": "gives the evidence or the price: trained heads specialise (positional, syntactic, semantic), or each head is left only $d/h$ dimensions to work in"
+   }
+  ],
+  "pts": 3
  },
  {
   "id": "e03q52",
@@ -3821,7 +4452,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "BERT and GPT are both transformers pre-trained on raw text. State the difference in objective, and give one task each is suited to and one it is poorly suited to."
+  "stem": "BERT and GPT are both transformers pre-trained on raw text. State the difference in objective, and give one task each is suited to and one it is poorly suited to.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that BERT is bidirectional and trained by masked language modelling"
+   },
+   {
+    "pts": 1,
+    "text": "states that GPT is causal (masked attention) and trained to predict the next token"
+   },
+   {
+    "pts": 1,
+    "text": "gives BERT a suited task (classification, tagging) and a poor one (generation), with the reason: masked positions are predicted independently, no left-to-right order"
+   },
+   {
+    "pts": 1,
+    "text": "gives GPT a suited task (generation) and a poor one (a fixed-length sentence encoder), with the reason: every token has seen only its left context"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e03q53",
@@ -3832,7 +4482,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "A ViT needs far more training data than a comparable CNN before it wins. Explain why, in terms of what the CNN is given for free."
+  "stem": "A ViT needs far more training data than a comparable CNN before it wins. Explain why, in terms of what the CNN is given for free.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "names what the CNN gets by construction: locality and translation equivariance (and a multi-scale hierarchy) — at least two of the three"
+   },
+   {
+    "pts": 1,
+    "text": "states that a ViT's attention is global and permutation equivariant from the first layer, so even patch adjacency has to be learned through the positional embedding"
+   },
+   {
+    "pts": 1,
+    "text": "states the crossover: below some data scale the built-in priors win, above it the ViT learns them from data and is not confined to them"
+   }
+  ],
+  "pts": 3
  },
  {
   "id": "e03q54",
@@ -3843,7 +4508,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why a dense voxel grid is a poor default for 3D data, and what property of real 3D scenes the sparse and hierarchical methods exploit instead."
+  "stem": "Explain why a dense voxel grid is a poor default for 3D data, and what property of real 3D scenes the sparse and hierarchical methods exploit instead.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that memory and compute grow with the cube of the resolution, so useful resolutions are unaffordable"
+   },
+   {
+    "pts": 1,
+    "text": "states that nearly all voxels are empty, and that the occupied fraction falls further every time the grid is refined"
+   },
+   {
+    "pts": 1,
+    "text": "names the property exploited: real 3D data is a surface, a two-dimensional object inside a three-dimensional volume"
+   },
+   {
+    "pts": 1,
+    "text": "says how it is exploited: octrees subdivide only where the surface is, or sparse convolutions store and compute only at the active sites"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e03q55",
@@ -3854,7 +4538,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "Over-smoothing, over-squashing and under-reaching are three different failures of deep GNNs. State what each one is, in one sentence each."
+  "stem": "Over-smoothing, over-squashing and under-reaching are three different failures of deep GNNs. State what each one is, in one sentence each.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "over-smoothing: repeated neighbourhood averaging makes all node embeddings converge, so nodes stop being distinguishable"
+   },
+   {
+    "pts": 1,
+    "text": "over-squashing: an exponentially growing neighbourhood is forced through a fixed-size vector, so the information arrives degraded"
+   },
+   {
+    "pts": 1,
+    "text": "under-reaching: the network has fewer layers than the distance between two nodes, so the information never arrives at all"
+   }
+  ],
+  "pts": 3
  },
  {
   "id": "e03q56",
@@ -3865,7 +4564,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why an embedding trained with a plain softmax classification loss is a poor choice for retrieval, and what angular-margin losses change about it."
+  "stem": "Explain why an embedding trained with a plain softmax classification loss is a poor choice for retrieval, and what angular-margin losses change about it.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that softmax only needs the classes separable and stops pushing once a sample is on the correct side of its boundary"
+   },
+   {
+    "pts": 1,
+    "text": "states that retrieval needs one distance threshold that works across classes, which needs compact classes and a gap between them"
+   },
+   {
+    "pts": 1,
+    "text": "states that angular-margin losses $L_2$-normalise features and class weights, so magnitude is removed and only the angle counts"
+   },
+   {
+    "pts": 1,
+    "text": "states that a margin is inserted into the angle of the true class, so it must win by an angular gap"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e03q57",
@@ -3876,7 +4594,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "On three separate pairs of axes (loss against epoch), sketch the training and validation curves for a model that is <strong>underfitting</strong>, one that is <strong>fitting well</strong>, and one that is <strong>overfitting</strong>. Label both curves on each. Then state, for the underfitting and the overfitting case, one action you would take."
+  "stem": "On three separate pairs of axes (loss against epoch), sketch the training and validation curves for a model that is <strong>underfitting</strong>, one that is <strong>fitting well</strong>, and one that is <strong>overfitting</strong>. Label both curves on each. Then state, for the underfitting and the overfitting case, one action you would take.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws three panels with loss and epoch axes labelled, and both curves drawn and named training / validation on each"
+   },
+   {
+    "pts": 1,
+    "text": "underfitting: both curves high and flat, close together"
+   },
+   {
+    "pts": 1,
+    "text": "good fit: both fall and flatten, with a small steady gap"
+   },
+   {
+    "pts": 1,
+    "text": "overfitting: training keeps falling while validation turns and rises"
+   },
+   {
+    "pts": 1,
+    "text": "names one action for underfitting (more capacity, train longer, weaker regularisation) and one for overfitting (more data or augmentation, stronger regularisation, early stopping)"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e03q58",
@@ -3887,18 +4628,60 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw an anchor, a positive, and a circle of radius $\\mathcal{D}(a,p) + m$ around the anchor. On the same picture mark where an <strong>easy</strong>, a <strong>semi-hard</strong> and a <strong>hard</strong> negative each sit. Then explain in two sentences why training on the hard ones alone tends to collapse the network."
+  "stem": "Draw an anchor, a positive, and a circle of radius $\\mathcal{D}(a,p) + m$ around the anchor. On the same picture mark where an <strong>easy</strong>, a <strong>semi-hard</strong> and a <strong>hard</strong> negative each sit. Then explain in two sentences why training on the hard ones alone tends to collapse the network.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the anchor and the positive, with the circle of radius $\\mathcal{D}(a,p)+m$ (and the inner radius $\\mathcal{D}(a,p)$) around the anchor"
+   },
+   {
+    "pts": 1,
+    "text": "places a labelled easy negative outside the margin circle, a semi-hard one between the two radii, and a hard one closer to the anchor than the positive"
+   },
+   {
+    "pts": 1,
+    "text": "states that mapping everything to one point gives loss exactly $m$ on every triplet — a flat, finite plateau"
+   },
+   {
+    "pts": 1,
+    "text": "states that the hardest negatives (label noise, near-duplicates) are unsolvable, so their loss cannot be reduced and the collapse is the lower-loss solution"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e03q59",
   "exam": 3,
   "num": 59,
   "week": "W5",
-  "explanation": "<p><strong>The written part.</strong> A GNN needs both, at different places. <em>Equivariance</em> per layer, because the layer's output is still indexed by node: if it were invariant, every node would receive the same vector and the structure would be destroyed at the first step. <em>Invariance</em> only at the readout, because a graph-level answer must not depend on the arbitrary order the nodes happened to be stored in. The colours are the point of the picture: they travel with their nodes, and the pooled result is the same either way.</p>",
+  "explanation": "<p>The figure below is the model answer; the written part sits under it.</p><p><strong>The written part.</strong> A GNN needs both, at different places. <em>Equivariance</em> per layer, because the layer's output is still indexed by node: if it were invariant, every node would receive the same vector and the structure would be destroyed at the first step. <em>Invariance</em> only at the readout, because a graph-level answer must not depend on the arbitrary order the nodes happened to be stored in. The colours are the point of the picture: they travel with their nodes, and the pooled result is the same either way.</p>",
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw a small graph of four nodes twice: once as given, once with two of its nodes relabelled. Show what a permutation-<em>equivariant</em> node map does to the two copies, and what a permutation-<em>invariant</em> graph readout does. Then state in one sentence why a GNN needs both properties, at different points in the network."
+  "stem": "Draw a small graph of four nodes twice: once as given, once with two of its nodes relabelled. Show what a permutation-<em>equivariant</em> node map does to the two copies, and what a permutation-<em>invariant</em> graph readout does. Then state in one sentence why a GNN needs both properties, at different points in the network.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the four-node graph twice with the same edges, the second copy with two of the node labels swapped"
+   },
+   {
+    "pts": 1,
+    "text": "shows the equivariant node map: the same per-node features, carried along with their nodes to the new positions"
+   },
+   {
+    "pts": 1,
+    "text": "shows the invariant readout: one identical vector produced from both copies"
+   },
+   {
+    "pts": 1,
+    "text": "states why each layer must be equivariant: its output is still indexed by node, and an invariant layer would give every node the same vector"
+   },
+   {
+    "pts": 1,
+    "text": "states why the readout must be invariant: a graph-level answer must not depend on the arbitrary order the nodes were stored in"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e03q60",
@@ -3909,7 +4692,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "code",
   "lines": 8,
-  "stem": "Write pseudo-code for <strong>batch-hard</strong> triplet mining and the loss it feeds. Assume a structured batch of $P$ classes with $K$ samples each, an encoder $\\phi$, a distance $\\mathcal{D}$ and a margin $m$. Make clear which sample plays the anchor, and state in one sentence what goes wrong if the hardest negative is taken over the whole dataset rather than the batch."
+  "stem": "Write pseudo-code for <strong>batch-hard</strong> triplet mining and the loss it feeds. Assume a structured batch of $P$ classes with $K$ samples each, an encoder $\\phi$, a distance $\\mathcal{D}$ and a margin $m$. Make clear which sample plays the anchor, and state in one sentence what goes wrong if the hardest negative is taken over the whole dataset rather than the batch.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "samples a structured batch of $P$ classes with $K$ samples each and embeds every sample once with $\\phi$"
+   },
+   {
+    "pts": 1,
+    "text": "loops over every sample in the batch as the anchor"
+   },
+   {
+    "pts": 1,
+    "text": "selects per anchor the furthest positive ($\\arg\\max$ over the same class) and the nearest negative ($\\arg\\min$ over the other classes)"
+   },
+   {
+    "pts": 1,
+    "text": "accumulates the hinge $\\max(0, \\mathcal{D}(a,p^{*}) - \\mathcal{D}(a,n^{*}) + m)$ and averages over the $PK$ anchors"
+   },
+   {
+    "pts": 1,
+    "text": "states that mining over the whole dataset returns label noise and near-duplicates, unsolvable triplets, so the optimiser collapses the embedding instead"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e04q01",
@@ -5263,7 +6069,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Weight sharing and local connectivity are two different savings. Say precisely what each one reduces, and why only one of them reduces the FLOP count."
+  "stem": "Weight sharing and local connectivity are two different savings. Say precisely what each one reduces, and why only one of them reduces the FLOP count.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that local connectivity reduces the parameter count: each output unit is connected to $k^2C_{\\text{in}}$ inputs instead of all of them"
+   },
+   {
+    "pts": 1,
+    "text": "states that weight sharing reduces parameters (and memory) only, by removing the factor $HW$ from the count"
+   },
+   {
+    "pts": 1,
+    "text": "explains why local connectivity also cuts FLOPs: a connection is simultaneously a weight and a multiply, so removing it removes both"
+   },
+   {
+    "pts": 1,
+    "text": "explains why weight sharing does not: the same outputs are still computed at every position, and re-using a number does not avoid multiplying by it"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e04q50",
@@ -5274,7 +6099,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why a transformer uses layer normalisation rather than batch normalisation. Give two reasons that do not reduce to one another."
+  "stem": "Explain why a transformer uses layer normalisation rather than batch normalisation. Give two reasons that do not reduce to one another.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "reason one: LayerNorm normalises over the features of a single token, so it needs no batch statistics and works at batch size $1$"
+   },
+   {
+    "pts": 1,
+    "text": "states the consequence: nothing differs between training and inference, so there is no train/test discrepancy for running averages to paper over"
+   },
+   {
+    "pts": 1,
+    "text": "reason two: it is independent of sequence length and position, so variable-length sequences and padding do not corrupt the statistics as BatchNorm's per-position ones would"
+   },
+   {
+    "pts": 1,
+    "text": "explains why the two reasons are independent: one is about the batch axis, the other about the sequence axis"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e04q51",
@@ -5285,7 +6129,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "Over-smoothing is usually described as “all the embeddings become the same”. Say what they actually converge to under symmetric normalisation, and name two fixes together with the mechanism of each."
+  "stem": "Over-smoothing is usually described as “all the embeddings become the same”. Say what they actually converge to under symmetric normalisation, and name two fixes together with the mechanism of each.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that the representations converge to a vector proportional to $\\sqrt{\\deg+1}$, a function of degree alone — not to a constant"
+   },
+   {
+    "pts": 1,
+    "text": "explains why: repeated multiplication by $\\hat A$ is a power iteration, converging to the dominant eigenvector, which is proportional to $\\sqrt{\\tilde D}$"
+   },
+   {
+    "pts": 1,
+    "text": "names a first fix with its mechanism: residual or skip connections keep an un-aggregated copy of $\\mathbf{h}^{(l)}$, so the aggregation's fixed point is no longer the layer's"
+   },
+   {
+    "pts": 1,
+    "text": "names a second fix with its mechanism: Jumping Knowledge lets the readout select the depth at which each node was still informative (DropEdge or fewer layers accepted)"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e04q52",
@@ -5296,7 +6159,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "“We used a margin of $0.2$.” Explain why that statement carries no information on its own, and what has to be said alongside it."
+  "stem": "“We used a margin of $0.2$.” Explain why that statement carries no information on its own, and what has to be said alongside it.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that a margin is a distance, so its meaning depends entirely on the scale of the embedding space"
+   },
+   {
+    "pts": 1,
+    "text": "gives the contrast: on the unit sphere the largest possible distance is $2$, so $0.2$ is a tenth of the range; where typical distances are $50$ it is noise"
+   },
+   {
+    "pts": 1,
+    "text": "says the normalisation must be stated: whether the embeddings are $L_2$-normalised, and to what radius"
+   },
+   {
+    "pts": 1,
+    "text": "says the distance must be stated: squared Euclidean, Euclidean or cosine — a squared margin of $0.2$ is an actual separation of $\\sqrt{0.2}\\approx 0.45$"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e04q53",
@@ -5307,7 +6189,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Four outcomes are possible when two modalities are combined. Name them, and say which one actually justifies the cost of building a multimodal model."
+  "stem": "Four outcomes are possible when two modalities are combined. Name them, and say which one actually justifies the cost of building a multimodal model.",
+  "scheme": [
+   {
+    "pts": 2,
+    "text": "names all four outcomes: inconclusive, dominated, modulated, emergent"
+   },
+   {
+    "pts": 1,
+    "text": "says emergent is the one that justifies the model: the joint result exists in neither input alone (McGurk: audio “ba” with lips “ga” is heard as “da”)"
+   },
+   {
+    "pts": 1,
+    "text": "explains why: no weighted average of two votes can produce a third answer, and a dominated model has paid the cost of aligned paired data for nothing"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e04q54",
@@ -5318,7 +6215,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "A colleague says LoRA cuts fine-tuning VRAM by $64\\times$ because it trains $64\\times$ fewer parameters. Explain what is wrong with this, in terms of the four things that occupy memory during training."
+  "stem": "A colleague says LoRA cuts fine-tuning VRAM by $64\\times$ because it trains $64\\times$ fewer parameters. Explain what is wrong with this, in terms of the four things that occupy memory during training.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "names the four things that occupy training memory: weights, gradients, optimiser states, activations"
+   },
+   {
+    "pts": 1,
+    "text": "states that LoRA removes the gradients and both Adam moments for the frozen weights"
+   },
+   {
+    "pts": 1,
+    "text": "states that the frozen weights stay resident for the forward pass (and the activations largely remain), so they are a floor the saving cannot go below"
+   },
+   {
+    "pts": 1,
+    "text": "gives the consequence: the realistic saving is about $4\\times$ (roughly $60$ GB to $16$ GB for 7B in fp16); the $64\\times$ counts what is trained, memory counts what is stored"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e04q55",
@@ -5329,7 +6245,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why sampling by plain gradient ascent on $\\log p(\\mathbf{x})$ is the wrong thing to do, and what Langevin dynamics adds in order to fix it."
+  "stem": "Explain why sampling by plain gradient ascent on $\\log p(\\mathbf{x})$ is the wrong thing to do, and what Langevin dynamics adds in order to fix it.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that gradient ascent on $\\log p$ is mode-seeking: it climbs to the nearest local maximum and stops, returning one point per basin rather than a draw from $p$"
+   },
+   {
+    "pts": 1,
+    "text": "says why that is wrong for a generative model: many outputs are valid, and in high dimensions almost all the mass sits away from the peak (or: the result is deterministic)"
+   },
+   {
+    "pts": 1,
+    "text": "writes the Langevin update with its noise term, $\\mathbf{x}_{t+1} = \\mathbf{x}_t + \\delta\\,s_\\theta(\\mathbf{x}_t) + \\sqrt{2\\delta}\\,\\eta_t$"
+   },
+   {
+    "pts": 1,
+    "text": "states that the stationary distribution of drift plus noise is $p(\\mathbf{x})$ itself, in the limit $\\delta\\to 0$, $T\\to\\infty$"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e04q56",
@@ -5340,7 +6275,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "NeRF and 3D Gaussian splatting composite with the same alpha-blending formula. Say where each one gets its $\\alpha_i$ from, and give the single trade-off from which every other difference between them follows."
+  "stem": "NeRF and 3D Gaussian splatting composite with the same alpha-blending formula. Say where each one gets its $\\alpha_i$ from, and give the single trade-off from which every other difference between them follows.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "NeRF: $\\sigma_i$ comes from querying an MLP at a sampled point along the ray"
+   },
+   {
+    "pts": 1,
+    "text": "3DGS: $\\sigma_i$ comes from the local density of an explicit anisotropic Gaussian, $\\tilde\\alpha_i\\,\\mathcal{N}(\\mathbf{x}\\mid\\mu_i,\\Sigma_i)$"
+   },
+   {
+    "pts": 1,
+    "text": "names the trade-off: implicit and compressed against explicit and expanded — equivalently, compute against memory"
+   },
+   {
+    "pts": 1,
+    "text": "derives at least one consequence from it: storage (megabytes against a gigabyte), render speed (network per sample against rasterisation), editability, or how detail is reached"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e04q57",
@@ -5351,7 +6305,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Sketch DETR from image to a set of predictions. Label the backbone and what it outputs, the encoder, the decoder with its object queries, the prediction heads, and where Hungarian matching sits. Mark clearly the one arrow that carries no gradient, and say in one sentence why it does not."
+  "stem": "Sketch DETR from image to a set of predictions. Label the backbone and what it outputs, the encoder, the decoder with its object queries, the prediction heads, and where Hungarian matching sits. Mark clearly the one arrow that carries no gradient, and say in one sentence why it does not.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws image $\\to$ CNN backbone, labelled with what it outputs: a feature map ($2048$ channels at $1/32$, projected to $256$) that becomes the encoder's tokens"
+   },
+   {
+    "pts": 1,
+    "text": "draws the transformer encoder feeding the decoder, with the $N{=}100$ learned object queries entering the decoder"
+   },
+   {
+    "pts": 1,
+    "text": "draws the FFN prediction heads (class $+$ box) and the Hungarian matching between the $N$ predictions and the ground-truth boxes, feeding the loss"
+   },
+   {
+    "pts": 1,
+    "text": "marks the arrow from the matcher into the loss as the one that carries no gradient"
+   },
+   {
+    "pts": 1,
+    "text": "explains why: matching is a combinatorial assignment that only chooses which target belongs to which slot, like a fixed label, so nothing needs to be differentiated through it"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e04q58",
@@ -5362,7 +6339,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw the masked autoencoder: the patchified image, which patches reach the encoder, the mask tokens, the positional embeddings, the decoder, and where the loss is applied. Then state in two sentences the two <em>different</em> things the $75\\%$ mask ratio buys."
+  "stem": "Draw the masked autoencoder: the patchified image, which patches reach the encoder, the mask tokens, the positional embeddings, the decoder, and where the loss is applied. Then state in two sentences the two <em>different</em> things the $75\\%$ mask ratio buys.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the patchified image with $75\\%$ of the patches masked, and only the visible patches entering the encoder"
+   },
+   {
+    "pts": 1,
+    "text": "draws the mask tokens re-inserted after the encoder, with a positional embedding attached to each one"
+   },
+   {
+    "pts": 1,
+    "text": "draws the small decoder and the loss applied on the masked patches only, against the original pixels"
+   },
+   {
+    "pts": 1,
+    "text": "first thing bought: neighbouring patches are redundant, so at $15\\%$ the model interpolates; removing three quarters forces it to recognise the object"
+   },
+   {
+    "pts": 1,
+    "text": "second thing bought: masked patches never enter the encoder, so $196$ patches become $49$ tokens and the quadratic attention cost falls about $16\\times$"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e04q59",
@@ -5373,7 +6373,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw a camera and one ray through a pixel, passing first through a thin translucent surface and then through a solid one. Underneath, plot $\\sigma(t)$, $T(t)$ and the weight $T(t)\\sigma(t)$ against $t$ on shared axes. Then explain in two sentences why the far surface contributes less than its density alone would suggest."
+  "stem": "Draw a camera and one ray through a pixel, passing first through a thin translucent surface and then through a solid one. Underneath, plot $\\sigma(t)$, $T(t)$ and the weight $T(t)\\sigma(t)$ against $t$ on shared axes. Then explain in two sentences why the far surface contributes less than its density alone would suggest.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the camera and one ray through a pixel, crossing a thin translucent slab first and a solid one second, both labelled"
+   },
+   {
+    "pts": 1,
+    "text": "plots $\\sigma(t)$ as two slabs on the same $t$ axis, the far one much taller"
+   },
+   {
+    "pts": 1,
+    "text": "plots $T(t)$ starting at $1$, flat through empty space, dropping at each surface and never rising"
+   },
+   {
+    "pts": 1,
+    "text": "plots the weight $T(t)\\sigma(t)$, with the far spike scaled down by the $T$ that survives to it"
+   },
+   {
+    "pts": 1,
+    "text": "explains: the far surface absorbs $1-e^{-2}=0.865$ of what reaches it, but only $T=0.741$ arrives, so it contributes $0.641$ — the weight is $T_i\\alpha_i$, not $\\alpha_i$"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e04q60",
@@ -5384,7 +6407,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "code",
   "lines": 8,
-  "stem": "Write pseudo-code for one DDPM <strong>training</strong> step and for the full <strong>sampling</strong> loop. Assume a schedule $\\beta_1,\\dots,\\beta_K$, a network $\\varepsilon_\\theta(\\mathbf{x},k)$, and the closed form for $\\mathbf{x}_k$. Then state in one sentence why the timestep is drawn at random rather than swept in order, and what must be different about the very last sampling step."
+  "stem": "Write pseudo-code for one DDPM <strong>training</strong> step and for the full <strong>sampling</strong> loop. Assume a schedule $\\beta_1,\\dots,\\beta_K$, a network $\\varepsilon_\\theta(\\mathbf{x},k)$, and the closed form for $\\mathbf{x}_k$. Then state in one sentence why the timestep is drawn at random rather than swept in order, and what must be different about the very last sampling step.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "training: draws $\\mathbf{x}_0$, $k$ uniform in $\\{1,\\dots,K\\}$ and $\\varepsilon\\sim\\mathcal{N}(0,I)$, and forms $\\mathbf{x}_k$ by the closed form $\\sqrt{\\bar\\alpha_k}\\,\\mathbf{x}_0 + \\sqrt{1-\\bar\\alpha_k}\\,\\varepsilon$"
+   },
+   {
+    "pts": 1,
+    "text": "training: takes a gradient step on $\\lVert\\varepsilon - \\varepsilon_\\theta(\\mathbf{x}_k,k)\\rVert^2$"
+   },
+   {
+    "pts": 1,
+    "text": "sampling: starts from $\\mathbf{x}_K\\sim\\mathcal{N}(0,I)$, loops $k=K,\\dots,1$ computing the mean from $\\varepsilon_\\theta(\\mathbf{x}_k,k)$, sets $\\mathbf{x}_{k-1} = \\mu + \\sigma_k\\mathbf{z}$, and returns $\\mathbf{x}_0$"
+   },
+   {
+    "pts": 1,
+    "text": "states why $k$ is random: sweeping the levels in order makes the objective non-stationary, while a uniform draw gives an unbiased estimate of the loss over levels"
+   },
+   {
+    "pts": 1,
+    "text": "states what differs at the last step: $\\mathbf{z}=0$ at $k=1$, so no noise is added to the final image"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e05q01",
@@ -6727,7 +7773,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "A model's training loss keeps falling while its validation loss rises. Name the condition, and give three distinct remedies together with the mechanism of each."
+  "stem": "A model's training loss keeps falling while its validation loss rises. Name the condition, and give three distinct remedies together with the mechanism of each.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "names the condition: overfitting (training loss falls, validation loss rises)"
+   },
+   {
+    "pts": 1,
+    "text": "gives a first remedy with its mechanism, e.g. more or augmented data: a larger, more varied sample makes memorising single examples stop paying"
+   },
+   {
+    "pts": 1,
+    "text": "gives a second remedy acting at a different point with its mechanism, e.g. weight decay: a penalty on $\\lVert\\mathbf{w}\\rVert$ shrinks the hypothesis class"
+   },
+   {
+    "pts": 1,
+    "text": "gives a third distinct remedy with its mechanism, e.g. dropout: random unit removal prevents co-adaptation, an implicit ensemble; early stopping or less capacity also count"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e05q50",
@@ -6738,7 +7803,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "State what a plain ViT lacks that a CNN is given for free, and what it must therefore learn from data instead."
+  "stem": "State what a plain ViT lacks that a CNN is given for free, and what it must therefore learn from data instead.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "names locality as something a CNN has by construction (each unit sees a small neighbourhood)"
+   },
+   {
+    "pts": 1,
+    "text": "names translation equivariance as the other built-in bias (the same kernel at every position)"
+   },
+   {
+    "pts": 1,
+    "text": "states that self-attention is global and permutation equivariant, so a ViT must learn from data that nearby patches are related and that a pattern means the same thing anywhere"
+   },
+   {
+    "pts": 1,
+    "text": "draws the consequence: a ViT needs far more data before it overtakes a comparable CNN"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e05q51",
@@ -6749,7 +7833,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 7,
-  "stem": "Each family of 3D method exists because of the previous one's failure. Trace that chain from dense voxel grids through to projection methods, naming the failure that motivates each step."
+  "stem": "Each family of 3D method exists because of the previous one's failure. Trace that chain from dense voxel grids through to projection methods, naming the failure that motivates each step.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that dense voxel grids cost $O(r^3)$ and that hierarchical methods (OctNet, OGN) answer this by making empty space cheap"
+   },
+   {
+    "pts": 1,
+    "text": "states that hierarchical methods still compute over empty space with non-uniform resolution, which sparse convolutions fix by storing only active sites"
+   },
+   {
+    "pts": 1,
+    "text": "states that sparse methods keep quantisation error, which point-based methods remove by dropping the grid, at the cost of free space and accuracy"
+   },
+   {
+    "pts": 1,
+    "text": "states that projection methods reuse 2D CNNs by sidestepping 3D, and pay for it with lost geometry, distortion and occlusion"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e05q52",
@@ -6760,7 +7863,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "A GNN needs equivariance at one point and invariance at another. Say where each is required, and what would break if the two were swapped."
+  "stem": "A GNN needs equivariance at one point and invariance at another. Say where each is required, and what would break if the two were swapped.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that the per-node map must be equivariant, $f(PX,PAP^{\\top}) = Pf(X,A)$: relabelling the nodes relabels the outputs the same way"
+   },
+   {
+    "pts": 1,
+    "text": "states that the graph-level readout must be invariant, $f(PX,PAP^{\\top}) = f(X,A)$: the graph's output cannot depend on the node order"
+   },
+   {
+    "pts": 1,
+    "text": "explains what breaks with an invariant node map: every node gets the same output"
+   },
+   {
+    "pts": 1,
+    "text": "explains what breaks with an equivariant readout: the graph-level prediction changes when the nodes are renumbered"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e05q53",
@@ -6771,7 +7893,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain in what sense a foundation model is something new, and in what sense it is not."
+  "stem": "Explain in what sense a foundation model is something new, and in what sense it is not.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that the method is not new: self-supervision, transformers and large-scale pre-training all predate the term"
+   },
+   {
+    "pts": 1,
+    "text": "states that what is new is scale (broad data, high capacity)"
+   },
+   {
+    "pts": 1,
+    "text": "names the consequence of scale: one model adaptable to many tasks, including tasks nobody trained it for, through prompting or light adaptation instead of retraining"
+   },
+   {
+    "pts": 1,
+    "text": "states that the novelty is empirical, not methodological: capability keeps arriving with scale, which nothing in the recipe predicted"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e05q54",
@@ -6782,7 +7923,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "After adversarial feature alignment a team reports that their domain classifier is down to $50\\%$ accuracy, and concludes the adaptation worked. Say what that number does and does not establish."
+  "stem": "After adversarial feature alignment a team reports that their domain classifier is down to $50\\%$ accuracy, and concludes the adaptation worked. Say what that number does and does not establish.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states what it establishes: the two feature distributions (marginals) overlap, the domain classifier can no longer separate them"
+   },
+   {
+    "pts": 2,
+    "text": "states what it does not establish: that they overlap correctly, i.e. that same-class source and target samples land together; the domain loss cannot see labels, so class-conditionals may be misaligned"
+   },
+   {
+    "pts": 1,
+    "text": "gives the swapped-classes failure (target cars on source pedestrians) or states that target-task accuracy is the only evidence that counts"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e05q55",
@@ -6793,7 +7949,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Why does DDPM chop the corruption into many small steps instead of learning to invert one large one? Give two distinct reasons."
+  "stem": "Why does DDPM chop the corruption into many small steps instead of learning to invert one large one? Give two distinct reasons.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "gives learnability: removing a little noise is a well-conditioned regression task, whereas noise to image in one step is the whole generative problem"
+   },
+   {
+    "pts": 2,
+    "text": "gives Gaussianity: the reverse $q(\\mathbf{x}_{k-1}\\mid\\mathbf{x}_k)$ is intractable in general and becomes Gaussian only in the limit of small $\\beta_k$"
+   },
+   {
+    "pts": 1,
+    "text": "connects that to the model: $p_\\theta(\\mathbf{x}_{k-1}\\mid\\mathbf{x}_k)$ is parameterised as a Gaussian, so small steps are what make the parameterisation well-founded"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e05q56",
@@ -6804,7 +7975,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why NeRF needs positional encoding, and what the result looks like without it."
+  "stem": "Explain why NeRF needs positional encoding, and what the result looks like without it.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states the spectral bias: an MLP on raw coordinates is biased towards smooth functions"
+   },
+   {
+    "pts": 1,
+    "text": "states why that is wrong here: surfaces, edges and texture are high-frequency content the smooth MLP cannot represent"
+   },
+   {
+    "pts": 1,
+    "text": "gives the encoding, sinusoids of the coordinate at rising frequencies $\\sin(2^k\\pi p), \\cos(2^k\\pi p)$, so a smooth function of them varies rapidly in position"
+   },
+   {
+    "pts": 1,
+    "text": "describes the result without it: a visibly blurred reconstruction, recognisable geometry but no detail"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e05q57",
@@ -6815,7 +8005,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw a graph of five nodes forming <em>two</em> connected components. Beside it write its adjacency matrix $A$ and its unnormalised Laplacian $L = D - A$, and mark the vectors spanning the null space of $L$. Then state in one sentence what $\\operatorname{rank}(L)$ is and why."
+  "stem": "Draw a graph of five nodes forming <em>two</em> connected components. Beside it write its adjacency matrix $A$ and its unnormalised Laplacian $L = D - A$, and mark the vectors spanning the null space of $L$. Then state in one sentence what $\\operatorname{rank}(L)$ is and why.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws five labelled nodes forming exactly two connected components"
+   },
+   {
+    "pts": 1,
+    "text": "writes the adjacency matrix $A$ consistent with the drawing (symmetric, zero diagonal)"
+   },
+   {
+    "pts": 1,
+    "text": "writes $L = D - A$ consistent with $A$: degrees on the diagonal, $-1$ per edge, rows summing to zero"
+   },
+   {
+    "pts": 1,
+    "text": "marks the null space as the two component indicator vectors, e.g. $(1,1,1,0,0)^{\\top}$ and $(0,0,0,1,1)^{\\top}$"
+   },
+   {
+    "pts": 1,
+    "text": "states $\\operatorname{rank}(L) = N - k = 3$ because the multiplicity of eigenvalue $0$ equals the number of components"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e05q58",
@@ -6826,7 +8039,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Plot the triplet loss as a function of $\\mathcal{D}_n$, for a fixed $\\mathcal{D}_p$ and margin $m$. Mark the easy, semi-hard and hard regions on the axis, and mark the loss a fully collapsed network pays. Then explain in two sentences why that last value is the one that matters."
+  "stem": "Plot the triplet loss as a function of $\\mathcal{D}_n$, for a fixed $\\mathcal{D}_p$ and margin $m$. Mark the easy, semi-hard and hard regions on the axis, and mark the loss a fully collapsed network pays. Then explain in two sentences why that last value is the one that matters.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "plots $\\max\\{0, \\mathcal{D}_p - \\mathcal{D}_n + m\\}$: a line of slope $-1$ reaching zero at $\\mathcal{D}_n = \\mathcal{D}_p + m$ and flat beyond"
+   },
+   {
+    "pts": 1,
+    "text": "marks the three regions on the axis with their boundaries: hard below $\\mathcal{D}_p$, semi-hard between $\\mathcal{D}_p$ and $\\mathcal{D}_p + m$, easy beyond"
+   },
+   {
+    "pts": 1,
+    "text": "marks the collapse level as a horizontal line at loss $m$"
+   },
+   {
+    "pts": 1,
+    "text": "explains that a collapsed network makes every distance zero and so pays exactly $m$ on every triplet, which is the price the optimiser compares against"
+   },
+   {
+    "pts": 1,
+    "text": "explains that hard negatives cost more than $m$, so they make collapse the cheaper option, while semi-hard negatives (loss strictly between $0$ and $m$) are the useful ones"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e05q59",
@@ -6837,7 +8073,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw the DDPM forward and reverse chains as one diagram from $\\mathbf{x}_0$ to $\\mathbf{x}_K$. Label which direction is fixed and which is learned, what the network outputs, and where the closed-form shortcut applies. Then state in one sentence what makes the reverse step approximately Gaussian."
+  "stem": "Draw the DDPM forward and reverse chains as one diagram from $\\mathbf{x}_0$ to $\\mathbf{x}_K$. Label which direction is fixed and which is learned, what the network outputs, and where the closed-form shortcut applies. Then state in one sentence what makes the reverse step approximately Gaussian.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws one chain $\\mathbf{x}_0 \\to \\cdots \\to \\mathbf{x}_K$ with forward and reverse arrows between the same states"
+   },
+   {
+    "pts": 1,
+    "text": "labels the forward direction as fixed with no parameters, adding Gaussian noise $q(\\mathbf{x}_k\\mid\\mathbf{x}_{k-1}) = \\mathcal{N}(\\sqrt{1-\\beta_k}\\mathbf{x}_{k-1}, \\beta_k I)$"
+   },
+   {
+    "pts": 1,
+    "text": "labels the reverse direction as learned, with the network outputting the noise $\\varepsilon_\\theta(\\mathbf{x}_k, k)$ (from which $\\mu_\\theta$ follows)"
+   },
+   {
+    "pts": 1,
+    "text": "marks the closed-form shortcut as one jump from $\\mathbf{x}_0$ straight to $\\mathbf{x}_k$, $\\mathbf{x}_k = \\sqrt{\\bar\\alpha_k}\\mathbf{x}_0 + \\sqrt{1-\\bar\\alpha_k}\\varepsilon$"
+   },
+   {
+    "pts": 1,
+    "text": "states that the reverse step is approximately Gaussian only because $\\beta_k$ is small: the true reverse is intractable but tends to a Gaussian as $\\beta_k \\to 0$"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e05q60",
@@ -6848,7 +8107,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "code",
   "lines": 8,
-  "stem": "Write pseudo-code for <strong>MoCo</strong>: the query encoder, the momentum key encoder, the queue, and the InfoNCE loss. Then state in one sentence why the key encoder is not updated by gradient descent, and in one sentence what the queue buys over simply using a larger batch."
+  "stem": "Write pseudo-code for <strong>MoCo</strong>: the query encoder, the momentum key encoder, the queue, and the InfoNCE loss. Then state in one sentence why the key encoder is not updated by gradient descent, and in one sentence what the queue buys over simply using a larger batch.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "writes the two branches: two augmentations of the same images, $q$ from the query encoder $\\theta_q$ and $k^{+}$ from the key encoder $\\theta_k$ with no gradient"
+   },
+   {
+    "pts": 1,
+    "text": "writes the InfoNCE loss: logits $q\\cdot k^{+}/\\tau$ and $q\\cdot\\text{queue}[j]/\\tau$, cross-entropy over the $K{+}1$ candidates with the positive as the target"
+   },
+   {
+    "pts": 1,
+    "text": "writes the momentum update $\\theta_k \\leftarrow m\\theta_k + (1-m)\\theta_q$ and the FIFO queue step: enqueue the new keys, dequeue the oldest"
+   },
+   {
+    "pts": 1,
+    "text": "explains why no gradient on the key encoder: the queue's keys from many past steps must stay mutually comparable, so the key encoder may only drift slowly"
+   },
+   {
+    "pts": 1,
+    "text": "explains what the queue buys: the number of negatives is decoupled from the batch size, since it stores feature vectors only and none of the backward graph"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e06q01",
@@ -8216,7 +9498,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Teacher forcing is used during training and is not available at inference. Explain what it is and what problem its absence creates."
+  "stem": "Teacher forcing is used during training and is not available at inference. Explain what it is and what problem its absence creates.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "defines teacher forcing: the decoder is fed the ground-truth previous tokens during training instead of its own predictions"
+   },
+   {
+    "pts": 1,
+    "text": "says what that buys: the whole target sequence trains in one parallel pass and early mistakes cannot compound, so training converges"
+   },
+   {
+    "pts": 1,
+    "text": "states the inference problem: the model must consume its own output, a distribution it never saw in training, so one early error leaves it in an untrained state"
+   },
+   {
+    "pts": 1,
+    "text": "names it exposure bias, or describes its symptom: errors compound, generation degrades or falls into a repetition loop"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e06q50",
@@ -8227,7 +9528,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "A ViT's attention maps are often shown as an explanation of what the model looked at. Say what they do and do not establish."
+  "stem": "A ViT's attention maps are often shown as an explanation of what the model looked at. Say what they do and do not establish.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states what they do establish: which tokens a query attended to, at one layer and one head, which is real information about the computation"
+   },
+   {
+    "pts": 1,
+    "text": "states that they do not explain why and are not a causal account of the prediction"
+   },
+   {
+    "pts": 1,
+    "text": "states that they are not the whole model: the feed-forward network holds most of the parameters and is invisible, and the residual stream carries information past attention"
+   },
+   {
+    "pts": 1,
+    "text": "gives a further gap: high attention weight is not high influence (a small value vector contributes little), or one map is one slice of many disagreeing heads"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e06q51",
@@ -8238,7 +9558,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "Explain what the <em>dilation problem</em> is in sparse convolution, why submanifold convolution solves it, and what that solution costs."
+  "stem": "Explain what the <em>dilation problem</em> is in sparse convolution, why submanifold convolution solves it, and what that solution costs.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states the dilation problem: a regular sparse convolution writes an output wherever the kernel touches an active site, so the active set grows by a kernel radius per layer ($3^d$, then $5^d$ sites from one voxel)"
+   },
+   {
+    "pts": 1,
+    "text": "names the consequence: sparsity is destroyed with depth and the informative features are diluted among the zeros they spread into"
+   },
+   {
+    "pts": 1,
+    "text": "explains the fix: submanifold convolution centres the kernel on active sites and writes output only there, so the active set is preserved exactly at every depth"
+   },
+   {
+    "pts": 1,
+    "text": "names the cost: two disconnected components can never exchange information, however many layers are stacked"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e06q52",
@@ -8249,7 +9588,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why a Siamese network's two branches share their weights, and name the one case where they legitimately do not."
+  "stem": "Explain why a Siamese network's two branches share their weights, and name the one case where they legitimately do not.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that both inputs must be mapped into the same space for a distance between them to mean anything"
+   },
+   {
+    "pts": 1,
+    "text": "says what untied branches would do: the distance would measure the disagreement of two encoders, and would not even be zero for two copies of the same input"
+   },
+   {
+    "pts": 1,
+    "text": "names the exception: cross-modal work such as CLIP, where the inputs are of different kinds (pixels and tokens) and there is no shared parameterisation to tie"
+   },
+   {
+    "pts": 1,
+    "text": "derives the tie: $M = W^{\\top}W$ gives $\\lVert W\\mathbf{x}_1 - W\\mathbf{x}_2\\rVert^2$ with the same $W$ on both sides, or states that CLIP ties the output space instead"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e06q53",
@@ -8260,7 +9618,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Adding a modality can make a model <em>worse</em>. Explain how that happens, and what you would measure to detect it."
+  "stem": "Adding a modality can make a model <em>worse</em>. Explain how that happens, and what you would measure to detect it.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that a weak or noisy modality can pull performance below the best single-modality baseline"
+   },
+   {
+    "pts": 1,
+    "text": "gives a mechanism: extra parameters add variance without information, the shared representation spends capacity on it, or disagreements are resolved wrongly by the fusion"
+   },
+   {
+    "pts": 1,
+    "text": "says what to measure: ablate each modality in turn and see whether the score moves"
+   },
+   {
+    "pts": 1,
+    "text": "says what to compare against: every unimodal baseline, not only the other multimodal variants"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e06q54",
@@ -8271,7 +9648,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Distinguish a <em>false</em> negative in contrastive learning from an ordinary <em>hard</em> negative, and say why more data makes one of them worse."
+  "stem": "Distinguish a <em>false</em> negative in contrastive learning from an ordinary <em>hard</em> negative, and say why more data makes one of them worse.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "defines a hard negative: a genuinely different instance that the current embedding places close to the anchor, the comparison worth training on"
+   },
+   {
+    "pts": 1,
+    "text": "defines a false negative: a sample of the same semantic class labelled negative only because it came from a different image, so the loss pushes apart what belongs together"
+   },
+   {
+    "pts": 1,
+    "text": "states that the objective cannot tell them apart: it only knows which image each crop came from, there are no class labels"
+   },
+   {
+    "pts": 1,
+    "text": "explains why more data makes false negatives worse: the chance that a random negative shares the anchor's class rises with the dataset's coverage of that class"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e06q55",
@@ -8282,7 +9678,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain the stability–plasticity dilemma, and say what failure each extreme produces."
+  "stem": "Explain the stability–plasticity dilemma, and say what failure each extreme produces.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "defines the two terms: stability preserves what has been learned, plasticity is the ability to learn something new"
+   },
+   {
+    "pts": 1,
+    "text": "states why they compete: fixed capacity and shared weights, so protecting the old restricts the new and vice versa"
+   },
+   {
+    "pts": 1,
+    "text": "names the plasticity extreme: catastrophic forgetting, the new task overwrites the old"
+   },
+   {
+    "pts": 1,
+    "text": "names the stability extreme: loss of plasticity, the model stops being able to learn, and does so silently"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e06q56",
@@ -8293,7 +9708,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "3D Gaussian splatting has to depth-sort its Gaussians before blending them. Explain why, and what goes wrong if the order is wrong."
+  "stem": "3D Gaussian splatting has to depth-sort its Gaussians before blending them. Explain why, and what goes wrong if the order is wrong.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "writes the compositing rule $\\hat C = \\sum_i T_i\\alpha_i\\mathbf{c}_i$ with $T_i = \\prod_{j<i}(1-\\alpha_j)$"
+   },
+   {
+    "pts": 1,
+    "text": "explains that $T_i$ is a running product over everything in front of primitive $i$, so “in front of” must be fixed first: sort by depth along the view ray"
+   },
+   {
+    "pts": 1,
+    "text": "says what a wrong order does: each $T_i$ multiplies over the wrong set, so occluded surfaces show through and visible ones are dimmed"
+   },
+   {
+    "pts": 1,
+    "text": "states that alpha blending is not commutative, so the order is part of the definition of the render, not an optimisation (or contrasts with NeRF's free depth order)"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e06q57",
@@ -8304,7 +9738,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw the five families of 3D representation as a chain. Label each with the failure of the previous family that it answers and the new cost it brings, and name one flagship method for each. Then say in one sentence why there is no winner."
+  "stem": "Draw the five families of 3D representation as a chain. Label each with the failure of the previous family that it answers and the new cost it brings, and name one flagship method for each. Then say in one sentence why there is no winner.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the five families as a chain in order: dense voxel grid, hierarchical, sparse, point-based, projection"
+   },
+   {
+    "pts": 1,
+    "text": "labels each arrow with the failure it answers: $O(r^3)$ cost, still computing over empty space, quantisation remaining, no free space and lower accuracy"
+   },
+   {
+    "pts": 1,
+    "text": "labels the cost each family brings, e.g. points lose free space and projection loses the geometry (free space and quantisation traded along the chain)"
+   },
+   {
+    "pts": 1,
+    "text": "names one flagship method per family, e.g. VoxNet, OctNet, Minkowski or SSC, PointNet, RangeNet++"
+   },
+   {
+    "pts": 1,
+    "text": "states why there is no winner: free space and freedom from quantisation are traded against each other, and the task decides which one is needed"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e06q58",
@@ -8315,7 +9772,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw early, intermediate and late fusion side by side for two modalities. Label where the fusion happens in each, how many outputs each produces, and which one survives a dead sensor. Then explain in two sentences the single trade-off that runs along that axis."
+  "stem": "Draw early, intermediate and late fusion side by side for two modalities. Label where the fusion happens in each, how many outputs each produces, and which one survives a dead sensor. Then explain in two sentences the single trade-off that runs along that axis.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the three pipelines with the join in the right place: early fuses the raw inputs before one model, intermediate fuses encoder features before a head, late combines the predictions of two separate models"
+   },
+   {
+    "pts": 1,
+    "text": "labels the number of outputs: one for early and intermediate, one per modality for late"
+   },
+   {
+    "pts": 1,
+    "text": "marks late fusion as the one that survives a dead sensor, and early fusion as the one a missing input stops dead"
+   },
+   {
+    "pts": 1,
+    "text": "states the trade-off: the earlier the modalities meet, the more they can interact"
+   },
+   {
+    "pts": 1,
+    "text": "states the other side: the earlier they meet, the more alike (homogeneous) the inputs must be, so late fusion asks nothing of the inputs and forgoes cross-modal interaction"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e06q59",
@@ -8326,7 +9806,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw the domain-adversarial setup: the encoder, the task head, the domain classifier, and the gradient reversal layer. Mark what the GRL does in each direction, and which component ends up <em>maximising</em> the domain loss. Then state in one sentence why the forward loss is a plain sum."
+  "stem": "Draw the domain-adversarial setup: the encoder, the task head, the domain classifier, and the gradient reversal layer. Mark what the GRL does in each direction, and which component ends up <em>maximising</em> the domain loss. Then state in one sentence why the forward loss is a plain sum.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the encoder feeding two branches: the task head directly, and the domain classifier through the GRL"
+   },
+   {
+    "pts": 1,
+    "text": "marks the GRL's forward behaviour: the identity"
+   },
+   {
+    "pts": 1,
+    "text": "marks the GRL's backward behaviour: the gradient is multiplied by $-\\lambda$"
+   },
+   {
+    "pts": 1,
+    "text": "identifies the encoder as the component that maximises the domain loss, while the domain classifier downstream of the GRL minimises it"
+   },
+   {
+    "pts": 1,
+    "text": "states why the forward loss is a plain sum $\\mathcal{L}_{\\text{task}} + \\mathcal{L}_{\\text{domain}}$: the minus sign lives in the layer, not the objective, so one optimiser does the minimax"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e06q60",
@@ -8337,7 +9840,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "code",
   "lines": 8,
-  "stem": "Write pseudo-code for one <strong>GAT</strong> layer with a single head: the shared linear map, the attention score, the softmax over the neighbourhood, and the aggregation. Then say how several heads are combined in a hidden layer and at the output layer, and state in one sentence what role the adjacency matrix plays."
+  "stem": "Write pseudo-code for one <strong>GAT</strong> layer with a single head: the shared linear map, the attention score, the softmax over the neighbourhood, and the aggregation. Then say how several heads are combined in a hidden layer and at the output layer, and state in one sentence what role the adjacency matrix plays.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "writes the shared linear map $\\mathbf{z}_i = W\\mathbf{x}_i$ with one $W$ for every node"
+   },
+   {
+    "pts": 1,
+    "text": "writes the attention score $e_{ij} = \\mathrm{LeakyReLU}(\\mathbf{a}^{\\top}[\\mathbf{z}_i \\Vert \\mathbf{z}_j])$ for $j \\in \\mathcal{N}(i) \\cup \\{i\\}$, self-loop included"
+   },
+   {
+    "pts": 1,
+    "text": "normalises with a softmax over the neighbourhood only and aggregates $\\mathbf{h}_i = \\sigma(\\sum_j \\alpha_{ij}\\mathbf{z}_j)$"
+   },
+   {
+    "pts": 1,
+    "text": "combines heads by concatenation in a hidden layer (width $K \\cdot d$) and by averaging at the output layer (width $d$)"
+   },
+   {
+    "pts": 1,
+    "text": "states the adjacency's role: an attention mask, scores and softmax run only over neighbours, $O(|\\mathcal{E}|)$ instead of a transformer's $O(N^2)$"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e07q01",
@@ -9675,7 +11201,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why the forward activations have to be stored during the forward pass, and what that costs."
+  "stem": "Explain why the forward activations have to be stored during the forward pass, and what that costs.",
+  "scheme": [
+   {
+    "pts": 2,
+    "text": "states that the chain rule needs them: a weight's gradient is the upstream gradient times the layer's <em>incoming activation</em>, so the backward pass at layer $\\ell$ needs the value it received in the forward pass"
+   },
+   {
+    "pts": 1,
+    "text": "explains that the backward pass runs in reverse, so every activation must stay resident from the moment it is computed until the moment it is used"
+   },
+   {
+    "pts": 1,
+    "text": "gives the cost: memory scaling with depth times batch size times feature size, typically the largest single consumer of VRAM in training"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e07q50",
@@ -9686,7 +11227,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "State what attention computes and what the feed-forward network computes, and explain why a transformer layer needs both."
+  "stem": "State what attention computes and what the feed-forward network computes, and explain why a transformer layer needs both.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that attention mixes information <em>between</em> tokens: it is the only mechanism in the layer that lets one position see another"
+   },
+   {
+    "pts": 1,
+    "text": "states that the feed-forward network is applied to each position independently with shared weights, computing <em>within</em> a token"
+   },
+   {
+    "pts": 2,
+    "text": "explains why both are needed: attention alone is a weighted average of value vectors with little non-linear computation, and the feed-forward network alone can never let two positions interact"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e07q51",
@@ -9697,7 +11253,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why a point cloud cannot represent free space, and name a task where that matters."
+  "stem": "Explain why a point cloud cannot represent free space, and name a task where that matters.",
+  "scheme": [
+   {
+    "pts": 2,
+    "text": "states that a point cloud only lists <em>observed</em> points, so it cannot distinguish a region known to be empty from one never looked at — empty space has no entries"
+   },
+   {
+    "pts": 1,
+    "text": "contrasts with a grid: every cell carries a value, so an occupancy grid has a free state and a ternary grid adds an explicit unknown"
+   },
+   {
+    "pts": 1,
+    "text": "names a task where it matters — scene completion, mapping or robot navigation — and says why free space is needed there"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e07q52",
@@ -9708,7 +11279,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Sum, mean and max are all permutation-invariant but not equally expressive. Explain the difference with a concrete example."
+  "stem": "Sum, mean and max are all permutation-invariant but not equally expressive. Explain the difference with a concrete example.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that all three are permutation-invariant and that they differ in what they can <em>distinguish</em>, i.e. in expressiveness"
+   },
+   {
+    "pts": 1,
+    "text": "states that a neighbourhood is a multiset and that mean and max throw the multiplicity away while sum keeps it, so only sum can count"
+   },
+   {
+    "pts": 1,
+    "text": "gives a concrete example: three neighbours of feature $a$ against six — mean and max return $a$ for both, sum returns $3a$ and $6a$"
+   }
+  ],
+  "pts": 3
  },
  {
   "id": "e07q53",
@@ -9719,7 +11305,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why “concatenate the two modalities and put an MLP on top” is not really fusion, and say what would be."
+  "stem": "Explain why “concatenate the two modalities and put an MLP on top” is not really fusion, and say what would be.",
+  "scheme": [
+   {
+    "pts": 2,
+    "text": "shows that a linear layer on a concatenation splits into $W_A\\mathbf{x}_A + W_B\\mathbf{x}_B$: additive fusion, each modality contributing a fixed term that the other cannot modulate"
+   },
+   {
+    "pts": 1,
+    "text": "states that genuine fusion needs a <em>product</em> somewhere, so that what one modality contributes depends on the other"
+   },
+   {
+    "pts": 1,
+    "text": "names a multiplicative method: element-wise product, bilinear or tensor fusion, FiLM, or cross-modal attention"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e07q54",
@@ -9730,7 +11331,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what a proxy task's own accuracy does and does not tell you, and what should be measured instead."
+  "stem": "Explain what a proxy task's own accuracy does and does not tell you, and what should be measured instead.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that proxy accuracy only shows the proxy was solved and says nothing about the quality of the representation"
+   },
+   {
+    "pts": 1,
+    "text": "names the shortcut risk with an example — chromatic aberration, patch mean and variance, or edge continuation — none of which needs understanding of the image"
+   },
+   {
+    "pts": 1,
+    "text": "states that downstream performance on a real task is what should be measured"
+   },
+   {
+    "pts": 1,
+    "text": "names linear probing and fine-tuning as the two downstream measurements, with what each asks (linearly accessible information; a good initialisation)"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e07q55",
@@ -9741,7 +11361,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain in what sense training and sampling are decoupled in a diffusion model, and what that decoupling buys."
+  "stem": "Explain in what sense training and sampling are decoupled in a diffusion model, and what that decoupling buys.",
+  "scheme": [
+   {
+    "pts": 2,
+    "text": "states that the network is trained only on a <em>local</em> question — given a noisy input and its noise level, predict the noise — and is never told how samples will be produced"
+   },
+   {
+    "pts": 1,
+    "text": "states that any procedure needing the score can use the model, naming two samplers (ancestral DDPM, reverse-time SDE, probability-flow ODE, off-the-shelf solver)"
+   },
+   {
+    "pts": 1,
+    "text": "states what it buys: a better sampler is a drop-in replacement with no retraining, which is how step counts fell from hundreds to $20$–$50$"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e07q56",
@@ -9752,7 +11387,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "A NeRF is trained on one scene and cannot be applied to another. Explain why, and contrast it with what a foundation model does."
+  "stem": "A NeRF is trained on one scene and cannot be applied to another. Explain why, and contrast it with what a foundation model does.",
+  "scheme": [
+   {
+    "pts": 2,
+    "text": "states that a NeRF's weights <em>are</em> the scene: a coordinate function $(\\mathbf{x},\\mathbf{d}) \\mapsto (\\mathbf{c},\\sigma)$ fitted to one set of photographs, never to a distribution of scenes, so nothing in it generalises"
+   },
+   {
+    "pts": 1,
+    "text": "names the framing: per-instance fitting or compression rather than learning, so none of the effort transfers to the next scene"
+   },
+   {
+    "pts": 1,
+    "text": "contrasts with a foundation model: trained on massive broad data so that it is adaptable to many tasks and inputs it was not trained for"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e07q57",
@@ -9763,7 +11413,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw one encoder layer and one decoder layer of the original transformer, side by side. Label every sub-layer, mark where the mask is applied and say in one line why, and mark clearly which arrow carries the encoder's keys and values into the decoder."
+  "stem": "Draw one encoder layer and one decoder layer of the original transformer, side by side. Label every sub-layer, mark where the mask is applied and say in one line why, and mark clearly which arrow carries the encoder's keys and values into the decoder.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the encoder layer with two labelled sub-layers, multi-head self-attention and position-wise feed-forward, each followed by add &amp;amp; norm"
+   },
+   {
+    "pts": 1,
+    "text": "draws the decoder layer with three labelled sub-layers in order: masked self-attention, cross-attention, feed-forward, each followed by add &amp;amp; norm"
+   },
+   {
+    "pts": 1,
+    "text": "marks the mask on the decoder's self-attention and says why: without it position $t$ could see itself and later positions, making the training objective trivial"
+   },
+   {
+    "pts": 1,
+    "text": "draws the arrow from the encoder's output into the decoder's cross-attention, labelled as supplying $K$ and $V$"
+   },
+   {
+    "pts": 1,
+    "text": "states that $Q$ in cross-attention comes from the decoder, and that cross-attention carries no causal mask"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e07q58",
@@ -9774,7 +11447,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw the geometry of a softmax embedding: two classes as radial spokes from the origin, with a same-class pair marked that is further apart than a different-class pair. Beside it, draw what an angular margin changes. Then explain in two sentences why <em>separable</em> and <em>discriminative</em> are not the same thing."
+  "stem": "Draw the geometry of a softmax embedding: two classes as radial spokes from the origin, with a same-class pair marked that is further apart than a different-class pair. Beside it, draw what an angular margin changes. Then explain in two sentences why <em>separable</em> and <em>discriminative</em> are not the same thing.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws two classes as radial spokes from the origin, samples of each class spread along its spoke"
+   },
+   {
+    "pts": 1,
+    "text": "marks a same-class pair far out along one spoke that is further apart than a different-class pair near the origin"
+   },
+   {
+    "pts": 1,
+    "text": "draws the margin picture: features normalised onto a circle, with an angular gap $m$ between the two class sectors"
+   },
+   {
+    "pts": 1,
+    "text": "states that <em>separable</em> means a correct decision boundary exists — all softmax asks for — and that long spokes achieve it because the logit rewards norm as readily as angle"
+   },
+   {
+    "pts": 1,
+    "text": "states that <em>discriminative</em> means distance carries meaning, requiring same-class samples to be close to each other, which softmax never asks for"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e07q59",
@@ -9785,7 +11481,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw MoCo: the query encoder, the momentum key encoder, the queue, and the InfoNCE comparison. Mark which paths carry a gradient and which do not. Then state in two sentences what the queue buys and what the momentum buys."
+  "stem": "Draw MoCo: the query encoder, the momentum key encoder, the queue, and the InfoNCE comparison. Mark which paths carry a gradient and which do not. Then state in two sentences what the queue buys and what the momentum buys.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the query encoder $f_{\\theta_q}$ on $x^q$ and the key encoder $f_{\\theta_k}$ on $x^k$, with the query feature $q$ going into the InfoNCE loss"
+   },
+   {
+    "pts": 1,
+    "text": "draws the queue of $K$ stored key vectors feeding InfoNCE as negatives, with the new key enqueued and the oldest dequeued (FIFO)"
+   },
+   {
+    "pts": 1,
+    "text": "marks the gradient path as reaching only the query encoder, the key branch and the queue carrying none, and writes the momentum update $\\theta_k \\leftarrow m\\theta_k + (1-m)\\theta_q$"
+   },
+   {
+    "pts": 1,
+    "text": "states what the queue buys: the number of negatives is decoupled from the batch size, because stored feature vectors carry no gradient"
+   },
+   {
+    "pts": 1,
+    "text": "states what the momentum buys: consistency — keys from many past steps stay comparable because the key encoder drifts slowly"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e07q60",
@@ -9796,7 +11515,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "code",
   "lines": 8,
-  "stem": "Write pseudo-code for a <strong>LoRA</strong>-adapted linear layer: the forward pass, which tensors require gradients, and the merge that removes the inference cost. Then state in one sentence why $B$ is initialised to zero, and in one sentence why the update is scaled by $\\alpha/r$."
+  "stem": "Write pseudo-code for a <strong>LoRA</strong>-adapted linear layer: the forward pass, which tensors require gradients, and the merge that removes the inference cost. Then state in one sentence why $B$ is initialised to zero, and in one sentence why the update is scaled by $\\alpha/r$.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "writes the setup: $W$ frozen with no gradient, $A$ random and $B$ zero, and only $A$ and $B$ requiring gradients"
+   },
+   {
+    "pts": 1,
+    "text": "writes the forward pass $W\\mathbf{x} + \\frac{\\alpha}{r}B(A\\mathbf{x})$, applying $A$ first so no $d \\times d$ product is ever formed"
+   },
+   {
+    "pts": 1,
+    "text": "writes the merge $W' \\leftarrow W + \\frac{\\alpha}{r}BA$ and discards $A$, $B$, so inference uses one matrix with no extra latency"
+   },
+   {
+    "pts": 1,
+    "text": "explains $B = 0$: the adapted model equals the pre-trained model exactly at step $0$, with $A$ random so the gradient does not vanish"
+   },
+   {
+    "pts": 1,
+    "text": "explains $\\alpha/r$: it makes the effective size of the update roughly independent of the rank $r$"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e08q01",
@@ -11096,7 +12838,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what <code>[CLS]</code> and <code>[SEP]</code> are for in BERT, and why a dedicated token is needed at all rather than reusing an ordinary one."
+  "stem": "Explain what <code>[CLS]</code> and <code>[SEP]</code> are for in BERT, and why a dedicated token is needed at all rather than reusing an ordinary one.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that <code>[CLS]</code> is prepended to every sequence and its final hidden state is the aggregate representation used for sentence-level classification"
+   },
+   {
+    "pts": 1,
+    "text": "states that <code>[SEP]</code> marks the boundary between the two sentences of a pair and the end of the input"
+   },
+   {
+    "pts": 2,
+    "text": "explains why a dedicated token: an ordinary token already has a job — its representation must describe that word — so doubling as a summary would put two objectives on one vector, whereas <code>[CLS]</code> means nothing and is free"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e08q50",
@@ -11107,7 +12864,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "DETR removes non-maximum suppression. Explain what NMS was for, and what replaces it."
+  "stem": "DETR removes non-maximum suppression. Explain what NMS was for, and what replaces it.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that classical detectors produce many overlapping boxes for one object, because anchors are tiled densely and several fit"
+   },
+   {
+    "pts": 1,
+    "text": "states that NMS is hand-written post-processing that keeps the highest-scoring box in each cluster and deletes the rest"
+   },
+   {
+    "pts": 2,
+    "text": "states what replaces it: one-to-one Hungarian matching in the loss — each ground-truth object is assigned to exactly one prediction and all others are trained to predict $\\varnothing$ — so duplicates are prevented in training, not deleted afterwards"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e08q51",
@@ -11118,7 +12890,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what OctNet's pooling does and what its unpooling does, and say what unpooling cannot recover."
+  "stem": "Explain what OctNet's pooling does and what its unpooling does, and say what unpooling cannot recover.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that pooling merges $8$ shallow octrees into $1$: every voxel moves one level deeper and the grid resolution halves"
+   },
+   {
+    "pts": 1,
+    "text": "states that unpooling is the structural inverse: $1$ octree of depth $d$ becomes $8$ of depth $d-1$, so the depth falls and the resolution rises"
+   },
+   {
+    "pts": 1,
+    "text": "states that unpooling cannot recover the detail pooling discarded — it restores the shape of the tensor, not its content"
+   },
+   {
+    "pts": 1,
+    "text": "names skip connections from the encoder as where the lost detail has to come from"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e08q52",
@@ -11129,7 +12920,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "Explain why pooling a graph is harder than pooling an image, and name two methods together with their mechanisms."
+  "stem": "Explain why pooling a graph is harder than pooling an image, and name two methods together with their mechanisms.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that an image grid is regular, so a $2\\times2$ neighbourhood exists everywhere, while a graph has no canonical neighbourhood and no canonical ordering"
+   },
+   {
+    "pts": 1,
+    "text": "states that removing nodes also changes the connectivity the network reads — deleting a bridge node can disconnect the graph"
+   },
+   {
+    "pts": 1,
+    "text": "names Top-$K$ with its mechanism: score each node, keep the best $K$, take the induced subgraph"
+   },
+   {
+    "pts": 1,
+    "text": "names a second method with its mechanism: EdgePool (score edges, contract the best, merge endpoints), SAGPool (Top-$K$ with GNN scores) or DiffPool (soft clustering)"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e08q53",
@@ -11140,7 +12950,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what an <em>open set</em> is, and why it makes a classifier the wrong tool."
+  "stem": "Explain what an <em>open set</em> is, and why it makes a classifier the wrong tool.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that an open set is one in which new classes appear after deployment — new faces, products or speakers"
+   },
+   {
+    "pts": 2,
+    "text": "explains why a classifier is the wrong tool: its answers are the fixed columns of its output layer, so a new identity is a new <em>output</em>, needing a new weight column and a retraining run"
+   },
+   {
+    "pts": 1,
+    "text": "contrasts with an embedding: it learns a space rather than a set of answers, so enrolling an identity is one forward pass and one stored vector"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e08q54",
@@ -11151,7 +12976,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "Name the three rungs of the domain-adaptation ladder in order, and state the assumption each one needs."
+  "stem": "Name the three rungs of the domain-adaptation ladder in order, and state the assumption each one needs.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "names the three rungs in order: importance weighting, feature alignment, domain translation"
+   },
+   {
+    "pts": 1,
+    "text": "states importance weighting's assumption: the source distribution covers the target, since reweighting by $w = (1-c)/c$ can only re-emphasise samples you already have"
+   },
+   {
+    "pts": 1,
+    "text": "states feature alignment's assumption: a shared representation exists in which both domains can be expressed (made indistinguishable adversarially, no coverage needed)"
+   },
+   {
+    "pts": 1,
+    "text": "states domain translation's assumption: only that a content-preserving correspondence exists, kept honest by cycle consistency on unpaired data"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e08q55",
@@ -11162,7 +13006,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what goes wrong if a diffusion model is sampled without the noise term — on every step, and separately on the last one."
+  "stem": "Explain what goes wrong if a diffusion model is sampled without the noise term — on every step, and separately on the last one.",
+  "scheme": [
+   {
+    "pts": 2,
+    "text": "states that dropping the noise on every step turns sampling into deterministic mode-finding: the chain follows the score to a local maximum, one initial noise vector gives one output, and the model no longer represents a distribution"
+   },
+   {
+    "pts": 1,
+    "text": "states that dropping it on the last step alone is correct and what DDPM specifies: the final step produces the image, and adding $\\sigma_1\\mathbf{z}$ would only make it grainy"
+   },
+   {
+    "pts": 1,
+    "text": "explains the difference: every intermediate step draws from the distribution $p_\\theta(\\mathbf{x}_{k-1}\\mid\\mathbf{x}_k)$ and taking its mean collapses the chain, while the last step produces the answer rather than an intermediate"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e08q56",
@@ -11173,7 +13032,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what a calibrated pose is used for, in terms of what a pixel becomes."
+  "stem": "Explain what a calibrated pose is used for, in terms of what a pixel becomes.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that a calibrated pose turns a pixel into a <em>ray in world space</em>, which is what multi-view consistency is consistent about"
+   },
+   {
+    "pts": 1,
+    "text": "states that the intrinsics — focal length and principal point — convert pixel coordinates into a direction in camera space"
+   },
+   {
+    "pts": 1,
+    "text": "states that the extrinsics — six degrees of freedom of position and orientation — rotate and translate that direction into the world"
+   }
+  ],
+  "pts": 3
  },
  {
   "id": "e08q57",
@@ -11184,7 +13058,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw an $(N, C, H, W)$ tensor four times and shade, on each copy, the set of entries that BatchNorm, LayerNorm, InstanceNorm and GroupNorm average over. Label each. Then say in one sentence which you would reach for when the batch is small, and why."
+  "stem": "Draw an $(N, C, H, W)$ tensor four times and shade, on each copy, the set of entries that BatchNorm, LayerNorm, InstanceNorm and GroupNorm average over. Label each. Then say in one sentence which you would reach for when the batch is small, and why.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the $(N,C,H,W)$ tensor four times with the $N$ and $C$ axes labelled and each copy named"
+   },
+   {
+    "pts": 1,
+    "text": "shades BatchNorm as one channel across all samples (over $N,H,W$) and LayerNorm as one sample across all channels (over $C,H,W$)"
+   },
+   {
+    "pts": 1,
+    "text": "shades InstanceNorm as one sample and one channel (over $H,W$) and GroupNorm as one sample and a group of channels"
+   },
+   {
+    "pts": 1,
+    "text": "names LayerNorm or GroupNorm as the choice for a small batch"
+   },
+   {
+    "pts": 1,
+    "text": "says why: their statistics do not involve the batch axis, so they do not become noisy as $N$ falls and need no running averages at inference"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e08q58",
@@ -11195,7 +13092,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw a plain ViT from image to prediction, labelling the patching, the linear projection, the positional encodings, the <code>[class]</code> token, the encoder and the head. Beside it, draw what Swin changes — label the windows, the shift, and patch merging. Then explain in two sentences what Swin buys and what it costs."
+  "stem": "Draw a plain ViT from image to prediction, labelling the patching, the linear projection, the positional encodings, the <code>[class]</code> token, the encoder and the head. Beside it, draw what Swin changes — label the windows, the shift, and patch merging. Then explain in two sentences what Swin buys and what it costs.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the ViT pipeline in order, labelled: patch, flatten and linear projection, positional encoding, prepend <code>[class]</code>, transformer encoder, head on <code>[class]</code>"
+   },
+   {
+    "pts": 1,
+    "text": "draws Swin's stage with the $M\\times M$ windows, the shift by $\\lfloor M/2\\rfloor$ with attention in the shifted windows, and patch merging $(H,W,C)\\to(H/2,W/2,2C)$, labelled"
+   },
+   {
+    "pts": 1,
+    "text": "states that Swin buys attention <em>linear</em> in the number of patches, because the fixed window size fixes the pairs per window"
+   },
+   {
+    "pts": 1,
+    "text": "states that Swin buys a multi-scale hierarchy from patch merging, which makes it a detection and segmentation backbone"
+   },
+   {
+    "pts": 1,
+    "text": "states the cost: globality — a patch sees only its own window in one block, so information crosses the image over several blocks, and only because of the shift"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e08q59",
@@ -11206,7 +13126,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw the four families of generative model as four boxes, each labelled with how it escapes the normalising constant and one example. Then explain in two sentences why the <em>score</em> is not a fifth family but a way of stepping around the problem entirely."
+  "stem": "Draw the four families of generative model as four boxes, each labelled with how it escapes the normalising constant and one example. Then explain in two sentences why the <em>score</em> is not a fifth family but a way of stepping around the problem entirely.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws four boxes labelled autoregressive, latent variable, flow-based and energy-based, with the normalising constant $Z$ as the shared obstacle"
+   },
+   {
+    "pts": 1,
+    "text": "labels each box's escape: factorise into conditionals; choose the prior yourself; invertible map with change of variables; accept $Z$ and be unable to use it"
+   },
+   {
+    "pts": 1,
+    "text": "gives one example per box: GPT, VAE, RealNVP or a continuous flow, Boltzmann machine"
+   },
+   {
+    "pts": 1,
+    "text": "states that the score is the <em>gradient</em> of $\\log p$, not a density, and that $\\nabla_{\\mathbf{x}}\\log Z = 0$ so the normalising constant is simply absent"
+   },
+   {
+    "pts": 1,
+    "text": "states what is left: an unconstrained vector field that an ordinary network can output and squared error can train, and that this is enough to sample from"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e08q60",
@@ -11217,7 +13160,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "code",
   "lines": 8,
-  "stem": "Write pseudo-code for <strong>PointNet</strong>'s classification forward pass, including both T-Nets and the orthogonality penalty. Then state in one sentence why the aggregation is max pooling rather than concatenation, and in one sentence what changes for segmentation."
+  "stem": "Write pseudo-code for <strong>PointNet</strong>'s classification forward pass, including both T-Nets and the orthogonality penalty. Then state in one sentence why the aggregation is max pooling rather than concatenation, and in one sentence what changes for segmentation.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "writes the input transform $T_1 = \\mathrm{TNet}_3(X)$, $X \\leftarrow XT_1$, followed by a per-point shared MLP $3\\to64\\to64$"
+   },
+   {
+    "pts": 1,
+    "text": "writes the feature transform $T_2 = \\mathrm{TNet}_{64}(F)$, $F \\leftarrow FT_2$, followed by a per-point shared MLP $64\\to128\\to1024$"
+   },
+   {
+    "pts": 1,
+    "text": "writes the max over the $n$ points into a global vector, the classification MLP on it, and the loss with the penalty $\\lambda\\lVert I - T_2T_2^{\\top}\\rVert_F^2$"
+   },
+   {
+    "pts": 1,
+    "text": "explains max over concatenation: concatenation depends on the point order, so invariance needs a symmetric reduction — max also tolerates outliers and a varying $n$"
+   },
+   {
+    "pts": 1,
+    "text": "states what changes for segmentation: the global feature is concatenated back onto each point's local feature and a shared MLP produces a label per point"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e09q01",
@@ -12491,7 +14457,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why a transformer can be trained on a whole target sequence in one pass while generating it one token at a time, and what that asymmetry costs."
+  "stem": "Explain why a transformer can be trained on a whole target sequence in one pass while generating it one token at a time, and what that asymmetry costs.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that in training the whole ground-truth target is available, so every position is predicted in one pass with the true previous tokens as input (teacher forcing)"
+   },
+   {
+    "pts": 1,
+    "text": "states that the causal mask hides each position's own token and everything after it, applied in score space before the softmax"
+   },
+   {
+    "pts": 1,
+    "text": "states that at inference no ground truth exists, so the model must feed its own output back one token at a time"
+   },
+   {
+    "pts": 1,
+    "text": "names the cost, exposure bias: test-time inputs come from the model's own distribution, so an early error lands it in a state it never saw and errors compound"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e09q50",
@@ -12502,7 +14487,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what the Point Transformer's <em>vector</em> attention computes that scalar attention does not, and why that matters for a point cloud."
+  "stem": "Explain what the Point Transformer's <em>vector</em> attention computes that scalar attention does not, and why that matters for a point cloud.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that scalar attention takes a dot product and gives one number per neighbour, so the whole value vector is scaled uniformly"
+   },
+   {
+    "pts": 1,
+    "text": "writes the vector form as a subtraction, $\\gamma(\\varphi(\\mathbf{x}_i) - \\psi(\\mathbf{x}_j) + \\delta)$, with $\\delta$ the relative position encoding"
+   },
+   {
+    "pts": 1,
+    "text": "states that the result is a vector of weights, one per feature channel, so channels of the same neighbour are weighted differently"
+   },
+   {
+    "pts": 1,
+    "text": "explains why that matters for a point cloud: a neighbour can be informative about one property (e.g. surface orientation) and not another, so one scalar weight forces one decision for both"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e09q51",
@@ -12513,7 +14517,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what a <em>virtual global node</em> is, what it fixes, and what it costs."
+  "stem": "Explain what a <em>virtual global node</em> is, what it fixes, and what it costs.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "defines it: one extra node joined by an edge to every real node"
+   },
+   {
+    "pts": 1,
+    "text": "states that it fixes under-reaching and over-squashing by giving any pair of nodes a path of length two"
+   },
+   {
+    "pts": 1,
+    "text": "states that it also joins different connected components, which no depth can do because every power of $A$ stays block-diagonal"
+   },
+   {
+    "pts": 1,
+    "text": "gives the cost: $O(N)$ extra edges, and a shortcut past the graph structure through which everything influences everything — a step back towards a transformer"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e09q52",
@@ -12524,7 +14547,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what it means to say that a modality is “whatever you can tokenise”, using one example from the lecture."
+  "stem": "Explain what it means to say that a modality is “whatever you can tokenise”, using one example from the lecture.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that the transformer only requires a sequence of vectors and places no constraint on what a token means"
+   },
+   {
+    "pts": 1,
+    "text": "concludes that “multimodal” therefore stops being an architectural question and becomes one about tokenisers and data"
+   },
+   {
+    "pts": 1,
+    "text": "gives one lecture example with its tokenisation: RT-2-X binning continuous robot actions into vocabulary tokens, or ViT patches, PTv3 serialised points, a graph as nodes with an adjacency mask"
+   }
+  ],
+  "pts": 3
  },
  {
   "id": "e09q53",
@@ -12535,7 +14573,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain the difference between <em>zero-shot</em> and <em>in-context</em> learning, and say where the supervision actually came from in each."
+  "stem": "Explain the difference between <em>zero-shot</em> and <em>in-context</em> learning, and say where the supervision actually came from in each.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "defines zero-shot: the task is specified by a description alone, with no examples"
+   },
+   {
+    "pts": 1,
+    "text": "defines in-context: the description plus a few worked examples placed in the prompt"
+   },
+   {
+    "pts": 1,
+    "text": "states that neither changes a single parameter — both are inference-time conditioning, with no gradient anywhere"
+   },
+   {
+    "pts": 1,
+    "text": "locates the supervision upstream in the pre-training corpus (CLIP's 400M captions, or the language model's training text), paid once and amortised over every downstream use"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e09q54",
@@ -12546,7 +14603,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "Explain the “vicious cycle” the lecture describes, and which technique breaks which part of it."
+  "stem": "Explain the “vicious cycle” the lecture describes, and which technique breaks which part of it.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states the cycle: costly data collection $\\to$ continuous retraining $\\to$ maintaining performance becomes infeasible $\\to$ back to collecting data"
+   },
+   {
+    "pts": 1,
+    "text": "transfer learning: reduces the labels a new task needs, so the collection cost falls"
+   },
+   {
+    "pts": 1,
+    "text": "domain adaptation: removes the need to relabel when the task is unchanged and only the data has shifted"
+   },
+   {
+    "pts": 1,
+    "text": "continual learning: attacks the retraining itself, letting a deployed model keep learning instead of being rebuilt"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e09q55",
@@ -12557,7 +14633,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "A colleague proposes using a diffusion model's likelihood to detect out-of-distribution inputs. Explain why this does not work."
+  "stem": "A colleague proposes using a diffusion model's likelihood to detect out-of-distribution inputs. Explain why this does not work.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that high likelihood does not mean in-distribution: generative models routinely give data from another dataset a higher likelihood than their own test set"
+   },
+   {
+    "pts": 1,
+    "text": "gives the density reason: a density is a value per unit volume, so a smooth low-complexity input scores highly just by lying under a tall narrow peak"
+   },
+   {
+    "pts": 1,
+    "text": "gives the typicality reason: in high dimensions the probability mass sits in a thin shell away from the mode, so high-density points are not typical samples"
+   }
+  ],
+  "pts": 3
  },
  {
   "id": "e09q56",
@@ -12568,7 +14659,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what a scene representation gives you <em>beyond</em> rendering, and name two uses."
+  "stem": "Explain what a scene representation gives you <em>beyond</em> rendering, and name two uses.",
+  "scheme": [
+   {
+    "pts": 2,
+    "text": "states that it gives a structured 3D representation — geometry and appearance in a form that can be manipulated and queried, not merely viewed"
+   },
+   {
+    "pts": 1,
+    "text": "names a first use: editing (moving, deleting or relighting objects)"
+   },
+   {
+    "pts": 1,
+    "text": "names a second use: simulation, e.g. driving a robot through a captured environment to generate training data (visualisation or measurement also accepted)"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e09q57",
@@ -12579,7 +14685,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw the same object at three grid resolutions — coarse, medium, fine — and mark on each the occupied fraction and the total voxel count. Then explain in two sentences why raising the resolution makes the representation <em>emptier</em> as well as larger, and what each family of method does about it."
+  "stem": "Draw the same object at three grid resolutions — coarse, medium, fine — and mark on each the occupied fraction and the total voxel count. Then explain in two sentences why raising the resolution makes the representation <em>emptier</em> as well as larger, and what each family of method does about it.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws three grids at coarse, medium and fine resolution with the same surface-like object in each"
+   },
+   {
+    "pts": 1,
+    "text": "marks on each the total voxel count and the occupied fraction, with the fraction falling as the resolution rises (e.g. $10.41\\%$, $5.09\\%$, $2.41\\%$)"
+   },
+   {
+    "pts": 1,
+    "text": "explains that the occupied part is a surface scaling as $r^2$ while the grid scales as $r^3$, so each doubling costs $8\\times$ and halves the occupied fraction"
+   },
+   {
+    "pts": 1,
+    "text": "names hierarchical methods (subdivide only where occupied) and sparse methods (compute at active sites only) as the responses that keep the grid"
+   },
+   {
+    "pts": 1,
+    "text": "names point-based methods (drop the grid, and with it quantisation) and projection methods (leave 3D for a 2D CNN) as the responses that abandon it"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e09q58",
@@ -12590,7 +14719,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw an anchor with a positive at distance $\\mathcal{D}_p$, and two concentric circles marking $\\mathcal{D}_p$ and $\\mathcal{D}_p + m$. Place an easy, a semi-hard and a hard negative, and label each region with the loss it produces. Then explain in two sentences which region a mining strategy should target and why the other two are dangerous in different ways."
+  "stem": "Draw an anchor with a positive at distance $\\mathcal{D}_p$, and two concentric circles marking $\\mathcal{D}_p$ and $\\mathcal{D}_p + m$. Place an easy, a semi-hard and a hard negative, and label each region with the loss it produces. Then explain in two sentences which region a mining strategy should target and why the other two are dangerous in different ways.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the anchor, the positive at distance $\\mathcal{D}_p$, and two concentric circles at radii $\\mathcal{D}_p$ and $\\mathcal{D}_p + m$"
+   },
+   {
+    "pts": 1,
+    "text": "places one negative in each region and labels the losses: hard inside ($\\mathcal{L} \\ge m$), semi-hard in the ring ($0 < \\mathcal{L} < m$), easy outside ($\\mathcal{L} = 0$)"
+   },
+   {
+    "pts": 1,
+    "text": "states that mining should target the semi-hard ring: a non-zero gradient, with a loss still below $m$"
+   },
+   {
+    "pts": 1,
+    "text": "explains the easy danger: loss exactly zero, hence zero gradient, so it costs arithmetic and teaches nothing"
+   },
+   {
+    "pts": 1,
+    "text": "explains the hard danger: loss at least $m$, which is what a collapsed encoder pays on every triplet, so a diet of them makes collapse the cheaper solution"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e09q59",
@@ -12601,7 +14753,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw the three rungs of the domain-adaptation ladder as three panels: reweighting, feature alignment, and translation. For each, mark what is being changed and the assumption it needs. Then say in one sentence what forces you up to the next rung."
+  "stem": "Draw the three rungs of the domain-adaptation ladder as three panels: reweighting, feature alignment, and translation. For each, mark what is being changed and the assumption it needs. Then say in one sentence what forces you up to the next rung.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws three panels — reweighting, feature alignment, translation — each as a data $\\to$ encoder $\\to$ task-head pipeline with the changed block marked"
+   },
+   {
+    "pts": 1,
+    "text": "rung 1: changes the sample weights $w(x)$; assumes the source covers the target"
+   },
+   {
+    "pts": 1,
+    "text": "rung 2: changes the representation (encoder with a gradient-reversal domain classifier); assumes a shared representation exists"
+   },
+   {
+    "pts": 1,
+    "text": "rung 3: changes the inputs through $F: X_S \\to X_T$; assumes a content-preserving correspondence"
+   },
+   {
+    "pts": 1,
+    "text": "states what forces the climb: the assumption of the rung below fails — the target contains something the source never had, so the density ratio is unbounded"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e09q60",
@@ -12612,7 +14787,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "code",
   "lines": 8,
-  "stem": "Write pseudo-code for one <strong>Swin</strong> stage: window partition, window attention, the shifted partition, and patch merging. Then state in one sentence what the shift is for, and in one sentence why the cost is linear in the number of patches."
+  "stem": "Write pseudo-code for one <strong>Swin</strong> stage: window partition, window attention, the shifted partition, and patch merging. Then state in one sentence what the shift is for, and in one sentence why the cost is linear in the number of patches.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "partitions into $hw/M^2$ non-overlapping windows of $M^2$ patches, runs MSA inside each window only, and merges back (with the FFN residual)"
+   },
+   {
+    "pts": 1,
+    "text": "shifts the partition by $\\lfloor M/2 \\rfloor$ (cyclic roll), attends again with a mask at the wrapped edges, and rolls back"
+   },
+   {
+    "pts": 1,
+    "text": "closes the stage with patch merging: concatenate $2\\times2$ neighbours, $(h,w,C) \\to (h/2,w/2,4C)$, then a linear $4C \\to 2C$, and returns the result"
+   },
+   {
+    "pts": 1,
+    "text": "states what the shift is for: it puts the old window boundary through the middle of a new window, so information crosses boundaries and the receptive field becomes global"
+   },
+   {
+    "pts": 1,
+    "text": "explains the linear cost: each patch attends to only $M^2$ others with $M$ a constant, so $hw \\cdot M^2$ pairs instead of $(hw)^2$"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e10q01",
@@ -13926,7 +16124,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what a receptive field is, and why depth is the cheap way to enlarge it."
+  "stem": "Explain what a receptive field is, and why depth is the cheap way to enlarge it.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "defines the receptive field: the region of the input that can affect a unit's value"
+   },
+   {
+    "pts": 1,
+    "text": "states that stacking $L$ layers of kernel $k$ gives a receptive field of $1 + L(k-1)$ for $L k^2 C^2$ parameters — linear growth in reach for linear growth in cost"
+   },
+   {
+    "pts": 1,
+    "text": "states that one kernel with the same reach costs $(1+L(k-1))^2 C^2$, quadratic — e.g. three $3\\times3$ layers cost $27C^2$ where one $7\\times7$ costs $49C^2$"
+   },
+   {
+    "pts": 1,
+    "text": "adds that depth also inserts non-linearities, so the deep version is a strictly richer function class"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e10q50",
@@ -13937,7 +16154,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why a transformer needs positional information at all, and what a relative encoding buys over an absolute one."
+  "stem": "Explain why a transformer needs positional information at all, and what a relative encoding buys over an absolute one.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that attention is permutation-equivariant — a weighted sum over a set — so without positional information a sentence and its anagram are the same input"
+   },
+   {
+    "pts": 1,
+    "text": "states that a relative encoding supplies the offset between two tokens rather than each token's absolute index"
+   },
+   {
+    "pts": 1,
+    "text": "names what that buys: translation invariance (the same phrase means the same thing anywhere) and generalisation to sequences longer than any seen in training"
+   },
+   {
+    "pts": 1,
+    "text": "states that it enters inside the attention score, before the softmax, rather than being added to the embedding at the input"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e10q51",
@@ -13948,7 +16184,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what permutation invariance means for a point cloud, and how max pooling delivers it."
+  "stem": "Explain what permutation invariance means for a point cloud, and how max pooling delivers it.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that a point cloud is a set: the same object can be listed in any of $N!$ orders, and the output must not depend on which"
+   },
+   {
+    "pts": 1,
+    "text": "states that the maximum of a set of values does not depend on the order they were listed in, which is what makes max pooling invariant"
+   },
+   {
+    "pts": 1,
+    "text": "gives the PointNet recipe: a shared MLP applied to each point independently, then a max-pool over the point axis"
+   },
+   {
+    "pts": 1,
+    "text": "distinguishes the two stages: the shared MLP is equivariant (permute input, permute output), the pooling is invariant (permute input, output unchanged)"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e10q52",
@@ -13959,7 +16214,22 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why the embeddings are normalised onto the unit sphere before a margin is applied."
+  "stem": "Explain why the embeddings are normalised onto the unit sphere before a margin is applied.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that $L_2$-normalisation puts every embedding on the unit sphere, so all distances lie in $[0,2]$ and cosine and Euclidean distance carry the same information ($\\lVert a-b\\rVert^2 = 2 - 2\\cos\\theta$)"
+   },
+   {
+    "pts": 1,
+    "text": "states that only then does the margin have a scale-independent meaning (e.g. $m = 0.2$ is a tenth of the whole range)"
+   },
+   {
+    "pts": 1,
+    "text": "states that without normalisation the network can satisfy any margin by inflating every norm, which changes nothing about how well the classes are separated"
+   }
+  ],
+  "pts": 3
  },
  {
   "id": "e10q53",
@@ -13970,7 +16240,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain the difference between alignment and fusion, and give one example of each."
+  "stem": "Explain the difference between alignment and fusion, and give one example of each.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "defines fusion: a single joint representation that combines several modalities"
+   },
+   {
+    "pts": 1,
+    "text": "defines alignment: the modalities stay separate and are constrained to correspond"
+   },
+   {
+    "pts": 1,
+    "text": "gives a fusion example: an RGB-D segmentation network concatenating colour and depth features into one tensor (any joint-representation model accepted)"
+   },
+   {
+    "pts": 1,
+    "text": "gives an alignment example: CLIP, whose image and text encoders never meet — only their output vectors are pulled together for matching pairs"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e10q54",
@@ -13981,7 +16270,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "A domain classifier trained on the aligned features sits at chance. Explain what that does and does not prove."
+  "stem": "A domain classifier trained on the aligned features sits at chance. Explain what that does and does not prove.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states what it proves: the two feature distributions overlap — nothing in the representation tells which domain a sample came from"
+   },
+   {
+    "pts": 1,
+    "text": "states what it does not prove: that they overlap correctly — target cars sitting on source pedestrians would confuse the classifier just as well"
+   },
+   {
+    "pts": 1,
+    "text": "explains why: the objective aligns the marginals and contains nothing that asks for the classes to be aligned"
+   },
+   {
+    "pts": 1,
+    "text": "states that checking class-correct alignment would need target labels, which unsupervised domain adaptation does not have, so the failure is invisible from inside the method"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e10q55",
@@ -13992,7 +16300,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why a GAN has no likelihood to report, and what is used to judge it instead."
+  "stem": "Explain why a GAN has no likelihood to report, and what is used to judge it instead.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that the generator is a deterministic map from a noise vector to a sample, so the model never represents a density"
+   },
+   {
+    "pts": 1,
+    "text": "states that $p_g(\\mathbf{x})$ would need an integral over every $\\mathbf{z}$ mapping to $\\mathbf{x}$, which is intractable, and that the adversarial game never trains it to be meaningful anyway"
+   },
+   {
+    "pts": 1,
+    "text": "names the sample-based proxies used instead: FID and/or Inception score (precision–recall over features and human judgement also accepted)"
+   },
+   {
+    "pts": 1,
+    "text": "notes the consequence: nothing in the objective penalises a missing mode, so sharpness was bought at the price of coverage (mode collapse)"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e10q56",
@@ -14003,7 +16330,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what novel view synthesis forces a model to have worked out, and why that makes it a good task to train on."
+  "stem": "Explain what novel view synthesis forces a model to have worked out, and why that makes it a good task to train on.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "states that an unseen viewpoint cannot be produced by memorising or interpolating pixels"
+   },
+   {
+    "pts": 1,
+    "text": "names what must have been worked out: the scene's geometry, its materials and lighting, and which surfaces occlude which from the new angle"
+   },
+   {
+    "pts": 1,
+    "text": "states that the supervision is free — photographs with poses"
+   },
+   {
+    "pts": 1,
+    "text": "explains why that makes it a good training task: the only way to reduce the loss is to build the 3D understanding actually wanted, i.e. the shortcut is harder than the intended solution"
+   }
+  ],
+  "pts": 4
  },
  {
   "id": "e10q57",
@@ -14014,7 +16360,26 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw one transformer encoder block twice — once with post-LN and once with pre-LN — showing the two sub-layers, both residual connections and where each normalisation sits. Then say in one sentence which arrangement needs a warm-up and why, and in one sentence which sub-layer holds most of the parameters."
+  "stem": "Draw one transformer encoder block twice — once with post-LN and once with pre-LN — showing the two sub-layers, both residual connections and where each normalisation sits. Then say in one sentence which arrangement needs a warm-up and why, and in one sentence which sub-layer holds most of the parameters.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws both blocks with the two sub-layers (multi-head attention, feed-forward) and a residual addition around each"
+   },
+   {
+    "pts": 1,
+    "text": "places the LayerNorm after each addition in post-LN and before each sub-layer in pre-LN, so that only pre-LN has a clean residual path"
+   },
+   {
+    "pts": 2,
+    "text": "states that post-LN needs the warm-up, and why: the normalisation sits on the residual path and rescales the addition's output, so the gradient reaching an early layer depends on depth; pre-LN's unnormalised identity route avoids that"
+   },
+   {
+    "pts": 1,
+    "text": "states that the feed-forward block holds most of the parameters: $8d^2$ against $4d^2$ for attention"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e10q58",
@@ -14025,7 +16390,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw a small graph and shade the receptive field of one node after one and after two message passing layers. Then mark on the same drawing where under-reaching, over-squashing and over-smoothing would each occur, and say in one sentence why more layers cures only one of them."
+  "stem": "Draw a small graph and shade the receptive field of one node after one and after two message passing layers. Then mark on the same drawing where under-reaching, over-squashing and over-smoothing would each occur, and say in one sentence why more layers cures only one of them.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws a small graph and shades the one-hop and two-hop neighbourhoods of one node as its receptive field after one and after two layers"
+   },
+   {
+    "pts": 1,
+    "text": "marks under-reaching at a node outside the two-layer region: no message from it exists yet"
+   },
+   {
+    "pts": 1,
+    "text": "marks over-squashing at a bottleneck edge or node through which everything beyond it must pass into one fixed-size vector"
+   },
+   {
+    "pts": 1,
+    "text": "marks over-smoothing inside the shaded region: repeated averaging makes the node and its neighbours indistinguishable"
+   },
+   {
+    "pts": 1,
+    "text": "states that more layers cures only under-reaching, since it is the one failure caused by a too-small receptive field; it pushes more through the bottleneck and adds another average"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e10q59",
@@ -14036,7 +16424,30 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw the forward and the reverse diffusion chains as one diagram, marking which direction is fixed and which is learned, what the network predicts, and where the noise schedule enters. Then say in one sentence why the forward direction needs no network."
+  "stem": "Draw the forward and the reverse diffusion chains as one diagram, marking which direction is fixed and which is learned, what the network predicts, and where the noise schedule enters. Then say in one sentence why the forward direction needs no network.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws the chain $\\mathbf{x}_0 \\to \\cdots \\to \\mathbf{x}_T$ from clean image to pure noise, with arrows in both directions"
+   },
+   {
+    "pts": 1,
+    "text": "marks the forward direction as fixed with no parameters: $q(\\mathbf{x}_t \\mid \\mathbf{x}_{t-1}) = \\mathcal{N}(\\sqrt{1-\\beta_t}\\,\\mathbf{x}_{t-1}, \\beta_t I)$"
+   },
+   {
+    "pts": 1,
+    "text": "marks the reverse direction as learned, $p_\\theta(\\mathbf{x}_{t-1}\\mid\\mathbf{x}_t)$, with one network $\\varepsilon_\\theta(\\mathbf{x}_t, t)$ shared over all $t$ that predicts the noise that was added"
+   },
+   {
+    "pts": 1,
+    "text": "marks where the schedule $\\beta_1 \\ldots \\beta_T$ enters — both directions, chosen rather than learned — and defines $\\bar\\alpha_t$ from it"
+   },
+   {
+    "pts": 1,
+    "text": "states why the forward direction needs no network: it is a chosen Gaussian noising with nothing to fit, and because Gaussians compose it has the closed form $q(\\mathbf{x}_t \\mid \\mathbf{x}_0)$"
+   }
+  ],
+  "pts": 5
  },
  {
   "id": "e10q60",
@@ -14047,6 +16458,29 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "code",
   "lines": 8,
-  "stem": "Write pseudo-code for one <strong>SimCLR</strong> training step, from a batch of images to the parameter update, including the NT-Xent loss over the $2N$ views. Then state in one sentence what the temperature does, and in one sentence why the two views of the same image must not count as negatives for each other."
+  "stem": "Write pseudo-code for one <strong>SimCLR</strong> training step, from a batch of images to the parameter update, including the NT-Xent loss over the $2N$ views. Then state in one sentence what the temperature does, and in one sentence why the two views of the same image must not count as negatives for each other.",
+  "scheme": [
+   {
+    "pts": 1,
+    "text": "draws two independent augmentations $t, t' \\sim \\mathcal{T}$ per image, giving $2N$ views"
+   },
+   {
+    "pts": 1,
+    "text": "passes each view through the encoder $f$ and the projection head $g$, and normalises $z$ to unit length"
+   },
+   {
+    "pts": 1,
+    "text": "writes NT-Xent: $s_{ij} = z_i^\\top z_j / \\tau$, $\\ell(i,j) = -\\log \\exp(s_{ij}) / \\sum_{k \\ne i} \\exp(s_{ik})$, summed over both directions of every pair and averaged over $2N$, followed by one gradient step on $f, g$"
+   },
+   {
+    "pts": 1,
+    "text": "states what $\\tau$ does: it divides the logits and sets how peaked the softmax is, so a small $\\tau$ concentrates the loss on the nearest negatives (soft hard-negative mining)"
+   },
+   {
+    "pts": 1,
+    "text": "states that the two views of one image are the positive pair, so counting them as negatives would put the same term in the numerator and in the push-apart set — the loss would pull and push the same pair at once"
+   }
+  ],
+  "pts": 5
  }
 ];

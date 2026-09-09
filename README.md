@@ -16,7 +16,7 @@ All 600 questions from the LaTeX papers in `../Exams/src`:
 | fill in the blanks | a dropdown at each blank, 5–7 choices | 61 |
 | assign the property | a dropdown per row, exactly the real choices | 20 |
 | numeric | one labelled box per quantity; marked to 0.5% | 58 |
-| short text / sketching / pseudo-code | **you mark yourself** | 126 |
+| short text / sketching / pseudo-code | **you mark yourself** against a marking scheme: each is worth 3–5 points, the answer lists what each point is for, you tick what your answer contained | 126 |
 
 A numeric question that asks for three numbers gets **three boxes**, each with
 the label that says which quantity it is — "output channels", "parameters",
