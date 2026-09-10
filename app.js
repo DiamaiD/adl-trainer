@@ -274,9 +274,15 @@ const STRATA = ['single', 'multi', 'order', 'blanks', 'assign', 'numeric',
 /* Which questions a set of filters admits. Nothing selected means no filter --
  * choosing every week is the same as choosing none, and saying so beats making
  * you tick eleven boxes to get the default. */
-const poolFor = (weeks, types) => DB.filter(q =>
+/* `fresh` keeps only the questions never served. "Seen" is the same notion the
+ * footer counts -- served at least once, in an exam or in practice -- so a
+ * question you skipped is still unseen, because a skip gives its serving
+ * back. */
+const unseen = q => uses(q.id) === 0;
+const poolFor = (weeks, types, fresh) => DB.filter(q =>
   (!weeks || !weeks.length || weeks.includes(q.week)) &&
-  (!types || !types.length || types.includes(stratum(q))));
+  (!types || !types.length || types.includes(stratum(q))) &&
+  (!fresh || unseen(q)));
 
 /* How a drawn paper should be made up. The target is the database's own
  * composition, which *is* the papers' composition because the database was
@@ -308,8 +314,8 @@ function allocate(n, groups) {
 
 /* Draw n questions: balanced by type, and least-used first inside each type so
  * everything gets seen about equally often. */
-function pick(n, weeks, types) {
-  const pool = poolFor(weeks, types);
+function pick(n, weeks, types, fresh) {
+  const pool = poolFor(weeks, types, fresh);
   if (!pool.length) return [];
   n = Math.min(n, pool.length);
 
@@ -975,13 +981,46 @@ function filters(scope) {
   ty.parentNode.querySelector('.filt-n').append(' · ', clear);
 
   const read = sel => [...sel.selectedOptions].map(o => o.value);
+
+  /* Practice only: work through the questions you have never been served.
+   * Least-used-first already brings those up before the rest, but it mixes
+   * them with old ones; this makes it exclusive, so a run is all new. */
+  let fresh = null;
+  if (scope === 'drill') {
+    const wrap = el('div', 'filt');
+    wrap.appendChild(el('div', 'filt-h', 'New material'));
+    const lab = el('label', 'chk');
+    fresh = el('input');
+    fresh.type = 'checkbox';
+    fresh.checked = !!was.fresh;
+    lab.appendChild(fresh);
+    lab.appendChild(el('span', null, 'Only questions I have not seen yet'));
+    wrap.appendChild(lab);
+    const note = el('div', 'filt-n', '');
+    wrap.appendChild(note);
+    box.appendChild(wrap);
+    const count = () => {
+      const n = poolFor(read(wk), read(ty), true).length;
+      note.textContent = n
+        ? `${n} of ${poolFor(read(wk), read(ty)).length} never served`
+        : 'you have been served every one of these';
+    };
+    box.addEventListener('change', count);
+    count();
+  }
+  const isFresh = () => !!(fresh && fresh.checked);
+
   return {
     node: box,
     weeks: () => read(wk),
     types: () => read(ty),
-    pool: () => poolFor(read(wk), read(ty)),
+    fresh: isFresh,
+    pool: () => poolFor(read(wk), read(ty), isFresh()),
     onChange: fn => box.addEventListener('change', fn),
-    remember: () => { P[scope] = { weeks: read(wk), types: read(ty) }; savePrefs(); }
+    remember: () => {
+      P[scope] = { weeks: read(wk), types: read(ty), fresh: isFresh() };
+      savePrefs();
+    }
   };
 }
 
@@ -1157,17 +1196,20 @@ function vDrill() {
     const k = f.pool().length;
     tally.innerHTML = k
       ? `<b>${k}</b> question${k === 1 ? '' : 's'} in the queue.`
-      : '<b>Nothing matches.</b> Widen the weeks or the types.';
+      : f.fresh() && poolFor(f.weeks(), f.types()).length
+        ? '<b>Nothing new here.</b> Every question that matches has been served '
+          + 'at least once — untick “not seen yet”, or widen the weeks.'
+        : '<b>Nothing matches.</b> Widen the weeks or the types.';
   };
   f.onChange(refresh);
   refresh();
 
   const go = el('button', 'go', 'Start');
   go.addEventListener('click', () => {
-    const pool = pick(DB.length, f.weeks(), f.types());
+    const pool = pick(DB.length, f.weeks(), f.types(), f.fresh());
     if (!pool.length) { alert('No questions match that filter.'); return; }
     f.remember();
-    drillOne(pool, 0, { right: 0, done: 0 }, null);
+    drillOne(pool, 0, { right: 0, outOf: 0, done: 0 }, null);
   });
   m.appendChild(go);
 }

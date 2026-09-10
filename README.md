@@ -50,9 +50,12 @@ target follows automatically.
   **Back** re-opens the previous question exactly as you left it, marked and with
   its explanation, and does not re-count it. **Skip** moves on without answering:
   it is not counted as wrong, and the serving is given back, so the question is
-  still among the least-used and comes round again. The end of the run says how
-  many you skipped and offers to answer just those. A run in progress survives a
-  reload or a tab being discarded: the queue, your place in it, your answers and
+  still among the least-used and comes round again; the end of the run says how
+  many you skipped and offers to answer just those. Before you start, **Only
+  questions I have not seen yet** narrows the queue to the ones never served — in
+  an exam or in practice — so a run is all new material; the count beside the tick
+  says how many those are, and the choice is remembered. A run in progress survives
+  a reload or a tab being discarded: the queue, your place in it, your answers and
   the running score are all kept.
 - **Database** — every question with its answer and explanation, grouped by week,
   with a text filter and a type filter.

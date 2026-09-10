@@ -397,6 +397,63 @@
       selfMarked({ answers: [{ text: '', self: [true, false] }] }) === 1);
   })();
 
+  /* --- practice: only what I have not seen ------------------------------- */
+  /* Viktor: "when I do practice mode I should have a checkbox that allows
+     only questions that I have not seen before." "Seen" is the footer's own
+     notion -- served at least once, in an exam or in practice -- so the tick
+     must compose with the other filters and must not leak into exam mode. */
+  (function () {
+    // earlier blocks have already served questions of their own, so count the
+    // unseen pile as it stands and take exactly one more out of it
+    const q = QUESTIONS.filter(unseen)[0] || QUESTIONS[0];
+    const usedBefore = uses(q.id), prefBefore = P.drill;
+    const freshBefore = QUESTIONS.filter(unseen).length;
+    S.uses[q.id] = usedBefore + 1;                  // make "unseen" a real subset
+    const fresh = poolFor([], [], true);
+    t('unseen: the filter drops what has been served',
+      fresh.every(unseen) && fresh.indexOf(q) === -1);
+    t('unseen: and keeps every other unseen question',
+      fresh.length === freshBefore - 1);
+    t('unseen: it composes with the topic filter',
+      poolFor([q.week], [], true).every(x => x.week === q.week && unseen(x)));
+    t('unseen: a drawn queue respects it',
+      pick(20, [], [], true).every(unseen));
+    t('unseen: leaving it off changes nothing',
+      poolFor([], [], false).length === QUESTIONS.length);
+
+    const f = filters('drill');
+    document.body.appendChild(f.node);
+    const cb = f.node.querySelector('input[type=checkbox]');
+    t('unseen: the practice filters offer a tick', !!cb);
+    t('unseen: off by default here', f.fresh() === false);
+    cb.checked = true;
+    t('unseen: ticking it is reported', f.fresh() === true);
+    t('unseen: and its pool is only the unseen ones', f.pool().every(unseen));
+    t('unseen: the note says how many are left',
+      /never served/.test(f.node.querySelectorAll('.filt-n')[2].textContent));
+    f.remember();
+    t('unseen: starting remembers the choice', P.drill.fresh === true);
+    f.node.remove();
+
+    const ex = filters('exam');
+    t('unseen: exam mode does not offer it',
+      !ex.node.querySelector('input[type=checkbox]') && ex.fresh() === false);
+
+    show('drill');
+    const live = document.querySelector('#main .filters input[type=checkbox]');
+    const queue = () => parseInt(
+      document.querySelectorAll('#main .lead')[1].textContent.replace(/[^0-9]/g, ''), 10);
+    live.checked = false; live.dispatchEvent(new Event('change', { bubbles: true }));
+    const withAll = queue();
+    live.checked = true; live.dispatchEvent(new Event('change', { bubbles: true }));
+    t('unseen: ticking it shrinks the queue on screen',
+      queue() === QUESTIONS.filter(unseen).length && queue() < withAll);
+
+    S.uses[q.id] = usedBefore;                      // put the page's state back
+    P.drill = prefBefore; savePrefs();
+    show('home');
+  })();
+
   /* --- report --------------------------------------------------------- */
   const fails = out.filter(s => s[0] === 'F').length;
   const pre = document.createElement('pre');
