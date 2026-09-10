@@ -261,6 +261,52 @@
       localStorage.getItem(DRILL_KEY) === null);
   })();
 
+  /* --- practice: Skip --------------------------------------------------- */
+  /* Skipping must cost nothing: the question is not marked wrong, and the
+     serving is given back so the least-used-first draw still offers it. The
+     bug this guards against is a skip that quietly scores zero, or one that
+     retires the question you asked to see again. */
+  (function () {
+    const pool = QUESTIONS.filter(q => q.type !== 'written').slice(0, 4);
+    const q0 = pool[0];
+    const usedBefore = uses(q0.id);
+    const tally = { right: 0, outOf: 0, done: 0 };
+    drillOne(pool, 0, tally, null);
+    const btn = txt => Array.from(document.querySelectorAll('#main button.go'))
+      .filter(b => txt.test(b.textContent));
+    const lead = () => document.querySelector('#main .lead').textContent;
+    t('skip: an unanswered question offers Skip', btn(/skip/i).length === 1);
+    t('skip: serving it counted a use', uses(q0.id) === usedBefore + 1);
+    btn(/skip/i)[0].click();
+    t('skip: it moves on to the next question', /Question 2 of 4/.test(lead()));
+    t('skip: nothing is added to the score',
+      tally.done === 0 && tally.outOf === 0 && tally.right === 0);
+    t('skip: the serving is given back, so it comes up again',
+      uses(q0.id) === usedBefore);
+    t('skip: the header says how many were skipped', /1 skipped/.test(lead()));
+    btn(/back/i)[0].click();
+    t('skip: a skipped question comes back unanswered',
+      btn(/submit/i).length === 1);
+    btn(/submit/i)[0].click();
+    t('skip: answering it later counts the serving again',
+      uses(q0.id) === usedBefore + 1);
+    t('skip: and it is in the score now', tally.done === 1);
+    t('skip: the header line refreshes the score, not only on Next',
+      lead().indexOf(tally.right + '/' + tally.outOf + ' marks') >= 0);
+    t('skip: so it is no longer counted as skipped', !/skipped/.test(lead()));
+    btn(/next/i)[0].click();
+    btn(/skip/i)[0].click();
+    btn(/skip/i)[0].click();
+    btn(/skip/i)[0].click();
+    t('skip: the end of the run counts them', /3 skipped/.test(lead()));
+    const again = btn(/Answer the 3/);
+    t('skip: and offers to answer just those', again.length === 1);
+    again[0].click();
+    t('skip: which starts a run of exactly those three',
+      /Question 1 of 3/.test(lead()));
+    show('home');
+  })();
+
   /* --- a missed option is red, not green ------------------------------ */
   (function () {
     const mq = QUESTIONS.filter(q => q.type === 'multi' &&

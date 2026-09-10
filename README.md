@@ -48,9 +48,12 @@ target follows automatically.
   explanation, not just the part you missed.
 - **Practice** — one question at a time, marked the moment you submit, then Next.
   **Back** re-opens the previous question exactly as you left it, marked and with
-  its explanation, and does not re-count it. A run in progress survives a reload
-  or a tab being discarded: the queue, your place in it, your answers and the
-  running score are all kept.
+  its explanation, and does not re-count it. **Skip** moves on without answering:
+  it is not counted as wrong, and the serving is given back, so the question is
+  still among the least-used and comes round again. The end of the run says how
+  many you skipped and offers to answer just those. A run in progress survives a
+  reload or a tab being discarded: the queue, your place in it, your answers and
+  the running score are all kept.
 - **Database** — every question with its answer and explanation, grouped by week,
   with a text filter and a type filter.
 - **History** — every exam you have sat, with the score, reopenable exactly as you

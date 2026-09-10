@@ -1185,10 +1185,23 @@ function drillOne(pool, i, tally, state) {
   });
 
   if (i >= pool.length) {
+    const left = pool.filter((x, k) => state[k] && state[k].skipped);
     m.appendChild(el('h1', null, 'Done'));
     m.appendChild(el('p', 'lead',
-      `${tally.right} of ${tally.outOf || tally.done} marks, over ${tally.done} questions.`));
-    const b = el('button', 'go', 'Back to practice');
+      `${tally.right} of ${tally.outOf || tally.done} marks, over ${tally.done} `
+      + `question${tally.done === 1 ? '' : 's'}.`
+      + (left.length ? ` ${left.length} skipped.` : '')));
+    // A skipped question is not counted as served, so it will come round again
+    // on its own -- but finishing it now is usually what you meant by "later".
+    if (left.length) {
+      const again = el('button', 'go',
+        `Answer the ${left.length} you skipped`);
+      again.addEventListener('click', () =>
+        drillOne(left, 0, { right: 0, outOf: 0, done: 0 }, null));
+      m.appendChild(again);
+    }
+    const b = el('button', left.length ? 'go ghost' : 'go', 'Back to practice');
+    if (left.length) b.style.marginLeft = '10px';
     b.addEventListener('click', () => show('drill'));
     m.appendChild(b);
     return;
@@ -1201,9 +1214,34 @@ function drillOne(pool, i, tally, state) {
   }
   const st = state[i];
 
-  m.appendChild(el('p', 'lead', `Question ${i + 1} of ${pool.length} · ${tally.right}/${tally.outOf || tally.done} marks so far`));
+  /* Skip: move on without answering. It must not count as wrong -- settle()
+   * is simply never called, so the question never enters the tally -- and it
+   * must not count as served either, or the least-used-first draw would stop
+   * offering a question you asked to see again. So the serving counted above
+   * is given back. `skipped` is stored with the question, which makes the
+   * un-count happen exactly once however often you revisit it, and lets a
+   * later submit take it back. */
+  const countSkip = skipped => {
+    if (!!st.skipped === skipped) return;
+    st.skipped = skipped;
+    S.uses[q.id] = Math.max(0, uses(q.id) + (skipped ? -1 : 1));
+    save();
+  };
+
+  const headLine = el('p', 'lead', '');
+  m.appendChild(headLine);
   const holder = el('div'); m.appendChild(holder);
   const foot = el('div'); m.appendChild(foot);
+
+  /* Repainted with the card rather than written once, because submitting
+   * changes what it says: the score goes up, and answering a question you had
+   * skipped takes it back out of the skip count. */
+  const drawLead = () => {
+    const nskip = state.filter(s => s && s.skipped).length;
+    headLine.textContent =
+      `Question ${i + 1} of ${pool.length} · ${tally.right}/${tally.outOf || tally.done} marks so far`
+      + (nskip ? ` · ${nskip} skipped` : '');
+  };
 
   /* settle() is idempotent across visits as well as within one: `counted` and
      `gave` are stored with the question, so revisiting it corrects the running
@@ -1221,6 +1259,7 @@ function drillOne(pool, i, tally, state) {
 
   const paint = () => {
     holder.innerHTML = ''; foot.innerHTML = '';
+    drawLead();
     holder.appendChild(card(q, null, st.ans, st.marked ? 'marked' : 'answer',
       v => { if (v === 'self') { settle(); paint(); } saveDrill({
                ids: pool.map(x => x.id), i: i, tally: tally, state: state }); }));
@@ -1231,13 +1270,22 @@ function drillOne(pool, i, tally, state) {
       const b = el('button', 'go', 'Submit');
       b.addEventListener('click', () => {
         st.marked = true;
+        countSkip(false);            // answering it takes back an earlier skip
         if (!isPending(q, st.ans)) settle();  // written ones wait for your mark
         paint();
         window.scrollTo(0, 0);
       });
+      const skip = el('button', 'go ghost', 'Skip →');
+      skip.title = 'Move on without answering. It is not counted, and it will '
+        + 'come up again.';
+      skip.addEventListener('click', () => {
+        countSkip(true);
+        drillOne(pool, i + 1, tally, state);
+      });
       // reading order matches direction: Back on the left, forward on the right
       b.style.marginLeft = '10px';
-      foot.append(back, b);
+      skip.style.marginLeft = '10px';
+      foot.append(back, b, skip);
     } else {
       const next = el('button', 'go', 'Next \u2192');
       next.addEventListener('click', () => drillOne(pool, i + 1, tally, state));
