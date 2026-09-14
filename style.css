@@ -107,6 +107,7 @@ p.lead{color:var(--grey);margin:0 0 24px}
 .opt.sel .box::after{content:"\2713"}
 .opt.ok   {border-color:var(--green);background:var(--green-l)}
 .opt.ok   .box{background:var(--green);border-color:var(--green)}
+.opt.got  .box::after{content:"\2713"}
 .opt.bad  {border-color:var(--red);background:var(--red-l)}
 .opt.bad  .box{background:var(--red);border-color:var(--red)}
 .opt .why{margin-left:auto;font-size:12px;font-weight:600;white-space:nowrap}
@@ -154,6 +155,12 @@ p.lead{color:var(--grey);margin:0 0 24px}
 .dd-btn.dd-empty{color:var(--grey);border-style:dashed}
 .dd-btn.ok{border-color:var(--green);background:var(--green-l);color:var(--green)}
 .dd-btn.bad{border-color:var(--red);background:var(--red-l);color:var(--red)}
+/* a right pick of yours: the caret, useless on a marked card, becomes a tick */
+.dd-btn.got{padding-right:30px}
+.dd-btn.got::after{content:"\2713";font-weight:700;color:var(--green);right:9px}
+/* the same tick after a right number box or ordering row */
+.tick{color:var(--green);font-weight:700;margin-left:6px}
+.row .tick{margin-left:0}
 .dd-menu{
   position:absolute;z-index:40;top:calc(100% + 3px);left:0;min-width:240px;
   max-width:460px;background:var(--card);border:1px solid var(--rule);border-radius:6px;
@@ -166,11 +173,12 @@ p.lead{color:var(--grey);margin:0 0 24px}
 .blanks{line-height:2.4}
 /* The inline correction after a wrong blank. It needs breathing room on both
    sides or it reads as one word with the text that follows it. */
-/* The wrong pick stays red (its dropdown); the correction is green and boxed, so it
-   reads as the answer and not as a second mistake. */
+/* The wrong pick stays red (its dropdown); the correction is green so it reads as
+   the answer, and its border is dashed so it does not look like a right pick of
+   yours -- those are solid and carry a tick (.got / .tick). */
 .blankfix{white-space:nowrap;margin:0 7px 0 4px;font-weight:600}
 .blankfix .ar{margin-right:5px;color:var(--grey);font-weight:400}
-.blankfix .to{color:var(--green);background:var(--green-l);border:1.5px solid var(--green);
+.blankfix .to{color:var(--green);background:var(--green-l);border:1.5px dashed var(--green);
   border-radius:6px;padding:3px 9px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .blankfix.tight{margin-right:0}
 .blanks .dd{margin:0 2px}

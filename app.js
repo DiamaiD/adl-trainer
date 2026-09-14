@@ -589,7 +589,7 @@ function card(q, idx, ans, mode, onChange) {
       const chosen = ans.includes(i), right = q.correct.includes(i);
       let cls = 'opt ' + (q.type === 'multi' ? 'multi' : 'one');
       if (reveal) cls += right ? ' ok' : '';
-      else if (marked) cls += right ? ' ok' : (chosen ? ' bad' : '');
+      else if (marked) cls += right ? (chosen ? ' ok got' : ' ok') : (chosen ? ' bad' : '');
       else if (chosen) cls += ' sel';
       const o = el('div', cls);
       o.appendChild(el('span', 'box'));
@@ -628,6 +628,7 @@ function card(q, idx, ans, mode, onChange) {
           r.appendChild(el('span', 'grip', '☰'));
         }
         r.appendChild(el('span', 'txt', q.items[itemIdx]));
+        if (marked && good) r.appendChild(el('span', 'tick', '✓'));
         if (marked && !good) {
           r.appendChild(el('span', 'should',
             'should be #' + (q.correct.indexOf(itemIdx) + 1)));
@@ -678,7 +679,7 @@ function card(q, idx, ans, mode, onChange) {
         const cur = reveal ? q.correct[k] : ans[k];
         const dd = dropdown(choices, cur, i => { ans[k] = i; onChange(); }, lock);
         if (reveal) dd.btn.classList.add('ok');
-        if (marked) dd.btn.classList.add(ans[k] === q.correct[k] ? 'ok' : 'bad');
+        if (marked) dd.btn.classList.add(...(ans[k] === q.correct[k] ? ['ok', 'got'] : ['bad']));
         p.appendChild(dd.node);
         lastDD = dd.node;
         if (marked && ans[k] !== q.correct[k]) {
@@ -721,7 +722,7 @@ function card(q, idx, ans, mode, onChange) {
       const cur = reveal ? q.correct[k] : ans[k];
       const dd = dropdown(q.pool, cur, i => { ans[k] = i; onChange(); }, lock);
       if (reveal) dd.btn.classList.add('ok');
-      if (marked) dd.btn.classList.add(ans[k] === q.correct[k] ? 'ok' : 'bad');
+      if (marked) dd.btn.classList.add(...(ans[k] === q.correct[k] ? ['ok', 'got'] : ['bad']));
       row.appendChild(dd.node);
       if (marked && ans[k] !== q.correct[k]) {
         const w = el('span', 'answer-was blankfix');
@@ -746,6 +747,7 @@ function card(q, idx, ans, mode, onChange) {
       inp.disabled = true;
       if (marked) inp.classList.add(isRight(q, ans) ? 'ok' : 'bad');
       box.appendChild(inp);
+      if (marked && isRight(q, ans)) box.appendChild(el('span', 'tick', '✓'));
       if (marked) {
         const hits = numericHits(q, ans);
         const missing = (q.expected || []).filter((v, i) => !hits[i]);
@@ -774,6 +776,7 @@ function card(q, idx, ans, mode, onChange) {
         if (marked) inp.classList.add(hits[k] ? 'ok' : 'bad');
         inp.addEventListener('input', () => { ans[k] = inp.value; onChange(); });
         row.appendChild(inp);
+        if (marked && hits[k]) row.appendChild(el('span', 'tick', '✓'));
         if (marked && !hits[k]) {
           const w = el('span', 'answer-was blankfix');
           w.appendChild(el('span', 'ar', '→'));

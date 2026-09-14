@@ -156,6 +156,15 @@
   const rightCard = card(fb, null, fb.correct.slice(), 'marked', () => {});
   t('blanks: a right answer gets no correction',
     rightCard.querySelectorAll('.blankfix').length === 0);
+  t('blanks: the correction is dashed, unlike a right pick',
+    Array.from(fixes).every(f =>
+      getComputedStyle(f.querySelector('.to')).borderTopStyle === 'dashed'));
+  t('blanks: a right pick carries a tick, a wrong one does not',
+    rightCard.querySelectorAll('.dd-btn.got').length === fb.correct.length
+      && fbCard.querySelectorAll('.dd-btn.got').length === 0);
+  const revCard = card(fb, null, fb.correct.slice(), 'reveal', () => {});
+  t('blanks: the revealed key carries no tick, nothing there is yours',
+    revCard.querySelectorAll('.dd-btn.got, .tick').length === 0);
   fbCard.remove();
 
   /* --- a blank that ends a sentence keeps its full stop ---------------- */
