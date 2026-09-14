@@ -34,7 +34,10 @@
       var p = n.parentElement;
       if (!p || p.closest('.katex, pre, code, textarea, svg')) continue;
       var t = n.nodeValue;
-      if (/\$|\\[A-Za-z]{2,}|\\\[|\\\]|[_^]\{/.test(t)) {
+      // any backslash at all: a lone "\" or "\ " is a split \\ line break, which
+      // the earlier \\[A-Za-z]{2,} test let through. And a bare length such as
+      // "*1.5em" is a spacing command that lost its name.
+      if (/\$|\\|[_^]\{|(^|[\s*])\d+(\.\d+)?(em|ex|pt|mm|cm)\b/.test(t)) {
         out.push({ id: q.id, mode: mode, kind: 'raw', text: t.trim().slice(0, 160) });
       }
       // escaped twice (the reader would see the entity itself), or a character lost in encoding
@@ -86,7 +89,18 @@
     } catch (e) { probe.push({ kind: 'error' }); }
     scan(CANARY, holderC, 'reveal', probe);
     holderC.remove();
-    var canarySeen = probe.some(function (p) { return p.kind === 'tag'; });
+    // and the pseudo-code break: a split \\ and a nameless \hspace* must read as raw
+    var probe2 = [], holderR = document.createElement('div');
+    main.appendChild(holderR);
+    holderR.appendChild(card({ id: 'canary2', exam: 0, num: 0, week: 'W0', type: 'single',
+      stem: 'A stem.', options: ['one', 'two'], correct: [0],
+      explanation: '<p>the batch is random\\ $e_i$ for all i\\ *1.5em$p$ furthest</p>' },
+      null, [], 'reveal', function () {}));
+    if (typeof tex === 'function') tex(holderR);
+    scan({ id: 'canary2' }, holderR, 'reveal', probe2);
+    holderR.remove();
+    var canarySeen = probe.some(function (p) { return p.kind === 'tag'; }) &&
+      probe2.some(function (p) { return p.kind === 'raw'; });
 
     var pre = document.createElement('pre');
     pre.id = 'audit';

@@ -281,6 +281,8 @@ input.num{
 input.num.ok{border-color:var(--green);background:var(--green-l)}
 input.num.bad{border-color:var(--red);background:var(--red-l)}
 .hint{font-size:12.5px;color:var(--grey);margin-top:8px}
+/* the comment at the end of a pseudo-code line (\hfill{\itshape ...} on paper) */
+.cmt{color:var(--grey);font-style:italic}
 
 /* ---------------------------------------------------------- misc */
 .expl{

@@ -107,6 +107,40 @@ def _convert(s):
             out.append(_math_html(s[i:j]))
             i = j
             continue
+        if s.startswith("\\\\", i):
+            # A forced line break -- in the pseudo-code answers, one per line.
+            # Walked one backslash at a time it split into "\" and "\ ", and the
+            # page printed "not random\ e_i <- phi(x_i)".
+            out.append("<br>")
+            i += 2
+            continue
+        m = re.match(r"\\hspace\*?\{([\d.]+)(em|ex|pt|mm|cm)\}", s[i:i + 40])
+        if m:
+            # The indentation of a pseudo-code line. The starred form was not in
+            # DROP_ARG, so the command was stripped and "*1.5em" printed instead.
+            em = float(m.group(1)) * {"em": 1, "ex": 0.5, "pt": 0.1,
+                                      "mm": 0.35, "cm": 3.5}[m.group(2)]
+            out.append("\u2003" * max(1, min(8, round(em))))
+            i += m.end()
+            continue
+        if s.startswith(r"\hfill", i):
+            # In the pseudo-code, \hfill{\rmfamily\itshape\color{adlgrey} ...} is the
+            # comment at the end of a line. Stripped, it ran into the code:
+            # "K images each the batch is structured".
+            j = i + len(r"\hfill")
+            while j < n and s[j] == " ":
+                j += 1
+            if j < n and s[j] == "{":
+                inner, end = braced(s, j)
+                if re.match(r"\s*\\(rmfamily|itshape|color)", inner):
+                    body = re.sub(r"^\s*(?:\\(?:rmfamily|itshape|sffamily|small|footnotesize)"
+                                  r"\s*|\\color\{[^}]*\}\s*)+", "", inner)
+                    out.append("\u2003<span class='cmt'>%s</span>" % _convert(body))
+                    i = end
+                    continue
+            out.append("\u2003")
+            i = j
+            continue
         if c == "\\":
             hit = None
             for cmd, tag in TAGS:
@@ -258,7 +292,9 @@ def text(s):
     # so it would hand \setlength{\tabcolsep}{7pt} to the dropper in pieces
     s = _drop_all_args(s)
     s = _displays(s)
-    return re.sub(r"[ \t]+", " ", _convert(s)).strip()
+    out = re.sub(r"[ \t]+", " ", _convert(s)).strip()
+    # a \\ at the very start or end of a block is paper spacing, not a line
+    return re.sub(r"^(?:<br>\s*)+|(?:\s*<br>)+$", "", out)
 
 
 def _env_span(s, name, start):

@@ -362,9 +362,18 @@ const copyAnswer = a => (a && typeof a === 'object')
 const sameSet = (a, b) =>
   a.length === b.length && [...a].sort().every((v, i) => v === [...b].sort()[i]);
 
+/* Answers are written the way they would be on paper, so a power of ten or of
+ * two counts as its value: 4.5×10^8, 4.5*10^8, 4.5x10^8, 4.5e8, 10^8, 2^20,
+ * 2^{20}. Plain numbers and "3072 = 32*32*3" still read as before. */
 function numbersIn(s) {
-  return (String(s).replace(/[,  ]/g, '')
-    .match(/-?\d+(?:\.\d+)?/g) || []).map(Number);
+  // ordinary spaces stay: they are what keeps "3, 5, 9" three numbers once the
+  // thousands separators are gone
+  let t = String(s).replace(/[,\u2009\u00a0]/g, '').replace(/\u2212/g, '-');
+  t = t.replace(/(-?\d+(?:\.\d+)?)(?:\s*[×x*·]\s*10\s*\^\s*|e)[({]?([+-]?\d+)[)}]?/gi,
+    (m, a, b) => String(Number(a) * Math.pow(10, Number(b))));
+  t = t.replace(/(\d+(?:\.\d+)?)\s*\^\s*[({]?(-?\d+)[)}]?/g,
+    (m, a, b) => String(Math.pow(Number(a), Number(b))));
+  return (t.match(/-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/g) || []).map(Number);
 }
 const near = (g, v) => Math.abs(g - v) <= Math.max(1e-9, Math.abs(v) * 0.005);
 /* One box per quantity, so a hit is per box: every number you typed in *that*

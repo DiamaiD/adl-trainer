@@ -118,6 +118,18 @@
   // a sitting saved before the boxes existed is one string, and must still open
   t('numeric: a pre-boxes answer still marks',
     isRight(nq, nq.expected.join(', ')));
+  // written the paper way: powers of ten and of two count as their value
+  const reads = (s, v) => numbersIn(s).some(g => near(g, v));
+  t('numeric: 4.5×10^8, 4.5*10^8, 4.5x10^8 and 4.5e8 all read as 450000000',
+    ['4.5×10^8', '4.5*10^8', '4.5 x 10^8', '4.5e8', '4.5·10^{8}']
+      .every(s => reads(s, 450000000)));
+  t('numeric: 2^20 and 2^{20} read as 1048576',
+    reads('2^20', 1048576) && reads('2^{20}', 1048576));
+  t('numeric: 10^-3 reads as 0.001', reads('10^-3', 0.001));
+  t('numeric: thousands separators and working still read',
+    reads('1,048,576', 1048576) && reads('3072 = 32*32*3', 3072));
+  t('numeric: a word after a number is not an exponent',
+    reads('12 edges', 12));
   const legacy = card(nq, null, nq.expected.join(', '), 'marked', () => {});
   t('numeric: a pre-boxes answer reopens as it was typed',
     legacy.querySelectorAll('.nums').length === 0 &&

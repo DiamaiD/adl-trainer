@@ -25,7 +25,39 @@ APP = os.path.dirname(HERE)
 CHROME = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 
 
+def converter_canary():
+    r"""The pseudo-code answers broke in the converter, before the browser saw them:
+    \\ split into "\" + "\ ", \hspace*{1.5em} left "*1.5em", \hfill comments ran
+    into the code. The browser check reads the rendered text; this one proves the
+    converter still handles the pattern, so a regression cannot hide behind a
+    question bank that happens not to use it any more."""
+    sys.path.insert(0, HERE)
+    import latex2html as L
+    src = (r"\ttfamily\small" "\n"
+           r"sample $P$ classes \hfill{\rmfamily\itshape\color{adlgrey}the batch}\\" "\n"
+           r"\textbf{for} each $a$:\\" "\n"
+           r"\hspace*{1.5em}$p^{*} \leftarrow \arg\max_{p} D$\\" "\n"
+           r"$L \leftarrow L / (PK)$")
+    out = L.paragraphs(src)
+    plain = re.sub(r"\$[^$]*\$", "", re.sub(r"<[^>]+>", "", out))
+    bad = []
+    if "\\" in plain:
+        bad.append("a backslash survived outside maths")
+    if re.search(r"\d(em|pt)", plain):
+        bad.append("a spacing length printed")
+    if out.count("<br>") != 3:
+        bad.append("expected 3 line breaks, got %d" % out.count("<br>"))
+    if "class='cmt'" not in out:
+        bad.append("the \\hfill comment was not kept apart")
+    return bad, out
+
+
 def main(argv):
+    bad, sample = converter_canary()
+    if bad:
+        print("converter canary failed: " + "; ".join(bad))
+        print("  " + sample)
+        return 2
     page = io.open(os.path.join(APP, "index.html"), encoding="utf-8").read()
     js = io.open(os.path.join(HERE, "render_audit.js"), encoding="utf-8").read()
     page = page.replace("</body>", "<script>\n" + js + "\n</script>\n</body>")
