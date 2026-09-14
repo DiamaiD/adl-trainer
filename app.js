@@ -154,8 +154,12 @@ async function syncNow(quiet) {
     syncState.busy = false;
     syncSay('synced ' + new Date(SY.at).toLocaleTimeString());
     stat();
-    // Repainting an unsubmitted paper would throw away the answers on screen.
-    if (!SITTING) show(VIEW);
+    // Repainting an unsubmitted paper would throw away the answers on screen,
+    // and repainting 'drill' would replace a running practice question with the
+    // setup screen (show('drill') draws the setup, not the question). Both keep
+    // what is on screen; stat() above already refreshed the counts.
+    const drilling = VIEW === 'drill' && DRILL && DRILL.i < DRILL.pool.length;
+    if (!SITTING && !drilling) show(VIEW);
   } catch (e) {
     syncState.busy = false;
     syncSay(e.message, true);
