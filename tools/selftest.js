@@ -317,8 +317,13 @@
     document.body.appendChild(c);
     const miss = c.querySelector('.why.missed');
     t('multi: a missed option is labelled', !!miss);
+    // compare with the theme's own red, which differs between light and dark mode
+    const probe = document.body.appendChild(document.createElement('span'));
+    probe.style.color = 'var(--red)';
+    const red = getComputedStyle(probe).color;
+    probe.remove();
     t('multi: and the label is red',
-      !!miss && getComputedStyle(miss).color === 'rgb(169, 50, 38)');
+      !!miss && getComputedStyle(miss).color === red);
     c.remove();
   })();
 
@@ -343,58 +348,56 @@
     t('maths is left alone by the resolver', out === 'see $Q_1$ only');
   })();
 
-  /* --- written answers: points, and a checklist that says what for --------- */
-  /* Viktor: "short questions should give more than 1 point. you also should
-     always say in the answer what you give points for." Every written question
-     carries a scheme; you tick the items your answer contained and the marks
-     add up. A record marked before the schemes existed (self: true/false)
-     still scores full or none. */
+  /* --- written answers: points, marked by picking a number ----------------- */
+  /* Viktor: "short questions should give more than 1 point." Later, of the tick
+     list that followed: "I dont really need the marking system of the
+     questions, its just clutter. you can keep the point and keep score". So a
+     written question keeps its points (and its scheme data, which the exam PDFs
+     print), and the site asks for one number, 0 up to the points. Older records
+     -- a tick list, or true/false -- still count. */
   (function () {
     const ws = QUESTIONS.filter(q => q.type === 'written');
-    t('scheme: every written question has one', ws.every(hasScheme));
-    t('scheme: and is worth more than one mark', ws.every(q => q.pts > 1));
-    t('scheme: item points add up to the question', ws.every(q =>
+    t('points: every written question has a scheme behind its points', ws.every(hasScheme));
+    t('points: and is worth more than one mark', ws.every(q => q.pts > 1));
+    t('points: scheme items add up to the question', ws.every(q =>
       q.scheme.reduce((n, it) => n + it.pts, 0) === q.pts));
-    t('scheme: every item says what it is for', ws.every(q =>
-      q.scheme.every(it => it.text.trim().length >= 12)));
-    t('scheme: the scheme is not also printed in the explanation',
-      ws.every(q => !/markscheme|\\mk\{/.test(q.explanation)));
     const w = ws.find(q => q.scheme.length >= 3);
     const none = { text: 'x', self: null };
-    t('scheme: unmarked is pending and scores nothing',
+    t('points: unmarked is pending and scores nothing',
       isPending(w, none) && marks(w, none).got === 0 && marks(w, none).max === w.pts);
-    const some = { text: 'x', self: w.scheme.map((_, k) => k === 0) };
-    t('scheme: one ticked item scores its points',
-      marks(w, some).got === w.scheme[0].pts && !isPending(w, some) && !isRight(w, some));
-    const all = { text: 'x', self: w.scheme.map(() => true) };
-    t('scheme: all ticked is full marks and "right"',
-      marks(w, all).got === w.pts && isRight(w, all));
-    t('scheme: legacy true/false still marks full or none',
+    t('points: a picked number scores that many marks',
+      marks(w, { text: 'x', self: 2 }).got === 2 && !isRight(w, { text: 'x', self: 2 }));
+    t('points: picking all of them is full marks and "right"',
+      marks(w, { text: 'x', self: w.pts }).got === w.pts && isRight(w, { text: 'x', self: w.pts }));
+    t('points: zero is marked, not pending',
+      !isPending(w, { self: 0 }) && marks(w, { self: 0 }).got === 0);
+    t('points: an old tick list still adds up',
+      marks(w, { self: w.scheme.map((_, k) => k === 0) }).got === w.scheme[0].pts);
+    t('points: legacy true/false still marks full or none',
       marks(w, { text: '', self: true }).got === w.pts
       && marks(w, { text: '', self: false }).got === 0 && !isPending(w, { self: false }));
-    t('scheme: the paper total counts the points', totalMarks([w]) === w.pts);
-    t('scheme: a machine-marked question is still one mark',
+    t('points: the paper total counts the points', totalMarks([w]) === w.pts);
+    t('points: a machine-marked question is still one mark',
       totalMarks([QUESTIONS.find(q => q.type === 'single')]) === 1);
     let changed = 0;
     const ans = { text: 'x', self: null };
     const c = card(w, null, ans, 'marked', v => { if (v === 'self') changed++; });
     document.body.appendChild(c);
-    const rows = c.querySelectorAll('.scheme.live .mkrow');
-    t('scheme: the marked card shows one checklist row per item', rows.length === w.scheme.length);
-    rows[0].click();
-    t('scheme: clicking a row ticks it and reports a self-mark',
-      Array.isArray(ans.self) && ans.self[0] === true && changed === 1);
-    t('scheme: the marks are now partial', marks(w, ans).got === w.scheme[0].pts);
+    const picks = c.querySelectorAll('.selfmark button.pick');
+    t('points: the marked card shows one button per possible mark', picks.length === w.pts + 1);
+    t('points: no tick list is shown', !c.querySelector('.scheme, .mkrow'));
+    picks[1].click();
+    t('points: clicking a button records that mark', ans.self === 1 && changed === 1);
     c.remove();
     const c2 = card(w, null, ans, 'marked', () => {});
-    t('scheme: the pill reports marks, not right/wrong',
-      new RegExp(w.scheme[0].pts + ' / ' + w.pts + ' marks').test(c2.querySelector('.pill').textContent));
-    t('scheme: a part-right answer is amber, not red', /\bpartial\b/.test(c2.className));
+    t('points: the pill reports marks, not right/wrong',
+      new RegExp('1 / ' + w.pts + ' marks').test(c2.querySelector('.pill').textContent));
+    t('points: a part-right answer is amber, not red', /\bpartial\b/.test(c2.className));
     const c3 = card(w, null, { text: '', self: null }, 'reveal', () => {});
-    t('scheme: the database shows the scheme as a plain list',
-      c3.querySelectorAll('.scheme:not(.live) .mkrow').length === w.scheme.length);
-    t('scheme: a sync keeps the copy with more items ticked',
-      selfMarked({ answers: [{ text: '', self: [true, false] }] }) === 1);
+    t('points: the database shows no marking list', !c3.querySelector('.scheme, .mkrow, .selfmark'));
+    t('points: a sync keeps the self-marked copy, number or ticks',
+      selfMarked({ answers: [{ text: '', self: 3 }] }) === 1
+      && selfMarked({ answers: [{ text: '', self: [true, false] }] }) === 1);
   })();
 
   /* --- practice: only what I have not seen ------------------------------- */

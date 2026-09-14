@@ -355,21 +355,10 @@ button.theme:hover{background:rgba(255,255,255,.12)}
 }
 span.or{margin:0 10px;color:var(--grey)}
 .tag.seen{border-color:var(--green);color:var(--green);background:var(--green-l)}
-/* marking scheme of a written answer: a list in the database, a checklist after submit */
-.scheme{margin-top:12px;border:1px solid var(--rule);border-radius:8px;padding:10px 12px;background:var(--card-2)}
-.scheme-h{font-size:13.5px;color:var(--grey);margin-bottom:6px}
-.scheme-h b{color:var(--slate)}
-.mkrow{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:6px 8px;margin:2px 0;border:1px solid transparent;border-radius:6px;background:transparent;color:inherit;font:inherit}
-.scheme.live .mkrow{cursor:pointer}
-.scheme.live .mkrow:hover{border-color:var(--rule);background:var(--card)}
-.scheme.live .mkrow.on{border-color:var(--green);background:var(--green-l)}
-.mkbox{flex:0 0 18px;height:18px;border:1.5px solid var(--grey);border-radius:4px;font-size:12px;line-height:15px;text-align:center;color:var(--green)}
-.scheme:not(.live) .mkbox{display:none}
-.mkrow.on .mkbox{border-color:var(--green)}
-.mkpts{flex:0 0 58px;font-weight:600;color:var(--amber);font-size:13px;padding-top:1px}
-.mktext{flex:1}
-.scheme-quick{margin-top:6px;font-size:13px;color:var(--grey)}
-.scheme-quick button.link{margin-right:12px}
+/* self-marking a written answer: 0 .. points, one button each */
+button.sm.pick{min-width:40px;padding:6px 0;text-align:center}
+button.sm.pick:hover{border-color:var(--blue);color:var(--blue)}
+button.sm.pick.on{border-color:var(--blue);background:var(--blue);color:var(--on-accent);font-weight:600}
 .q.partial{border-left-color:var(--amber)}
 /* practice: the "only what I have not seen" tick, a third column of .filters */
 .filt label.chk{display:flex;gap:8px;align-items:flex-start;max-width:250px;

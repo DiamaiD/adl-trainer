@@ -32,7 +32,8 @@ function save() {
  * the same answer. */
 const selfMarked = h => (h.answers || [])
   .filter(a => a && typeof a === 'object'
-    && (a.self === true || a.self === false || Array.isArray(a.self)))
+    && (a.self === true || a.self === false || typeof a.self === 'number'
+        || Array.isArray(a.self)))
   .length;
 
 function merge(a, b) {
@@ -401,15 +402,16 @@ function isRight(q, a) {
 }
 
 /* How many marks a question is worth, and how many you got. Every machine-
- * marked question is one mark. A written question is worth its point value,
- * and its answer carries a marking scheme -- "2 marks: names the collider
- * ...". You tick the items your answer contained and the marks add up, so
- * three of five is three. A record marked before the schemes existed holds
- * true/false: full marks or none. */
+ * marked question is one mark. A written question is worth its point value;
+ * after submitting you pick how many of those points your answer earned, and
+ * the model answer says what they are given for. Older records still count:
+ * a tick list from the retired checklist adds up its items, and true/false
+ * from before points existed is full marks or none. */
 const hasScheme = q => q.type === 'written' && Array.isArray(q.scheme) && q.scheme.length > 0;
 const maxMarks = q => hasScheme(q) ? q.pts : 1;
 function writtenGot(q, a) {
   if (!a || a.self === null || a.self === undefined) return 0;
+  if (typeof a.self === 'number') return Math.max(0, Math.min(maxMarks(q), a.self));
   if (a.self === true) return maxMarks(q);
   if (a.self === false) return 0;
   if (Array.isArray(a.self) && hasScheme(q)) {
@@ -534,47 +536,22 @@ function explain(q, title, html) {
 }
 
 /* ---------------------------------------------------------- render a card */
-/* The marking scheme of a written question: what the points are given for.
- * In the database it is a plain list; after a submit it is a checklist -- tick
- * the items your answer contained and the marks add up. An answer marked
- * before the schemes existed (self true/false) shows as all or none ticked. */
-function schemeList(q, ans, onChange) {
-  const live = !!onChange;
-  const ticks = Array.isArray(ans && ans.self) ? ans.self.slice()
-    : q.scheme.map(() => !!(ans && ans.self === true));
-  const wrap = el('div', 'scheme' + (live ? ' live' : ''));
-  const got = q.scheme.reduce((n, it, k) => n + (ticks[k] ? it.pts : 0), 0);
-  wrap.appendChild(el('div', 'scheme-h', live
-    ? `Tick what your answer contained — <b>${got} of ${q.pts}</b> marks`
-    : `Marking scheme — ${q.pts} marks`));
-  q.scheme.forEach((it, k) => {
-    const row = el(live ? 'button' : 'div', 'mkrow' + (live && ticks[k] ? ' on' : ''));
-    if (live) row.type = 'button';
-    row.appendChild(el('span', 'mkbox', live && ticks[k] ? '✓' : ''));
-    row.appendChild(el('span', 'mkpts', it.pts + (it.pts === 1 ? ' mark' : ' marks')));
-    row.appendChild(el('span', 'mktext', it.text));
-    if (live) {
-      row.addEventListener('click', () => {
-        ticks[k] = !ticks[k];
-        ans.self = ticks.slice();
-        onChange('self');
-      });
-    }
-    wrap.appendChild(row);
-  });
-  if (live) {
-    const quick = el('div', 'scheme-quick');
-    [['all of it', true], ['none of it', false]].forEach(([text, val]) => {
-      const b = el('button', 'link', text);
-      b.addEventListener('click', () => {
-        ans.self = q.scheme.map(() => val);
-        onChange('self');
-      });
-      quick.appendChild(b);
-    });
-    wrap.appendChild(quick);
+/* Self-marking a written answer: one row of buttons, 0 up to the question's
+ * points. The model answer above it says what the points are for, so no
+ * separate checklist is shown. */
+function markPicker(q, ans, onChange) {
+  const set = ans && ans.self !== null && ans.self !== undefined;
+  const got = writtenGot(q, ans);
+  const bar = el('div', 'selfmark');
+  bar.appendChild(el('span', 'sm-q', 'Your marks:'));
+  for (let v = 0; v <= q.pts; v++) {
+    const b = el('button', 'sm pick' + (set && got === v ? ' on' : ''), String(v));
+    b.type = 'button';
+    b.addEventListener('click', () => { ans.self = v; onChange('self'); });
+    bar.appendChild(b);
   }
-  return wrap;
+  bar.appendChild(el('span', 'sm-q', 'of ' + q.pts));
+  return bar;
 }
 
 /* mode: 'answer' | 'marked' | 'reveal'  (reveal = database browser) */
@@ -822,8 +799,8 @@ function card(q, idx, ans, mode, onChange) {
     /* the model answer is always shown once submitted -- the site cannot tell
      * whether you were right, so you need to see it in order to decide */
     if (lock) box.appendChild(explain(q, 'Model answer', q.explanation));
-    if (lock && hasScheme(q)) {
-      box.appendChild(schemeList(q, ans, marked ? onChange : null));
+    if (hasScheme(q)) {
+      if (marked && onChange) box.appendChild(markPicker(q, ans, onChange));
     } else if (marked) {
       const bar = el('div', 'selfmark');
       bar.appendChild(el('span', 'sm-q', 'Did you get it right?'));
