@@ -1563,3 +1563,48 @@ window.addEventListener('focus', repaintIfBlank);
 
 /* Pick up whatever the other device did, before anything is answered here. */
 if (syncOn()) syncNow(true);
+
+/* ----------------------------------------------------------- dark mode */
+/* Three states: 'light', 'dark', or nothing stored (follow the system). The
+ * stored choice is written onto <html data-theme>, which style.css reads; with
+ * nothing stored the attribute is absent and the prefers-color-scheme media
+ * query decides. index.html replays the stored value before first paint. */
+const THEME_KEY = 'adl.trainer.theme.v1';
+
+function themeSetting() {
+  try { return localStorage.getItem(THEME_KEY) || 'system'; } catch (e) { return 'system'; }
+}
+function themeInEffect() {
+  const s = themeSetting();
+  if (s !== 'system') return s;
+  return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ? 'dark' : 'light';
+}
+function applyTheme(setting) {
+  try {
+    if (setting === 'system') localStorage.removeItem(THEME_KEY);
+    else localStorage.setItem(THEME_KEY, setting);
+  } catch (e) { /* storage unavailable: the choice lasts for this page only */ }
+  if (setting === 'system') delete document.documentElement.dataset.theme;
+  else document.documentElement.dataset.theme = setting;
+  const b = $('#theme');
+  if (!b) return;
+  const eff = themeInEffect();
+  // the glyph shows what you would get by clicking, the word shows what is on
+  const next = { light: 'dark', dark: 'system', system: 'light' }[setting];
+  b.textContent = (eff === 'dark' ? '☼ ' : '☾ ')
+    + (setting === 'system' ? 'auto' : setting);
+  b.title = 'Theme: ' + setting + ' (click for ' + next + ')';
+}
+function cycleTheme() {
+  const s = themeSetting();
+  applyTheme({ light: 'dark', dark: 'system', system: 'light' }[s]);
+}
+applyTheme(themeSetting());
+if ($('#theme')) $('#theme').addEventListener('click', cycleTheme);
+if (window.matchMedia) {
+  // when following the system, refresh the button if the system flips
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (themeSetting() === 'system') applyTheme('system');
+  });
+}

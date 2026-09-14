@@ -1,10 +1,43 @@
 /* Palette lifted from the lecture notes so the site and the PDFs feel like one
-   thing: adlblue #1F4E79, adlgreen #1B6B4A, adlred #A93226, adlamber #9A5B00. */
+   thing: adlblue #1F4E79, adlgreen #1B6B4A, adlred #A93226, adlamber #9A5B00.
+   The PGM notes use the same values, so the two trainers look like siblings. */
 :root{
   --blue:#1F4E79; --blue-l:#EAF1F8; --slate:#3D4552; --grey:#6B7382;
   --rule:#D9DEE7; --green:#1B6B4A; --green-l:#E9F4EE; --amber:#9A5B00;
   --amber-l:#FDF4E4; --red:#A93226; --red-l:#FBEDEB; --paper:#FBFCFD;
+  /* surfaces and text, so that a dark palette can swap them all at once */
+  --card:#fff; --card-2:#f2f5f9; --code-bg:#eef1f5; --input-dis:#fafbfc;
+  --header-bg:#1F4E79; --header-fg:#fff; --nav-fg:#cddcea; --nav-on-bg:#fff; --nav-on-fg:#1F4E79;
+  --btn-bg:#1F4E79; --btn-fg:#fff; --btn-hover:#173c5e; --on-accent:#fff;
+  --shadow:rgba(0,0,0,.16);
   --radius:8px;
+  color-scheme:light;
+}
+/* Dark palette. The header keeps the notes' blue; the accent blue, green, red
+   and amber are lightened so they read on a dark ground, and their pale tints
+   become dark tints. Figures are excluded: they are drawings that assume
+   paper, and stay on a white card (see img.fig). */
+:root[data-theme="dark"]{
+  --blue:#86add3; --blue-l:#25313d; --slate:#c5ccd4; --grey:#8d98a4;
+  --rule:#353d47; --green:#79b79a; --green-l:#233029; --amber:#cfa662;
+  --amber-l:#332d1e; --red:#d4887f; --red-l:#382927; --paper:#14181d;
+  --card:#1c2128; --card-2:#222931; --code-bg:#262e38; --input-dis:#191e24;
+  --header-bg:#1a3552; --header-fg:#b7c3cf; --nav-fg:#93a5b7; --nav-on-bg:#9fb3c6; --nav-on-fg:#14243a;
+  --btn-bg:#5f86ad; --btn-fg:#0f1620; --btn-hover:#6f95ba; --on-accent:#0f1620;
+  --shadow:rgba(0,0,0,.45);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --blue:#86add3; --blue-l:#25313d; --slate:#c5ccd4; --grey:#8d98a4;
+    --rule:#353d47; --green:#79b79a; --green-l:#233029; --amber:#cfa662;
+    --amber-l:#332d1e; --red:#d4887f; --red-l:#382927; --paper:#14181d;
+    --card:#1c2128; --card-2:#222931; --code-bg:#262e38; --input-dis:#191e24;
+    --header-bg:#1a3552; --header-fg:#b7c3cf; --nav-fg:#93a5b7; --nav-on-bg:#9fb3c6; --nav-on-fg:#14243a;
+    --btn-bg:#5f86ad; --btn-fg:#0f1620; --btn-hover:#6f95ba; --on-accent:#0f1620;
+    --shadow:rgba(0,0,0,.45);
+    color-scheme:dark;
+  }
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -13,17 +46,17 @@ body{
   font:15px/1.55 "Segoe UI",system-ui,-apple-system,sans-serif;
 }
 .wrap{max-width:1000px;margin:0 auto;padding:0 20px}
-header{background:var(--blue);color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.18)}
+header{background:var(--header-bg);color:var(--header-fg);box-shadow:0 1px 4px var(--shadow)}
 .bar{display:flex;align-items:center;gap:18px;height:56px}
 .brand{font-weight:700;letter-spacing:.2px}
 .brand span{font-weight:400;opacity:.7}
 nav{margin-left:auto;display:flex;gap:4px}
 nav button{
-  background:transparent;border:0;color:#cddcea;padding:7px 13px;
+  background:transparent;border:0;color:var(--nav-fg);padding:7px 13px;
   border-radius:6px;cursor:pointer;font:inherit;font-size:14px;
 }
-nav button:hover{background:rgba(255,255,255,.12);color:#fff}
-nav button.on{background:#fff;color:var(--blue);font-weight:600}
+nav button:hover{background:rgba(255,255,255,.12);color:var(--header-fg)}
+nav button.on{background:var(--nav-on-bg);color:var(--nav-on-fg);font-weight:600}
 main{padding:26px 20px 60px}
 footer{display:flex;align-items:center;gap:14px;padding:14px 20px 30px;
   color:var(--grey);font-size:13px;border-top:1px solid var(--rule);margin-top:20px}
@@ -36,16 +69,16 @@ p.lead{color:var(--grey);margin:0 0 24px}
 /* ---------------------------------------------------------- home cards */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
 .card{
-  background:#fff;border:1px solid var(--rule);border-radius:var(--radius);
+  background:var(--card);border:1px solid var(--rule);border-radius:var(--radius);
   padding:18px 18px 16px;cursor:pointer;transition:.12s;
 }
-.card:hover{border-color:var(--blue);box-shadow:0 2px 10px rgba(31,78,121,.10)}
+.card:hover{border-color:var(--blue);box-shadow:0 2px 10px var(--shadow)}
 .card h3{margin:0 0 6px;color:var(--blue);font-size:16px}
 .card p{margin:0;color:var(--grey);font-size:13.5px}
 
 /* ---------------------------------------------------------- questions */
 .q{
-  background:#fff;border:1px solid var(--rule);border-left:4px solid var(--rule);
+  background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--rule);
   border-radius:var(--radius);padding:16px 18px;margin:0 0 16px;
 }
 .q.right{border-left-color:var(--green)}
@@ -60,12 +93,12 @@ p.lead{color:var(--grey);margin:0 0 24px}
 .opts{display:flex;flex-direction:column;gap:6px}
 .opt{
   display:flex;gap:10px;align-items:flex-start;padding:7px 11px;cursor:pointer;
-  border:1px solid var(--rule);border-radius:6px;background:#fff;
+  border:1px solid var(--rule);border-radius:6px;background:var(--card);
 }
 .opt:hover{border-color:var(--blue);background:var(--blue-l)}
 .opt .box{
   flex:0 0 auto;width:17px;height:17px;border:2px solid var(--grey);
-  margin-top:2px;display:grid;place-items:center;font-size:11px;color:#fff;
+  margin-top:2px;display:grid;place-items:center;font-size:11px;color:var(--on-accent);
 }
 .opt.multi .box{border-radius:4px}
 .opt.one   .box{border-radius:50%}
@@ -88,7 +121,7 @@ p.lead{color:var(--grey);margin:0 0 24px}
 .order{display:flex;flex-direction:column;gap:6px}
 .row{
   display:flex;gap:10px;align-items:center;border:1px solid var(--rule);
-  border-radius:6px;padding:7px 10px;background:#fff;
+  border-radius:6px;padding:7px 10px;background:var(--card);
 }
 .row.drag{opacity:.4}
 .row .grip{color:var(--grey);cursor:grab;user-select:none;font-size:15px}
@@ -99,20 +132,20 @@ p.lead{color:var(--grey);margin:0 0 24px}
 .row .txt{flex:1}
 .row .mv{display:flex;flex-direction:column;gap:1px}
 .row .mv button{
-  border:1px solid var(--rule);background:#fff;color:var(--grey);width:22px;
+  border:1px solid var(--rule);background:var(--card);color:var(--grey);width:22px;
   height:15px;line-height:8px;cursor:pointer;border-radius:3px;font-size:10px;padding:0;
 }
 .row .mv button:hover{border-color:var(--blue);color:var(--blue)}
 .row.ok{border-color:var(--green);background:var(--green-l)}
-.row.ok .pos{background:var(--green);color:#fff}
+.row.ok .pos{background:var(--green);color:var(--on-accent)}
 .row.bad{border-color:var(--red);background:var(--red-l)}
-.row.bad .pos{background:var(--red);color:#fff}
+.row.bad .pos{background:var(--red);color:var(--on-accent)}
 .row .should{font-size:12px;color:var(--red);font-weight:600;white-space:nowrap}
 
 /* ---------------------------------------------------------- dropdowns */
 .dd{position:relative;display:inline-block;vertical-align:baseline;margin:0 3px}
 .dd-btn{
-  font:inherit;background:#fff;border:1px solid var(--blue);color:var(--blue);
+  font:inherit;background:var(--card);border:1px solid var(--blue);color:var(--blue);
   border-radius:5px;padding:2px 22px 2px 9px;cursor:pointer;min-width:110px;
   line-height:1.45;
   text-align:left;position:relative;
@@ -123,8 +156,8 @@ p.lead{color:var(--grey);margin:0 0 24px}
 .dd-btn.bad{border-color:var(--red);background:var(--red-l);color:var(--red)}
 .dd-menu{
   position:absolute;z-index:40;top:calc(100% + 3px);left:0;min-width:240px;
-  max-width:460px;background:#fff;border:1px solid var(--rule);border-radius:6px;
-  box-shadow:0 6px 22px rgba(0,0,0,.16);padding:4px;max-height:320px;overflow:auto;
+  max-width:460px;background:var(--card);border:1px solid var(--rule);border-radius:6px;
+  box-shadow:0 6px 22px var(--shadow);padding:4px;max-height:320px;overflow:auto;
 }
 .dd-menu[hidden]{display:none}
 .dd-opt{padding:6px 9px;border-radius:4px;cursor:pointer}
@@ -151,13 +184,13 @@ p.lead{color:var(--grey);margin:0 0 24px}
 .q.pending{border-left-color:var(--amber)}
 textarea.note{
   font:inherit;width:100%;border:1px solid var(--rule);border-radius:6px;
-  padding:9px 11px;resize:vertical;line-height:1.5;background:#fff;
+  padding:9px 11px;resize:vertical;line-height:1.5;background:var(--card);color:var(--slate);
 }
 textarea.note:focus{outline:0;border-color:var(--blue)}
-textarea.note:disabled{background:#fafbfc;color:var(--slate)}
+textarea.note:disabled{background:var(--input-dis);color:var(--slate)}
 /* Device sync panel, opened from the footer. */
 .syncpanel{
-  border:1px solid var(--rule);border-radius:var(--radius);background:#fff;
+  border:1px solid var(--rule);border-radius:var(--radius);background:var(--card);
   padding:16px 18px;margin:0 0 24px;max-width:640px;
 }
 .syncpanel h4{margin:0 0 8px;color:var(--blue);font-size:15px}
@@ -168,7 +201,7 @@ textarea.note:disabled{background:#fafbfc;color:var(--slate)}
 .syncrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0}
 input.tok{
   flex:1 1 260px;font:inherit;font-size:13.5px;padding:8px 10px;
-  border:1px solid var(--rule);border-radius:6px;background:var(--paper);
+  border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--slate);
 }
 input.tok:focus{outline:none;border-color:var(--blue)}
 button.go.small{padding:8px 14px;font-size:13.5px}
@@ -193,7 +226,7 @@ img.fig{
 .sm-q{font-size:13.5px;color:var(--grey)}
 button.sm{
   font:inherit;font-size:13.5px;border-radius:6px;padding:6px 14px;cursor:pointer;
-  background:#fff;border:1px solid var(--rule);color:var(--slate);
+  background:var(--card);border:1px solid var(--rule);color:var(--slate);
 }
 button.sm.right:hover,button.sm.right.on{
   border-color:var(--green);background:var(--green-l);color:var(--green);font-weight:600}
@@ -208,7 +241,7 @@ table.xt th{color:var(--blue)}
 ul.xl,ol.xl{margin:8px 0;padding-left:22px}
 ul.xl li,ol.xl li{margin:3px 0}
 pre.code{
-  background:#f2f5f9;border:1px solid var(--rule);border-radius:6px;padding:10px 12px;
+  background:var(--code-bg);border:1px solid var(--rule);border-radius:6px;padding:10px 12px;
   overflow-x:auto;font:12.5px/1.5 Consolas,monospace;margin:8px 0;
 }
 
@@ -230,7 +263,7 @@ pre.code{
 }
 input.num{
   font:inherit;border:1px solid var(--rule);border-radius:6px;padding:7px 10px;
-  width:100%;max-width:460px;
+  width:100%;max-width:460px;background:var(--card);color:var(--slate);
 }
 input.num.ok{border-color:var(--green);background:var(--green-l)}
 input.num.bad{border-color:var(--red);background:var(--red-l)}
@@ -246,11 +279,11 @@ input.num.bad{border-color:var(--red);background:var(--red-l)}
 .expl h4{margin:0 0 6px;font-size:12px;letter-spacing:.5px;text-transform:uppercase;
   color:var(--blue)}
 button.go{
-  background:var(--blue);color:#fff;border:0;border-radius:6px;padding:10px 20px;
+  background:var(--btn-bg);color:var(--btn-fg);border:0;border-radius:6px;padding:10px 20px;
   font:inherit;font-weight:600;cursor:pointer;
 }
-button.go:hover{background:#173c5e}
-button.go.ghost{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+button.go:hover{background:var(--btn-hover)}
+button.go.ghost{background:var(--card);color:var(--blue);border:1px solid var(--blue)}
 button.go.ghost:hover{background:var(--blue-l)}
 button.go[disabled]{opacity:.45;cursor:not-allowed}
 button.link{background:0;border:0;color:var(--blue);cursor:pointer;font:inherit;
@@ -267,17 +300,17 @@ button.link.danger{color:var(--red)}
 .filt-n button.link{font-size:12.5px}
 .controls label{font-size:14px;color:var(--grey)}
 select.plain,input.plain{
-  font:inherit;border:1px solid var(--rule);border-radius:6px;padding:7px 10px;background:#fff;
+  font:inherit;border:1px solid var(--rule);border-radius:6px;padding:7px 10px;background:var(--card);color:var(--slate);
 }
 .score{
-  display:flex;gap:26px;align-items:center;background:#fff;border:1px solid var(--rule);
+  display:flex;gap:26px;align-items:center;background:var(--card);border:1px solid var(--rule);
   border-radius:var(--radius);padding:16px 20px;margin:0 0 22px;flex-wrap:wrap;
 }
 .score .big{font-size:30px;font-weight:700;color:var(--blue);line-height:1}
 .score .sub{font-size:13px;color:var(--grey)}
 .bar-t{flex:1;min-width:180px;height:9px;background:var(--red-l);border-radius:5px;overflow:hidden}
 .bar-t i{display:block;height:100%;background:var(--green)}
-table.list{width:100%;border-collapse:collapse;font-size:14px;background:#fff;
+table.list{width:100%;border-collapse:collapse;font-size:14px;background:var(--card);
   border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden}
 table.list th,table.list td{padding:9px 13px;text-align:left;border-bottom:1px solid var(--rule)}
 table.list th{background:var(--blue-l);color:var(--blue);font-size:12px;
@@ -293,19 +326,42 @@ table.list tr.click:hover td{background:var(--blue-l)}
 .pill.g{background:var(--green-l);color:var(--green)}
 .pill.r{background:var(--red-l);color:var(--red)}
 .katex{font-size:1.02em}
-code{background:#eef1f5;border-radius:3px;padding:1px 4px;font-size:.92em}
+code{background:var(--code-bg);border-radius:3px;padding:1px 4px;font-size:.92em}
+
+/* a question's point value, so the weighting is visible on the card */
+.tag.pts{border-color:var(--amber);color:var(--amber);background:var(--amber-l)}
 
 /* "missed" is a mistake, not a note: red, like every other thing you got
    wrong. Before this it inherited the row's green, because the row is green
    when the option was one of the right ones. */
 .opt.ok .why.missed{color:var(--red)}
+
+/* ---------------------------------------------------------- dark mode */
+/* The toggle lives in the nav. Its glyph flips with the theme; the stored
+   choice wins over the system setting, and a third click returns to "system". */
+button.theme{
+  background:transparent;border:1px solid rgba(255,255,255,.35);color:var(--header-fg);
+  border-radius:6px;cursor:pointer;font:inherit;font-size:13px;padding:5px 10px;
+  margin-left:6px;white-space:nowrap;
+}
+button.theme:hover{background:rgba(255,255,255,.12)}
+/* Drawings assume paper: keep them on a white card in both themes, and give
+   the card a little more presence on a dark page so it does not glare. */
+:root[data-theme="dark"] img.fig,
+:root[data-theme="dark"] .expl img.fig{background:#eef0f2;border-color:#4a5563}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) img.fig,
+  :root:not([data-theme="light"]) .expl img.fig{background:#eef0f2;border-color:#4a5563}
+}
+span.or{margin:0 10px;color:var(--grey)}
+.tag.seen{border-color:var(--green);color:var(--green);background:var(--green-l)}
 /* marking scheme of a written answer: a list in the database, a checklist after submit */
-.scheme{margin-top:12px;border:1px solid var(--rule);border-radius:8px;padding:10px 12px;background:var(--card-2,#f7f8fa)}
+.scheme{margin-top:12px;border:1px solid var(--rule);border-radius:8px;padding:10px 12px;background:var(--card-2)}
 .scheme-h{font-size:13.5px;color:var(--grey);margin-bottom:6px}
 .scheme-h b{color:var(--slate)}
 .mkrow{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:6px 8px;margin:2px 0;border:1px solid transparent;border-radius:6px;background:transparent;color:inherit;font:inherit}
 .scheme.live .mkrow{cursor:pointer}
-.scheme.live .mkrow:hover{border-color:var(--rule);background:var(--card,#fff)}
+.scheme.live .mkrow:hover{border-color:var(--rule);background:var(--card)}
 .scheme.live .mkrow.on{border-color:var(--green);background:var(--green-l)}
 .mkbox{flex:0 0 18px;height:18px;border:1.5px solid var(--grey);border-radius:4px;font-size:12px;line-height:15px;text-align:center;color:var(--green)}
 .scheme:not(.live) .mkbox{display:none}
@@ -315,7 +371,6 @@ code{background:#eef1f5;border-radius:3px;padding:1px 4px;font-size:.92em}
 .scheme-quick{margin-top:6px;font-size:13px;color:var(--grey)}
 .scheme-quick button.link{margin-right:12px}
 .q.partial{border-left-color:var(--amber)}
-.tag.pts{border-color:var(--amber);color:var(--amber);background:var(--amber-l,#fff6e5)}
 /* practice: the "only what I have not seen" tick, a third column of .filters */
 .filt label.chk{display:flex;gap:8px;align-items:flex-start;max-width:250px;
   font-size:13.5px;line-height:1.35;color:var(--slate);cursor:pointer}

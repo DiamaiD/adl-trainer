@@ -12949,8 +12949,8 @@ window.QUESTIONS = [
   "explanation": "<p><strong>Marking points:</strong> an open set is one in which <em>new classes appear after deployment</em> — new faces, new products, new speakers. A classifier is the wrong tool because its set of possible answers is the set of columns of its output layer, fixed when the architecture was defined: a new identity is not a new input but a new <em>output</em>, needing a new weight column and a retraining run. An embedding avoids this by learning a space rather than a set of answers, so enrolling an identity is one forward pass and one stored vector.</p><p><strong>Why retraining is not merely inconvenient.</strong> It requires the old data to still be available, it costs a training run per enrolment, and it changes every other class's decision boundary — so a system with a thousand enrolled identities would be re-validated from scratch each time someone joined. For a building's access control that is not a workflow.</p><p><strong>The distinction to draw carefully.</strong> Open set is not the same as “many classes”. A model with ten thousand fixed classes is still closed-set; a model with three classes that must accept a fourth next week is open-set. What matters is whether the answer list is known at training time.</p><p><strong>And why a pairwise same/different network does not rescue the classifier.</strong> It returns a score rather than a vector, so nothing can be stored, indexed, sorted or clustered, and a recognition query costs one forward pass per gallery entry (Q16).</p>",
   "type": "written",
   "sub": "text",
-  "lines": 5,
-  "stem": "Explain what an <em>open set</em> is, and why it makes a classifier the wrong tool.",
+  "lines": 6,
+  "stem": "A face-recognition system at a building entrance has to recognise the employees, and new employees are enrolled every month. Explain what an <em>open set</em> is, using this system as the example. Then explain why a classifier — a network with one output unit per known identity, trained with softmax cross-entropy — cannot handle a newly enrolled employee, and what kind of model is used instead.",
   "scheme": [
    {
     "pts": 1,

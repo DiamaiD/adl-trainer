@@ -6,6 +6,14 @@
 <title>ADL Trainer</title>
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="style.css">
+<script>
+/* Apply the stored theme before the first paint, so a dark page does not flash
+   white on load. app.js owns the toggle; this only replays the saved choice. */
+try {
+  var th = localStorage.getItem('adl.trainer.theme.v1');
+  if (th === 'dark' || th === 'light') document.documentElement.dataset.theme = th;
+} catch (e) {}
+</script>
 </head>
 <body>
 
@@ -18,6 +26,7 @@
       <button data-view="drill">Practice</button>
       <button data-view="browse">Database</button>
       <button data-view="history">History</button>
+      <button id="theme" class="theme" type="button" title="Switch between light, dark and system theme"></button>
     </nav>
   </div>
 </header>
