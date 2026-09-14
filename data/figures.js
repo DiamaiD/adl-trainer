@@ -109,7 +109,15 @@ window.FIGURES = {
    "data/fig/e02q57-a1.svg"
   ]
  },
+ "e02q58": {
+  "a": [
+   "data/fig/e02q58-a1.svg"
+  ]
+ },
  "e02q59": {
+  "a": [
+   "data/fig/e02q59-a1.svg"
+  ],
   "q": [
    "data/fig/e02q59-q1.svg"
   ]
@@ -149,9 +157,19 @@ window.FIGURES = {
    "data/fig/e03q41-a1.svg"
   ]
  },
+ "e03q55": {
+  "a": [
+   "data/fig/e03q55-a1.svg"
+  ]
+ },
  "e03q57": {
   "a": [
    "data/fig/e03q57-a1.svg"
+  ]
+ },
+ "e03q58": {
+  "a": [
+   "data/fig/e03q58-a1.svg"
   ]
  },
  "e03q59": {

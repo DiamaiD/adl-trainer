@@ -32,7 +32,7 @@ EXPECTED = {
     "e02q42": [("weights alone, GB", 14),
                ("weights + gradients + Adam, GB", 56), ("ratio", 4)],
     "e02q43": [("guided evaluations", 100), ("unguided evaluations", 50)],
-    "e02q44": [("evaluations per frame", 92160000)],
+    "e02q44": [("evaluations per frame", 122880000)],
     # ------------------------------------------------------------- exam 03
     "e03q43": [("output height", 112), ("output width", 112),
                ("output channels", 64), ("parameters", 9472)],

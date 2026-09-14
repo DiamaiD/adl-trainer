@@ -333,17 +333,10 @@
     QUESTIONS.every(q => !/\bQ\d+\b/.test(strip(q.stem) +
       strip((q.options || []).join(' ')) + strip((q.segments || []).join(' ')))));
   (function () {
-    const withRef = QUESTIONS.find(q => /\bQ\d+\b/.test(strip(q.explanation)));
-    t('some explanation refers to another question, so this is worth testing', !!withRef);
-    if (withRef) {
-      const c = card(withRef, null, emptyAnswer(withRef), 'reveal', () => {});
-      document.body.appendChild(c);
-      const refs = c.querySelectorAll('.expl .qref');
-      t('the reference is rendered as a note', refs.length > 0);
-      t('and the note carries the referenced stem',
-        Array.from(refs).every(r => (r.getAttribute('title') || '').length > 12));
-      c.remove();
-    }
+    /* Viktor: "the anwsers have to be always self contained!" -- so no answer
+       points at another question any more. (The resolver below stays for safety.) */
+    const withRef = QUESTIONS.filter(q => /\bQ\d+\b/.test(strip(q.explanation)));
+    t('no explanation names another question by number', withRef.length === 0);
     const out = linkRefs('see $Q_1$ only', QUESTIONS[0]);
     t('maths is left alone by the resolver', out === 'see $Q_1$ only');
   })();
