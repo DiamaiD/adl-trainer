@@ -724,8 +724,9 @@ function card(q, idx, ans, mode, onChange) {
       if (marked) dd.btn.classList.add(ans[k] === q.correct[k] ? 'ok' : 'bad');
       row.appendChild(dd.node);
       if (marked && ans[k] !== q.correct[k]) {
-        const w = el('span', 'answer-was', '→ ');
-        w.appendChild(el('span', null, q.pool[q.correct[k]]));
+        const w = el('span', 'answer-was blankfix');
+        w.appendChild(el('span', 'ar', '→'));
+        w.appendChild(el('span', 'to', q.pool[q.correct[k]]));
         row.appendChild(w);
       }
       p.appendChild(row);
@@ -773,8 +774,12 @@ function card(q, idx, ans, mode, onChange) {
         if (marked) inp.classList.add(hits[k] ? 'ok' : 'bad');
         inp.addEventListener('input', () => { ans[k] = inp.value; onChange(); });
         row.appendChild(inp);
-        if (marked && !hits[k]) row.appendChild(el('span', 'answer-was',
-          '→ ' + want));
+        if (marked && !hits[k]) {
+          const w = el('span', 'answer-was blankfix');
+          w.appendChild(el('span', 'ar', '→'));
+          w.appendChild(el('span', 'to', String(want)));
+          row.appendChild(w);
+        }
         grid.appendChild(row);
       });
       box.appendChild(grid);
