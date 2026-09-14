@@ -142,7 +142,7 @@ window.QUESTIONS = [
   "week": "W2",
   "explanation": "<p>Compare the two per-layer costs directly: \\[ \\underbrace{O(n^2 d)}_{\\text{self-attention}} \\;\\;\\text{vs}\\;\\; \\underbrace{O(n d^2)}_{\\text{recurrent}} . \\] Divide both by $nd$: the comparison is simply $n$ against $d$. Self-attention wins when $n < d$.</p><p><strong>This is why the trade-off is real rather than academic.</strong> With $d_{\\text{model}} = 512$ and a sentence of 30 tokens, $n \\ll d$ and attention is cheap. With a high-resolution image flattened to thousands of patches, $n \\gg d$ and the quadratic term dominates — which is the entire motivation for Swin's windows (Q33, Q44, Q57) and for the Sparse Transformer (Q40).</p>",
   "type": "single",
-  "stem": "Self-attention is computationally cheaper per layer than a recurrent layer precisely when:",
+  "stem": "For a sequence of length $n$ with representation dimension $d$, self-attention is computationally cheaper per layer than a recurrent layer precisely when:",
   "options": [
    "$n > d$",
    "$n < d$",
@@ -199,7 +199,7 @@ window.QUESTIONS = [
   "week": "W3",
   "explanation": "<p>Every one of the $N$ patches attends to all $N$ patches, giving an $N \\times N$ score matrix, and each entry is a $d$-dimensional dot product. Quadratic in the number of tokens, linear in the width. For a $224\\times224$ image with $16\\times16$ patches, $N = 196$; at $1024\\times1024$ with $4\\times4$ patches, $N = 65{,}536$ and $N^2$ is $4.3$ billion — which is why Swin exists.</p>",
   "type": "single",
-  "stem": "Global self-attention over $N$ patches costs:",
+  "stem": "Global self-attention over $N$ patches, each an embedding of dimension $d$, costs:",
   "options": [
    "$O(N\\log N \\cdot d)$",
    "$O(N \\cdot d^2)$",
@@ -327,7 +327,7 @@ window.QUESTIONS = [
   "week": "W4",
   "explanation": "<p>“Submanifold” is a statement about the <em>output</em>. SSC computes an output only where a site is already active, so the active set comes out of the layer exactly as it went in.</p><p><strong>Why the other three fail the test.</strong> Regular SC writes an output wherever the kernel touches an active site, so the active set grows by one ring per layer — that is the dilation problem (Q34, Q51). Strided SC changes the grid itself. Sparse up-convolution deliberately creates new active sites. Only SSC leaves the set alone.</p>",
   "type": "single",
-  "stem": "Which operation <em>preserves</em> the set of active sites?",
+  "stem": "A sparse voxel grid stores features only at its active (non-empty) sites. Which convolution operation <em>preserves</em> the set of active sites?",
   "options": [
    "submanifold sparse convolution (SSC)",
    "strided sparse convolution",
@@ -404,7 +404,7 @@ window.QUESTIONS = [
   "week": "W5",
   "explanation": "<p>$A_{ij}$ is indexed by nodes on <em>both</em> axes. Relabelling the nodes must therefore permute the rows <em>and</em> the columns: $PA$ alone would reorder the rows while leaving the columns naming the old nodes, producing a matrix that is not the adjacency of anything. Node features $X \\in \\mathbb{R}^{N \\times D}$, which are indexed by node on one axis only, do transform as $PX$ — the contrast is the point.</p>",
   "type": "single",
-  "stem": "Permuting the nodes of a graph transforms the adjacency matrix as:",
+  "stem": "Permuting the nodes of a graph with a permutation matrix $P$ transforms its adjacency matrix $A$ as:",
   "options": [
    "$PA$",
    "$PAP^{\\top}$",
@@ -535,7 +535,7 @@ window.QUESTIONS = [
   "week": "W6",
   "explanation": "<p>The three regions are defined by where $\\mathcal{D}_n$ falls relative to $\\mathcal{D}_p$ and $\\mathcal{D}_p + m$:</p><table class='xt'><tr><th><strong>type</strong></th><th><strong>condition</strong></th><th><strong>loss $\\max\\{0,\\mathcal{D}_p-\\mathcal{D}_n+m\\}$</strong></th></tr><tr><td>hard</td><td>$\\mathcal{D}_n < \\mathcal{D}_p$</td><td>$> m$</td></tr><tr><td>semi-hard</td><td>$\\mathcal{D}_p < \\mathcal{D}_n < \\mathcal{D}_p + m$</td><td>strictly between $0$ and $m$</td></tr><tr><td>easy</td><td>$\\mathcal{D}_n > \\mathcal{D}_p + m$</td><td>$0$ — no gradient</td></tr></table><p>So (a) and (c) are the definition restated. <strong>(b) describes an <em>easy</em> negative</strong>, which is the trap. And (d) is true and worth understanding: a collapsed network scores exactly $m$ on every triplet (Q53), whereas a semi-hard triplet currently scores less than $m$ — so collapse would make it <em>worse</em>, and the gradient does not point that way. Semi-hard negatives are therefore the safe, informative choice. See the figure at Q53.</p>",
   "type": "multi",
-  "stem": "Mark all that are true of a <strong>semi-hard</strong> negative:",
+  "stem": "A triplet loss uses the anchor–positive distance $\\mathcal{D}_p$, the anchor–negative distance $\\mathcal{D}_n$ and a margin $m$. Mark all that are true of a <strong>semi-hard</strong> negative:",
   "options": [
    "$\\mathcal{D}_p < \\mathcal{D}_n < \\mathcal{D}_p + m$",
    "it produces no gradient",
@@ -555,7 +555,7 @@ window.QUESTIONS = [
   "week": "W6",
   "explanation": "<p>Softmax training optimises for one thing: getting the argmax right. That makes classes <strong>separable</strong> — and separable by angle, since the logit is $w_c^{\\top}z$ — but it stops caring the instant a sample is on the correct side of the boundary.</p><p>So it gives you no reason for a class to be <strong>compact</strong> (samples may sprawl along their wedge), no <strong>gap</strong> between neighbouring classes (the boundary can be touched from both sides), and therefore no <strong>threshold</strong> that works: the distance between two same-class samples at opposite ends of a wedge can easily exceed the distance between two different-class samples that sit either side of a boundary.</p><p><strong>That last consequence is the one that matters for similarity learning</strong>, because retrieval and verification both need exactly that threshold. It is what angular-margin losses such as ArcFace are built to supply, by inserting the margin into the angle of the true class only.</p><p><strong>Both pictures classify perfectly.</strong> Every point on the left is on the correct side of every boundary, so the softmax loss is happy and has no gradient left to give. But pick a distance threshold: on the left, the blue point near the centre is closer to the green points than to the blue point at the rim, so <em>no</em> threshold separates same-class from different-class pairs. On the right the classes are compact and separated by a deliberate margin, so a single threshold works — which is what verification and retrieval actually need. <strong>Classification and similarity are different objectives, and only the second one asks for this picture.</strong></p>",
   "type": "multi",
-  "stem": "Mark all that plain softmax training gives you:",
+  "stem": "An embedding is taken from a network trained with a plain softmax classification loss, to be used for similarity search (retrieval and verification). Mark all that such training gives you:",
   "options": [
    "compact classes",
    "a guaranteed gap between classes",
@@ -1111,7 +1111,7 @@ window.QUESTIONS = [
   "week": "W6",
   "explanation": "<p><strong>Answer: batch-all $\\mathbf{3{,}000}$; batch-hard $\\mathbf{30}$; ratio $\\mathbf{100\\times}$</strong></p><p>Batch size $B = PK = 6 \\cdot 5 = 30$.</p><p><strong>Batch-all</strong> forms every valid triplet: pick any anchor ($B$ ways), any <em>other</em> sample of its class as the positive ($K - 1$ ways), and any sample of a <em>different</em> class as the negative ($B - K$ ways): \\[ B(K-1)(B-K) = 30 \\cdot 4 \\cdot 25 = \\mathbf{3{,}000}. \\] <strong>Batch-hard</strong> keeps, per anchor, only the hardest positive and the hardest negative — one triplet each, so $B = \\mathbf{30}$. The ratio is $\\mathbf{100\\times}$.</p><p><strong>What the ratio means is the point of the question.</strong> Batch-all averages over 3,000 triplets, most of which are easy and contribute zero loss, so the informative signal is diluted; its batch size is a <em>compute</em> knob. Batch-hard keeps 30 extreme triplets, so its batch size is a <em>hardness</em> knob — larger batches mean harder mined negatives, which is why the same parameter has completely different meanings in the two schemes.</p>",
   "type": "numeric",
-  "stem": "A structured batch has $P = 6$ classes and $K = 5$ samples each. How many triplets does batch-all produce, how many does batch-hard, and what is the ratio?",
+  "stem": "For online triplet mining, a structured batch has $P = 6$ classes and $K = 5$ samples each. How many triplets does batch-all produce, how many does batch-hard, and what is the ratio?",
   "answer": "batch-all $\\mathbf{3{,}000}$; batch-hard $\\mathbf{30}$; ratio $\\mathbf{100\\times}$",
   "expected": [
    3000,
@@ -1219,7 +1219,7 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 4,
-  "stem": "Explain why bipartite matching removes the need for non-maximum suppression.",
+  "stem": "DETR predicts a fixed-size set of boxes and, during training, assigns each ground-truth object to exactly one prediction by bipartite (Hungarian) matching. Explain why this matching removes the need for non-maximum suppression.",
   "scheme": [
    {
     "pts": 1,
@@ -2009,7 +2009,7 @@ window.QUESTIONS = [
   "week": "W11",
   "explanation": "<p><strong>The 1st is the trap, and it is worth stating bluntly.</strong> A world model has to be <em>fitted</em>, and it can only be fitted to real interaction data collected in the real environment. Nothing about having a model makes gathering that data cheaper or safer — that cost comes first and is unavoidable. What the model buys you is everything <em>afterwards</em>: policy rollouts, planning, and trying out catastrophic actions all happen in imagination, at the price of a forward pass and with no real consequences.</p><p>This is also the honest limitation to be able to state: a world model is only as good as the data it was fitted to, so a planner will happily exploit regions where the model is confidently wrong.</p>",
   "type": "multi",
-  "stem": "Mark all that world models make cheaper or safer:",
+  "stem": "An agent is trained with the help of a learned world model rather than only by acting in the real environment. Mark all that the world model makes cheaper or safer:",
   "options": [
    "collecting the data used to fit the model",
    "exploring dangerous behaviours",
@@ -4348,7 +4348,7 @@ window.QUESTIONS = [
   "week": "W6",
   "explanation": "<p><strong>Answer: batch-all $\\mathbf{2{,}688}$; batch-hard $\\mathbf{32}$; ratio $\\mathbf{84\\times}$</strong></p><p>Batch size $PK = 8 \\cdot 4 = 32$. Every sample is an anchor once.</p><table class='xt'><tr><td>anchors</td><td>$PK = 32$</td><td>every sample</td></tr><tr><td>positives per anchor</td><td>$K - 1 = 3$</td><td>the others of its own class</td></tr><tr><td>negatives per anchor</td><td>$(P-1)K = 28$</td><td>everything in the other seven classes</td></tr><tr><td>batch-all</td><td>$32 \\cdot 3 \\cdot 28 = \\mathbf{2{,}688}$</td><td>every valid combination</td></tr><tr><td>batch-hard</td><td>$\\mathbf{32}$</td><td>one triplet per anchor</td></tr><tr><td>ratio</td><td>$\\mathbf{84\\times}$</td><td>$= (K-1)(P-1)K$</td></tr></table><p><strong>The ratio is not the argument for batch-hard, though.</strong> Most of those $2\\,688$ are easy negatives contributing exactly zero gradient (Q27), so batch-all is not $84$ times as informative — it is $84$ times as much arithmetic for a similar amount of signal, most of it multiplied by zero. Batch-hard keeps one triplet per anchor and picks the one that is guaranteed to be active. The risk it takes on in exchange is Q58.</p>",
   "type": "numeric",
-  "stem": "A structured batch holds $P = 8$ classes with $K = 4$ samples each. How many triplets does batch-all produce, how many does batch-hard, and what is the ratio?",
+  "stem": "For online triplet mining, a structured batch holds $P = 8$ classes with $K = 4$ samples each. How many triplets does batch-all produce, how many does batch-hard, and what is the ratio?",
   "answer": "batch-all $\\mathbf{2{,}688}$; batch-hard $\\mathbf{32}$; ratio $\\mathbf{84\\times}$",
   "expected": [
    2688,
@@ -6159,7 +6159,7 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "“We used a margin of $0.2$.” Explain why that statement carries no information on its own, and what has to be said alongside it.",
+  "stem": "A paper that trains an embedding with a margin-based loss (contrastive or triplet) reports only “We used a margin of $0.2$.” Explain why that statement carries no information on its own, and what has to be said alongside it.",
   "scheme": [
    {
     "pts": 1,
@@ -6550,7 +6550,7 @@ window.QUESTIONS = [
   "week": "W3",
   "explanation": "<p>Four variants, and the ranking is not the same for accuracy and for cost — which is why the question says <em>efficient</em>.</p><table class='xt'><tr><th><strong>Variant</strong></th><th><strong>Noted for</strong></th></tr><tr><td>full spatio-temporal</td><td>best accuracy on Kinetics; $O(N_{\\text{tokens}}^2)$ over $n_t n_h n_w$</td></tr><tr><td>factorised encoder</td><td>best on Epic Kitchens</td></tr><tr><td>factorised self-attention</td><td>spatial then temporal, in separate sub-layers</td></tr><tr><td>factorised dot-product</td><td><strong>most efficient</strong> — the two factorisations run in parallel heads</td></tr></table><p><strong>Why the dot-product version is the cheap one.</strong> The other factorisations put the spatial and temporal attention in <em>sequence</em>, so a token waits for one before the other. Factorised dot-product attention instead gives half the heads the spatial neighbourhood and half the temporal one, within a single attention operation. The heads already run in parallel, so the factorisation is free in wall-clock terms.</p><p><strong>The general shape of the answer is the recurring theme of the whole lecture:</strong> a scalable approximation beats an exact but expensive design. Full attention wins on accuracy and loses on tokens, and $N_{\\text{tokens}} = n_t n_h n_w$ grows fast enough that the choice is usually made for you.</p>",
   "type": "single",
-  "stem": "Of the four video attention variants, the most <em>efficient</em> is:",
+  "stem": "ViViT proposes four ways of applying attention to the tokens of a video clip. Of these four variants, the most <em>efficient</em> is:",
   "options": [
    "full spatio-temporal attention",
    "the factorised encoder",
@@ -6965,7 +6965,7 @@ window.QUESTIONS = [
   "week": "W11",
   "explanation": "<p>“Pose” in ordinary usage means where something is and which way it is facing — six degrees of freedom, $(x,y,z)$ plus pitch, yaw and roll. Those are the <strong>extrinsics</strong>. A <em>calibrated</em> pose adds the <strong>intrinsics</strong>: focal length, principal point, and the distortion parameters.</p><p><strong>Why the intrinsics cannot be left out.</strong> The whole purpose is to convert a pixel into a ray in world space, and the first step of that conversion is \\[ \\mathbf{d}_{\\text{cam}} = \\Bigl(\\tfrac{u-c_x}{f},\\ \\tfrac{v-c_y}{f},\\ 1\\Bigr), \\] which uses the focal length and the principal point and nothing else. Only then do the extrinsics rotate that direction into the world. Without $f$ you do not know how wide the camera's cone of vision is — the same pixel is a different ray on a wide-angle lens and a telephoto — so you cannot triangulate, and multi-view consistency has nothing to be consistent about.</p><p><strong>Where they come from in practice.</strong> Structure from motion, usually COLMAP, which recovers poses and intrinsics together and hands back a sparse point cloud as a by-product. Note the field of view falls out of the same numbers: $\\mathrm{FoV} = 2\\arctan\\bigl((W/2)/f\\bigr)$.</p>",
   "type": "single",
-  "stem": "A <strong>calibrated pose</strong>, as the lecture uses the term, includes:",
+  "stem": "Novel view synthesis methods such as NeRF need a <strong>calibrated pose</strong> for every input photograph. A calibrated pose, as the lecture uses the term, includes:",
   "options": [
    "position, orientation <em>and</em> the camera intrinsics",
    "position only",
@@ -7693,7 +7693,7 @@ window.QUESTIONS = [
   "week": "W6",
   "explanation": "<p><strong>Answer: $B = \\mathbf{128}$; $\\mathbf{107{,}520}$ against $\\mathbf{128}$; ratio $\\mathbf{840}$</strong></p><p>\\[\\begin{aligned} B &= PK = 16 \\cdot 8 = 128 \\\\ \\text{batch-all} &= B(K-1)(B-K) = 128 \\cdot 7 \\cdot 120 = 107{,}520 \\\\ \\text{batch-hard} &= B = 128 \\\\ \\text{ratio} &= 107{,}520 / 128 = 840 \\end{aligned}\\]</p><p><strong>Read the formula rather than memorising it.</strong> For each of the $B$ anchors there are $K-1 = 7$ other samples of its own class to serve as the positive, and $B - K = 120$ samples of other classes to serve as the negative. Multiply.</p><p><strong>Why the $840\\times$ difference does not translate into $840\\times$ the learning.</strong> Most of those hundred thousand triplets are <em>easy</em> — the negative already satisfies the margin, the hinge clips the loss to exactly zero, and the gradient contribution is nothing. They cost arithmetic and contribute no signal, and as training progresses the proportion that are useless only grows. Batch-hard forms one triplet per anchor and picks the hardest available each time, so almost every one of its $128$ is active.</p><p><strong>And why that makes batch size mean something different in each.</strong> For batch-all a larger batch means cubically more triplets — a compute knob. For batch-hard the count stays at $B$ but the hardest negative is drawn from a larger pool, so the triplets get harder — a hardness knob. Turn it too far and you are mining label noise and near-duplicates, whose loss cannot be reduced by learning, and the optimiser takes the collapse instead. Hence the standing advice: batch-all if unsure, batch-hard only at moderate batch size.</p>",
   "type": "numeric",
-  "stem": "A structured batch holds $P = 16$ classes with $K = 8$ samples each. Give the batch size, the number of triplets batch-all produces, the number batch-hard produces, and the ratio.",
+  "stem": "For online triplet mining, a structured batch holds $P = 16$ classes with $K = 8$ samples each. Give the batch size, the number of triplets batch-all produces, the number batch-hard produces, and the ratio.",
   "answer": "$B = \\mathbf{128}$; $\\mathbf{107{,}520}$ against $\\mathbf{128}$; ratio $\\mathbf{840}$",
   "expected": [
    128,
@@ -7893,7 +7893,7 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain in what sense a foundation model is something new, and in what sense it is not.",
+  "stem": "Models such as GPT-3, CLIP and DINOv2 are called foundation models. Explain in what sense a foundation model is something new compared with the deep learning before it, and in what sense it is not.",
   "scheme": [
    {
     "pts": 1,
@@ -8417,7 +8417,7 @@ window.QUESTIONS = [
   "week": "W6",
   "explanation": "<p><strong>The 1st is the definition and the 2nd is the cost.</strong> Periodically embed the whole dataset, store the vectors, and search that snapshot for the triplets worth training on. The snapshot is a photograph of an encoder that is still moving: a pair that was a hard negative when the snapshot was taken may be trivially separated by the time you train on it, so you are mining against a model that no longer exists. Refresh more often and you pay a full pass over the data more often — that is the whole trade.</p><p><strong>The 4th is when you accept it anyway.</strong> Online mining searches inside the batch, so the batch has to contain enough classes for a hard negative to be present at all. With ten thousand identities and a batch of $128$, most batches contain no genuinely confusable pair, and searching them finds nothing worth training on. Offline mining sees the whole dataset and can.</p><p><strong>The 3rd is false and belongs to online mining.</strong> The $P\\times K$ structure exists so that every anchor has a positive <em>in the batch</em>. Offline mining is not restricted to the batch, so it has no such requirement — and that freedom is precisely what it is for.</p>",
   "type": "multi",
-  "stem": "Mark all that are true of <strong>offline</strong> mining:",
+  "stem": "Hard negatives for the triplet loss can be mined online, inside each batch, or offline. Mark all that are true of <strong>offline</strong> mining:",
   "options": [
    "it searches a stored snapshot of embeddings over the whole dataset",
    "that snapshot goes stale as training moves on",
@@ -8437,7 +8437,7 @@ window.QUESTIONS = [
   "week": "W6",
   "explanation": "<p>\\[ \\mathcal{L} = \\mathcal{L}_{\\text{softmax}} + \\lambda \\sum_k \\lVert \\phi_k - \\mathbf{c}_{y_k}\\rVert^2 \\] Every sample is pulled towards a learned centre for its own class. Read the sum: it involves one class at a time. There is no term anywhere that mentions two classes together, so nothing in it asks class $A$'s centre to be far from class $B$'s.</p><p><strong>So what it fixes.</strong> A softmax embedding is <em>separable but not discriminative</em>: the classes form long radial spokes, and two samples of one identity far out along a spoke can be further apart than either is from another identity near the origin (Q16 of exam 05). Centre loss shortens the spokes into blobs. That is a real improvement and it is half the problem.</p><p><strong>What it leaves undone.</strong> The blobs can still sit arbitrarily close together. Nothing enforces a gap, so a nearest-neighbour query near a boundary is as unreliable as before.</p><p><strong>Which is why angular margins exist.</strong> ArcFace normalises the lengths away so only the angle remains, then demands that the true class beat the others by a margin <em>in that angle</em> — a gap by construction, for every pair of classes at once, with no mining and no centres to maintain.</p>",
   "type": "single",
-  "stem": "Centre loss fixes:",
+  "stem": "An embedding trained with a softmax classification loss alone has two weaknesses: the samples of one class spread widely, and neighbouring classes have no gap between them. Adding centre loss to the softmax objective fixes:",
   "options": [
    "intra-class spread, while creating no gap between classes",
    "the inter-class gap, while leaving the intra-class spread alone",
@@ -8642,7 +8642,7 @@ window.QUESTIONS = [
   "week": "W10",
   "explanation": "<p>Given $\\mathbf{x}_k$ and $k$, the quantities $\\mathbf{x}_0$, $\\varepsilon$ and $v$ determine one another exactly — $\\mathbf{x}_k = \\sqrt{\\bar\\alpha_k}\\mathbf{x}_0 + \\sqrt{1-\\bar\\alpha_k}\\varepsilon$ can be solved for whichever you like. A network that predicted any one of them perfectly would give the same samples.</p><p><strong>So the difference is entirely about optimisation, which is (a).</strong> Predicting $\\mathbf{x}_0$ at a very high noise level is asking for the whole image from almost nothing; the target has huge variance and the loss is dominated by the hardest timesteps. Predicting $\\varepsilon$ at a very <em>low</em> noise level is asking to identify a tiny perturbation, and the relative error is large there. Each parameterisation is well conditioned in one part of the schedule and badly conditioned in another, and since the loss averages over $k$, the choice decides which timesteps dominate the gradient.</p><p>$v$-prediction interpolates between the two — roughly $\\mathbf{x}_0$-like at high noise and $\\varepsilon$-like at low — which is why it currently works best.</p><p><strong>Why not (d).</strong> Same minimiser, so the same distribution in the limit; the differences are in how close to that limit a finite training run gets.</p><p>Alongside this sits the loss weighting $\\lambda_t$: theory prescribes one, in practice DDPM sets $\\lambda_k = 1$ and nothing clearly better has emerged. Both are knobs on the same question of which noise levels the training effort goes to.</p>",
   "type": "single",
-  "stem": "$\\mathbf{x}_0$, $\\varepsilon$ and $v$ are equivalent prediction targets up to a transformation. They nevertheless behave differently because:",
+  "stem": "A diffusion model's network can be trained to predict the clean image $\\mathbf{x}_0$, the added noise $\\varepsilon$ or the velocity $v$. The three are equivalent prediction targets up to a transformation. They nevertheless behave differently because:",
   "options": [
    "they present different loss landscapes and gradients, even with the same minimiser",
    "only one of them is an unbiased target",
@@ -10230,7 +10230,7 @@ window.QUESTIONS = [
   "week": "W8",
   "explanation": "<p>Three sources, and the lecture's framing is that only one of them needs any invention.</p><p><strong>The 3rd names the two natural ones.</strong> <em>Sequential structure</em>: two moments of one video are two views of the same underlying thing, and time supplies the pairing for free. <em>Different modality</em>: an image and the audio recorded with it, or a camera frame and the LiDAR sweep at the same instant, are paired by the sensor rig. In both cases the correspondence is a fact about how the data was collected, and nobody had to label anything.</p><p><strong>The 2nd names the invented one.</strong> A still image has no second view, so one is manufactured — crop it, jitter the colour, blur it — and the two augmentations are declared a pair. That works, and it makes the choice of augmentations part of the method rather than a detail: the representation becomes invariant to exactly what you augmented.</p><p><strong>Which is why the 4th is false, and it is the observation worth taking away.</strong> Images are the <em>odd</em> case, not the easy one. Video, audio and multimodal data all come with a natural positive; images are the modality where the field had to invent one, and much of the augmentation engineering in SimCLR and MoCo v2 is the price of that.</p><p><strong>The 1st is false</strong> and would defeat the purpose — an annotated second view is a label, and the point is not to need one.</p>",
   "type": "multi",
-  "stem": "Mark all that are true of how a <em>positive</em> pair is built:",
+  "stem": "Contrastive self-supervised learning needs positive pairs: two inputs that are declared to show the same thing. Mark all that are true of how a <em>positive</em> pair is built:",
   "options": [
    "it always needs a second annotated view",
    "a different augmentation of the same image is one way",
@@ -10345,7 +10345,7 @@ window.QUESTIONS = [
   "week": "W10",
   "explanation": "<p>\\[\\begin{aligned} \\mathcal{D}_F(p,p_\\theta) &= \\tfrac{1}{2}\\,\\mathbb{E}_{\\mathbf{x}\\sim p} \\bigl[\\lVert s_\\theta(\\mathbf{x}) - s(\\mathbf{x})\\rVert^2\\bigr] &&\\text{Fisher divergence (score matching)}\\\\ q(\\mathbf{x}_k\\mid\\mathbf{x}_{k-1}) &= \\mathcal{N}\\bigl(\\sqrt{1-\\beta_k}\\,\\mathbf{x}_{k-1},\\ \\beta_k I\\bigr) &&\\text{the forward diffusion step} \\end{aligned}\\]</p><p><strong>Why those two and not the more famous ones.</strong> They are the two <em>definitions</em> the rest is derived from. The Fisher divergence is the objective — what it means for a learned score to be right — and the forward step is the corruption process everything else describes the reverse of. The reverse-time SDE, the probability flow ODE and the DDPM sampling formula are all consequences, and the lecture colours them blue: know what they buy, not how to write them.</p><p><strong>The counter-intuitive part worth noticing.</strong> The <em>forward</em> SDE is the one the released exam example asks you to explain term by term, and it is uncoloured; the reverse SDE and the ODE are blue and yet three bank questions are about them. The colour code is telling you which formulas to be able to reproduce, not which topics matter.</p><p><strong>Why not (a).</strong> The forward SDE is uncoloured and the reverse one is blue — neither is red.</p>",
   "type": "single",
-  "stem": "The lecture marks exactly two formulas red. They are:",
+  "stem": "In the generative-models lecture (score matching and diffusion), the slides mark exactly two formulas in red, as the ones to know by heart. They are:",
   "options": [
    "the forward SDE and the reverse SDE",
    "the ELBO and the probability flow ODE",
@@ -10419,7 +10419,7 @@ window.QUESTIONS = [
   "week": "W11",
   "explanation": "<p><strong>V and M.</strong> V is the VAE encoder that compresses an observation to a latent; M is the recurrent dynamics that predicts how that latent evolves given an action. Together they answer “what is the state, and what happens next” — which is what a world model is.</p><p><strong>C is the controller</strong>, a policy trained <em>inside</em> the model. It is what the world model is <em>for</em>, not part of it. Including it in the answer is the standard slip, and it matters because the two are trained separately and in a fixed order: V and M are fitted to collected experience first, because a controller trained inside an untrained model is fitting noise.</p><p><strong>The qualification that goes with it.</strong> Imagination removes the real interaction needed to train <em>C</em>. It does not remove the interaction needed to build V and M — those have to be fitted to observations that came from somewhere, and once C improves it visits states the model has never seen, so the loop is usually repeated.</p><p>And the limitation that motivated everything after 2018: one hidden state had to carry memory, present uncertainty <em>and</em> the distribution over futures. The RSSM splits it — a deterministic $h_t$ for memory and a stochastic $s_t$ for uncertainty — and DreamerV4 replaces the recurrence altogether with a transformer plus diffusion forcing.</p>",
   "type": "single",
-  "stem": "In the World Models architecture, the <em>world model</em> consists of:",
+  "stem": "The World Models agent (Ha and Schmidhuber) has three components: V, a variational autoencoder that compresses each observation into a latent; M, a recurrent network that predicts the next latent; and C, a controller that picks the actions. The <em>world model</em> consists of:",
   "options": [
    "V, M and C",
    "V and M only",
@@ -11860,7 +11860,7 @@ window.QUESTIONS = [
   "week": "W6",
   "explanation": "<p>An <strong>embedding</strong> $\\phi(\\mathbf{x})$, in a space where distance means dissimilarity. That is the object being learned, and it is a different <em>kind</em> of thing from a class label.</p><p><strong>Why the distinction is the whole lecture.</strong> A classifier's answers are its output columns, fixed when the architecture was defined. An embedding has no answers in it at all — the identities live in a gallery of stored vectors outside the model, so adding one is an append rather than a retraining run. That is what makes open-set recognition possible.</p><p><strong>Why not (a).</strong> A score is what the pairwise network produces, and Q16 is about why it is not enough.</p><p><strong>Why not (b).</strong> The threshold $\\tau$ is a decision rule applied <em>to</em> the distances at test time. It is chosen, not learned, and it is only one of the three uses — ranking sorts by distance and needs no threshold, recognition takes a nearest neighbour and needs none either.</p><p><strong>Why not (c).</strong> Centres appear in centre loss and in the class weights of an angular-margin loss, but they are a means: the thing that transfers to a new identity is the map $\\phi$, not the centres, which is exactly why an ArcFace-trained encoder is used as an embedding afterwards and its $W$ discarded.</p>",
   "type": "single",
-  "stem": "What replaces the class label as the thing being learned is:",
+  "stem": "In similarity learning (for example, face verification), what replaces the class label as the thing being learned is:",
   "options": [
    "a similarity score",
    "a decision threshold",
@@ -11878,7 +11878,7 @@ window.QUESTIONS = [
   "week": "W7",
   "explanation": "<p><strong>Fission</strong>: a shared representation decomposed back out into per-modality parts. The lecture names it and does not cover it, which is precisely why it is worth being able to recognise — it is the gap in a list you might otherwise think complete.</p><p><strong>The three, by counting representations and outputs.</strong> <em>Fusion</em>: several inputs $\\to$ one shared representation $\\to$ one output. <em>Coordination</em>: several inputs $\\to$ several representations, merely aligned $\\to$ one output each. <em>Fission</em>: one representation $\\to$ several outputs, one per modality.</p><p><strong>Where fission would be used.</strong> Anything that generates in more than one modality from a common state — a model producing an image and a caption together, or a controller emitting both a trajectory and an explanation. The shared representation has to contain both, and the decomposition is the interesting part.</p><p><strong>Why not (d).</strong> Translation is a real technique in this course, but it belongs to Week 9's domain adaptation — mapping source-domain images to look like target-domain ones. It is not one of the three multimodal paradigms.</p>",
   "type": "single",
-  "stem": "The third paradigm, alongside fusion and coordination, is:",
+  "stem": "The lecture names three paradigms for relating modalities in multimodal learning. The third, alongside fusion and coordination, is:",
   "options": [
    "fission — a shared representation decomposed back into the separate modalities",
    "distillation",
@@ -12790,7 +12790,7 @@ window.QUESTIONS = [
   "week": "W6",
   "explanation": "<p><strong>Answer: $B = \\mathbf{128}$; $\\mathbf{3}$ positives, $\\mathbf{124}$ negatives; $\\mathbf{47{,}616}$ triplets</strong></p><p>\\[\\begin{aligned} B &= PK = 32 \\cdot 4 = 128 \\\\ \\text{positives per anchor} &= K - 1 = 3 \\\\ \\text{negatives per anchor} &= B - K = 124 \\\\ \\text{batch-all} &= B(K-1)(B-K) = 128 \\cdot 3 \\cdot 124 = 47{,}616 \\end{aligned}\\]</p><p><strong>Read $P$ and $K$ as two different knobs.</strong> $K$ controls how many positives each anchor has — with $K = 2$ there is exactly one, and no choice about which. $P$ controls how many distinct classes are available as negatives, and therefore how likely it is that a genuinely confusable one is present. This batch is $32$ classes deep and $4$ samples wide, which favours negative variety over positive choice.</p><p><strong>Why $47{,}616$ is not $47{,}616$ times the learning.</strong> Almost all of those triplets are easy: the negative already satisfies the margin, the hinge clips the loss to exactly zero, and the gradient is nothing. They cost arithmetic and contribute no signal, and the proportion that are useless <em>grows</em> as training proceeds. Batch-hard instead forms $B = 128$ triplets, one per anchor, each the hardest available — so nearly all of them are active.</p><p><strong>And the consequence for tuning.</strong> For batch-all, batch size is a compute knob: more triplets, roughly cubically. For batch-hard the count is fixed at $B$ but the hardest negative is drawn from a larger pool, so it is a <em>hardness</em> knob — and turned too far it mines label noise, at which point collapse becomes the cheaper option.</p>",
   "type": "numeric",
-  "stem": "A structured batch holds $P = 32$ classes with $K = 4$ samples each. Give the batch size, the positives available per anchor, the negatives per anchor, and the batch-all triplet count.",
+  "stem": "For online triplet mining, a structured batch holds $P = 32$ classes with $K = 4$ samples each. Give the batch size, the positives available per anchor, the negatives per anchor, and the batch-all triplet count.",
   "answer": "$B = \\mathbf{128}$; $\\mathbf{3}$ positives, $\\mathbf{124}$ negatives; $\\mathbf{47{,}616}$ triplets",
   "expected": [
    128,
@@ -12976,7 +12976,7 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "Name the three rungs of the domain-adaptation ladder in order, and state the assumption each one needs.",
+  "stem": "The lecture arranges three families of domain-adaptation method as a ladder: each rung needs a weaker assumption about how the source and target data relate than the rung below it, at a higher cost. Name the three rungs in order, and state the assumption each one needs.",
   "scheme": [
    {
     "pts": 1,
@@ -13032,7 +13032,7 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what a calibrated pose is used for, in terms of what a pixel becomes.",
+  "stem": "NeRF-style novel view synthesis requires a calibrated camera pose for every training photograph. Explain what the calibrated pose is used for, in terms of what a pixel of that photograph becomes.",
   "scheme": [
    {
     "pts": 1,
@@ -13211,7 +13211,7 @@ window.QUESTIONS = [
   "week": "W1",
   "explanation": "<p><strong>Two things have to be true at once, and (b) states both.</strong> The output is a <em>sequence</em> — so something must generate it step by step, which is a decoder. And each output position may depend on <em>any</em> part of the input, with no positional correspondence between the two — so the whole input must be encoded and made available, which is an encoder plus cross-attention. Take either half away and a simpler shape suffices.</p><p><strong>Why (c) is the wrong answer, and it is the tempting one.</strong> Differing lengths is neither necessary nor sufficient. Not necessary: translating a sentence into another of exactly the same length still needs an encoder–decoder, because word seven of the output does not correspond to word seven of the input. Not sufficient: a decoder-only model produces outputs of whatever length it likes — GPT does nothing else — by concatenating prompt and continuation into one stream. Length is a <em>symptom</em> of the real property, which is the absence of positional correspondence, and quoting the symptom as the criterion is the error.</p><p><strong>Why (d) is the other tempting one.</strong> Bidirectional attention over the input is what an encoder gives you, and BERT provides it with no decoder at all. Wanting to read the input in both directions argues for an encoder; it says nothing about whether you also need a decoder.</p><p><strong>Why (a) is unrelated.</strong> A CNN handles high-dimensional inputs with no decoder anywhere.</p><p><strong>The three shapes, stated by what each one can and cannot do.</strong> <em>Encoder-only</em> (BERT): reads the whole input at once, produces a fixed set of representations, cannot generate. <em>Decoder-only</em> (GPT): generates freely, but every token attends only to what precedes it in one stream, so “input” and “output” are not separate objects. <em>Encoder–decoder</em> (T5, the original transformer): a bidirectional read of a complete input, plus generation that can attend to all of it — which is exactly the case where neither of the other two will do.</p><p><strong>And the honest caveat, because the boundary has moved.</strong> A decoder-only model with a long enough context does most encoder–decoder tasks perfectly well today, by putting the source in the prompt. What it gives up is the bidirectional read of the input: in a causal stream, the first source token cannot see the last one. Whether that matters is an empirical question, and the answer has increasingly been “less than expected”.</p>",
   "type": "single",
-  "stem": "Which of these is the reason to reach for the encoder–decoder shape rather than for encoder-only or decoder-only?",
+  "stem": "A network for a sequence task can be built encoder-only, decoder-only, or as an encoder–decoder. Which of these is the reason to reach for the encoder–decoder shape rather than for encoder-only or decoder-only?",
   "options": [
    "the input is high-dimensional",
    "the output is a sequence produced from a <em>complete</em> input, with no positional correspondence between the two, and its length is decided by the model",
@@ -13704,7 +13704,7 @@ window.QUESTIONS = [
   "week": "W10",
   "explanation": "<p>Sampling starts from pure noise, $\\mathbf{x}_K \\sim \\mathcal{N}(0,I)$. But a schedule with $\\bar\\alpha_K$ merely <em>small</em> rather than zero leaves $\\mathbf{x}_K = \\sqrt{\\bar\\alpha_K}\\mathbf{x}_0 + \\sqrt{1-\\bar\\alpha_K}\\varepsilon$ carrying a faint trace of the training image — so during training the model always saw a top-of-chain input with a little signal in it, and at sampling time it is handed one with none.</p><p><strong>Why a faint trace matters.</strong> It is a distribution shift at exactly the step that sets the global structure of the output. The model has learned, at $k = K$, to preserve the low-frequency content it can still see; given none, it produces images whose overall brightness and layout are biased towards the training set's average. The visible symptom is a model that cannot generate a very dark or very bright image.</p><p><strong>Forcing $\\bar\\alpha_K = 0$ closes the gap</strong>: training and sampling now begin from the same distribution.</p><p><strong>Why not (c).</strong> What makes the reverse step approximately Gaussian is each $\\beta_k$ being <em>small</em>, which is a statement about every step and not about the last one.</p>",
   "type": "single",
-  "stem": "Setting the signal-to-noise ratio to zero at the final training step:",
+  "stem": "In a diffusion model's noise schedule, setting the signal-to-noise ratio to zero at the final timestep:",
   "options": [
    "speeds up sampling",
    "closes a train/test mismatch, since otherwise a trace of the training image survives at the top of the chain",
@@ -14517,7 +14517,7 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain what a <em>virtual global node</em> is, what it fixes, and what it costs.",
+  "stem": "In a graph neural network, a <em>virtual global node</em> can be added to the input graph. Explain what it is, what it fixes, and what it costs.",
   "scheme": [
    {
     "pts": 1,
@@ -14603,7 +14603,7 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 6,
-  "stem": "Explain the “vicious cycle” the lecture describes, and which technique breaks which part of it.",
+  "stem": "The week on transfer learning, domain adaptation and continual learning opens with a “vicious cycle” that conventional deep learning falls into once a model is deployed in a world that keeps changing. Explain this cycle, and which of the three techniques breaks which part of it.",
   "scheme": [
    {
     "pts": 1,
@@ -16058,7 +16058,7 @@ window.QUESTIONS = [
   "week": "W6",
   "explanation": "<p><strong>Answer: $B = \\mathbf{128}$; $\\mathbf{7}$ positives and $\\mathbf{120}$ negatives per anchor; $\\mathbf{107{,}520}$ triplets batch-all against $\\mathbf{128}$ batch-hard</strong></p><p>\\[\\begin{aligned} B &= P \\cdot K = 16 \\cdot 8 = 128 \\\\ \\text{positives per anchor} &= K - 1 = 7 \\\\ \\text{negatives per anchor} &= B - K = 120 \\\\ \\text{batch-all} &= B(K-1)(B-K) = 128 \\cdot 7 \\cdot 120 = 107{,}520 \\\\ \\text{batch-hard} &= B = 128 \\end{aligned}\\]</p><p><strong>Why the batch has to be built this way.</strong> Draw $128$ images at random from a dataset with thousands of identities and most anchors have <em>no</em> positive in the batch at all, so most of the triplets you wanted cannot be formed. Sampling $P$ classes and then $K$ images of each guarantees $K-1$ positives for every anchor. The structure is a precondition of the loss, not an optimisation.</p><p><strong>What the ratio $107{,}520 : 128$ actually means.</strong> It is not that batch-hard is $840$ times cheaper — the embeddings are computed once either way and the distance matrix is the same $128\\times128$. It is that batch-all <em>averages</em> over $107{,}520$ terms of which the overwhelming majority are exactly zero, so the mean loss is driven towards zero and the informative triplets are diluted. Batch-hard keeps $128$ terms that are active by construction.</p><p><strong>Choosing $P$ and $K$.</strong> Larger $K$ gives more positives per anchor and, at fixed $B$, fewer classes and therefore fewer distinct negatives. $K = 4$ is the common compromise; $K = 2$ leaves one positive per anchor and no choice to mine among.</p>",
   "type": "numeric",
-  "stem": "A structured batch holds $P = 16$ classes with $K = 8$ samples each. Give the batch size, the positives and negatives available per anchor, and the number of triplets batch-all and batch-hard each produce.",
+  "stem": "For online triplet mining, a structured batch holds $P = 16$ classes with $K = 8$ samples each. Give the batch size, the positives and negatives available per anchor, and the number of triplets batch-all and batch-hard each produce.",
   "answer": "$B = \\mathbf{128}$; $\\mathbf{7}$ positives and $\\mathbf{120}$ negatives per anchor; $\\mathbf{107{,}520}$ triplets batch-all against $\\mathbf{128}$ batch-hard",
   "expected": [
    128,
@@ -16214,7 +16214,7 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "Explain why the embeddings are normalised onto the unit sphere before a margin is applied.",
+  "stem": "Angular-margin losses such as ArcFace, used to train face-recognition embeddings, normalise the embeddings and the class weights onto the unit sphere and only then apply a margin. Explain why the normalisation has to come before the margin.",
   "scheme": [
    {
     "pts": 1,
@@ -16270,7 +16270,7 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "text",
   "lines": 5,
-  "stem": "A domain classifier trained on the aligned features sits at chance. Explain what that does and does not prove.",
+  "stem": "In adversarial domain adaptation, source and target features are aligned until a domain classifier trained on the aligned features sits at chance. Explain what that does and does not prove.",
   "scheme": [
    {
     "pts": 1,
