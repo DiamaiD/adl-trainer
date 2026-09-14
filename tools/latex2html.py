@@ -72,6 +72,17 @@ def _math_end(s, i):
     return len(s)
 
 
+def _math_html(m):
+    r"""Maths goes to KaTeX untouched -- except that it travels inside HTML.
+
+    The site sets innerHTML, so a '<' inside maths is read by the browser as the
+    start of a tag: $T_i = \prod_{j<i}(1-\alpha_j)$ became an <i> element that
+    swallowed the rest of the sentence. KaTeX reads the text back out of the DOM,
+    where &lt; has turned into '<' again, so escaping costs the maths nothing.
+    """
+    return m.replace("<", "&lt;").replace(">", "&gt;")
+
+
 def _convert(s):
     r"""Walk the string so that maths is never touched by the text rules.
 
@@ -84,7 +95,7 @@ def _convert(s):
         c = s[i]
         if c == "$":
             j = _math_end(s, i)
-            out.append(s[i:j])
+            out.append(_math_html(s[i:j]))
             i = j
             continue
         # \[ ... \] is display maths and must reach KaTeX untouched. Without
@@ -93,7 +104,7 @@ def _convert(s):
         if s.startswith(r"\[", i):
             j = s.find(r"\]", i + 2)
             j = len(s) if j < 0 else j + 2
-            out.append(s[i:j])
+            out.append(_math_html(s[i:j]))
             i = j
             continue
         if c == "\\":
@@ -203,6 +214,9 @@ def _plain(s):
     # end removes the braces and the leftover-command sweep then eats
     # \New and \San along with them.
     s = s.replace(r"\{", SENT_L).replace(r"\}", SENT_R)
+    # \& is escaped here, before & itself: done afterwards, the & of \& had already
+    # become &amp; and the page printed "Add &amp; Norm"
+    s = s.replace(r"\&", "&")
     s = s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     changed = True
     while changed:

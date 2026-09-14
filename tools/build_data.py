@@ -69,6 +69,10 @@ def main():
             continue
         choices, correct = [], []
         for k, (ans, wrong) in enumerate(zip(q["answers"], pools)):
+            # the distractors are hand-written LaTeX, so they go through the same
+            # converter as the answer: otherwise a '<' in their maths reaches
+            # innerHTML raw ($\prod_{j<i}$ opened an <i> element in the dropdown)
+            wrong = [L.text(w) for w in wrong]
             opts = [ans] + [w for w in wrong if w != ans]
             if len(opts) < 5:
                 problems.append("%s blank %d: only %d choices"

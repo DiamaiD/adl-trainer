@@ -8,5 +8,7 @@ if /i "%~1"=="figures" (
   python tools\figures.py  || exit /b 1
 )
 python tools\audit_data.py || exit /b 1
+REM render every question in headless Chrome: KaTeX errors, maths read as HTML, leftover LaTeX
+python tools\render_audit.py || exit /b 1
 echo.
 echo Done. Open index.html.
