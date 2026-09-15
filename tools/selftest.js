@@ -130,6 +130,17 @@
     reads('1,048,576', 1048576) && reads('3072 = 32*32*3', 3072));
   t('numeric: a word after a number is not an exponent',
     reads('12 edges', 12));
+  // unreduced answers count, as on the exam
+  t('numeric: 1/2 + 1/3 reads as its value',
+    reads('1/2 + 1/3', 5 / 6));
+  t('numeric: an unreduced expression does not match its own digits',
+    !reads('1/2 + 1/3', 3) && !reads('1/2 + 1/3', 2));
+  t('numeric: 9·64·72, (196/49)^2 and 4.5 x 10^8 read as their values',
+    reads('9·64·72', 41472) && reads('(196/49)^2', 16) && reads('4.5 x 10^8', 450000000));
+  t('numeric: working with an = still reads both sides',
+    reads('1/2 + 1/3 = 0.833', 5 / 6) && reads('32*32*3 = 3072', 3072));
+  t('numeric: a list is still several numbers',
+    reads('3, 5, 9', 5) && !reads('3, 5, 9', 359));
   const legacy = card(nq, null, nq.expected.join(', '), 'marked', () => {});
   t('numeric: a pre-boxes answer reopens as it was typed',
     legacy.querySelectorAll('.nums').length === 0 &&

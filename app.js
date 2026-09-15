@@ -365,15 +365,59 @@ const sameSet = (a, b) =>
 /* Answers are written the way they would be on paper, so a power of ten or of
  * two counts as its value: 4.5×10^8, 4.5*10^8, 4.5x10^8, 4.5e8, 10^8, 2^20,
  * 2^{20}. Plain numbers and "3072 = 32*32*3" still read as before. */
+/* An unreduced answer counts as its value, as it does on the exam -- the TA: "you get
+ * for example 1/2 + 1/3, then that's a valid answer ... we don't expect you to reduce
+ * it". A box that is one arithmetic expression (1/2 + 1/3, 9*64*72, (196/49)^2,
+ * 4.5x10^8) reads as that value only, so its digits cannot match on their own. */
+function evalArith(src) {
+  const s = String(src).replace(/[×·]/g, '*')
+    .replace(/(\d|\))\s*x\s*(?=[\d(])/gi, '$1*').replace(/[{]/g, '(').replace(/[}]/g, ')');
+  if (!/\d/.test(s) || /[^0-9.eE+\-*/^()\s]/.test(s)) return null;
+  const toks = s.match(/\d+(?:\.\d+)?(?:e[+-]?\d+)?|\.\d+|[-+*/^()]|\S/gi) || [];
+  let i = 0;
+  const peek = () => toks[i];
+  function primary() {
+    const t = toks[i++];
+    if (t === '(') { const v = expr(); if (toks[i++] !== ')') throw 0; return v; }
+    if (t !== undefined && /^[\d.]/.test(t)) return Number(t);
+    throw 0;
+  }
+  function unary() { if (peek() === '-') { i++; return -unary(); } if (peek() === '+') { i++; return unary(); } return primary(); }
+  function power() { const b = unary(); if (peek() === '^') { i++; return Math.pow(b, power()); } return b; }
+  function term() {
+    let v = power();
+    while (peek() === '*' || peek() === '/') { const op = toks[i++]; const w = power(); v = op === '*' ? v * w : v / w; }
+    return v;
+  }
+  function expr() {
+    let v = term();
+    while (peek() === '+' || peek() === '-') { const op = toks[i++]; const w = term(); v = op === '+' ? v + w : v - w; }
+    return v;
+  }
+  try {
+    const v = expr();
+    return i === toks.length && Number.isFinite(v) ? v : null;
+  } catch (e) { return null; }
+}
+
+/* Answers are written the way they would be on paper, so a power of ten or of
+ * two counts as its value: 4.5×10^8, 4.5*10^8, 4.5x10^8, 4.5e8, 10^8, 2^20,
+ * 2^{20}. Plain numbers and "3072 = 32*32*3" still read as before. */
 function numbersIn(s) {
+  const raw = String(s).replace(/\u2212/g, '-');
+  const whole = evalArith(raw.replace(/[,\u2009\u00a0]/g, ''));
+  if (whole !== null) return [whole];
+  // working: every side of an "=" and every listed item is read as an expression too
+  const exprs = raw.split(/=|;|,\s+|\n/)
+    .map(part => evalArith(part.replace(/[,\u2009\u00a0]/g, ''))).filter(v => v !== null);
   // ordinary spaces stay: they are what keeps "3, 5, 9" three numbers once the
   // thousands separators are gone
-  let t = String(s).replace(/[,\u2009\u00a0]/g, '').replace(/\u2212/g, '-');
+  let t = raw.replace(/[,\u2009\u00a0]/g, '');
   t = t.replace(/(-?\d+(?:\.\d+)?)(?:\s*[×x*·]\s*10\s*\^\s*|e)[({]?([+-]?\d+)[)}]?/gi,
     (m, a, b) => String(Number(a) * Math.pow(10, Number(b))));
   t = t.replace(/(\d+(?:\.\d+)?)\s*\^\s*[({]?(-?\d+)[)}]?/g,
     (m, a, b) => String(Math.pow(Number(a), Number(b))));
-  return (t.match(/-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/g) || []).map(Number);
+  return exprs.concat((t.match(/-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/g) || []).map(Number));
 }
 const near = (g, v) => Math.abs(g - v) <= Math.max(1e-9, Math.abs(v) * 0.005);
 /* One box per quantity, so a hit is per box: every number you typed in *that*
@@ -796,7 +840,7 @@ function card(q, idx, ans, mode, onChange) {
       });
       box.appendChild(grid);
       if (!lock) box.appendChild(el('div', 'hint',
-        'One box per quantity. Working inside a box is fine — only the numbers in it are read, to within half a percent.'));
+        'One box per quantity. An unreduced answer such as 1/2 + 1/3 or 9·64·72 counts as its value, and working inside a box is fine — the numbers are read to within half a percent.'));
       if (marked) box.appendChild(el('div', 'expl', '<h4>Answer</h4>' + q.answer));
     }
 
