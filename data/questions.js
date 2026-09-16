@@ -18,6 +18,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    2
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -36,6 +39,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -54,6 +60,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -74,6 +83,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -95,6 +107,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -113,6 +128,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -133,6 +151,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -151,6 +172,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -171,6 +195,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -190,6 +217,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -208,6 +238,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -227,6 +260,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -246,6 +282,9 @@ window.QUESTIONS = [
   "correct": [
    2,
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -264,6 +303,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -282,6 +324,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -300,6 +345,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -318,6 +366,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -336,6 +387,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -354,6 +408,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -375,6 +432,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -395,6 +455,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -413,6 +476,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -431,6 +497,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -450,6 +519,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    1
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -470,6 +542,9 @@ window.QUESTIONS = [
    0,
    1,
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -490,6 +565,9 @@ window.QUESTIONS = [
    0,
    1,
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -508,6 +586,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -526,6 +607,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -546,6 +630,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -564,6 +651,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -586,6 +676,9 @@ window.QUESTIONS = [
    "$D(K-1)+1$",
    "$R_{l-1} + (K_{\\text{eff},l}-1)\\,J_{l-1}$",
    "$J_{l-1}\\,S_l$"
+  ],
+  "weeks": [
+   "W1"
   ],
   "choices": [
    [
@@ -648,6 +741,9 @@ window.QUESTIONS = [
    "$O(n d^2)$",
    "$O(n)$",
    "$O(n)$"
+  ],
+  "weeks": [
+   "W2"
   ],
   "choices": [
    [
@@ -730,6 +826,9 @@ window.QUESTIONS = [
    "$\\lfloor M/2 \\rfloor$",
    "cross-window"
   ],
+  "weeks": [
+   "W3"
+  ],
   "choices": [
    [
     "$M/2 \\times M/2$",
@@ -781,6 +880,9 @@ window.QUESTIONS = [
    "$1 + 2L$",
    "$(1+2L)^3$",
    "exactly one voxel — the original"
+  ],
+  "weeks": [
+   "W4"
   ],
   "choices": [
    [
@@ -834,6 +936,9 @@ window.QUESTIONS = [
    "$D^{-1/2} L D^{-1/2} = I - D^{-1/2} A D^{-1/2}$",
    "$\\sigma\\!\\left(\\tilde D^{-1/2}\\tilde A \\tilde D^{-1/2} H^{(l)} W^{(l)}\\right)$"
   ],
+  "weeks": [
+   "W5"
+  ],
   "choices": [
    [
     "$A$",
@@ -886,6 +991,9 @@ window.QUESTIONS = [
    "network collapse",
    "$m$"
   ],
+  "weeks": [
+   "W6"
+  ],
   "choices": [
    [
     "an ultrametric",
@@ -936,6 +1044,9 @@ window.QUESTIONS = [
    3,
    0,
    2
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -959,6 +1070,9 @@ window.QUESTIONS = [
    3,
    2,
    0
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -978,6 +1092,9 @@ window.QUESTIONS = [
    1,
    2,
    0
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -1005,6 +1122,9 @@ window.QUESTIONS = [
    3,
    1,
    0
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -1032,6 +1152,9 @@ window.QUESTIONS = [
    0,
    3,
    1
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -1043,6 +1166,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A 1D network has: L1 convolution ($K=5$, $S=1$, $P=2$, $D=1$); L2 convolution ($K=3$, $S=2$, $P=1$, $D=1$); L3 dilated convolution ($K=3$, $S=1$, $P=2$, $D=3$). What is the receptive field of one output neuron of L3?",
   "answer": "$\\mathbf{19}$",
+  "weeks": [
+   "W1"
+  ],
   "expected": [
    19
   ],
@@ -1059,6 +1185,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A transformer layer has $d_{\\text{model}} = 512$ and $h = 8$ heads. What is $d_k$? How many parameters does the output projection $W^{O}$ contain, ignoring biases?",
   "answer": "$d_k = \\mathbf{64}$; $W^{O}$ has $\\mathbf{262{,}144}$ parameters",
+  "weeks": [
+   "W2"
+  ],
   "expected": [
    64,
    262144
@@ -1077,6 +1206,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A Swin backbone receives a $1024\\times1024$ RGB image with patch size $P = 4$ and base channel dimension $C = 96$. What tensor shape enters Stage 2, i.e. after one patch-merging step, which halves the concatenated channel dimension?",
   "answer": "$\\mathbf{128 \\times 128 \\times 192}$",
+  "weeks": [
+   "W3"
+  ],
   "expected": [
    128,
    128,
@@ -1097,6 +1229,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "How many learnable parameters, including biases, does this network have? lstlisting[language=Python] nn.Sequential( nn.Conv3d(in_channels=1, out_channels=16, kernel_size=(3,3,3)), nn.Conv3d(in_channels=16, out_channels=32, kernel_size=(5,5,5)) ) lstlisting",
   "answer": "$\\mathbf{64{,}480}$",
+  "weeks": [
+   "W4"
+  ],
   "expected": [
    64480
   ],
@@ -1113,6 +1248,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "For online triplet mining, a structured batch has $P = 6$ classes and $K = 5$ samples each. How many triplets does batch-all produce, how many does batch-hard, and what is the ratio?",
   "answer": "batch-all $\\mathbf{3{,}000}$; batch-hard $\\mathbf{30}$; ratio $\\mathbf{100\\times}$",
+  "weeks": [
+   "W6"
+  ],
   "expected": [
    3000,
    30,
@@ -1152,7 +1290,10 @@ window.QUESTIONS = [
     "text": "states that it changes neither the receptive field nor the spatial resolution"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W1"
+  ]
  },
  {
   "id": "e01q48",
@@ -1182,7 +1323,10 @@ window.QUESTIONS = [
     "text": "inference: there is no ground truth, so the model must consume its own predictions one token at a time — generation is sequential"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W2"
+  ]
  },
  {
   "id": "e01q49",
@@ -1208,7 +1352,10 @@ window.QUESTIONS = [
     "text": "shows the incoherent cross-product (“New Francisco”) receives substantial probability because each half is individually likely"
    }
   ],
-  "pts": 3
+  "pts": 3,
+  "weeks": [
+   "W2"
+  ]
  },
  {
   "id": "e01q50",
@@ -1234,7 +1381,10 @@ window.QUESTIONS = [
     "text": "concludes that duplicates are penalised in the loss during training rather than filtered afterwards, so the model learns a duplicate-free set output"
    }
   ],
-  "pts": 3
+  "pts": 3,
+  "weeks": [
+   "W3"
+  ]
  },
  {
   "id": "e01q51",
@@ -1264,7 +1414,10 @@ window.QUESTIONS = [
     "text": "states what is lost: components not already connected through active sites can never exchange information, because SSC never writes to inactive locations"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W4"
+  ]
  },
  {
   "id": "e01q52",
@@ -1294,7 +1447,10 @@ window.QUESTIONS = [
     "text": "makes the tension explicit: the depth needed for reach is the same number of rounds of smoothing, so no choice of $L$ gets one without the other"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W5"
+  ]
  },
  {
   "id": "e01q53",
@@ -1324,7 +1480,10 @@ window.QUESTIONS = [
     "text": "compares: hard triplets pay more than $m$, so collapsing lowers the loss and, once reached, every gradient is zero and the network never recovers"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W6"
+  ]
  },
  {
   "id": "e01q54",
@@ -1354,7 +1513,10 @@ window.QUESTIONS = [
     "text": "states the consequence: the alignment is only as good as the pairing supervision"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W6"
+  ]
  },
  {
   "id": "e01q55",
@@ -1388,7 +1550,10 @@ window.QUESTIONS = [
     "text": "states that padding changes only where an output sits, not how far it reaches"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W1"
+  ]
  },
  {
   "id": "e01q56",
@@ -1422,7 +1587,10 @@ window.QUESTIONS = [
     "text": "explains that the residual gives gradients a path past each sub-layer (depth trainable) and the normalisation stabilises the activation scale"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W2"
+  ]
  },
  {
   "id": "e01q57",
@@ -1452,7 +1620,10 @@ window.QUESTIONS = [
     "text": "states what the shift buys — cross-window connections, so information can flow across the whole map — and what it costs: an irregular partition, handled by a cyclic shift plus a mask"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W3"
+  ]
  },
  {
   "id": "e01q58",
@@ -1486,7 +1657,10 @@ window.QUESTIONS = [
     "text": "states the lost capability: two disconnected components can never communicate, because SSC never writes to an inactive site"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W4"
+  ]
  },
  {
   "id": "e01q59",
@@ -1516,7 +1690,10 @@ window.QUESTIONS = [
     "text": "explains what a GNN gives up: a transformer connects every pair in one layer (path length $1$) at $O(n^2)$, while a sparse GNN needs one layer per hop at $O(|\\mathcal{E}|)$"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W5"
+  ]
  },
  {
   "id": "e01q60",
@@ -1550,7 +1727,10 @@ window.QUESTIONS = [
     "text": "states what breaks otherwise: relabelling the nodes or changing the storage order would change the output, so the layer is no longer permutation equivariant"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W5"
+  ]
  },
  {
   "id": "e02q01",
@@ -1568,6 +1748,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -1586,6 +1769,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -1606,6 +1792,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -1626,6 +1815,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -1644,6 +1836,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -1664,6 +1859,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -1684,6 +1882,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -1704,6 +1905,9 @@ window.QUESTIONS = [
    0,
    1,
    2
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -1722,6 +1926,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -1740,6 +1947,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -1758,6 +1968,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -1777,6 +1990,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    3
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -1796,6 +2012,9 @@ window.QUESTIONS = [
   "correct": [
    2,
    3
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -1814,6 +2033,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -1832,6 +2054,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -1850,6 +2075,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -1868,6 +2096,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -1886,6 +2117,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -1904,6 +2138,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -1925,6 +2162,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -1943,6 +2183,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -1964,6 +2207,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -1982,6 +2228,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -2000,6 +2249,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -2020,13 +2272,16 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
   "id": "e02q26",
   "exam": 2,
   "num": 26,
-  "week": "W10--W11",
+  "week": "W10–W11",
   "explanation": "<p>Both cost many network evaluations, but the axis of repetition differs, and so do the properties that follow from it.</p><table class='xt'><tr><th></th><th><strong>diffusion</strong></th><th><strong>NeRF</strong></th></tr><tr><td>repeats over</td><td>denoising <em>time steps</em> $k$</td><td><em>sample points</em> along a ray</td></tr><tr><td>conditioned on</td><td>the noise level $k$ (and optionally text)</td><td>position $(x,y,z)$ and direction $(\\theta,\\phi)$</td></tr><tr><td>trained on</td><td>a <em>dataset</em> of many images</td><td><em>one scene</em>, from posed images</td></tr><tr><td>parallelisable?</td><td><strong>no</strong> — $\\mathbf{x}_{k-1}$ needs $\\mathbf{x}_k$</td><td><strong>yes</strong> — all $192$ points are independent</td></tr></table><p><strong>Only the 4th is true</strong> (row one); each of the other three is false because of a different row.</p><p><strong>1st false</strong> because of row three: diffusion generalises across a data distribution, while a vanilla NeRF is refitted from scratch for every new scene. Only <em>one</em> of the two is per-scene.</p><p><strong>2nd false</strong> because of row four: NeRF's about $123$ million evaluations per frame ($800\\times600$ rays $\\times$ $256$ evaluations per ray) are embarrassingly parallel and merely expensive, whereas diffusion's $50$ steps are strictly sequential — which is why distillation methods target sampling latency, not FLOPs. Only <em>one</em> of the two parallelises.</p><p><strong>3rd false</strong> because of row two: a timestep embedding is diffusion's conditioning. NeRF has no timestep at all — it is conditioned on position and view direction.</p>",
   "type": "multi",
   "stem": "A single sampling step of a diffusion model and a single query of a NeRF are often confused because both “run a network many times”. Mark all that are true:",
@@ -2038,6 +2293,10 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W10",
+   "W11"
   ]
  },
  {
@@ -2063,6 +2322,9 @@ window.QUESTIONS = [
    "keys and values",
    "one joint",
    "one output per modality"
+  ],
+  "weeks": [
+   "W7"
   ],
   "choices": [
    [
@@ -2125,6 +2387,9 @@ window.QUESTIONS = [
    "fixed, non-uniform (always the same peak)",
    "uniform"
   ],
+  "weeks": [
+   "W8"
+  ],
   "choices": [
    [
     "a gradient update",
@@ -2182,6 +2447,9 @@ window.QUESTIONS = [
    "$\\log N$",
    "ceiling"
   ],
+  "weeks": [
+   "W8"
+  ],
   "choices": [
    [
     "$\\log(N-1)$",
@@ -2227,6 +2495,9 @@ window.QUESTIONS = [
    "$2dr$",
    "identity",
    "$-\\lambda$"
+  ],
+  "weeks": [
+   "W9"
   ],
   "choices": [
    [
@@ -2291,6 +2562,9 @@ window.QUESTIONS = [
    "replay-based",
    "optimisation-based",
    "architecture-based"
+  ],
+  "weeks": [
+   "W9"
   ],
   "choices": [
    [
@@ -2372,6 +2646,9 @@ window.QUESTIONS = [
    "variance-preserving",
    "variance-exploding"
   ],
+  "weeks": [
+   "W10"
+  ],
   "choices": [
    [
     "drift",
@@ -2443,6 +2720,9 @@ window.QUESTIONS = [
    "the viewing direction",
    "geometry is a property of the scene, not of the camera"
   ],
+  "weeks": [
+   "W11"
+  ],
   "choices": [
    [
     "position $(x,y,z)$ and view direction $(\\theta,\\phi)$",
@@ -2501,6 +2781,9 @@ window.QUESTIONS = [
    0,
    3,
    2
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -2522,6 +2805,9 @@ window.QUESTIONS = [
    3,
    0,
    1
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -2543,6 +2829,9 @@ window.QUESTIONS = [
    0,
    3,
    1
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -2562,6 +2851,9 @@ window.QUESTIONS = [
    2,
    1,
    0
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -2592,6 +2884,9 @@ window.QUESTIONS = [
    2,
    3,
    4
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -2620,6 +2915,9 @@ window.QUESTIONS = [
    0,
    2,
    2
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -2631,6 +2929,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A masked autoencoder uses $196$ patches and a mask ratio of $75\\%$. How many tokens does the <em>encoder</em> process, and how many does the <em>decoder</em> process? By what factor is the encoder's quadratic attention term reduced against processing all patches?",
   "answer": "encoder $\\mathbf{49}$ tokens, decoder $\\mathbf{196}$; attention term $\\mathbf{16\\times}$ smaller",
+  "weeks": [
+   "W8"
+  ],
   "expected": [
    49,
    196,
@@ -2651,6 +2952,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A LoRA adapter is applied to a $d \\times d$ weight matrix with $d = 4096$, at rank $r = 8$. How many parameters does the adapter add, and how many times more parameters does the full matrix have than the adapter?",
   "answer": "$\\mathbf{65{,}536}$ parameters; the full matrix has $\\mathbf{256\\times}$ as many",
+  "weeks": [
+   "W9"
+  ],
   "expected": [
    65536,
    256
@@ -2669,6 +2973,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A $7$B-parameter model is fine-tuned in $16$-bit precision. Estimate the VRAM for the weights alone, then for weights $+$ gradients $+$ Adam's two optimiser states, and state the ratio between the two figures.",
   "answer": "$\\mathbf{14}$ GB, then $\\mathbf{56}$ GB; ratio $\\mathbf{4\\times}$",
+  "weeks": [
+   "W9"
+  ],
   "expected": [
    14,
    56,
@@ -2689,6 +2996,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "Classifier-free guidance forms $\\tilde\\varepsilon = \\varepsilon_\\theta(\\mathbf{x}_t,\\varnothing) + \\gamma\\,(\\varepsilon_\\theta(\\mathbf{x}_t,c) - \\varepsilon_\\theta(\\mathbf{x}_t,\\varnothing))$. With $50$ sampling steps, how many network evaluations does a guided sample cost, and how many does an unguided one? What does $\\gamma = 0$ produce?",
   "answer": "guided $\\mathbf{100}$, unguided $\\mathbf{50}$; $\\gamma=0$ gives the <strong>unconditional</strong> score",
+  "weeks": [
+   "W10"
+  ],
   "expected": [
    100,
    50
@@ -2707,6 +3017,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A NeRF renders a $400\\times300$ image. Per ray, the coarse network is evaluated at $64$ samples, and the fine network, as in the original NeRF, at the union of those $64$ and $128$ additional samples. How many network evaluations does one rendered frame require?",
   "answer": "$\\mathbf{30{,}720{,}000}$ evaluations per frame",
+  "weeks": [
+   "W11"
+  ],
   "expected": [
    30720000
   ],
@@ -2742,7 +3055,10 @@ window.QUESTIONS = [
     "text": "states that matched image–caption pairs are pulled together and mismatched pairs pushed apart, so the alignment is learned"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W7"
+  ]
  },
  {
   "id": "e02q46",
@@ -2772,7 +3088,10 @@ window.QUESTIONS = [
     "text": "gives a task that needs coordination, e.g. cross-modal retrieval, where a query is embedded once and compared by dot product against pre-computed candidates"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W7"
+  ]
  },
  {
   "id": "e02q47",
@@ -2802,7 +3121,10 @@ window.QUESTIONS = [
     "text": "states that each mechanism alone drives the output into the failure the other prevents, so they are only stable together"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W8"
+  ]
  },
  {
   "id": "e02q48",
@@ -2832,7 +3154,10 @@ window.QUESTIONS = [
     "text": "adds that because the encoder skips masked patches, the high ratio also makes MAE cheaper ($49$ tokens instead of $196$)"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W8"
+  ]
  },
  {
   "id": "e02q49",
@@ -2862,7 +3187,10 @@ window.QUESTIONS = [
     "text": "states that the label head's gradient is unmodified, so the same features stay discriminative for the task"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W9"
+  ]
  },
  {
   "id": "e02q50",
@@ -2892,7 +3220,10 @@ window.QUESTIONS = [
     "text": "states the two costs: replay pays in memory, regularisation pays in capacity"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W9"
+  ]
  },
  {
   "id": "e02q51",
@@ -2918,7 +3249,10 @@ window.QUESTIONS = [
     "text": "gives the second reason: a score needs no non-negativity or integrate-to-one constraint, so any $\\mathbb{R}^d \\to \\mathbb{R}^d$ network fits it as plain regression"
    }
   ],
-  "pts": 3
+  "pts": 3,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e02q52",
@@ -2948,7 +3282,10 @@ window.QUESTIONS = [
     "text": "large $\\sigma$ alone fails: the score is reliable everywhere but the distribution sampled is the data blurred by heavy noise"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e02q53",
@@ -2978,7 +3315,10 @@ window.QUESTIONS = [
     "text": "concludes that $\\sigma = \\sigma(x,y,z)$ forces every ray through a point to agree on whether matter is there — multi-view consistency is enforced by the parameterisation"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W11"
+  ]
  },
  {
   "id": "e02q54",
@@ -3008,7 +3348,10 @@ window.QUESTIONS = [
     "text": "contrasts with NeRF, whose scene lives inside the network and costs millions of MLP evaluations per frame, which is why 3DGS is real-time"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W11"
+  ]
  },
  {
   "id": "e02q55",
@@ -3034,13 +3377,16 @@ window.QUESTIONS = [
     "text": "states the split: $h_t = f(h_{t-1}, s_{t-1}, a_{t-1})$ carries context along a noiseless channel while $s_t \\sim p(s_t \\mid h_t)$ carries the branching"
    }
   ],
-  "pts": 3
+  "pts": 3,
+  "weeks": [
+   "W11"
+  ]
  },
  {
   "id": "e02q56",
   "exam": 2,
   "num": 56,
-  "week": "W8--W9",
+  "week": "W8–W9",
   "explanation": "<p><strong>Marking points:</strong> transfer learning's signal comes from <em>labels</em> on a different task; self-supervision's comes from <em>structure within the unlabelled data itself</em>; the practical consequence is scale, because annotation cost stops being the limit.</p><p><strong>The depth.</strong> The two are procedurally almost identical — pre-train a backbone, throw away the head, attach a new one — so the difference lies only in where the supervision comes from.</p><p>Supervised ImageNet pre-training is capped by the ImageNet labels: a million images, a thousand categories, and every additional image costs human time. In addition, the representation is shaped by that specific label set, so it discards whatever the thousand categories do not distinguish. Self-supervision generates its target from the input — the masked patch, the other crop — so the supply of training signal is the supply of <em>data</em>, which is effectively unbounded.</p><p><strong>Consequence: scale.</strong> Self-supervision is what makes foundation models possible. No annotation budget produces a billion labelled images; scraping produces a billion images. Everything downstream — linear probing, LoRA, prompt tuning — assumes a backbone trained at a scale only self-supervision can reach.</p>",
   "type": "written",
   "sub": "text",
@@ -3064,7 +3410,11 @@ window.QUESTIONS = [
     "text": "gives a practical consequence: scale, because annotation cost stops being the limit, or the representation no longer being shaped by a fixed label set"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W8",
+   "W9"
+  ]
  },
  {
   "id": "e02q57",
@@ -3098,7 +3448,10 @@ window.QUESTIONS = [
     "text": "written: without the stop-gradient the teacher can move towards the student and collapse becomes directly reachable by gradient descent"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W8"
+  ]
  },
  {
   "id": "e02q58",
@@ -3132,7 +3485,10 @@ window.QUESTIONS = [
     "text": "(ii) adds that at small $\\sigma$ the score in the low-density valley is untrained extrapolation, so it is unreliable there"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e02q59",
@@ -3162,7 +3518,10 @@ window.QUESTIONS = [
     "text": "written: samples behind the object have a good $\\sigma$ and colour but their weight $T(t)\\sigma(t)$ contains $T \\approx 0$, so occlusion falls out of the transmittance automatically"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W11"
+  ]
  },
  {
   "id": "e02q60",
@@ -3196,7 +3555,10 @@ window.QUESTIONS = [
     "text": "states why no simulation is needed: the forward chain is a composition of Gaussians, so $q(\\mathbf{x}_k \\mid \\mathbf{x}_0)$ is Gaussian in closed form and any $k$ is reached in one step"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e03q01",
@@ -3215,6 +3577,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    3
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -3233,6 +3598,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -3253,6 +3621,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -3271,6 +3642,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -3291,6 +3665,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -3309,6 +3686,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -3328,6 +3708,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    2
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -3349,6 +3732,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -3367,6 +3753,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -3387,6 +3776,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -3405,6 +3797,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -3423,6 +3818,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -3441,6 +3839,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -3461,6 +3862,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -3479,6 +3883,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -3499,6 +3906,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -3517,6 +3927,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -3538,6 +3951,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -3556,6 +3972,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -3575,6 +3994,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    2
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -3593,6 +4015,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -3613,6 +4038,9 @@ window.QUESTIONS = [
    0,
    1,
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -3631,6 +4059,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -3650,6 +4081,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    3
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -3668,6 +4102,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -3686,6 +4123,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -3706,6 +4146,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -3724,6 +4167,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -3743,6 +4189,9 @@ window.QUESTIONS = [
   "correct": [
    2,
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -3761,6 +4210,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -3783,6 +4235,9 @@ window.QUESTIONS = [
    "$\\left\\lfloor (H + 2P - K)/S \\right\\rfloor + 1$",
    "$K^2 C_{\\text{in}} C_{\\text{out}}$",
    "$C_{\\text{out}}$"
+  ],
+  "weeks": [
+   "W1"
   ],
   "choices": [
    [
@@ -3836,6 +4291,9 @@ window.QUESTIONS = [
    "positional encoding",
    "after"
   ],
+  "weeks": [
+   "W2"
+  ],
   "choices": [
    [
     "covariant",
@@ -3886,6 +4344,9 @@ window.QUESTIONS = [
    "quadratic",
    "linear",
    "information can cross window boundaries"
+  ],
+  "weeks": [
+   "W3"
   ],
   "choices": [
    [
@@ -3942,6 +4403,9 @@ window.QUESTIONS = [
    "sampling density",
    "symmetric",
    "max pooling"
+  ],
+  "weeks": [
+   "W4"
   ],
   "choices": [
    [
@@ -4012,6 +4476,9 @@ window.QUESTIONS = [
    "self-loops",
    "skip connections"
   ],
+  "weeks": [
+   "W5"
+  ],
   "choices": [
    [
     "sigmoid",
@@ -4072,6 +4539,9 @@ window.QUESTIONS = [
    "hard",
    "semi-hard"
   ],
+  "weeks": [
+   "W6"
+  ],
   "choices": [
    [
     "$\\max(0,\\ \\mathcal{D}(a,p) - \\mathcal{D}(a,n) - m)$",
@@ -4124,6 +4594,9 @@ window.QUESTIONS = [
    1,
    3,
    0
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -4145,6 +4618,9 @@ window.QUESTIONS = [
    1,
    0,
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -4166,6 +4642,9 @@ window.QUESTIONS = [
    3,
    0,
    2
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -4187,6 +4666,9 @@ window.QUESTIONS = [
    3,
    0,
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -4214,6 +4696,9 @@ window.QUESTIONS = [
    2,
    3,
    0
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -4241,6 +4726,9 @@ window.QUESTIONS = [
    0,
    3,
    1
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -4252,6 +4740,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A $224\\times224$ RGB image enters a convolution with $64$ filters, kernel $7\\times7$, stride $2$, padding $3$. Give the output tensor shape and the number of learnable parameters including biases.",
   "answer": "$\\mathbf{112 \\times 112 \\times 64}$; $\\mathbf{9{,}472}$ parameters",
+  "weeks": [
+   "W1"
+  ],
   "expected": [
    112,
    112,
@@ -4274,6 +4765,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "An MLP maps $784 \\to 100 \\to 10$, every layer with biases. How many learnable parameters does it have?",
   "answer": "$\\mathbf{79{,}510}$",
+  "weeks": [
+   "W1"
+  ],
   "expected": [
    79510
   ],
@@ -4290,6 +4784,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A transformer layer has $d_{\\text{model}} = 256$ and $h = 4$ heads, with a feed-forward inner width of $4d_{\\text{model}}$. Give $d_k$, the parameters in the four attention projections, and the parameters in the feed-forward network (ignore biases).",
   "answer": "$d_k = \\mathbf{64}$; attention $\\mathbf{262{,}144}$; feed-forward $\\mathbf{524{,}288}$",
+  "weeks": [
+   "W2"
+  ],
   "expected": [
    64,
    262144,
@@ -4310,6 +4807,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A feature map is $16\\times16$ patches. Compare the number of query–key pairs under global attention with window attention over $4\\times4$ windows (window size $M = 4$, not Swin's default $M = 7$), and give the ratio.",
   "answer": "global $\\mathbf{65{,}536}$ pairs; windowed $\\mathbf{4{,}096}$; ratio $\\mathbf{16\\times}$",
+  "weeks": [
+   "W3"
+  ],
   "expected": [
    65536,
    4096,
@@ -4330,6 +4830,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A dense voxel grid stores $4$ bytes per voxel. Taking $1$ MiB $= 2^{20}$ bytes, how many MiB does a $256^3$ grid need, by what factor does the memory grow on moving to $512^3$, and how many MiB is that?",
   "answer": "$256^3$ needs $\\mathbf{64}$ MiB; $512^3$ is $\\mathbf{8\\times}$ that, $\\mathbf{512}$ MiB",
+  "weeks": [
+   "W4"
+  ],
   "expected": [
    64,
    8,
@@ -4350,6 +4853,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "For online triplet mining, a structured batch holds $P = 8$ classes with $K = 4$ samples each. How many triplets does batch-all produce, how many does batch-hard, and what is the ratio?",
   "answer": "batch-all $\\mathbf{2{,}688}$; batch-hard $\\mathbf{32}$; ratio $\\mathbf{84\\times}$",
+  "weeks": [
+   "W6"
+  ],
   "expected": [
    2688,
    32,
@@ -4385,7 +4891,10 @@ window.QUESTIONS = [
     "text": "explains why: there may be no batch at test time, and one input's prediction must not depend on what else is in the batch"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W1"
+  ]
  },
  {
   "id": "e03q50",
@@ -4415,7 +4924,10 @@ window.QUESTIONS = [
     "text": "explains why clipping cannot fix vanishing: it only bounds a gradient from above, and a vanished gradient has no direction left to rescale"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W1"
+  ]
  },
  {
   "id": "e03q51",
@@ -4441,7 +4953,10 @@ window.QUESTIONS = [
     "text": "gives the evidence or the price: trained heads specialise (positional, syntactic, semantic), or each head is left only $d/h$ dimensions to work in"
    }
   ],
-  "pts": 3
+  "pts": 3,
+  "weeks": [
+   "W2"
+  ]
  },
  {
   "id": "e03q52",
@@ -4471,7 +4986,10 @@ window.QUESTIONS = [
     "text": "gives GPT a suited task (generation) and a poor one (a fixed-length sentence encoder), with the reason: every token has seen only its left context"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W2"
+  ]
  },
  {
   "id": "e03q53",
@@ -4497,7 +5015,10 @@ window.QUESTIONS = [
     "text": "states the crossover: below some data scale the built-in priors win, above it the ViT learns them from data and is not confined to them"
    }
   ],
-  "pts": 3
+  "pts": 3,
+  "weeks": [
+   "W3"
+  ]
  },
  {
   "id": "e03q54",
@@ -4527,7 +5048,10 @@ window.QUESTIONS = [
     "text": "says how it is exploited: octrees subdivide only where the surface is, or sparse convolutions store and compute only at the active sites"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W4"
+  ]
  },
  {
   "id": "e03q55",
@@ -4553,7 +5077,10 @@ window.QUESTIONS = [
     "text": "under-reaching: the network has fewer layers than the distance between two nodes, so the information never arrives at all"
    }
   ],
-  "pts": 3
+  "pts": 3,
+  "weeks": [
+   "W5"
+  ]
  },
  {
   "id": "e03q56",
@@ -4583,7 +5110,10 @@ window.QUESTIONS = [
     "text": "states that a margin is inserted into the angle of the true class, so it must win by an angular gap"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W6"
+  ]
  },
  {
   "id": "e03q57",
@@ -4617,7 +5147,10 @@ window.QUESTIONS = [
     "text": "names one action for underfitting (more capacity, train longer, weaker regularisation) and one for overfitting (more data or augmentation, stronger regularisation, early stopping)"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W1"
+  ]
  },
  {
   "id": "e03q58",
@@ -4647,7 +5180,10 @@ window.QUESTIONS = [
     "text": "states that the hardest negatives (label noise, near-duplicates) are unsolvable, so their loss cannot be reduced and the collapse is the lower-loss solution"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W6"
+  ]
  },
  {
   "id": "e03q59",
@@ -4681,7 +5217,10 @@ window.QUESTIONS = [
     "text": "states why the readout must be invariant: a graph-level answer must not depend on the arbitrary order the nodes were stored in"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W5"
+  ]
  },
  {
   "id": "e03q60",
@@ -4715,7 +5254,10 @@ window.QUESTIONS = [
     "text": "states that mining over the whole dataset returns label noise and near-duplicates, unsolvable triplets, so the optimiser collapses the embedding instead"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W6"
+  ]
  },
  {
   "id": "e04q01",
@@ -4734,6 +5276,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    3
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -4752,6 +5297,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -4772,6 +5320,9 @@ window.QUESTIONS = [
    0,
    1,
    2
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -4790,6 +5341,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -4808,6 +5362,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -4828,6 +5385,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -4846,6 +5406,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -4867,6 +5430,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -4885,6 +5451,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -4904,6 +5473,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    2
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -4922,6 +5494,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -4941,6 +5516,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -4961,6 +5539,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -4979,6 +5560,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -4999,6 +5583,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -5017,6 +5604,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -5035,6 +5625,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -5053,6 +5646,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -5071,6 +5667,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -5092,6 +5691,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -5111,6 +5713,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    1
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -5129,6 +5734,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -5149,6 +5757,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -5167,6 +5778,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -5186,6 +5800,9 @@ window.QUESTIONS = [
   "correct": [
    2,
    3
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -5204,6 +5821,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -5225,6 +5845,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -5243,6 +5866,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -5262,6 +5888,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    2
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -5280,6 +5909,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -5308,6 +5940,9 @@ window.QUESTIONS = [
    "$O(n d^2)$",
    "$O(n)$",
    "$n &lt; d$"
+  ],
+  "weeks": [
+   "W2"
   ],
   "choices": [
    [
@@ -5391,6 +6026,9 @@ window.QUESTIONS = [
    "occupied",
    "mixed",
    "mixed"
+  ],
+  "weeks": [
+   "W4"
   ],
   "choices": [
    [
@@ -5489,6 +6127,9 @@ window.QUESTIONS = [
    "$\\lVert W\\mathbf{x}_1 - W\\mathbf{x}_2\\rVert^2$",
    "Siamese"
   ],
+  "weeks": [
+   "W6"
+  ],
   "choices": [
    [
     "$M(\\mathbf{x}_1-\\mathbf{x}_2)^{\\top}(\\mathbf{x}_1-\\mathbf{x}_2)$",
@@ -5572,6 +6213,9 @@ window.QUESTIONS = [
    "sharpening",
    "$&gt;$"
   ],
+  "weeks": [
+   "W8"
+  ],
   "choices": [
    [
     "a larger pre-trained model",
@@ -5647,6 +6291,9 @@ window.QUESTIONS = [
    "$\\prod_{s\\le k}\\alpha_s$",
    "$\\sqrt{\\bar\\alpha_k}\\,\\mathbf{x}_0 + \\sqrt{1-\\bar\\alpha_k}\\,\\varepsilon$",
    "$\\lVert \\varepsilon - \\varepsilon_\\theta(\\mathbf{x}_k,k)\\rVert^2$"
+  ],
+  "weeks": [
+   "W10"
   ],
   "choices": [
    [
@@ -5734,6 +6381,9 @@ window.QUESTIONS = [
    "alpha-blending",
    "$1 - \\exp(-\\sigma_i\\delta_i)$"
   ],
+  "weeks": [
+   "W11"
+  ],
   "choices": [
    [
     "$1-T(t)$",
@@ -5815,6 +6465,9 @@ window.QUESTIONS = [
    3,
    1,
    0
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -5838,6 +6491,9 @@ window.QUESTIONS = [
    0,
    4,
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -5859,6 +6515,9 @@ window.QUESTIONS = [
    3,
    0,
    2
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -5880,6 +6539,9 @@ window.QUESTIONS = [
    2,
    1,
    3
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -5907,6 +6569,9 @@ window.QUESTIONS = [
    3,
    2,
    0
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -5934,6 +6599,9 @@ window.QUESTIONS = [
    2,
    3,
    0
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -5945,6 +6613,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A network applies three $3\\times3$ convolutions at stride $1$, then a $2\\times2$ max-pool at stride $2$, then two more $3\\times3$ convolutions at stride $1$. All padding is “same”. Give the jump and the receptive field after the last layer.",
   "answer": "$J = \\mathbf{2}$; $R = \\mathbf{16}$",
+  "weeks": [
+   "W1"
+  ],
   "expected": [
    2,
    16
@@ -5963,6 +6634,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A Swin stage holds a $32\\times32$ grid of patches with window size $M=4$. Give the number of windows, the number of query–key pairs computed by window attention, the number global attention would compute, and the ratio.",
   "answer": "$\\mathbf{64}$ windows; $\\mathbf{16{,}384}$ against $\\mathbf{1{,}048{,}576}$ pairs; ratio $\\mathbf{64}$",
+  "weeks": [
+   "W3"
+  ],
   "expected": [
    64,
    16384,
@@ -5985,6 +6659,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "An undirected graph has $8$ nodes and the edges $\\{1\\!-\\!2,\\ 2\\!-\\!3,\\ 4\\!-\\!5,\\ 6\\!-\\!7,\\ 7\\!-\\!8,\\ 6\\!-\\!8\\}$. Give the number of connected components, $\\operatorname{rank}(L)$, $\\operatorname{trace}(L)$, and the multiplicity of the eigenvalue $0$.",
   "answer": "$3$ components; $\\operatorname{rank}(L) = \\mathbf{5}$; $\\operatorname{trace}(L) = \\mathbf{12}$; multiplicity of $0$ is $\\mathbf{3}$",
+  "weeks": [
+   "W5"
+  ],
   "expected": [
    3,
    5,
@@ -6007,6 +6684,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A contrastive task picks the positive out of $N = 1024$ candidates. Give the ceiling the InfoNCE bound places on the certified mutual information, in bits and in nats, and say how large $N$ would have to be to certify $15$ bits. Use $\\ln 2 \\approx 0.693$.",
   "answer": "$\\mathbf{10}$ bits $= \\mathbf{6.93}$ nats; $N \\ge \\mathbf{32{,}768}$ for $15$ bits",
+  "weeks": [
+   "W8"
+  ],
   "expected": [
    10,
    6.93,
@@ -6027,6 +6707,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A $1024\\times1024$ projection matrix is adapted with LoRA at rank $r=16$. Give the number of parameters full fine-tuning would train, the number LoRA trains, and the compression ratio.",
   "answer": "$\\mathbf{1{,}048{,}576}$ against $\\mathbf{32{,}768}$; ratio $\\mathbf{32\\times}$",
+  "weeks": [
+   "W9"
+  ],
   "expected": [
    1048576,
    32768,
@@ -6047,6 +6730,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A diffusion schedule uses $\\beta_1 = \\beta_2 = 0.2$. Give $\\alpha$, $\\bar\\alpha_2$, and both coefficients of the closed form $\\mathbf{x}_2 = \\sqrt{\\bar\\alpha_2}\\,\\mathbf{x}_0 + \\sqrt{1-\\bar\\alpha_2}\\,\\varepsilon$. State the identity the two coefficients satisfy.",
   "answer": "$\\alpha = \\mathbf{0.8}$; $\\bar\\alpha_2 = \\mathbf{0.64}$; coefficients $\\mathbf{0.8}$ and $\\mathbf{0.6}$; $0.8^2 + 0.6^2 = 1$",
+  "weeks": [
+   "W10"
+  ],
   "expected": [
    0.8,
    0.64,
@@ -6088,7 +6774,10 @@ window.QUESTIONS = [
     "text": "explains why weight sharing does not: the same outputs are still computed at every position, and re-using a number does not avoid multiplying by it"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W1"
+  ]
  },
  {
   "id": "e04q50",
@@ -6118,7 +6807,10 @@ window.QUESTIONS = [
     "text": "explains why the two reasons are independent: one is about the batch axis, the other about the sequence axis"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W2"
+  ]
  },
  {
   "id": "e04q51",
@@ -6148,7 +6840,10 @@ window.QUESTIONS = [
     "text": "names a second fix with its mechanism: Jumping Knowledge lets the readout select the depth at which each node was still informative (DropEdge or fewer layers accepted)"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W5"
+  ]
  },
  {
   "id": "e04q52",
@@ -6178,7 +6873,10 @@ window.QUESTIONS = [
     "text": "says the distance must be stated: squared Euclidean, Euclidean or cosine — a squared margin of $0.2$ is an actual separation of $\\sqrt{0.2}\\approx 0.45$"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W6"
+  ]
  },
  {
   "id": "e04q53",
@@ -6204,7 +6902,10 @@ window.QUESTIONS = [
     "text": "explains why: no weighted average of two votes can produce a third answer, and a dominated model has paid the cost of aligned paired data for nothing"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W7"
+  ]
  },
  {
   "id": "e04q54",
@@ -6234,7 +6935,10 @@ window.QUESTIONS = [
     "text": "gives the consequence: the realistic saving is about $4\\times$ (roughly $60$ GB to $16$ GB for 7B in fp16); the $64\\times$ counts what is trained, memory counts what is stored"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W9"
+  ]
  },
  {
   "id": "e04q55",
@@ -6264,7 +6968,10 @@ window.QUESTIONS = [
     "text": "states that the stationary distribution of drift plus noise is $p(\\mathbf{x})$ itself, in the limit $\\delta\\to 0$, $T\\to\\infty$"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e04q56",
@@ -6294,7 +7001,10 @@ window.QUESTIONS = [
     "text": "derives at least one consequence from it: storage (megabytes against a gigabyte), render speed (network per sample against rasterisation), editability, or how detail is reached"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W11"
+  ]
  },
  {
   "id": "e04q57",
@@ -6328,7 +7038,10 @@ window.QUESTIONS = [
     "text": "explains why: matching is a combinatorial assignment that only chooses which target belongs to which slot, like a fixed label, so nothing needs to be differentiated through it"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W3"
+  ]
  },
  {
   "id": "e04q58",
@@ -6362,7 +7075,10 @@ window.QUESTIONS = [
     "text": "second thing bought: masked patches never enter the encoder, so $196$ patches become $49$ tokens and the quadratic attention cost falls about $16\\times$"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W8"
+  ]
  },
  {
   "id": "e04q59",
@@ -6396,7 +7112,10 @@ window.QUESTIONS = [
     "text": "explains: the far surface absorbs $1-e^{-2}=0.865$ of what reaches it, but only $T=0.741$ arrives, so it contributes $0.641$ — the weight is $T_i\\alpha_i$, not $\\alpha_i$"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W11"
+  ]
  },
  {
   "id": "e04q60",
@@ -6430,7 +7149,10 @@ window.QUESTIONS = [
     "text": "states what differs at the last step: $\\mathbf{z}=0$ at $k=1$, so no noise is added to the final image"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e05q01",
@@ -6449,6 +7171,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    2
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -6467,6 +7192,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -6487,6 +7215,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -6505,6 +7236,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -6523,6 +7257,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -6541,6 +7278,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -6559,6 +7299,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -6579,6 +7322,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -6597,6 +7343,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -6616,6 +7365,9 @@ window.QUESTIONS = [
   "correct": [
    2,
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -6634,6 +7386,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -6655,6 +7410,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -6673,6 +7431,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -6691,6 +7452,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -6709,6 +7473,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -6729,6 +7496,9 @@ window.QUESTIONS = [
    0,
    1,
    2
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -6747,6 +7517,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -6766,6 +7539,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    3
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -6784,6 +7560,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -6804,6 +7583,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -6822,6 +7604,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -6843,6 +7628,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -6861,6 +7649,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -6880,6 +7671,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    3
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -6898,6 +7692,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -6917,6 +7714,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    2
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -6935,6 +7735,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -6956,6 +7759,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -6974,6 +7780,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -6993,6 +7802,9 @@ window.QUESTIONS = [
   "correct": [
    2,
    3
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -7027,6 +7839,9 @@ window.QUESTIONS = [
    "vanishing gradients",
    "exploding gradients",
    "gradient clipping"
+  ],
+  "weeks": [
+   "W1"
   ],
   "choices": [
    [
@@ -7117,6 +7932,9 @@ window.QUESTIONS = [
    "$(H/2,\\ W/2,\\ 2C)$",
    "$\\lfloor M/2 \\rfloor$"
   ],
+  "weeks": [
+   "W3"
+  ],
   "choices": [
    [
     "$4\\times4$",
@@ -7192,6 +8010,9 @@ window.QUESTIONS = [
    "$L$-hop",
    "2–3 layers",
    "over-smoothing"
+  ],
+  "weeks": [
+   "W5"
   ],
   "choices": [
    [
@@ -7275,6 +8096,9 @@ window.QUESTIONS = [
    "$W(\\mathbf{x}_A^{\\top}\\!\\cdot\\mathbf{x}_B)$",
    "every feature meets every feature",
    "additive"
+  ],
+  "weeks": [
+   "W7"
   ],
   "choices": [
    [
@@ -7364,6 +8188,9 @@ window.QUESTIONS = [
    "zero",
    "exactly zero",
    "$d/2r$"
+  ],
+  "weeks": [
+   "W9"
   ],
   "choices": [
    [
@@ -7461,6 +8288,9 @@ window.QUESTIONS = [
    "extrapolation",
    "two"
   ],
+  "weeks": [
+   "W10"
+  ],
   "choices": [
    [
     "$\\nabla_{\\mathbf{x}}\\log p(\\mathbf{c})$",
@@ -7525,6 +8355,9 @@ window.QUESTIONS = [
    2,
    3,
    0
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -7546,6 +8379,9 @@ window.QUESTIONS = [
    0,
    3,
    2
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -7567,6 +8403,9 @@ window.QUESTIONS = [
    1,
    3,
    0
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -7588,6 +8427,9 @@ window.QUESTIONS = [
    3,
    2,
    0
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -7615,6 +8457,9 @@ window.QUESTIONS = [
    1,
    3,
    0
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -7642,6 +8487,9 @@ window.QUESTIONS = [
    3,
    0,
    1
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -7653,6 +8501,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A transformer layer has $d = 1000$, $h = 10$ heads and a sequence of $n = 100$. Using $C = 4nd^2 + 2n^2d$, give $d_k$, both terms of $C$, the total, and say which term dominates and why.",
   "answer": "$d_k = \\mathbf{100}$; $\\mathbf{4\\times10^{8}} + \\mathbf{2\\times10^{7}} = \\mathbf{4.2\\times10^{8}}$",
+  "weeks": [
+   "W2"
+  ],
   "expected": [
    100,
    400000000,
@@ -7675,6 +8526,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A single active voxel is passed through <em>regular</em> sparse convolutions with $k=3$ in 3D. After how many layers does the active region first exceed $10{,}000$ voxels? Give the side length and the count at that layer.",
   "answer": "$L = \\mathbf{11}$; side $\\mathbf{23}$, $\\mathbf{12{,}167}$ voxels",
+  "weeks": [
+   "W4"
+  ],
   "expected": [
    11,
    23,
@@ -7695,6 +8549,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "For online triplet mining, a structured batch holds $P = 16$ classes with $K = 8$ samples each. Give the batch size, the number of triplets batch-all produces, the number batch-hard produces, and the ratio.",
   "answer": "$B = \\mathbf{128}$; $\\mathbf{107{,}520}$ against $\\mathbf{128}$; ratio $\\mathbf{840}$",
+  "weeks": [
+   "W6"
+  ],
   "expected": [
    128,
    107520,
@@ -7717,6 +8574,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "Tensor fusion combines a $9$-dimensional text vector with a $19$-dimensional image vector into a hidden layer of width $100$. Give the number of weights. Then add a $9$-dimensional video modality and give the new count and the factor.",
   "answer": "$\\mathbf{20{,}000}$, then $\\mathbf{200{,}000}$ — a factor of $\\mathbf{10}$",
+  "weeks": [
+   "W7"
+  ],
   "expected": [
    20000,
    200000,
@@ -7737,6 +8597,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "EWC penalises movement as $\\Omega_i = \\tfrac12\\lambda F_i(\\Delta\\theta_i)^2$. With $\\lambda = 1000$ and $F_i = 100$, give $\\Omega_i$ for $\\Delta\\theta_i = 0.1$ and for $\\Delta\\theta_i = 0.2$, and state how the penalty scales in each of its two arguments.",
   "answer": "$\\mathbf{500}$ and $\\mathbf{2000}$ — quadratic in $\\Delta\\theta$, linear in $F$",
+  "weeks": [
+   "W9"
+  ],
   "expected": [
    500,
    2000
@@ -7755,6 +8618,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "NeRF renders a $1000\\times1000$ frame with $200$ samples per ray. Give the number of network evaluations for one frame, and the time it takes at $10^{7}$ evaluations per second.",
   "answer": "$\\mathbf{2\\times10^{8}}$ evaluations; $\\mathbf{20}$ seconds a frame",
+  "weeks": [
+   "W11"
+  ],
   "expected": [
    200000000,
    20
@@ -7792,7 +8658,10 @@ window.QUESTIONS = [
     "text": "gives a third distinct remedy with its mechanism, e.g. dropout: random unit removal prevents co-adaptation, an implicit ensemble; early stopping or less capacity also count"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W1"
+  ]
  },
  {
   "id": "e05q50",
@@ -7822,7 +8691,10 @@ window.QUESTIONS = [
     "text": "draws the consequence: a ViT needs far more data before it overtakes a comparable CNN"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W3"
+  ]
  },
  {
   "id": "e05q51",
@@ -7852,7 +8724,10 @@ window.QUESTIONS = [
     "text": "states that projection methods reuse 2D CNNs by sidestepping 3D, and pay for it with lost geometry, distortion and occlusion"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W4"
+  ]
  },
  {
   "id": "e05q52",
@@ -7882,7 +8757,10 @@ window.QUESTIONS = [
     "text": "explains what breaks with an equivariant readout: the graph-level prediction changes when the nodes are renumbered"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W5"
+  ]
  },
  {
   "id": "e05q53",
@@ -7912,7 +8790,10 @@ window.QUESTIONS = [
     "text": "states that the novelty is empirical, not methodological: capability keeps arriving with scale, which nothing in the recipe predicted"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W8"
+  ]
  },
  {
   "id": "e05q54",
@@ -7938,7 +8819,10 @@ window.QUESTIONS = [
     "text": "gives the swapped-classes failure (target cars on source pedestrians) or states that target-task accuracy is the only evidence that counts"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W9"
+  ]
  },
  {
   "id": "e05q55",
@@ -7964,7 +8848,10 @@ window.QUESTIONS = [
     "text": "connects that to the model: $p_\\theta(\\mathbf{x}_{k-1}\\mid\\mathbf{x}_k)$ is parameterised as a Gaussian, so small steps are what make the parameterisation well-founded"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e05q56",
@@ -7994,7 +8881,10 @@ window.QUESTIONS = [
     "text": "describes the result without it: a visibly blurred reconstruction, recognisable geometry but no detail"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W11"
+  ]
  },
  {
   "id": "e05q57",
@@ -8028,7 +8918,10 @@ window.QUESTIONS = [
     "text": "states $\\operatorname{rank}(L) = N - k = 3$ because the multiplicity of eigenvalue $0$ equals the number of components"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W5"
+  ]
  },
  {
   "id": "e05q58",
@@ -8062,7 +8955,10 @@ window.QUESTIONS = [
     "text": "explains that hard negatives cost more than $m$, so they make collapse the cheaper option, while semi-hard negatives (loss strictly between $0$ and $m$) are the useful ones"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W6"
+  ]
  },
  {
   "id": "e05q59",
@@ -8096,7 +8992,10 @@ window.QUESTIONS = [
     "text": "states that the reverse step is approximately Gaussian only because $\\beta_k$ is small: the true reverse is intractable but tends to a Gaussian as $\\beta_k \\to 0$"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e05q60",
@@ -8130,7 +9029,10 @@ window.QUESTIONS = [
     "text": "explains what the queue buys: the number of negatives is decoupled from the batch size, since it stores feature vectors only and none of the backward graph"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W8"
+  ]
  },
  {
   "id": "e06q01",
@@ -8148,6 +9050,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -8168,6 +9073,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -8186,6 +9094,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -8205,6 +9116,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -8223,6 +9137,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -8241,6 +9158,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -8259,6 +9179,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -8277,6 +9200,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -8295,6 +9221,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -8316,6 +9245,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -8334,6 +9266,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -8353,6 +9288,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    2
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -8371,6 +9309,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -8390,6 +9331,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -8408,6 +9352,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -8428,6 +9375,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -8446,6 +9396,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -8464,6 +9417,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -8482,6 +9438,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -8500,6 +9459,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -8521,6 +9483,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -8539,6 +9504,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -8558,6 +9526,9 @@ window.QUESTIONS = [
   "correct": [
    2,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -8576,6 +9547,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -8596,6 +9570,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -8614,6 +9591,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -8633,6 +9613,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    1
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -8651,6 +9634,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -8672,6 +9658,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -8692,6 +9681,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -8723,6 +9715,9 @@ window.QUESTIONS = [
    "$(H,W)$ and a channel group",
    "$\\gamma$",
    "$\\beta$"
+  ],
+  "weeks": [
+   "W1"
   ],
   "choices": [
    [
@@ -8807,6 +9802,9 @@ window.QUESTIONS = [
    "all $N$ slots",
    "the matched slots only"
   ],
+  "weeks": [
+   "W3"
+  ],
   "choices": [
    [
     "$1 - \\hat p_j(c_i)$",
@@ -8889,6 +9887,9 @@ window.QUESTIONS = [
    "true",
    "$s\\cos(\\theta_y + m)$",
    "$[-1,1]$"
+  ],
+  "weeks": [
+   "W6"
   ],
   "choices": [
    [
@@ -8975,6 +9976,9 @@ window.QUESTIONS = [
    "positional embedding",
    "$L_2$",
    "the masked patches only"
+  ],
+  "weeks": [
+   "W8"
   ],
   "choices": [
    [
@@ -9067,6 +10071,9 @@ window.QUESTIONS = [
    "no",
    "no labels anywhere"
   ],
+  "weeks": [
+   "W9"
+  ],
   "choices": [
    [
     "domains",
@@ -9156,6 +10163,9 @@ window.QUESTIONS = [
    "sigmoid",
    "$[0,1]$"
   ],
+  "weeks": [
+   "W11"
+  ],
   "choices": [
    [
     "median",
@@ -9244,6 +10254,9 @@ window.QUESTIONS = [
    3,
    0,
    2
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -9265,6 +10278,9 @@ window.QUESTIONS = [
    2,
    0,
    3
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -9286,6 +10302,9 @@ window.QUESTIONS = [
    3,
    2,
    0
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -9307,6 +10326,9 @@ window.QUESTIONS = [
    3,
    0,
    2
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -9334,6 +10356,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -9361,6 +10386,9 @@ window.QUESTIONS = [
    2,
    0,
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -9372,6 +10400,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A $3\\times3$ convolution maps $64$ channels to $72$. Ignoring biases, give the parameters of the standard convolution, of the depthwise separable version, and the ratio.",
   "answer": "$\\mathbf{41{,}472}$ against $\\mathbf{5{,}184}$; ratio $\\mathbf{8}$",
+  "weeks": [
+   "W1"
+  ],
   "expected": [
    41472,
    5184,
@@ -9392,6 +10423,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A BERT batch holds $50$ sequences of $200$ tokens and masks $15\\%$ of them. Give the number of tokens, the number of masked positions, and the number of logits the MLM head produces over a $30{,}000$-word vocabulary.",
   "answer": "$\\mathbf{10{,}000}$ tokens; $\\mathbf{1{,}500}$ masked; $\\mathbf{4.5\\times10^{7}}$ logits",
+  "weeks": [
+   "W2"
+  ],
   "expected": [
    10000,
    1500,
@@ -9412,6 +10446,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "An octree costs $32$ bytes per split node and $4$ bytes per leaf. A depth-$2$ tree has a root that splits, $2$ of its $8$ children split and the other $6$ empty, and of the $16$ grandchildren $10$ are empty and $6$ hold data. Give the total, and compare it with a dense $4^3$ grid at $4$ bytes a voxel.",
   "answer": "$\\mathbf{184}$ bytes against $\\mathbf{256}$; only $\\mathbf{1.39\\times}$",
+  "weeks": [
+   "W4"
+  ],
   "expected": [
    184,
    256
@@ -9430,6 +10467,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "In a GCN, node $i$ has degree $3$ and its neighbour $j$ degree $15$. Give the coefficient $c_{ij}$ the layer applies (self-loops included), the coefficient on the node's own features, and what both would be without normalisation.",
   "answer": "$c_{ij} = \\mathbf{0.125}$; $c_{ii} = \\mathbf{0.25}$; unnormalised both $\\mathbf{1}$",
+  "weeks": [
+   "W5"
+  ],
   "expected": [
    0.125,
    0.25,
@@ -9450,6 +10490,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "DINO's output dimension is $K = 4096$. Give the cross-entropy a uniformly collapsed run reports, in nats and in bits, and the same for $K = 65{,}536$. Use $\\ln 2 \\approx 0.693$.",
   "answer": "$\\mathbf{8.316}$ nats $= \\mathbf{12}$ bits; $\\mathbf{11.09}$ nats $= \\mathbf{16}$ bits",
+  "weeks": [
+   "W8"
+  ],
   "expected": [
    8.316,
    12,
@@ -9472,6 +10515,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "With $s(\\mathbf{x}) = [2, -1]^{\\top}$ and $s(\\mathbf{x}\\mid\\mathbf{c}) = [-1, 3]^{\\top}$, give the classifier-free guided score at $\\gamma = 0.5$, $\\gamma = 1$ and $\\gamma = 4$, and say what changes between them.",
   "answer": "$[0.5,\\ 1]^{\\top}$; $[-1,\\ 3]^{\\top}$; $[-10,\\ 15]^{\\top}$",
+  "weeks": [
+   "W10"
+  ],
   "expected": [
    0.5,
    1,
@@ -9517,7 +10563,10 @@ window.QUESTIONS = [
     "text": "names it exposure bias, or describes its symptom: errors compound, generation degrades or falls into a repetition loop"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W2"
+  ]
  },
  {
   "id": "e06q50",
@@ -9547,7 +10596,10 @@ window.QUESTIONS = [
     "text": "gives a further gap: high attention weight is not high influence (a small value vector contributes little), or one map is one slice of many disagreeing heads"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W3"
+  ]
  },
  {
   "id": "e06q51",
@@ -9577,7 +10629,10 @@ window.QUESTIONS = [
     "text": "names the cost: two disconnected components can never exchange information, however many layers are stacked"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W4"
+  ]
  },
  {
   "id": "e06q52",
@@ -9607,7 +10662,10 @@ window.QUESTIONS = [
     "text": "derives the tie: $M = W^{\\top}W$ gives $\\lVert W\\mathbf{x}_1 - W\\mathbf{x}_2\\rVert^2$ with the same $W$ on both sides, or states that CLIP ties the output space instead"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W6"
+  ]
  },
  {
   "id": "e06q53",
@@ -9637,7 +10695,10 @@ window.QUESTIONS = [
     "text": "says what to compare against: every unimodal baseline, not only the other multimodal variants"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W7"
+  ]
  },
  {
   "id": "e06q54",
@@ -9667,7 +10728,10 @@ window.QUESTIONS = [
     "text": "explains why more data makes false negatives worse: the chance that a random negative shares the anchor's class rises with the dataset's coverage of that class"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W8"
+  ]
  },
  {
   "id": "e06q55",
@@ -9697,7 +10761,10 @@ window.QUESTIONS = [
     "text": "names the stability extreme: loss of plasticity, the model stops being able to learn, and does so silently"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W9"
+  ]
  },
  {
   "id": "e06q56",
@@ -9727,7 +10794,10 @@ window.QUESTIONS = [
     "text": "states that alpha blending is not commutative, so the order is part of the definition of the render, not an optimisation (or contrasts with NeRF's free depth order)"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W11"
+  ]
  },
  {
   "id": "e06q57",
@@ -9761,7 +10831,10 @@ window.QUESTIONS = [
     "text": "states why there is no winner: free space and freedom from quantisation are traded against each other, and the task decides which one is needed"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W4"
+  ]
  },
  {
   "id": "e06q58",
@@ -9795,7 +10868,10 @@ window.QUESTIONS = [
     "text": "states the other side: the earlier they meet, the more alike (homogeneous) the inputs must be, so late fusion asks nothing of the inputs and forgoes cross-modal interaction"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W7"
+  ]
  },
  {
   "id": "e06q59",
@@ -9829,7 +10905,10 @@ window.QUESTIONS = [
     "text": "states why the forward loss is a plain sum $\\mathcal{L}_{\\text{task}} + \\mathcal{L}_{\\text{domain}}$: the minus sign lives in the layer, not the objective, so one optimiser does the minimax"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W9"
+  ]
  },
  {
   "id": "e06q60",
@@ -9863,7 +10942,10 @@ window.QUESTIONS = [
     "text": "states the adjacency's role: an attention mask, scores and softmax run only over neighbours, $O(|\\mathcal{E}|)$ instead of a transformer's $O(N^2)$"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W5"
+  ]
  },
  {
   "id": "e07q01",
@@ -9882,6 +10964,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    1
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -9900,6 +10985,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -9918,6 +11006,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -9936,6 +11027,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -9957,6 +11051,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -9975,6 +11072,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -9994,6 +11094,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -10014,6 +11117,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -10032,6 +11138,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -10050,6 +11159,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -10070,6 +11182,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -10088,6 +11203,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -10107,6 +11225,9 @@ window.QUESTIONS = [
   "correct": [
    2,
    3
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -10127,6 +11248,9 @@ window.QUESTIONS = [
    0,
    1,
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -10145,6 +11269,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -10163,6 +11290,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -10184,6 +11314,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -10202,6 +11335,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -10221,6 +11357,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    3
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -10240,6 +11379,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    2
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -10258,6 +11400,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -10278,6 +11423,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -10296,6 +11444,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -10317,6 +11468,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -10336,6 +11490,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    2
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -10354,6 +11511,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -10374,6 +11534,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -10392,6 +11555,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -10410,6 +11576,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -10428,6 +11597,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -10456,6 +11628,9 @@ window.QUESTIONS = [
    "the dot product's standard deviation grows like $\\sqrt{d_k}$",
    "$W^{O}$",
    "$d_{\\text{model}}/h$"
+  ],
+  "weeks": [
+   "W2"
   ],
   "choices": [
    [
@@ -10528,6 +11703,9 @@ window.QUESTIONS = [
    "symmetric",
    "max pooling",
    "$\\lVert I - TT^{\\top}\\rVert_F^2$"
+  ],
+  "weeks": [
+   "W4"
   ],
   "choices": [
    [
@@ -10603,6 +11781,9 @@ window.QUESTIONS = [
    "$\\sum_{(i,j)\\in\\mathcal{E}}(x_i - x_j)^2$",
    "the number of connected components",
    "$N - k$"
+  ],
+  "weeks": [
+   "W5"
   ],
   "choices": [
    [
@@ -10687,6 +11868,9 @@ window.QUESTIONS = [
    "between $0$ and $m$",
    "exactly $0$"
   ],
+  "weeks": [
+   "W6"
+  ],
   "choices": [
    [
     "easy",
@@ -10769,6 +11953,9 @@ window.QUESTIONS = [
    "mode-finding",
    "$T \\to \\infty$",
    "$\\delta \\to 0$"
+  ],
+  "weeks": [
+   "W10"
   ],
   "choices": [
    [
@@ -10859,6 +12046,9 @@ window.QUESTIONS = [
    "$q(s_t \\mid h_t, o_t)$",
    "KL"
   ],
+  "weeks": [
+   "W11"
+  ],
   "choices": [
    [
     "deterministic",
@@ -10947,6 +12137,9 @@ window.QUESTIONS = [
    3,
    0,
    2
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -10970,6 +12163,9 @@ window.QUESTIONS = [
    0,
    2,
    4
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -10991,6 +12187,9 @@ window.QUESTIONS = [
    3,
    2,
    0
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -11012,6 +12211,9 @@ window.QUESTIONS = [
    2,
    0,
    3
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -11039,6 +12241,9 @@ window.QUESTIONS = [
    3,
    0,
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -11066,6 +12271,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -11077,6 +12285,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "Five $3\\times3$ convolutions at stride $1$ have dilations $1, 2, 4, 8, 16$. Give the effective kernel size at each layer and the receptive field after the last one.",
   "answer": "$K^{\\text{eff}} = \\mathbf{3, 5, 9, 17, 33}$; $R = \\mathbf{63}$",
+  "weeks": [
+   "W1"
+  ],
   "expected": [
    3,
    5,
@@ -11103,6 +12314,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A feature map is $20\\times20$ patches with $C = 100$ and window size $M = 5$. Using the attention terms $2(hw)^2C$ and $2M^2hwC$, give both and their ratio.",
   "answer": "$\\mathbf{3.2\\times10^{7}}$ against $\\mathbf{2\\times10^{6}}$; ratio $\\mathbf{16}$",
+  "weeks": [
+   "W3"
+  ],
   "expected": [
    32000000,
    2000000,
@@ -11123,6 +12337,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "Features and class weights are $L_2$-normalised, so a logit is $s\\cos\\theta$. With two classes at $\\theta_y = 0$ and $\\theta_{\\text{other}} = \\pi/2$, give the softmax probability of the true class at $s = 1$ and at $s = 30$, and the loss in each case. Use $e^{-1} \\approx 0.368$ and $\\ln 1.368 \\approx 0.313$.",
   "answer": "$p = \\mathbf{0.731}$, loss $\\mathbf{0.313}$; against $p \\approx \\mathbf{1}$, loss $\\approx \\mathbf{0}$",
+  "weeks": [
+   "W6"
+  ],
   "expected": [
    0.731,
    0.313,
@@ -11145,6 +12362,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "Contrastive pre-training scores each anchor against one positive and $1024$ negatives ($N = 1025$ candidates) at temperature $\\tau = 0.1$. The gradient effectively vanishes once $s_+ - s_- \\gg \\tau\\ln(N-1)$. Give that threshold. Use $\\ln 2 \\approx 0.693$.",
   "answer": "$\\tau\\ln(N-1) \\approx \\mathbf{0.693}$",
+  "weeks": [
+   "W7"
+  ],
   "expected": [
    0.693
   ],
@@ -11161,6 +12381,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A 7B model is fine-tuned in fp16 with Adam. Give the weights, the gradients and the two optimiser states in GB, the total excluding activations, and how much of it LoRA removes.",
   "answer": "$14 + 14 + 28 = \\mathbf{56}$ GB; LoRA removes $\\mathbf{42}$, leaving a $\\mathbf{14}$ GB floor",
+  "weeks": [
+   "W9"
+  ],
   "expected": [
    14,
    14,
@@ -11185,6 +12408,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A diffusion schedule uses $\\beta_k = 0.1$ at every step. Give $\\bar\\alpha_{3}$, and the first step $k$ at which $\\bar\\alpha_k$ falls below $0.5$.",
   "answer": "$\\bar\\alpha_{3} = \\mathbf{0.729}$; first below $0.5$ at $k = \\mathbf{7}$",
+  "weeks": [
+   "W10"
+  ],
   "expected": [
    0.729,
    7
@@ -11218,7 +12444,10 @@ window.QUESTIONS = [
     "text": "gives the cost: memory scaling with depth times batch size times feature size, typically the largest single consumer of VRAM in training"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W1"
+  ]
  },
  {
   "id": "e07q50",
@@ -11244,7 +12473,10 @@ window.QUESTIONS = [
     "text": "explains why both are needed: attention alone is a weighted average of value vectors with little non-linear computation, and the feed-forward network alone can never let two positions interact"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W2"
+  ]
  },
  {
   "id": "e07q51",
@@ -11270,7 +12502,10 @@ window.QUESTIONS = [
     "text": "names a task where it matters — scene completion, mapping or robot navigation — and says why free space is needed there"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W4"
+  ]
  },
  {
   "id": "e07q52",
@@ -11296,7 +12531,10 @@ window.QUESTIONS = [
     "text": "gives a concrete example: three neighbours of feature $a$ against six — mean and max return $a$ for both, sum returns $3a$ and $6a$"
    }
   ],
-  "pts": 3
+  "pts": 3,
+  "weeks": [
+   "W5"
+  ]
  },
  {
   "id": "e07q53",
@@ -11322,7 +12560,10 @@ window.QUESTIONS = [
     "text": "names a multiplicative method: element-wise product, bilinear or tensor fusion, FiLM, or cross-modal attention"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W7"
+  ]
  },
  {
   "id": "e07q54",
@@ -11352,7 +12593,10 @@ window.QUESTIONS = [
     "text": "names linear probing and fine-tuning as the two downstream measurements, with what each asks (linearly accessible information; a good initialisation)"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W8"
+  ]
  },
  {
   "id": "e07q55",
@@ -11378,7 +12622,10 @@ window.QUESTIONS = [
     "text": "states what it buys: a better sampler is a drop-in replacement with no retraining, which is how step counts fell from hundreds to $20$–$50$"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e07q56",
@@ -11404,7 +12651,10 @@ window.QUESTIONS = [
     "text": "contrasts with a foundation model: trained on massive broad data so that it is adaptable to many tasks and inputs it was not trained for"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W11"
+  ]
  },
  {
   "id": "e07q57",
@@ -11438,7 +12688,10 @@ window.QUESTIONS = [
     "text": "states that $Q$ in cross-attention comes from the decoder, and that cross-attention carries no causal mask"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W2"
+  ]
  },
  {
   "id": "e07q58",
@@ -11472,7 +12725,10 @@ window.QUESTIONS = [
     "text": "states that <em>discriminative</em> means distance carries meaning, requiring same-class samples to be close to each other, which softmax never asks for"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W6"
+  ]
  },
  {
   "id": "e07q59",
@@ -11506,7 +12762,10 @@ window.QUESTIONS = [
     "text": "states what the momentum buys: consistency — keys from many past steps stay comparable because the key encoder drifts slowly"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W8"
+  ]
  },
  {
   "id": "e07q60",
@@ -11540,7 +12799,10 @@ window.QUESTIONS = [
     "text": "explains $\\alpha/r$: it makes the effective size of the update roughly independent of the rank $r$"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W9"
+  ]
  },
  {
   "id": "e08q01",
@@ -11559,6 +12821,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    2
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -11577,6 +12842,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -11595,6 +12863,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -11613,6 +12884,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -11631,6 +12905,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -11649,6 +12926,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -11667,6 +12947,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -11688,6 +12971,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -11706,6 +12992,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -11724,6 +13013,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -11743,6 +13035,9 @@ window.QUESTIONS = [
   "correct": [
    2,
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -11761,6 +13056,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -11781,6 +13079,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -11799,6 +13100,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -11817,6 +13121,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -11835,6 +13142,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -11853,6 +13163,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -11871,6 +13184,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -11889,6 +13205,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -11908,6 +13227,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    2
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -11926,6 +13248,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -11946,6 +13271,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -11964,6 +13292,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -11985,6 +13316,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -12003,6 +13337,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -12021,6 +13358,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -12040,6 +13380,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    3
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -12060,6 +13403,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -12079,6 +13425,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    3
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -12100,6 +13449,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -12134,6 +13486,9 @@ window.QUESTIONS = [
    "parameters and memory",
    "FLOPs",
    "both"
+  ],
+  "weeks": [
+   "W1"
   ],
   "choices": [
    [
@@ -12223,6 +13578,9 @@ window.QUESTIONS = [
    "symmetric",
    "points are processed independently, with no local neighbourhoods"
   ],
+  "weeks": [
+   "W4"
+  ],
   "choices": [
    [
     "translation",
@@ -12294,6 +13652,9 @@ window.QUESTIONS = [
    "coordination",
    "emergent",
    "dominated"
+  ],
+  "weeks": [
+   "W7"
   ],
   "choices": [
    [
@@ -12369,6 +13730,9 @@ window.QUESTIONS = [
    "require high-level understanding of the input",
    "downstream performance",
    "accuracy on the proxy task"
+  ],
+  "weeks": [
+   "W8"
   ],
   "choices": [
    [
@@ -12450,6 +13814,9 @@ window.QUESTIONS = [
    "sufficiently large",
    "unlocking more layers adds capacity, which a small dataset cannot support"
   ],
+  "weeks": [
+   "W9"
+  ],
   "choices": [
    [
     "regularises",
@@ -12522,6 +13889,9 @@ window.QUESTIONS = [
    "score",
    "add noise ourselves and learn to remove it"
   ],
+  "weeks": [
+   "W10"
+  ],
   "choices": [
    [
     "the input is high-dimensional",
@@ -12586,6 +13956,9 @@ window.QUESTIONS = [
    3,
    0,
    2
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -12607,6 +13980,9 @@ window.QUESTIONS = [
    1,
    0,
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -12628,6 +14004,9 @@ window.QUESTIONS = [
    2,
    0,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -12649,6 +14028,9 @@ window.QUESTIONS = [
    1,
    3,
    0
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -12676,6 +14058,9 @@ window.QUESTIONS = [
    2,
    3,
    0
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -12703,6 +14088,9 @@ window.QUESTIONS = [
    3,
    2,
    0
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -12714,6 +14102,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A $32\\times32$ RGB image is flattened and fed to a hidden layer of $12$ units. Give the input dimension and the number of weights, and say in one line what this motivates.",
   "answer": "input $\\mathbf{3072}$; $\\mathbf{36{,}864}$ weights",
+  "weeks": [
+   "W1"
+  ],
   "expected": [
    3072,
    36864
@@ -12732,6 +14123,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A transformer has $d_{\\text{model}} = 512$ and $h = 8$. Give $d_k$, the parameters in $W^{O}$, and the total across all four attention projections.",
   "answer": "$d_k = \\mathbf{64}$; $W^{O} = \\mathbf{262{,}144}$; all four $= \\mathbf{1{,}048{,}576}$",
+  "weeks": [
+   "W2"
+  ],
   "expected": [
    64,
    262144,
@@ -12752,6 +14146,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A $2048\\times2048$ image enters Swin with patch size $4$ and $C = 96$. Give the resolution and channel count after stage 1, stage 2 and stage 3.",
   "answer": "$\\mathbf{512^2\\!\\times\\!96}$, $\\mathbf{256^2\\!\\times\\!192}$, $\\mathbf{128^2\\!\\times\\!384}$",
+  "weeks": [
+   "W3"
+  ],
   "expected": [
    512,
    96,
@@ -12778,6 +14175,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "Every node of a graph has exactly $4$ neighbours and there are no cycles within four hops. How many nodes can influence a given node's representation after $3$ GCN layers, itself included?",
   "answer": "$\\mathbf{53}$ nodes",
+  "weeks": [
+   "W5"
+  ],
   "expected": [
    53
   ],
@@ -12794,6 +14194,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "For online triplet mining, a structured batch holds $P = 32$ classes with $K = 4$ samples each. Give the batch size, the positives available per anchor, the negatives per anchor, and the batch-all triplet count.",
   "answer": "$B = \\mathbf{128}$; $\\mathbf{3}$ positives, $\\mathbf{124}$ negatives; $\\mathbf{47{,}616}$ triplets",
+  "weeks": [
+   "W6"
+  ],
   "expected": [
    128,
    3,
@@ -12816,6 +14219,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A ray passes through a medium of constant density $\\sigma = \\ln 2 \\approx 0.693$, so that $e^{-\\sigma t} = 2^{-t}$. Give the transmittance at $t = 1, 2, 3, 4$, and the fraction of the ray absorbed within the first unit.",
   "answer": "$\\mathbf{0.5}$, $\\mathbf{0.25}$, $\\mathbf{0.125}$, $\\mathbf{0.0625}$; $\\mathbf{0.5}$ absorbed in the first unit",
+  "weeks": [
+   "W11"
+  ],
   "expected": [
    0.5,
    0.25,
@@ -12855,7 +14261,10 @@ window.QUESTIONS = [
     "text": "explains why a dedicated token: an ordinary token already has a job — its representation must describe that word — so doubling as a summary would put two objectives on one vector, whereas <code>[CLS]</code> means nothing and is free"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W2"
+  ]
  },
  {
   "id": "e08q50",
@@ -12881,7 +14290,10 @@ window.QUESTIONS = [
     "text": "states what replaces it: one-to-one Hungarian matching in the loss — each ground-truth object is assigned to exactly one prediction and all others are trained to predict $\\varnothing$ — so duplicates are prevented in training, not deleted afterwards"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W3"
+  ]
  },
  {
   "id": "e08q51",
@@ -12911,7 +14323,10 @@ window.QUESTIONS = [
     "text": "names skip connections from the encoder as where the lost detail has to come from"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W4"
+  ]
  },
  {
   "id": "e08q52",
@@ -12941,7 +14356,10 @@ window.QUESTIONS = [
     "text": "names a second method with its mechanism: EdgePool (score edges, contract the best, merge endpoints), SAGPool (Top-$K$ with GNN scores) or DiffPool (soft clustering)"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W5"
+  ]
  },
  {
   "id": "e08q53",
@@ -12967,7 +14385,10 @@ window.QUESTIONS = [
     "text": "contrasts with an embedding: it learns a space rather than a set of answers, so enrolling an identity is one forward pass and one stored vector"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W6"
+  ]
  },
  {
   "id": "e08q54",
@@ -12997,7 +14418,10 @@ window.QUESTIONS = [
     "text": "states domain translation's assumption: only that a content-preserving correspondence exists, constrained by cycle consistency on unpaired data"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W9"
+  ]
  },
  {
   "id": "e08q55",
@@ -13023,7 +14447,10 @@ window.QUESTIONS = [
     "text": "explains the difference: every intermediate step draws from the distribution $p_\\theta(\\mathbf{x}_{k-1}\\mid\\mathbf{x}_k)$ and taking its mean collapses the chain, while the last step produces the answer rather than an intermediate"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e08q56",
@@ -13049,7 +14476,10 @@ window.QUESTIONS = [
     "text": "states that the extrinsics — six degrees of freedom of position and orientation — rotate and translate that direction into the world"
    }
   ],
-  "pts": 3
+  "pts": 3,
+  "weeks": [
+   "W11"
+  ]
  },
  {
   "id": "e08q57",
@@ -13083,7 +14513,10 @@ window.QUESTIONS = [
     "text": "says why: their statistics do not involve the batch axis, so they do not become noisy as $N$ falls and need no running averages at inference"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W1"
+  ]
  },
  {
   "id": "e08q58",
@@ -13117,7 +14550,10 @@ window.QUESTIONS = [
     "text": "states the cost: globality — a patch sees only its own window in one block, so information crosses the image over several blocks, and only because of the shift"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W3"
+  ]
  },
  {
   "id": "e08q59",
@@ -13151,7 +14587,10 @@ window.QUESTIONS = [
     "text": "states what is left: an unconstrained vector field that an ordinary network can output and squared error can train, and that this is enough to sample from"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e08q60",
@@ -13185,7 +14624,10 @@ window.QUESTIONS = [
     "text": "states what changes for segmentation: the global feature is concatenated back onto each point's local feature and a shared MLP produces a label per point"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W4"
+  ]
  },
  {
   "id": "e09q01",
@@ -13204,6 +14646,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    2
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -13222,6 +14667,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -13242,6 +14690,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -13260,6 +14711,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -13278,6 +14732,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -13297,6 +14754,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    1
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -13315,6 +14775,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -13336,6 +14799,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -13355,6 +14821,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    2
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -13373,6 +14842,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -13393,6 +14865,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -13411,6 +14886,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -13429,6 +14907,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -13449,6 +14930,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -13468,6 +14952,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -13486,6 +14973,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -13507,6 +14997,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -13526,6 +15019,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    3
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -13544,6 +15040,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -13564,6 +15063,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -13582,6 +15084,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -13600,6 +15105,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -13619,6 +15127,9 @@ window.QUESTIONS = [
   "correct": [
    2,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -13639,6 +15150,9 @@ window.QUESTIONS = [
    0,
    1,
    2
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -13657,6 +15171,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -13678,6 +15195,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -13697,6 +15217,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    2
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -13715,6 +15238,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -13733,6 +15259,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -13751,6 +15280,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -13779,6 +15311,9 @@ window.QUESTIONS = [
    "the batch",
    "the sequence length",
    "feed-forward blocks"
+  ],
+  "weeks": [
+   "W2"
   ],
   "choices": [
    [
@@ -13852,6 +15387,9 @@ window.QUESTIONS = [
    "far more training data",
    "training from scratch on limited data, or deploying to an edge device"
   ],
+  "weeks": [
+   "W3"
+  ],
   "choices": [
    [
     "a multi-scale hierarchy",
@@ -13924,6 +15462,9 @@ window.QUESTIONS = [
    "under-reaching",
    "over-squashing"
   ],
+  "weeks": [
+   "W5"
+  ],
   "choices": [
    [
     "depth",
@@ -13995,6 +15536,9 @@ window.QUESTIONS = [
    "permits intra-class variance",
    "strictly between $0$ and $m$",
    "$m$"
+  ],
+  "weeks": [
+   "W6"
   ],
   "choices": [
    [
@@ -14070,6 +15614,9 @@ window.QUESTIONS = [
    "centering",
    "sharpening",
    "failure case"
+  ],
+  "weeks": [
+   "W8"
   ],
   "choices": [
    [
@@ -14151,6 +15698,9 @@ window.QUESTIONS = [
    "rasterisation",
    "network inference"
   ],
+  "weeks": [
+   "W11"
+  ],
   "choices": [
    [
     "as a voxel grid",
@@ -14215,6 +15765,9 @@ window.QUESTIONS = [
    3,
    0,
    2
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -14236,6 +15789,9 @@ window.QUESTIONS = [
    3,
    2,
    0
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -14257,6 +15813,9 @@ window.QUESTIONS = [
    0,
    3,
    1
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -14278,6 +15837,9 @@ window.QUESTIONS = [
    3,
    0,
    2
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -14305,6 +15867,9 @@ window.QUESTIONS = [
    0,
    3,
    1
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -14332,6 +15897,9 @@ window.QUESTIONS = [
    0,
    2,
    1
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -14343,6 +15911,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A dense layer maps $1000 \\to 100$ and a $3\\times3$ convolution maps $10$ channels to $100$ over a $28\\times28$ map. Give the parameter count of each, with biases, and the ratio.",
   "answer": "$\\mathbf{100{,}100}$ against $\\mathbf{9{,}100}$; ratio $\\mathbf{11}$",
+  "weeks": [
+   "W1"
+  ],
   "expected": [
    100100,
    9100,
@@ -14363,6 +15934,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A video clip gives $n_t = 8$, $n_h = n_w = 8$. Give the token count and the number of query–key pairs full spatio-temporal attention would score.",
   "answer": "$\\mathbf{512}$ tokens; $\\mathbf{262{,}144}$ pairs",
+  "weeks": [
+   "W3"
+  ],
   "expected": [
    512,
    262144
@@ -14381,6 +15955,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A chair occupies about $10\\%$ of a $32^3$ grid and about $2.5\\%$ of a $128^3$ grid. Give the number of occupied voxels in each, and the factor by which the <em>total</em> grid grew.",
   "answer": "$\\approx\\mathbf{3{,}277}$ against $\\approx\\mathbf{52{,}429}$ occupied; the grid grew $\\mathbf{64\\times}$",
+  "weeks": [
+   "W4"
+  ],
   "expected": [
    3277,
    52429,
@@ -14401,6 +15978,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "Two embeddings on the unit sphere are $60^\\circ$ apart. Give their cosine similarity and their Euclidean distance, and state the largest Euclidean distance possible on the sphere.",
   "answer": "$\\cos\\theta = \\mathbf{0.5}$; $\\mathcal{D} = \\mathbf{1}$; maximum $\\mathbf{2}$",
+  "weeks": [
+   "W6"
+  ],
   "expected": [
    0.5,
    1,
@@ -14421,6 +16001,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "An InfoNCE task uses $N = 256$ candidates. Give the ceiling on certified mutual information in bits and in nats, and the value of $N$ needed to double the number of bits. Use $\\ln 2 \\approx 0.693$.",
   "answer": "$\\mathbf{8}$ bits $\\approx \\mathbf{5.544}$ nats; $N = \\mathbf{65{,}536}$ for $16$ bits",
+  "weeks": [
+   "W8"
+  ],
   "expected": [
    8,
    5.544,
@@ -14441,6 +16024,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A diffusion model is sampled with $1000$ DDPM steps at $12$ ms per network evaluation. Give the time per image, and the time if an ODE solver reaches the same quality in $30$ steps.",
   "answer": "$\\mathbf{12}$ seconds against $\\mathbf{0.36}$ seconds — $\\mathbf{33\\times}$",
+  "weeks": [
+   "W10"
+  ],
   "expected": [
    12,
    0.36
@@ -14478,7 +16064,10 @@ window.QUESTIONS = [
     "text": "names the cost, exposure bias: test-time inputs come from the model's own distribution, so an early error lands it in a state it never saw and errors compound"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W2"
+  ]
  },
  {
   "id": "e09q50",
@@ -14508,7 +16097,10 @@ window.QUESTIONS = [
     "text": "explains why that matters for a point cloud: a neighbour can be informative about one property (e.g. surface orientation) and not another, so one scalar weight forces one decision for both"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W3"
+  ]
  },
  {
   "id": "e09q51",
@@ -14538,7 +16130,10 @@ window.QUESTIONS = [
     "text": "gives the cost: $O(N)$ extra edges, and a shortcut past the graph structure through which everything influences everything — a step back towards a transformer"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W5"
+  ]
  },
  {
   "id": "e09q52",
@@ -14564,7 +16159,10 @@ window.QUESTIONS = [
     "text": "gives one lecture example with its tokenisation: RT-2-X binning continuous robot actions into vocabulary tokens, or ViT patches, PTv3 serialised points, a graph as nodes with an adjacency mask"
    }
   ],
-  "pts": 3
+  "pts": 3,
+  "weeks": [
+   "W7"
+  ]
  },
  {
   "id": "e09q53",
@@ -14594,7 +16192,10 @@ window.QUESTIONS = [
     "text": "locates the supervision upstream in the pre-training corpus (CLIP's 400M captions, or the language model's training text), paid once and amortised over every downstream use"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W8"
+  ]
  },
  {
   "id": "e09q54",
@@ -14624,7 +16225,10 @@ window.QUESTIONS = [
     "text": "continual learning: attacks the retraining itself, letting a deployed model keep learning instead of being rebuilt"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W9"
+  ]
  },
  {
   "id": "e09q55",
@@ -14650,7 +16254,10 @@ window.QUESTIONS = [
     "text": "gives the typicality reason: in high dimensions the probability mass sits in a thin shell away from the mode, so high-density points are not typical samples"
    }
   ],
-  "pts": 3
+  "pts": 3,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e09q56",
@@ -14676,7 +16283,10 @@ window.QUESTIONS = [
     "text": "names a second use: simulation, e.g. driving a robot through a captured environment to generate training data (visualisation or measurement also accepted)"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W11"
+  ]
  },
  {
   "id": "e09q57",
@@ -14710,7 +16320,10 @@ window.QUESTIONS = [
     "text": "names point-based methods (drop the grid, and with it quantisation) and projection methods (leave 3D for a 2D CNN) as the responses that abandon it"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W4"
+  ]
  },
  {
   "id": "e09q58",
@@ -14744,7 +16357,10 @@ window.QUESTIONS = [
     "text": "explains the hard danger: loss at least $m$, which is what a collapsed encoder pays on every triplet, so a diet of them makes collapse the cheaper solution"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W6"
+  ]
  },
  {
   "id": "e09q59",
@@ -14778,7 +16394,10 @@ window.QUESTIONS = [
     "text": "states what forces the climb: the assumption of the rung below fails — the target contains something the source never had, so the density ratio is unbounded"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W9"
+  ]
  },
  {
   "id": "e09q60",
@@ -14812,7 +16431,10 @@ window.QUESTIONS = [
     "text": "explains the linear cost: each patch attends to only $M^2$ others with $M$ a constant, so $hw \\cdot M^2$ pairs instead of $(hw)^2$"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W3"
+  ]
  },
  {
   "id": "e10q01",
@@ -14831,6 +16453,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    1
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -14849,6 +16474,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -14870,6 +16498,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W1"
   ]
  },
  {
@@ -14888,6 +16519,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -14908,6 +16542,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -14926,6 +16563,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -14947,6 +16587,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -14965,6 +16608,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -14985,6 +16631,9 @@ window.QUESTIONS = [
    0,
    1,
    2
+  ],
+  "weeks": [
+   "W3"
   ]
  },
  {
@@ -15005,6 +16654,9 @@ window.QUESTIONS = [
    0,
    1,
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -15023,6 +16675,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -15043,6 +16698,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W4"
   ]
  },
  {
@@ -15063,6 +16721,9 @@ window.QUESTIONS = [
    0,
    1,
    2
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -15082,6 +16743,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    3
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -15102,6 +16766,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -15120,6 +16787,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -15140,6 +16810,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -15159,6 +16832,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    2
+  ],
+  "weeks": [
+   "W6"
   ]
  },
  {
@@ -15177,6 +16853,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -15196,6 +16875,9 @@ window.QUESTIONS = [
   "correct": [
    1,
    2
+  ],
+  "weeks": [
+   "W7"
   ]
  },
  {
@@ -15217,6 +16899,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -15235,6 +16920,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -15254,6 +16942,9 @@ window.QUESTIONS = [
   "correct": [
    0,
    3
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -15273,6 +16964,9 @@ window.QUESTIONS = [
   "correct": [
    2,
    3
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -15291,6 +16985,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    1
+  ],
+  "weeks": [
+   "W9"
   ]
  },
  {
@@ -15309,6 +17006,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -15327,6 +17027,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    2
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -15348,6 +17051,9 @@ window.QUESTIONS = [
    1,
    2,
    3
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -15366,6 +17072,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    0
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -15384,6 +17093,9 @@ window.QUESTIONS = [
   ],
   "correct": [
    3
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -15412,6 +17124,9 @@ window.QUESTIONS = [
    "a running estimate of each gradient's magnitude",
    "smaller",
    "extra state stored per parameter"
+  ],
+  "weeks": [
+   "W1"
   ],
   "choices": [
    [
@@ -15487,6 +17202,9 @@ window.QUESTIONS = [
    "linear",
    "over several blocks",
    "shifted"
+  ],
+  "weeks": [
+   "W3"
   ],
   "choices": [
    [
@@ -15571,6 +17289,9 @@ window.QUESTIONS = [
    "rigid transformations of the input",
    "an orthogonal matrix"
   ],
+  "weeks": [
+   "W4"
+  ],
   "choices": [
    [
     "a voxel grid",
@@ -15651,6 +17372,9 @@ window.QUESTIONS = [
    "discretising the action space into bins and treating each bin as a token",
    "web-scale language pre-training"
   ],
+  "weeks": [
+   "W7"
+  ],
   "choices": [
    [
     "tokenised",
@@ -15728,6 +17452,9 @@ window.QUESTIONS = [
    "regularisation",
    "rehearsal",
    "parameter isolation"
+  ],
+  "weeks": [
+   "W9"
   ],
   "choices": [
    [
@@ -15814,6 +17541,9 @@ window.QUESTIONS = [
    "a single randomly drawn timestep",
    "one local question — what noise is in this input, at this level"
   ],
+  "weeks": [
+   "W10"
+  ],
   "choices": [
    [
     "it is the exact inverse of the reverse process",
@@ -15870,6 +17600,9 @@ window.QUESTIONS = [
    3,
    0,
    2
+  ],
+  "weeks": [
+   "W2"
   ]
  },
  {
@@ -15891,6 +17624,9 @@ window.QUESTIONS = [
    2,
    3,
    0
+  ],
+  "weeks": [
+   "W8"
   ]
  },
  {
@@ -15912,6 +17648,9 @@ window.QUESTIONS = [
    3,
    0,
    1
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -15933,6 +17672,9 @@ window.QUESTIONS = [
    1,
    3,
    0
+  ],
+  "weeks": [
+   "W11"
   ]
  },
  {
@@ -15960,6 +17702,9 @@ window.QUESTIONS = [
    0,
    3,
    1
+  ],
+  "weeks": [
+   "W5"
   ]
  },
  {
@@ -15987,6 +17732,9 @@ window.QUESTIONS = [
    0,
    2,
    3
+  ],
+  "weeks": [
+   "W10"
   ]
  },
  {
@@ -15998,6 +17746,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A $3\\times3$ convolution with stride $1$ and padding $1$ maps $100$ channels to $200$ on a $50\\times50$ feature map. Give the output shape, the parameter count, and the number of multiply–accumulates.",
   "answer": "$50\\times50\\times200$; $\\mathbf{180{,}200}$ parameters; $\\mathbf{4.5\\times10^{8}}$ MACs",
+  "weeks": [
+   "W1"
+  ],
   "expected": [
    50,
    50,
@@ -16022,6 +17773,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "ViT-B/16 is run on $448\\times448$ instead of $224\\times224$. Give the sequence length in each case, including the <code>[class]</code> token, and, ignoring the <code>[class]</code> token, the factor by which the attention matrix grows.",
   "answer": "$\\mathbf{197}$ and $\\mathbf{785}$ tokens; the attention matrix grows $\\mathbf{16\\times}$",
+  "weeks": [
+   "W3"
+  ],
   "expected": [
    197,
    785,
@@ -16042,6 +17796,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "Every node of a graph has exactly $3$ neighbours and there are no cycles within three hops. How many nodes can influence a given node's representation after $1$, $2$ and $3$ GCN layers, itself included?",
   "answer": "$\\mathbf{4}$, $\\mathbf{10}$ and $\\mathbf{22}$ nodes",
+  "weeks": [
+   "W5"
+  ],
   "expected": [
    4,
    10,
@@ -16062,6 +17819,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "For online triplet mining, a structured batch holds $P = 16$ classes with $K = 8$ samples each. Give the batch size, the positives and negatives available per anchor, and the number of triplets batch-all and batch-hard each produce.",
   "answer": "$B = \\mathbf{128}$; $\\mathbf{7}$ positives and $\\mathbf{120}$ negatives per anchor; $\\mathbf{107{,}520}$ triplets batch-all against $\\mathbf{128}$ batch-hard",
+  "weeks": [
+   "W6"
+  ],
   "expected": [
    128,
    7,
@@ -16086,6 +17846,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "An InfoNCE batch has $N = 1024$. Give the loss of an encoder that is guessing, in nats, and the ceiling the bound places on the mutual information, in bits. Then give the $N$ needed to double that ceiling. Use $\\ln 2 \\approx 0.693$.",
   "answer": "$\\ln 1024 = \\mathbf{6.93}$ nats; ceiling $\\mathbf{10}$ bits; $N = \\mathbf{1{,}048{,}576}$ to double it",
+  "weeks": [
+   "W8"
+  ],
   "expected": [
    6.93,
    10,
@@ -16106,6 +17869,9 @@ window.QUESTIONS = [
   "type": "numeric",
   "stem": "A NeRF renders a $1000\\times500$ image with $100$ samples per ray, and the MLP manages $10^{7}$ evaluations per second. Give the evaluations per frame, the seconds per frame, and the minutes for ten seconds of video at $30$ frames per second.",
   "answer": "$\\mathbf{5\\times10^{7}}$ evaluations; $\\mathbf{5}$ s per frame; $\\mathbf{25}$ minutes",
+  "weeks": [
+   "W11"
+  ],
   "expected": [
    50000000,
    5,
@@ -16145,7 +17911,10 @@ window.QUESTIONS = [
     "text": "adds that depth also inserts non-linearities, so the deep version is a strictly richer function class"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W1"
+  ]
  },
  {
   "id": "e10q50",
@@ -16175,7 +17944,10 @@ window.QUESTIONS = [
     "text": "states that it enters inside the attention score, before the softmax, rather than being added to the embedding at the input"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W2"
+  ]
  },
  {
   "id": "e10q51",
@@ -16205,7 +17977,10 @@ window.QUESTIONS = [
     "text": "distinguishes the two stages: the shared MLP is equivariant (permute input, permute output), the pooling is invariant (permute input, output unchanged)"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W4"
+  ]
  },
  {
   "id": "e10q52",
@@ -16231,7 +18006,10 @@ window.QUESTIONS = [
     "text": "states that without normalisation the network can satisfy any margin by inflating every norm, which changes nothing about how well the classes are separated"
    }
   ],
-  "pts": 3
+  "pts": 3,
+  "weeks": [
+   "W6"
+  ]
  },
  {
   "id": "e10q53",
@@ -16261,7 +18039,10 @@ window.QUESTIONS = [
     "text": "gives an alignment example: CLIP, whose image and text encoders never meet — only their output vectors are pulled together for matching pairs"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W7"
+  ]
  },
  {
   "id": "e10q54",
@@ -16291,7 +18072,10 @@ window.QUESTIONS = [
     "text": "states that checking class-correct alignment would need target labels, which unsupervised domain adaptation does not have, so the failure is invisible from inside the method"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W9"
+  ]
  },
  {
   "id": "e10q55",
@@ -16321,7 +18105,10 @@ window.QUESTIONS = [
     "text": "notes the consequence: nothing in the objective penalises a missing mode, so sharpness was bought at the price of coverage (mode collapse)"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e10q56",
@@ -16351,7 +18138,10 @@ window.QUESTIONS = [
     "text": "explains why that makes it a good training task: the only way to reduce the loss is to build the 3D understanding wanted, i.e. the shortcut is harder than the intended solution"
    }
   ],
-  "pts": 4
+  "pts": 4,
+  "weeks": [
+   "W11"
+  ]
  },
  {
   "id": "e10q57",
@@ -16381,7 +18171,10 @@ window.QUESTIONS = [
     "text": "states that the feed-forward block holds most of the parameters: $8d^2$ against $4d^2$ for attention"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W2"
+  ]
  },
  {
   "id": "e10q58",
@@ -16415,7 +18208,10 @@ window.QUESTIONS = [
     "text": "states that more layers cures only under-reaching, since it is the one failure caused by a too-small receptive field; it pushes more through the bottleneck and adds another average"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W5"
+  ]
  },
  {
   "id": "e10q59",
@@ -16449,7 +18245,10 @@ window.QUESTIONS = [
     "text": "states why the forward direction needs no network: it is a chosen Gaussian noising with nothing to fit, and because Gaussians compose it has the closed form $q(\\mathbf{x}_t \\mid \\mathbf{x}_0)$"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W10"
+  ]
  },
  {
   "id": "e10q60",
@@ -16483,6 +18282,9 @@ window.QUESTIONS = [
     "text": "states that the two views of one image are the positive pair, so counting them as negatives would put the same term in the numerator and in the push-apart set — the loss would pull and push the same pair at once"
    }
   ],
-  "pts": 5
+  "pts": 5,
+  "weeks": [
+   "W8"
+  ]
  }
 ];

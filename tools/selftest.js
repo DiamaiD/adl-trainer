@@ -156,7 +156,19 @@
   t('types: nothing selected means everything',
     poolFor([], []).length === QUESTIONS.length);
   t('types: weeks and types compose',
-    poolFor(['W1'], ['numeric']).every(q => q.week === 'W1' && q.type === 'numeric'));
+    poolFor(['W1'], ['numeric']).every(q => inWeek(q, 'W1') && q.type === 'numeric'));
+  /* --- a question that compares two weeks belongs to both ---------------- */
+  t('weeks: the filter offers single weeks only',
+    WEEKS.length > 0 && WEEKS.every(w => /^W\d+$/.test(w)));
+  t('weeks: some question does compare two weeks, so this is worth testing',
+    QUESTIONS.some(q => weeksOf(q).length > 1));
+  t('weeks: such a question is listed under each of its weeks',
+    QUESTIONS.filter(q => weeksOf(q).length > 1).every(q =>
+      weeksOf(q).every(w => poolFor([w], []).indexOf(q) !== -1)));
+  t('weeks: every question is reachable through a week',
+    QUESTIONS.every(q => weeksOf(q).some(w => poolFor([w], []).indexOf(q) !== -1)));
+  t('weeks: picking every week is the same as picking none',
+    poolFor(WEEKS, []).length === QUESTIONS.length);
   const drawn = pick(12, [], ['single', 'multi']);
   t('types: a drawn paper respects the filter',
     drawn.length === 12 && drawn.every(q => q.type === 'single' || q.type === 'multi'));
@@ -443,7 +455,8 @@
     t('unseen: and keeps every other unseen question',
       fresh.length === freshBefore - 1);
     t('unseen: it composes with the topic filter',
-      poolFor([q.week], [], true).every(x => x.week === q.week && unseen(x)));
+      poolFor([weeksOf(q)[0]], [], true)
+        .every(x => inWeek(x, weeksOf(q)[0]) && unseen(x)));
     t('unseen: a drawn queue respects it',
       pick(20, [], [], true).every(unseen));
     t('unseen: leaving it off changes nothing',

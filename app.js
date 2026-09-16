@@ -258,7 +258,12 @@ function weekKey(w) {
   const m = /W(\d+)/.exec(w || '');
   return m ? parseInt(m[1], 10) : 99;
 }
-const WEEKS = [...new Set(DB.map(q => q.week))]
+/* A question that compares two weeks carries both ("W10–W11" prints on the card,
+ * its weeks are W10 and W11), so the filter offers real weeks only and such a
+ * question turns up under each of them. */
+const weeksOf = q => q.weeks || [q.week];
+const inWeek = (q, w) => weeksOf(q).includes(w);
+const WEEKS = [...new Set(DB.flatMap(weeksOf))]
   .sort((a, b) => weekKey(a) - weekKey(b) || a.localeCompare(b));
 
 const TYPENAME = {
@@ -285,7 +290,7 @@ const STRATA = ['single', 'multi', 'order', 'blanks', 'assign', 'numeric',
  * back. */
 const unseen = q => uses(q.id) === 0;
 const poolFor = (weeks, types, fresh) => DB.filter(q =>
-  (!weeks || !weeks.length || weeks.includes(q.week)) &&
+  (!weeks || !weeks.length || weeks.some(w => inWeek(q, w))) &&
   (!types || !types.length || types.includes(stratum(q))) &&
   (!fresh || unseen(q)));
 
@@ -1005,9 +1010,9 @@ function filters(scope) {
   };
 
   const wk = column('Weeks',
-    // a handful of questions straddle two weeks and are tagged "W8--W9"
-    WEEKS.map(w => ({ value: w, text: w.replace('--', '–'),
-      n: DB.filter(q => q.week === w).length })),
+    // a question that compares two weeks is counted under both
+    WEEKS.map(w => ({ value: w, text: w,
+      n: DB.filter(q => inWeek(q, w)).length })),
     was.weeks || [], 'none selected = every week');
   const ty = column('Question types',
     STRATA.map(s => ({ value: s, text: TYPENAME[s],
@@ -1415,7 +1420,7 @@ function vBrowse() {
     const type = ts.value;
     let shown = 0;
     WEEKS.forEach(w => {
-      const qs = DB.filter(q => q.week === w
+      const qs = DB.filter(q => inWeek(q, w)
         && (!type || stratum(q) === type)
         && (!needle || (q.stem || '').toLowerCase().includes(needle)
           || JSON.stringify(q.options || q.items || q.labels || '')

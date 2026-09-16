@@ -36,6 +36,11 @@ def main():
     problems = []
     for q in src:
         q.pop("raw_answers", None)
+        # Two questions compare a topic across two weeks and are tagged "W8--W9"
+        # and "W10--W11". They belong to both weeks, so the site lists each under
+        # every week it names and the week filter offers real weeks only.
+        q["weeks"] = [w for w in q["week"].replace("–", "--").split("--") if w]
+        q["week"] = "–".join(q["weeks"])
         if q["type"] == "numeric":
             # One labelled box per quantity: the site marks each separately and
             # says which one is wrong, so a pair must be (label, value) and the
