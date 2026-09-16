@@ -294,7 +294,7 @@ window.QUESTIONS = [
   "week": "W3",
   "explanation": "<p>$L_{\\text{match}}$ is a <em>cost</em> handed to a minimiser. A prediction that is confident about the right class should be a <em>cheap</em> match, so a high $\\hat p_j(c_i)$ must push the cost down — hence the minus sign. The other options are false: the term is the bare probability $\\hat p_j(c_i)$, neither $1 - \\hat p_j(c_i)$ nor its logarithm, and the sign of the box term is irrelevant to the reasoning.</p>",
   "type": "single",
-  "stem": "In the DETR matching cost $L_{\\text{match}} = -\\hat p_j(c_i) + L_{\\text{box}}$, why is the class term negative?",
+  "stem": "DETR pairs each prediction with a ground-truth object by minimising a matching cost $L_{\\text{match}} = -\\hat p_j(c_i) + L_{\\text{box}}$, where $\\hat p_j(c_i)$ is the probability prediction $j$ assigns to the class $c_i$ of ground-truth object $i$, and $L_{\\text{box}}$ is the box-distance term. Why is the class term negative?",
   "options": [
    "because we minimise, so higher confidence must lower the cost",
    "because the cost really uses $1-\\hat p_j(c_i)$, with the $1$ dropped",
@@ -1783,10 +1783,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of <strong>tensor fusion</strong> as against plain bilinear fusion:",
   "options": [
-   "it contains unimodal terms",
-   "it contains a bias-like constant term",
-   "it removes the need for cross-modal attention",
-   "its output size grows multiplicatively with each added modality"
+   "tensor fusion contains unimodal terms",
+   "tensor fusion contains a bias-like constant term",
+   "tensor fusion removes the need for cross-modal attention",
+   "tensor fusion's output grows multiplicatively with each added modality"
   ],
   "correct": [
    0,
@@ -2066,7 +2066,7 @@ window.QUESTIONS = [
   "week": "W10",
   "explanation": "<p>The gradient is with respect to <strong>$\\mathbf{x}$, not $\\theta$</strong>. Option (a) is the gradient used in maximum-likelihood <em>training</em> — also called the score in statistics, so the two are easily confused.</p><p>Dimensionally: $\\nabla_{\\mathbf{x}}\\log p$ is a vector living in <em>data</em> space, one component per pixel. That is what makes it usable as a direction to move a sample in.</p>",
   "type": "single",
-  "stem": "What is the score function?",
+  "stem": "For a density $p(\\mathbf{x})$ with normalising constant $Z$, what is the score function?",
   "options": [
    "$\\nabla_\\theta \\log p_\\theta(\\mathbf{x})$",
    "$\\log p(\\mathbf{x}) - \\log Z$",
@@ -2994,7 +2994,7 @@ window.QUESTIONS = [
   "week": "W10",
   "explanation": "<p><strong>Answer: guided $\\mathbf{100}$, unguided $\\mathbf{50}$; $\\gamma=0$ gives the <strong>unconditional</strong> score</strong></p><p><strong>Guided:</strong> $50$ steps $\\times$ $2$ evaluations $= \\mathbf{100}$. Each step needs both $\\varepsilon_\\theta(\\mathbf{x}_t,c)$ and $\\varepsilon_\\theta(\\mathbf{x}_t,\\varnothing)$.</p><p><strong>Unguided:</strong> $50$ steps $\\times$ $1 = \\mathbf{50}$.</p><p><strong>$\\gamma = 0$.</strong> Substitute: $\\tilde\\varepsilon = \\varepsilon_\\theta(\\mathbf{x}_t,\\varnothing) + 0 = \\varepsilon_\\theta(\\mathbf{x}_t,\\varnothing)$ — the purely <strong>unconditional</strong> score. The condition is computed and then multiplied by nothing, so you pay for two evaluations and generate a sample that ignores your prompt entirely.</p><p>The two special values are easy to swap: <strong>$\\gamma = 0$ ignores the prompt, $\\gamma = 1$ is ordinary conditioning, $\\gamma &gt; 1$ exaggerates.</strong> Typical values are $\\gamma \\in [5, 15]$.</p>",
   "type": "numeric",
-  "stem": "Classifier-free guidance forms $\\tilde\\varepsilon = \\varepsilon_\\theta(\\mathbf{x}_t,\\varnothing) + \\gamma\\,(\\varepsilon_\\theta(\\mathbf{x}_t,c) - \\varepsilon_\\theta(\\mathbf{x}_t,\\varnothing))$. With $50$ sampling steps, how many network evaluations does a guided sample cost, and how many does an unguided one? What does $\\gamma = 0$ produce?",
+  "stem": "Classifier-free guidance forms $\\tilde\\varepsilon = \\varepsilon_\\theta(\\mathbf{x}_t,\\varnothing) + \\gamma\\,(\\varepsilon_\\theta(\\mathbf{x}_t,c) - \\varepsilon_\\theta(\\mathbf{x}_t,\\varnothing))$, where $\\mathbf{x}_t$ is the noisy sample at step $t$, $c$ the conditioning signal, $\\varnothing$ the empty condition and $\\gamma$ the guidance strength. With $50$ sampling steps, how many network evaluations does a guided sample cost, and how many does an unguided one? What does $\\gamma = 0$ produce?",
   "answer": "guided $\\mathbf{100}$, unguided $\\mathbf{50}$; $\\gamma=0$ gives the <strong>unconditional</strong> score",
   "weeks": [
    "W10"
@@ -3612,10 +3612,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of <strong>mini-batch</strong> gradient descent against <strong>full-batch</strong>:",
   "options": [
-   "its gradient is a noisy estimate of the true gradient",
-   "it performs many more parameter updates per epoch",
-   "it is guaranteed to reach a lower final loss",
-   "the noise helps it leave saddle points"
+   "the mini-batch gradient is a noisy estimate of the true gradient",
+   "mini-batch descent performs many more parameter updates per epoch",
+   "mini-batch descent is guaranteed to reach a lower final loss",
+   "the noise helps mini-batch descent leave saddle points"
   ],
   "correct": [
    0,
@@ -3701,9 +3701,9 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of <strong>cross</strong>-attention as against self-attention:",
   "options": [
    "the queries come from one sequence, the keys and values from another",
-   "the two sequences must be of equal length for it to work",
-   "it is what lets the decoder condition on the encoder's output",
-   "it replaces self-attention everywhere in the decoder"
+   "cross-attention needs the two sequences to be of equal length",
+   "cross-attention is what lets the decoder condition on the encoder's output",
+   "cross-attention replaces self-attention everywhere in the decoder"
   ],
   "correct": [
    0,
@@ -5530,10 +5530,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the <strong>sum</strong> aggregator against mean and max in a GNN:",
   "options": [
-   "it is not permutation-invariant, unlike mean and max",
-   "it can tell apart multisets that mean and max cannot",
-   "it can count repeated neighbour features",
-   "it lets node features grow with degree unless something normalises them"
+   "the sum is not permutation-invariant, unlike mean and max",
+   "the sum can tell apart multisets that mean and max cannot",
+   "the sum can count repeated neighbour features",
+   "the sum lets node features grow with degree unless something normalises them"
   ],
   "correct": [
    1,
@@ -7334,12 +7334,12 @@ window.QUESTIONS = [
   "week": "W4",
   "explanation": "<p>A range view is a spherical projection from the sensor: dense, and it keeps the $z$ axis. Its defect is scale. The same car subtends nine pixels at ten metres and one at thirty, so a convolution — which has one kernel size, shared over the image — has to learn the same object again at every scale it can appear at, which wastes capacity.</p><p>A bird's-eye view is an <em>orthographic</em> projection onto the ground plane. Orthographic means no perspective divide, so a car occupies the same number of cells wherever it is. The metric space is preserved, which also means a box predicted in BEV is already in the units the downstream planner wants.</p><p><strong>What it costs.</strong> BEV is sparse at distance — the LiDAR returns thin out — and it collapses height, so overhanging structure is flattened. The lecture judges scale preservation more important for detection.</p><p><strong>Why not (a) or (c).</strong> Both are true of the <em>range</em> view, not of BEV: it is the dense one, and it is the one that keeps $z$.</p>",
   "type": "single",
-  "stem": "For 3D object detection the lecture prefers a bird's-eye view over a range view because:",
+  "stem": "For 3D object detection the lecture prefers a bird's-eye view (BEV) over a range view because:",
   "options": [
-   "it is denser at long range, so small objects survive",
-   "it is orthographic, so an object's size is unchanged by range",
-   "it preserves the $z$ axis, so height is not collapsed",
-   "it needs no back-projection, so the pipeline is one step shorter"
+   "the BEV is denser at long range, so small objects survive",
+   "the BEV is orthographic, so an object's size is unchanged by range",
+   "the BEV preserves the $z$ axis, so height is not collapsed",
+   "the BEV needs no back-projection, so the pipeline is one step shorter"
   ],
   "correct": [
    1
@@ -7398,7 +7398,7 @@ window.QUESTIONS = [
   "week": "W5",
   "explanation": "<p>All four. Together they place PointNet, GNNs and transformers in one family.</p><p><strong>1st.</strong> A transformer computes, for each token, a weighted sum over all other tokens with weights learned from the pair's features. Write that as a graph and the graph is complete: every node adjacent to every node, with attentional message passing on top.</p><p><strong>2nd.</strong> Now delete some edges. In a GAT, $\\alpha_{ij}$ is computed only for $j\\in\\mathcal{N}_i$ — the adjacency decides which scores exist at all, so <em>the adjacency matrix acts as an attention mask.</em></p><p><strong>3rd — the practical consequence.</strong> A transformer must <em>learn</em> which pairs are related, from data, paying $O(N^2)$ to consider all of them. A graph <em>tells</em> it, for free, and the cost drops to $O(|\\mathcal{E}|)$. When you know the structure — molecules, meshes, road networks — withholding it and making the model rediscover it is a waste of both data and compute.</p><p><strong>4th.</strong> PointNet is a shared per-point map followed by a global max pool: an equivariant map and an invariant readout, which is the GNN recipe — with the edge set empty. So the three architectures differ only in which elements may interact: <em>none</em> (PointNet), <em>some</em> (GNN), <em>all</em> (transformer).</p><table class='xt'><tr><th><strong>Model</strong></th><th><strong>Who may interact</strong></th><th><strong>Weight on a neighbour</strong></th></tr><tr><td>PointNet</td><td>nobody</td><td>—</td></tr><tr><td>GCN</td><td>the neighbours</td><td>fixed by structure, $1/\\sqrt{\\tilde D_{ii}\\tilde D_{jj}}$</td></tr><tr><td>GAT</td><td>the neighbours</td><td>learned from the two nodes' features</td></tr><tr><td>transformer</td><td>everybody</td><td>learned from the two tokens' features</td></tr></table>",
   "type": "multi",
-  "stem": "Mark all that are true of reading a transformer as a graph neural network:",
+  "stem": "Mark all that are true of reading a transformer as a graph neural network, for a sequence of $N$ tokens and a graph whose edge set is $\\mathcal{E}$:",
   "options": [
    "it is attentional message passing on a <em>complete</em> graph",
    "in a real GNN the adjacency matrix acts as an attention mask",
@@ -7597,7 +7597,7 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "MoCo's key encoder is updated by momentum rather than by gradient because:",
   "options": [
-   "it saves the memory the backward pass would need",
+   "the momentum update saves the memory a backward pass would need",
    "gradients cannot be taken through a queue of stored vectors",
    "the keys must change slowly to stay mutually comparable",
    "the momentum update makes the InfoNCE loss convex"
@@ -7910,7 +7910,7 @@ window.QUESTIONS = [
   "exam": 5,
   "num": 32,
   "week": "W3",
-  "explanation": "<p><strong>Filled in: Swin's patch merging concatenates each <strong>$2\\times2$</strong> neighbourhood, multiplying the channels by <strong>4</strong>, then a linear projection divides them by <strong>2</strong>. So $(H,W,C) \\to \\mathbf{(H/2,\\ W/2,\\ 2C)}$, and the shift between successive blocks is <strong>$\\lfloor M/2 \\rfloor$</strong> patches.</strong> <strong>The two factors are easy to conflate.</strong> Concatenating four neighbouring patch vectors of width $C$ gives one vector of width $4C$ — no information is lost, it has only been rearranged from space into channels. The linear projection then halves it to $2C$. Net effect: a quarter of the positions, twice the width.</p><p><strong>Why that particular trade.</strong> It is the same one a CNN makes at every stage boundary, and for the same reason: as the spatial resolution falls, each remaining position stands for more of the image and needs more capacity to describe it. Doing this repeatedly is what gives Swin a multi-scale feature hierarchy — which a plain ViT does not have, and which is why Swin works as a detection and segmentation backbone where ViT needs help.</p><p><strong>Why the shift is half a window and not something else.</strong> The point of shifting is that patches separated by a window boundary in one block must share a window in the next. $\\lfloor M/2\\rfloor$ is the displacement that puts the old boundary through the middle of a new window, which is the largest possible improvement; a smaller shift would leave patches near the centre of the old window still grouped together, and a shift of $M$ would reproduce the original partition exactly.</p>",
+  "explanation": "<p><strong>Filled in: Swin's patch merging concatenates each <strong>$2\\times2$</strong> neighbourhood, multiplying the channels by <strong>4</strong>, then a linear projection divides them by <strong>2</strong>. So a stage of height $H$, width $W$ and $C$ channels, written $(H,W,C)$, becomes <strong>$(H/2,\\ W/2,\\ 2C)$</strong>, and the shift between successive blocks of window size $M$ is <strong>$\\lfloor M/2 \\rfloor$</strong> patches.</strong> <strong>The two factors are easy to conflate.</strong> Concatenating four neighbouring patch vectors of width $C$ gives one vector of width $4C$ — no information is lost, it has only been rearranged from space into channels. The linear projection then halves it to $2C$. Net effect: a quarter of the positions, twice the width.</p><p><strong>Why that particular trade.</strong> It is the same one a CNN makes at every stage boundary, and for the same reason: as the spatial resolution falls, each remaining position stands for more of the image and needs more capacity to describe it. Doing this repeatedly is what gives Swin a multi-scale feature hierarchy — which a plain ViT does not have, and which is why Swin works as a detection and segmentation backbone where ViT needs help.</p><p><strong>Why the shift is half a window and not something else.</strong> The point of shifting is that patches separated by a window boundary in one block must share a window in the next. $\\lfloor M/2\\rfloor$ is the displacement that puts the old boundary through the middle of a new window, which is the largest possible improvement; a smaller shift would leave patches near the centre of the old window still grouped together, and a shift of $M$ would reproduce the original partition exactly.</p>",
   "type": "blanks",
   "segments": [
    "Swin's patch merging concatenates each",
@@ -7919,9 +7919,9 @@ window.QUESTIONS = [
    null,
    ", then a linear projection divides them by",
    null,
-   ". So $(H,W,C) \\to $",
+   ". So a stage of height $H$, width $W$ and $C$ channels, written $(H,W,C)$, becomes",
    null,
-   ", and the shift between successive blocks is",
+   ", and the shift between successive blocks of window size $M$ is",
    null,
    "patches."
   ],
@@ -11215,12 +11215,12 @@ window.QUESTIONS = [
   "week": "W5",
   "explanation": "<p>A transformer is attentional message passing on a <em>complete</em> graph. So it can certainly represent graph data — the 1st is false — and the question is what it costs to do so.</p><p><strong>The 4th is the cost.</strong> It scores every pair: $O(N^2)$. A GNN scores only the pairs joined by an edge: $O(|\\mathcal{E}|)$. For a sparse graph — a molecule, a mesh, a road network — those differ by orders of magnitude, so the 2nd has it backwards.</p><p><strong>The 3rd.</strong> The difference is not only arithmetic. A transformer has to <em>discover</em> from data which pairs are related, and every such discovery is paid for in training examples. A graph <em>states</em> it. When the structure is known — and in these domains it is known exactly, from chemistry or from geometry — withholding it and making the model rediscover it wastes both data and compute, and the model may not rediscover it correctly.</p><p><strong>The flip side.</strong> When the structure is <em>not</em> known, or when the useful relations are not the given edges, the transformer's willingness to consider all pairs is the advantage. That is why the same lecture notes that a GAT differs from a transformer mainly in that the adjacency acts as an attention mask — one is the other with a constraint added.</p>",
   "type": "multi",
-  "stem": "Mark all that are true of using a transformer where a GNN would do:",
+  "stem": "Mark all that are true of using a transformer where a GNN would do, for $N$ tokens and a graph whose edge set is $\\mathcal{E}$:",
   "options": [
    "a transformer cannot represent graph-structured data at all",
-   "it is the cheaper of the two, at $O(|\\mathcal{E}|)$",
-   "it must <em>learn</em> which pairs are related, where a graph would simply tell it",
-   "it costs $O(N^2)$ against the graph's $O(|\\mathcal{E}|)$"
+   "a transformer is the cheaper of the two, at $O(|\\mathcal{E}|)$",
+   "a transformer must <em>learn</em> which pairs are related, which the edges state outright",
+   "a transformer costs $O(N^2)$ against a GNN's $O(|\\mathcal{E}|)$"
   ],
   "correct": [
    2,
@@ -14490,7 +14490,7 @@ window.QUESTIONS = [
   "type": "written",
   "sub": "sketch",
   "lines": 8,
-  "stem": "Draw an $(N, C, H, W)$ tensor four times and shade, on each copy, the set of entries that BatchNorm, LayerNorm, InstanceNorm and GroupNorm average over. Label each. Then say in one sentence which you would reach for when the batch is small, and why.",
+  "stem": "Draw an activation tensor of shape $(N, C, H, W)$ — batch $N$, channels $C$, height $H$, width $W$ — four times and shade, on each copy, the set of entries that BatchNorm, LayerNorm, InstanceNorm and GroupNorm average over. Label each. Then say in one sentence which you would reach for when the batch is small, and why.",
   "scheme": [
    {
     "pts": 1,
@@ -16668,10 +16668,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "PointNet++ groups with a ball query rather than $k$ nearest neighbours because:",
   "options": [
-   "it is the cheaper of the two to compute",
-   "it always returns the same number of points",
-   "it fixes a physical radius rather than a count",
-   "it is permutation invariant, where $k$NN is not"
+   "a ball query is the cheaper of the two to compute",
+   "a ball query always returns the same number of points",
+   "a ball query fixes a physical radius rather than a count",
+   "a ball query is permutation invariant, where $k$NN is not"
   ],
   "correct": [
    2
