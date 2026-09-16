@@ -459,6 +459,51 @@
         .every(x => inWeek(x, weeksOf(q)[0]) && unseen(x)));
     t('unseen: a drawn queue respects it',
       pick(20, [], [], true).every(unseen));
+
+    /* --- practice: repeat exactly what I got wrong --------------------- */
+    /* Viktor: "Is there a way to repeat exactly the things I got wrong? If not
+       lets add this feature in the practice mode." Only the last attempt at a
+       question counts, so getting it right is what clears it. */
+    (function () {
+      const resBefore = S.results;
+      S.results = {};
+      const bad = QUESTIONS.filter(x => x.type === 'single' && x.correct.length === 1)[0];
+      const good = QUESTIONS.filter(x => x.type === 'single' && x.correct.length === 1
+        && x.id !== bad.id)[0];
+      const wrongAns = [(bad.correct[0] + 1) % bad.options.length];
+      recordResult(bad, wrongAns);
+      recordResult(good, good.correct.slice());
+      t('wrong: a wrong answer is recorded, a right one is not wrong',
+        gotWrong(bad) && !gotWrong(good));
+      t('wrong: the filter offers exactly the wrong ones',
+        poolFor([], [], false, true).length === 1
+        && poolFor([], [], false, true)[0] === bad);
+      t('wrong: it composes with the week filter',
+        poolFor([weeksOf(bad)[0]], [], false, true).indexOf(bad) !== -1
+        && poolFor(WEEKS.filter(w => !inWeek(bad, w)), [], false, true).length === 0);
+      t('wrong: a drawn queue respects it',
+        pick(20, [], [], false, true).every(gotWrong));
+      t('wrong: answering it correctly takes it off the list',
+        (recordResult(bad, bad.correct.slice()),
+         !gotWrong(bad) && poolFor([], [], false, true).length === 0));
+      // an unseen question has no result, so both ticks at once is empty
+      t('wrong: unseen and wrong together select nothing',
+        poolFor([], [], true, true).length === 0);
+      const pend = QUESTIONS.filter(x => x.type === 'written')[0];
+      recordResult(pend, { text: 'something', self: null });
+      t('wrong: an unmarked written answer is not recorded either way',
+        !resultOf(pend.id));
+      recordResult(pend, { text: 'something', self: 0 });
+      t('wrong: a self-marked zero counts as wrong',
+        gotWrong(pend));
+      // sync: the newer attempt wins, whichever side it arrives from
+      const older = { results: { [bad.id]: { at: 1000, got: 0, max: 1 } } };
+      const newer = { results: { [bad.id]: { at: 2000, got: 1, max: 1 } } };
+      t('wrong: a sync keeps the newer attempt, either way round',
+        merge(older, newer).results[bad.id].got === 1
+        && merge(newer, older).results[bad.id].got === 1);
+      S.results = resBefore;
+    })();
     t('unseen: leaving it off changes nothing',
       poolFor([], [], false).length === QUESTIONS.length);
 

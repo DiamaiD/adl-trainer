@@ -10,7 +10,7 @@ const DB = window.QUESTIONS || [];
 const KEY = 'adl.trainer.v1';
 
 /* ------------------------------------------------------------------ state */
-const blank = () => ({ uses: {}, history: [], drillSeen: [] });
+const blank = () => ({ uses: {}, history: [], drillSeen: [], results: {} });
 let S = load();
 
 function load() {
@@ -62,6 +62,15 @@ function merge(a, b) {
   out.history = Array.from(byId.values())
     .sort((x, y) => (y.at || 0) - (x.at || 0))
     .slice(0, 100);
+
+  // The newer attempt at a question wins. Answering it correctly later is what
+  // takes it off the "got wrong" list, so an older copy must never resurrect the
+  // earlier mistake -- and syncing twice must change nothing.
+  out.results = Object.assign({}, a.results || {});
+  Object.keys(b.results || {}).forEach(k => {
+    const mine = out.results[k], theirs = b.results[k];
+    if (!mine || (theirs && (theirs.at || 0) > (mine.at || 0))) out.results[k] = theirs;
+  });
 
   return out;
 }
@@ -241,6 +250,20 @@ const el = (tag, cls, html) => {
 };
 const uses = id => S.uses[id] || 0;
 
+/* What a question's most recent attempt scored, so "the ones I got wrong" is a
+ * list the site can hand back rather than something to remember. One entry per
+ * question, overwritten on every later attempt: answering it correctly is what
+ * removes it. A written answer is recorded only once it has been self-marked,
+ * and a part-marked one counts as wrong, because it is worth revisiting. */
+const resultOf = id => (S.results || {})[id] || null;
+function recordResult(q, a) {
+  if (isPending(q, a)) return;
+  if (!S.results) S.results = {};
+  const m = marks(q, a);
+  S.results[q.id] = { at: Date.now(), got: m.got, max: m.max };
+  save();
+}
+
 function tex(node) {
   if (!window.renderMathInElement) return;
   try {
@@ -289,10 +312,17 @@ const STRATA = ['single', 'multi', 'order', 'blanks', 'assign', 'numeric',
  * question you skipped is still unseen, because a skip gives its serving
  * back. */
 const unseen = q => uses(q.id) === 0;
-const poolFor = (weeks, types, fresh) => DB.filter(q =>
+/* Wrong means the last attempt did not score full marks -- a part-marked written
+ * answer included. A question never attempted is not wrong, it is unseen. */
+const gotWrong = q => {
+  const r = resultOf(q.id);
+  return !!r && r.got < r.max;
+};
+const poolFor = (weeks, types, fresh, wrong) => DB.filter(q =>
   (!weeks || !weeks.length || weeks.some(w => inWeek(q, w))) &&
   (!types || !types.length || types.includes(stratum(q))) &&
-  (!fresh || unseen(q)));
+  (!fresh || unseen(q)) &&
+  (!wrong || gotWrong(q)));
 
 /* How a drawn paper should be made up. The target is the database's own
  * composition, which *is* the papers' composition because the database was
@@ -324,8 +354,8 @@ function allocate(n, groups) {
 
 /* Draw n questions: balanced by type, and least-used first inside each type so
  * everything gets seen about equally often. */
-function pick(n, weeks, types, fresh) {
-  const pool = poolFor(weeks, types, fresh);
+function pick(n, weeks, types, fresh, wrong) {
+  const pool = poolFor(weeks, types, fresh, wrong);
   if (!pool.length) return [];
   n = Math.min(n, pool.length);
 
@@ -1032,10 +1062,10 @@ function filters(scope) {
   /* Practice only: work through the questions you have never been served.
    * Least-used-first already brings those up before the rest, but it mixes
    * them with old ones; this makes it exclusive, so a run is all new. */
-  let fresh = null;
+  let fresh = null, wrong = null;
   if (scope === 'drill') {
     const wrap = el('div', 'filt');
-    wrap.appendChild(el('div', 'filt-h', 'New material'));
+    wrap.appendChild(el('div', 'filt-h', 'What to practise'));
     const lab = el('label', 'chk');
     fresh = el('input');
     fresh.type = 'checkbox';
@@ -1043,29 +1073,47 @@ function filters(scope) {
     lab.appendChild(fresh);
     lab.appendChild(el('span', null, 'Only questions I have not seen yet'));
     wrap.appendChild(lab);
+    /* The other half of the same idea: go back over exactly what went wrong,
+     * in practice or in an exam. Answering one correctly takes it off the list,
+     * so the pile empties as it is worked through. */
+    const lab2 = el('label', 'chk');
+    wrong = el('input');
+    wrong.type = 'checkbox';
+    wrong.checked = !!was.wrong;
+    lab2.appendChild(wrong);
+    lab2.appendChild(el('span', null, 'Only questions I got wrong'));
+    wrap.appendChild(lab2);
+    // Both at once is always an empty queue -- an unseen question has no result
+    // -- so ticking one clears the other rather than silently offering nothing.
+    fresh.addEventListener('change', () => { if (fresh.checked) wrong.checked = false; });
+    wrong.addEventListener('change', () => { if (wrong.checked) fresh.checked = false; });
     const note = el('div', 'filt-n', '');
     wrap.appendChild(note);
     box.appendChild(wrap);
     const count = () => {
-      const n = poolFor(read(wk), read(ty), true).length;
-      note.textContent = n
-        ? `${n} of ${poolFor(read(wk), read(ty)).length} never served`
-        : 'you have been served every one of these';
+      const all = poolFor(read(wk), read(ty)).length;
+      const nNew = poolFor(read(wk), read(ty), true).length;
+      const nBad = poolFor(read(wk), read(ty), false, true).length;
+      note.textContent =
+        `${nNew} of ${all} never served · ${nBad} got wrong`
+        + (nBad ? '' : ' (nothing to repeat yet)');
     };
     box.addEventListener('change', count);
     count();
   }
   const isFresh = () => !!(fresh && fresh.checked);
+  const isWrong = () => !!(wrong && wrong.checked);
 
   return {
     node: box,
     weeks: () => read(wk),
     types: () => read(ty),
     fresh: isFresh,
-    pool: () => poolFor(read(wk), read(ty), isFresh()),
+    wrong: isWrong,
+    pool: () => poolFor(read(wk), read(ty), isFresh(), isWrong()),
     onChange: fn => box.addEventListener('change', fn),
     remember: () => {
-      P[scope] = { weeks: read(wk), types: read(ty), fresh: isFresh() };
+      P[scope] = { weeks: read(wk), types: read(ty), fresh: isFresh(), wrong: isWrong() };
       savePrefs();
     }
   };
@@ -1213,6 +1261,7 @@ function runExam(qs, restore) {
           answers: answers.map(copyAnswer),
           right: tally().right, pending: tally().pending, total: tally().outOf
         };
+        qs.forEach((q, k) => recordResult(q, answers[k]));
         S.history.unshift(entry);
         S.history = S.history.slice(0, 100);
         save(); paint(); window.scrollTo(0, 0); stat();
@@ -1243,17 +1292,20 @@ function vDrill() {
     const k = f.pool().length;
     tally.innerHTML = k
       ? `<b>${k}</b> question${k === 1 ? '' : 's'} in the queue.`
-      : f.fresh() && poolFor(f.weeks(), f.types()).length
-        ? '<b>Nothing new here.</b> Every question that matches has been served '
-          + 'at least once — untick “not seen yet”, or widen the weeks.'
-        : '<b>Nothing matches.</b> Widen the weeks or the types.';
+      : f.wrong() && poolFor(f.weeks(), f.types()).length
+        ? '<b>Nothing wrong here.</b> Every question that matches was answered '
+          + 'correctly last time — untick “got wrong”, or widen the weeks.'
+        : f.fresh() && poolFor(f.weeks(), f.types()).length
+          ? '<b>Nothing new here.</b> Every question that matches has been served '
+            + 'at least once — untick “not seen yet”, or widen the weeks.'
+          : '<b>Nothing matches.</b> Widen the weeks or the types.';
   };
   f.onChange(refresh);
   refresh();
 
   const go = el('button', 'go', 'Start');
   go.addEventListener('click', () => {
-    const pool = pick(DB.length, f.weeks(), f.types(), f.fresh());
+    const pool = pick(DB.length, f.weeks(), f.types(), f.fresh(), f.wrong());
     if (!pool.length) { alert('No questions match that filter.'); return; }
     f.remember();
     drillOne(pool, 0, { right: 0, outOf: 0, done: 0 }, null);
@@ -1344,6 +1396,7 @@ function drillOne(pool, i, tally, state) {
     }
     tally.right += now - st.gave;
     st.gave = now;
+    recordResult(q, st.ans);
   };
 
   const paint = () => {
