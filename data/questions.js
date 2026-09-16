@@ -122,8 +122,8 @@ window.QUESTIONS = [
   "stem": "Why is the dot product divided by $\\sqrt{d_k}$ rather than by $d_k$?",
   "options": [
    "because the softmax is invariant to scaling by $d_k$",
-   "because $\\sqrt{d_k}$ is cheaper to compute",
-   "because the variance of the dot product grows as $d_k$, so its standard deviation grows as $\\sqrt{d_k}$",
+   "because $\\sqrt{d_k}$ is cheaper to compute than $d_k$",
+   "because the dot product's standard deviation grows as $\\sqrt{d_k}$",
    "because dividing by $d_k$ would make the attention weights negative"
   ],
   "correct": [
@@ -142,7 +142,7 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Which are true of the encoder's self-attention in the original transformer?",
   "options": [
-   "it uses a triangular mask",
+   "it uses a triangular mask to hide future tokens",
    "each token attends to preceding tokens, itself, and following tokens",
    "it is well suited to feature extraction",
    "the same feed-forward network weights are applied to every token"
@@ -292,14 +292,14 @@ window.QUESTIONS = [
   "exam": 1,
   "num": 14,
   "week": "W3",
-  "explanation": "<p>$L_{\\text{match}}$ is a <em>cost</em> handed to a minimiser. A prediction that is confident about the right class should be a <em>cheap</em> match, so a high $\\hat p_j(c_i)$ must push the cost down — hence the minus sign. The other options are false: probabilities are not negative, this term is a bare probability rather than a log-likelihood, and the sign of the box term is irrelevant to the reasoning.</p>",
+  "explanation": "<p>$L_{\\text{match}}$ is a <em>cost</em> handed to a minimiser. A prediction that is confident about the right class should be a <em>cheap</em> match, so a high $\\hat p_j(c_i)$ must push the cost down — hence the minus sign. The other options are false: the term is the bare probability $\\hat p_j(c_i)$, neither $1 - \\hat p_j(c_i)$ nor its logarithm, and the sign of the box term is irrelevant to the reasoning.</p>",
   "type": "single",
   "stem": "In the DETR matching cost $L_{\\text{match}} = -\\hat p_j(c_i) + L_{\\text{box}}$, why is the class term negative?",
   "options": [
    "because we minimise, so higher confidence must lower the cost",
-   "because probabilities are negative",
-   "because it is a log-likelihood",
-   "because the box term is always positive"
+   "because the cost really uses $1-\\hat p_j(c_i)$, with the $1$ dropped",
+   "because the class term is a log-likelihood, which is negative",
+   "because the box term is positive and has to be cancelled"
   ],
   "correct": [
    0
@@ -359,10 +359,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "OctNet's hybrid grid-octree structure exists because:",
   "options": [
-   "deep octrees are more accurate than shallow ones",
-   "it removes the need for convolutions",
-   "octrees cannot represent empty space",
-   "it balances a GPU-friendly regular access pattern against spatial adaptivity"
+   "a deeper octree is more accurate than a shallow one",
+   "it removes the need for sparse convolutions",
+   "an octree cannot represent empty space efficiently",
+   "it balances regular memory access with spatial adaptivity"
   ],
   "correct": [
    3
@@ -446,7 +446,7 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that apply to <strong>PointNet++</strong>:",
   "options": [
-   "replaces max pooling with sum pooling",
+   "replaces max pooling with sum pooling in each group",
    "uses farthest point sampling to choose seed points",
    "groups neighbours with a query ball of fixed radius",
    "uses multi-scale and multi-resolution grouping for density robustness"
@@ -486,13 +486,13 @@ window.QUESTIONS = [
   "exam": 1,
   "num": 23,
   "week": "W5",
-  "explanation": "<p>The output of a graph-level task is a single vector with <em>no node dimension</em>, so there is nothing left for a permutation to act on — it must come out unchanged. Node-level tasks are the equivariant case: relabel the nodes and the predictions come back in the same new order. A permutation-invariant readout — a sum, mean or max over the node embeddings — is what converts one into the other.</p>",
+  "explanation": "<p>The output of a graph-level task is a single vector with <em>no node dimension</em>, so there is nothing left for a permutation to act on — it must come out unchanged. Node-level tasks are the equivariant case: relabel the nodes and the predictions come back in the same new order. A permutation-invariant readout — a sum, mean or max over the node embeddings — is what converts one into the other.</p><p><strong>Invariance to <em>what</em>.</strong> Only to the numbering of the nodes. The prediction must still depend on the node features and on which edges are present, and reversing an edge may legitimately change it — what must never change it is relabelling the same graph.</p>",
   "type": "single",
   "stem": "A graph-level prediction (a reduction) must be:",
   "options": [
    "permutation equivariant",
-   "both",
-   "neither",
+   "invariant to the node features",
+   "invariant to the edge directions",
    "permutation invariant"
   ],
   "correct": [
@@ -600,9 +600,9 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "In the Mahalanobis-style distance $\\mathcal{D}(x_i,x_j)^2 = (x_i-x_j)^{\\top}M(x_i-x_j)$, why is $M$ factorised as $W^{\\top}W$?",
   "options": [
-   "every $W$ yields a legal positive semi-definite $M$, so $W$ can be optimised freely",
+   "every $W$ gives a positive semi-definite $M$",
    "it makes the distance cheaper to compute",
-   "it reduces the number of parameters",
+   "it reduces the number of free parameters",
    "it makes $\\mathcal{D}$ a true metric"
   ],
   "correct": [
@@ -622,7 +622,7 @@ window.QUESTIONS = [
   "stem": "A triplet loss uses the anchor–positive distance $\\mathcal{D}_p$, the anchor–negative distance $\\mathcal{D}_n$ and a margin $m$. Mark all that are true of a <strong>semi-hard</strong> negative:",
   "options": [
    "$\\mathcal{D}_p &lt; \\mathcal{D}_n &lt; \\mathcal{D}_p + m$",
-   "it produces no gradient",
+   "it produces no gradient, because its loss is zero",
    "its loss lies strictly between $0$ and $m$",
    "collapsing the network would increase its loss"
   ],
@@ -1806,7 +1806,7 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of <strong>CLIP</strong>:",
   "options": [
-   "its two encoders share weights",
+   "its two encoders share their weights",
    "it is coordination rather than fusion",
    "it enables zero-shot classification from text alone",
    "it requires paired data during training"
@@ -1921,7 +1921,7 @@ window.QUESTIONS = [
   "options": [
    "they are the classes of the downstream task",
    "they are ImageNet's $1000$ classes plus padding",
-   "they correspond to nothing; they exist so agreement can be a cross-entropy",
+   "they correspond to nothing in particular",
    "they are the patches of the input image"
   ],
   "correct": [
@@ -2110,9 +2110,9 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "In Langevin dynamics, what goes wrong if the noise term is removed?",
   "options": [
-   "the chain converges to a local peak instead of sampling the distribution",
-   "the chain diverges to infinity",
-   "the score estimate becomes biased",
+   "the chain climbs to the nearest peak and stops",
+   "the chain diverges to infinity instead of settling",
+   "the score estimate itself becomes biased",
    "nothing — the noise is a numerical convenience"
   ],
   "correct": [
@@ -2286,10 +2286,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "A single sampling step of a diffusion model and a single query of a NeRF are often confused because both “run a network many times”. Mark all that are true:",
   "options": [
-   "both are trained on a per-scene basis",
+   "both are trained from scratch on each new scene",
    "in both, the repeated evaluations can be run in parallel",
    "both networks are conditioned on a timestep embedding",
-   "diffusion repeats the network over <em>time steps</em>; NeRF repeats it over <em>sample points along a ray</em>"
+   "diffusion repeats over <em>time steps</em>, NeRF over <em>points along a ray</em>"
   ],
   "correct": [
    3
@@ -3591,8 +3591,8 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Which loss belongs with single-label multi-class classification?",
   "options": [
-   "mean squared error on the logits",
-   "binary cross-entropy per class",
+   "mean squared error on the raw logits",
+   "binary cross-entropy on each class independently",
    "mean absolute error on the one-hot target",
    "categorical cross-entropy on a softmax output"
   ],
@@ -3635,10 +3635,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "In backpropagation through time, gradients vanish because:",
   "options": [
-   "the same recurrent Jacobian is multiplied once per time step",
-   "the loss is averaged over the time steps",
-   "the output layer saturates",
-   "the hidden state is too small"
+   "the same Jacobian is multiplied once per time step",
+   "the loss is averaged over all of the time steps",
+   "the output non-linearity saturates at every step",
+   "the hidden state is too small to carry the signal forward"
   ],
   "correct": [
    0
@@ -3679,10 +3679,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Why does a transformer need positional encoding at all?",
   "options": [
-   "to keep the attention scores in a numerically safe range",
-   "to stop the decoder attending to future tokens",
-   "because self-attention is permutation equivariant, so it would otherwise see a set",
-   "to reduce the quadratic cost of attention"
+   "because the attention scores must stay in a numerically safe range",
+   "because the decoder must not attend to future tokens",
+   "because self-attention is permutation equivariant",
+   "because attention would otherwise cost $O(n^2)$ time"
   ],
   "correct": [
    2
@@ -3701,7 +3701,7 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of <strong>cross</strong>-attention as against self-attention:",
   "options": [
    "the queries come from one sequence, the keys and values from another",
-   "the two sequences must have the same length",
+   "the two sequences must be of equal length for it to work",
    "it is what lets the decoder condition on the encoder's output",
    "it replaces self-attention everywhere in the decoder"
   ],
@@ -3768,7 +3768,7 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of multi-head attention with $h$ heads and model width $d$:",
   "options": [
    "each head operates in dimension $d/h$",
-   "it multiplies the FLOP count by $h$",
+   "it multiplies the FLOP count by $h$, the number of heads",
    "its parameter count is essentially that of one head at full width $d$",
    "different heads can specialise, for instance syntactic against semantic"
   ],
@@ -3793,7 +3793,7 @@ window.QUESTIONS = [
    "halves the spatial resolution and doubles the channel dimension",
    "halves both the spatial resolution and the channel dimension",
    "doubles the spatial resolution and halves the channels",
-   "changes the channel dimension but leaves the resolution alone"
+   "changes the channel dimension but leaves the spatial resolution alone"
   ],
   "correct": [
    0
@@ -3811,9 +3811,9 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that a plain ViT has <em>and a CNN does not</em>:",
   "options": [
-   "locality of the receptive field",
-   "translation equivariance by construction",
-   "a receptive field spanning the whole image already in the first layer",
+   "locality of the receptive field in every layer",
+   "translation equivariance built in by weight sharing",
+   "a receptive field spanning the whole image at layer one",
    "a multi-scale feature hierarchy by construction"
   ],
   "correct": [
@@ -3920,9 +3920,9 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "In a signed distance field, each voxel stores:",
   "options": [
-   "a binary occupied / free flag",
-   "the surface normal at that voxel",
-   "the distance to the nearest surface, with a sign for inside and outside",
+   "a binary flag saying occupied or free",
+   "the surface normal at that voxel centre",
+   "a signed distance to the nearest surface",
    "the probability that the voxel was ever observed"
   ],
   "correct": [
@@ -3965,10 +3965,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "The characteristic weakness of a <strong>range-view</strong> projection is that:",
   "options": [
-   "an object's apparent size shrinks with its distance from the sensor",
-   "it cannot represent colour",
-   "it needs a GPU with more than $24$ GB of memory",
-   "it destroys permutation invariance"
+   "an object's apparent size shrinks with distance",
+   "it cannot represent colour or intensity",
+   "it needs more memory than an equivalent dense voxel grid",
+   "it destroys the cloud's permutation invariance"
   ],
   "correct": [
    0
@@ -4008,10 +4008,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Why is the adjacency matrix normalised before propagation in a GCN?",
   "options": [
-   "to make it symmetric",
-   "to guarantee the graph is connected",
-   "to remove the self-loops",
-   "because otherwise high-degree nodes dominate, their features growing with degree"
+   "to make the adjacency matrix symmetric",
+   "to guarantee that the graph stays connected",
+   "to remove the self-loops added just before",
+   "to stop high-degree nodes from dominating"
   ],
   "correct": [
    3
@@ -4052,8 +4052,8 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Which is a <strong>node</strong>-level task?",
   "options": [
-   "predicting whether a molecule is toxic",
-   "predicting the role of a single protein in an interaction network",
+   "predicting whether a whole molecule is toxic",
+   "predicting the role of one protein in a network",
    "predicting whether two users will become friends",
    "predicting the total number of triangles in a graph"
   ],
@@ -4138,7 +4138,7 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of the three kinds of negative:",
   "options": [
    "an <em>easy</em> negative already satisfies the margin and gives zero gradient",
-   "easy negatives are the most useful ones to train on",
+   "easy negatives are the most useful ones to mine and train on",
    "a <em>hard</em> negative is closer to the anchor than the positive is",
    "a <em>semi-hard</em> negative is further than the positive but still inside the margin"
   ],
@@ -4160,10 +4160,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Centre loss adds to the softmax objective:",
   "options": [
-   "a margin between the class boundaries",
-   "a penalty on the norm of the weights",
+   "a margin between the class decision boundaries",
+   "a penalty on the norm of the class weights",
    "a repulsion between all pairs of different classes",
-   "a pull of each sample towards a learned centre for its own class"
+   "a pull of each sample towards its own class centre"
   ],
   "correct": [
    3
@@ -4204,7 +4204,7 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of a <strong>Siamese</strong> network:",
   "options": [
    "the two branches have independent weights",
-   "it generalises the Mahalanobis distance by learning the map instead of the matrix",
+   "it generalises the Mahalanobis distance by learning the map",
    "it is trained with a cross-entropy classification loss",
    "it requires its two inputs to come from different classes"
   ],
@@ -5268,7 +5268,7 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the <strong>receptive field</strong> of a stack of convolutions:",
   "options": [
-   "padding enlarges it",
+   "padding enlarges it layer by layer",
    "dilation enlarges it without adding a single parameter",
    "for plain stacked $3\\times3$ convolutions it grows exponentially with depth",
    "a stride in an early layer multiplies the jump for every layer after it"
@@ -5334,10 +5334,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Why are attention scores divided by $\\sqrt{d_k}$?",
   "options": [
-   "the dot product's standard deviation grows like $\\sqrt{d_k}$, and an unscaled softmax saturates",
-   "to make the scores sum to one",
-   "to keep the causal mask numerically stable",
-   "to bring the cost down from quadratic to linear"
+   "to stop an unscaled softmax from saturating",
+   "to make the attention scores sum to one over the sequence",
+   "to keep the causal mask numerically stable at long lengths",
+   "to bring the cost of attention down from quadratic to linear"
   ],
   "correct": [
    0
@@ -5355,10 +5355,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of BERT's <strong>next-sentence prediction</strong> objective:",
   "options": [
-   "it replaces masked language modelling",
+   "it replaces masked language modelling during pre-training",
    "its positive and negative pairs are split $80/20$",
-   "it is a sentence-level objective, complementing the word-level one",
-   "it is what makes BERT autoregressive"
+   "it is a sentence-level objective beside the word-level one",
+   "it is what makes BERT autoregressive over sentences"
   ],
   "correct": [
    2
@@ -5444,8 +5444,8 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "In the Point Transformer, the relative position encoding $\\delta$ is added <em>twice</em> — once inside the branch that produces the weights, and once to the value. Why?",
   "options": [
-   "to save parameters by sharing one MLP",
-   "the weights decide <em>how much</em> a neighbour contributes and the values decide <em>what</em> it contributes, so geometry has to enter both",
+   "to save parameters by sharing one MLP between the two branches",
+   "geometry must enter both the weights and the values",
    "because $\\delta$ is not differentiable in one of the two branches",
    "to restore permutation invariance, which the subtraction destroys"
   ],
@@ -5487,10 +5487,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Why does a signed distance field suit shape completion better than a binary occupancy grid?",
   "options": [
-   "its gradient points towards the surface, and its sign says which side you are on",
-   "it needs less memory at the same resolution",
-   "it is invariant to rigid transformations",
-   "it can be convolved, whereas an occupancy grid cannot"
+   "its gradient points to the surface and its sign says which side",
+   "it needs less memory than an occupancy grid at the same resolution",
+   "it is invariant to rigid transformations of the object",
+   "it can be convolved, whereas an occupancy grid cannot be"
   ],
   "correct": [
    0
@@ -5509,7 +5509,7 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of <strong>farthest point sampling</strong> as PointNet++ uses it:",
   "options": [
    "it gives more even spatial coverage than random sampling",
-   "it is cheaper than random sampling",
+   "it is cheaper than random sampling of the same size",
    "it is what makes the layer permutation-equivariant",
    "random sampling would instead follow the density of the input"
   ],
@@ -5530,7 +5530,7 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the <strong>sum</strong> aggregator against mean and max in a GNN:",
   "options": [
-   "it is not permutation-invariant",
+   "it is not permutation-invariant, unlike mean and max",
    "it can tell apart multisets that mean and max cannot",
    "it can count repeated neighbour features",
    "it lets node features grow with degree unless something normalises them"
@@ -5597,10 +5597,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "A network trained with the triplet loss collapses to a constant embedding. The mechanism is:",
   "options": [
-   "label noise among the positives",
-   "a learning rate that is too high",
-   "a margin that is too small",
-   "a constant map costs exactly $m$ on every triplet, which is cheaper than what the hard negatives were costing"
+   "label noise among the positives of each batch",
+   "a learning rate that is too high for the batch size",
+   "a margin that is too small for the class spread",
+   "a constant map costs exactly $m$ on every triplet"
   ],
   "correct": [
    3
@@ -5619,9 +5619,9 @@ window.QUESTIONS = [
   "stem": "In ArcFace the margin $m$ is added to:",
   "options": [
    "the angle of the true class only",
-   "the angle of every class",
-   "the logit of the true class",
-   "the norm of the embedding"
+   "the angle of every class alike",
+   "the logit of the true class, after the cosine",
+   "the norm of the embedding vector"
   ],
   "correct": [
    0
@@ -5642,7 +5642,7 @@ window.QUESTIONS = [
    "it allows the richest cross-modal interaction of the three",
    "it requires the modalities to be homogeneous",
    "it is the default in transformer-based multimodal models",
-   "it is the one variant that still returns an answer when a sensor dies"
+   "it still returns an answer when one sensor dies"
   ],
   "correct": [
    3
@@ -5661,7 +5661,7 @@ window.QUESTIONS = [
   "stem": "The runtime spread from ViLT ($\\sim\\!15$ ms) to ViLBERT ($\\sim\\!920$ ms) is caused mainly by:",
   "options": [
    "single stream against dual stream",
-   "how the image is tokenised — region features need an object detector run first",
+   "how the image is tokenised",
    "the number of transformer layers",
    "the size of the text vocabulary"
   ],
@@ -5705,10 +5705,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the InfoNCE bound $MI \\ge \\log N - \\mathcal{L}$:",
   "options": [
-   "it caps the certified mutual information at $\\log N$ however small the loss becomes",
+   "it caps the certified mutual information at $\\log N$",
    "buying one more bit means doubling $N$",
-   "it is a measurement of the encoder's quality",
-   "it is tight for every $N$"
+   "it is a measurement of how good the encoder is",
+   "it is tight whatever the value of $N$"
   ],
   "correct": [
    0,
@@ -5727,10 +5727,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Centering alone does not stop DINO collapsing, because:",
   "options": [
-   "it is applied to the student rather than the teacher",
-   "it needs labels to be effective",
-   "it pushes the teacher towards uniform, which is itself a collapse — sharpening is the other half",
-   "it is only applied at test time"
+   "it is applied to the student branch rather than the teacher",
+   "it needs labelled data before it can be effective",
+   "it pushes the teacher towards uniform, itself a collapse",
+   "it is applied only at evaluation time, not during training"
   ],
   "correct": [
    2
@@ -5771,10 +5771,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "LoRA initialises $A$ at random and $B$ at <em>zero</em>. The reason is:",
   "options": [
-   "it halves the memory the adapter needs",
-   "$B$ is not trained at all",
+   "it halves the memory the adapter needs to store",
+   "only $A$ is trained; $B$ stays at zero throughout",
    "a zero initialisation makes the update orthogonal",
-   "so $\\Delta W = BA$ is exactly zero at step $0$ and training starts from the pre-trained model unchanged"
+   "so $\\Delta W = BA$ is exactly zero at step $0$"
   ],
   "correct": [
    3
@@ -5794,7 +5794,7 @@ window.QUESTIONS = [
   "options": [
    "it still works when the source distribution does not cover the target",
    "$c$ is the probability that the sample came from the <em>target</em> domain",
-   "the domain classifier's training data must be balanced, or the ratio is scaled by $\\pi_T/\\pi_S$ instead of being $p_T/p_S$",
+   "the domain classifier must be trained on balanced data, or $\\pi_T/\\pi_S$ survives",
    "a source sample the classifier is unsure about receives a weight near $1$"
   ],
   "correct": [
@@ -5814,10 +5814,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "<strong>Transductive</strong> transfer learning is characterised by:",
   "options": [
-   "different tasks, with labelled target data",
-   "the same task, a different domain, and unlabelled target data",
-   "no labels anywhere",
-   "the same task and the same domain"
+   "different tasks, with labelled data in the target domain",
+   "the same task, a different domain, no target labels",
+   "no labels in the source or the target domain",
+   "the same task and the same domain, with labels"
   ],
   "correct": [
    1
@@ -5859,10 +5859,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Classifier-free guidance with $\\gamma &gt; 1$:",
   "options": [
-   "extrapolates away from the unconditional score, which is where the effect comes from",
+   "extrapolates away from the unconditional score",
    "interpolates between the conditional and unconditional scores",
    "requires the network to be retrained for each $\\gamma$",
-   "needs a classifier trained on noisy inputs"
+   "needs a separate classifier trained on noisy inputs"
   ],
   "correct": [
    0
@@ -5882,7 +5882,7 @@ window.QUESTIONS = [
   "options": [
    "it uses no neural network at all",
    "it renders by tracing one ray per pixel",
-   "the covariance is reparametrised as $RSS^{\\top}R^{\\top}$ so it cannot leave the positive semi-definite cone",
+   "the covariance is reparametrised as $RSS^{\\top}R^{\\top}$ to stay valid",
    "it reaches high-frequency detail through positional encoding"
   ],
   "correct": [
@@ -7185,10 +7185,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "You are training a style-transfer network. Which normalisation does the lecture point to, and why?",
   "options": [
-   "BatchNorm, because the mini-batch statistics regularise",
+   "BatchNorm, because averaging over the batch removes the per-image variation",
    "InstanceNorm, because the per-sample per-channel statistics <em>are</em> the style",
-   "LayerNorm, because the input length varies",
-   "GroupNorm, because the batch is small"
+   "LayerNorm, because the statistics must not depend on the batch composition",
+   "GroupNorm, because a group of channels gives stable statistics at batch size 1"
   ],
   "correct": [
    1
@@ -7206,10 +7206,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the position-wise feed-forward network in a transformer layer:",
   "options": [
-   "it mixes information between tokens",
+   "it mixes information between neighbouring tokens",
    "the same weights are applied at every position",
    "its inner width is typically $4\\,d_{\\text{model}}$",
-   "with attention it divides the labour: attention mixes <em>between</em> tokens, the feed-forward network computes <em>within</em> one"
+   "it computes <em>within</em> a token, while attention mixes <em>between</em> them"
   ],
   "correct": [
    1,
@@ -7229,10 +7229,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Masked language modelling has a known theoretical limitation:",
   "options": [
-   "it cannot be parallelised over the sequence",
-   "it needs more data than autoregressive modelling",
-   "it cannot represent long-range dependencies",
-   "the masked targets are predicted conditionally independently, so a two-token name can come back as “New Francisco”"
+   "the masked positions cannot be predicted in one parallel pass",
+   "it needs far more training data than autoregressive pre-training",
+   "it cannot represent long-range dependencies across the sequence",
+   "the masked targets are predicted conditionally independently"
   ],
   "correct": [
    3
@@ -7250,10 +7250,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "GPT's tokenisation works by:",
   "options": [
-   "starting from characters, counting adjacent pairs, and repeatedly merging the most frequent",
-   "splitting on whitespace and punctuation",
-   "using a fixed dictionary of the $50{,}000$ commonest words",
-   "learning one embedding per character"
+   "repeatedly merging the most frequent adjacent pair of symbols",
+   "splitting on whitespace and punctuation into whole words",
+   "looking each word up in a fixed dictionary of the $50{,}000$ commonest words",
+   "learning one embedding per character of the alphabet"
   ],
   "correct": [
    0
@@ -7271,7 +7271,7 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of ViT's <code>[class]</code> token:",
   "options": [
-   "it is a learnable embedding that attends to every patch and is attended by them",
+   "it is a learnable token that attends to every patch",
    "it is the average of the patch embeddings",
    "it is what makes the encoder permutation equivariant",
    "it carries the positional encoding for the whole image"
@@ -7294,7 +7294,7 @@ window.QUESTIONS = [
   "options": [
    "full spatio-temporal attention",
    "the factorised encoder",
-   "factorised dot-product attention, because the heads run in parallel",
+   "factorised dot-product attention",
    "factorised self-attention"
   ],
   "correct": [
@@ -7313,9 +7313,9 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of <strong>PointNet</strong>:",
   "options": [
-   "it is permutation-invariant because a shared per-point MLP is followed by max pooling",
-   "for segmentation it concatenates the global feature back onto every per-point feature",
-   "it builds an explicit local neighbourhood around each point",
+   "it is permutation-invariant: a shared MLP, then max pooling",
+   "for segmentation the global feature is concatenated onto each point",
+   "it builds an explicit local neighbourhood around each point before pooling",
    "its T-Net matrix is held near-orthogonal by the penalty $\\lVert I - TT^{\\top}\\rVert_F^2$"
   ],
   "correct": [
@@ -7336,10 +7336,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "For 3D object detection the lecture prefers a bird's-eye view over a range view because:",
   "options": [
-   "it is denser at long range",
-   "it is orthographic, so an object's size is preserved with distance",
-   "it preserves the $z$ axis",
-   "it needs no back-projection step"
+   "it is denser at long range, so small objects survive",
+   "it is orthographic, so an object's size is unchanged by range",
+   "it preserves the $z$ axis, so height is not collapsed",
+   "it needs no back-projection, so the pipeline is one step shorter"
   ],
   "correct": [
    1
@@ -7379,10 +7379,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "In a GCN, why are self-loops added <em>before</em> the degree matrix is computed?",
   "options": [
-   "because $\\tilde D$ must be the degree matrix of $\\tilde A = A + I$, or the normalisation does not match the matrix it is normalising",
-   "because it makes the graph connected",
-   "because otherwise the adjacency is not symmetric",
-   "it makes no difference which order they are done in"
+   "because $\\tilde D$ must be the degree matrix of $\\tilde A = A + I$",
+   "because adding the self-loops first is what makes the graph connected",
+   "because otherwise the normalised adjacency is not symmetric",
+   "because the two operations commute, so the order does not matter"
   ],
   "correct": [
    0
@@ -7448,7 +7448,7 @@ window.QUESTIONS = [
    "it is needed so that every class appears exactly once",
    "without it an anchor may have no positive in the batch to pair with",
    "for batch-hard, batch size is a compute knob rather than a hardness knob",
-   "offline mining needs it too"
+   "offline mining over the whole dataset needs it too"
   ],
   "correct": [
    1
@@ -7488,7 +7488,7 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of an embedding trained with a plain softmax classification loss:",
   "options": [
    "it is separable but not necessarily discriminative",
-   "the classes form radial spokes, so an intra-class distance can exceed an inter-class one",
+   "the classes form radial spokes in feature space",
    "its logit can be written $\\lVert W_j\\rVert\\,\\lVert\\phi\\rVert\\cos\\theta_j$",
    "a new identity can be enrolled without a gradient step"
   ],
@@ -7511,7 +7511,7 @@ window.QUESTIONS = [
   "stem": "CLIP is an example of:",
   "options": [
    "intermediate fusion",
-   "coordination — separate representations, one output per modality, merely aligned",
+   "coordination",
    "late fusion",
    "tensor fusion"
   ],
@@ -7532,8 +7532,8 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of <strong>FiLM</strong>:",
   "options": [
    "it concatenates the two modalities before the first layer",
-   "it applies $\\gamma F + \\beta$, with $\\gamma$ and $\\beta$ predicted from the other modality",
-   "it is a form of late fusion",
+   "it applies $\\gamma F + \\beta$, with $\\gamma,\\beta$ from the other modality",
+   "it is a form of late fusion, combining the two predictions",
    "it is a cheap way to let one modality modulate the other"
   ],
   "correct": [
@@ -7553,9 +7553,9 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "When one modality has far more training data than another, the lecture recommends:",
   "options": [
-   "multi-stage training, or the abundant modality dominates",
+   "multi-stage training",
    "discarding the smaller dataset",
-   "early fusion",
+   "early fusion of the two modalities",
    "a higher learning rate on the smaller modality"
   ],
   "correct": [
@@ -7575,8 +7575,8 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of <strong>shortcuts</strong> in handcrafted pretext tasks:",
   "options": [
    "chromatic aberration lets a network read <em>absolute</em> position off colour fringing",
-   "a shortcut shows up as poor accuracy on the pretext task",
-   "patches can be matched by their mean and variance, solving context prediction without understanding anything",
+   "a shortcut shows up as a poor score on the pretext task itself",
+   "patches can be matched by their mean and variance alone",
    "auditing for them is unbounded work, which is part of why the approach was abandoned"
   ],
   "correct": [
@@ -7597,10 +7597,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "MoCo's key encoder is updated by momentum rather than by gradient because:",
   "options": [
-   "it saves memory",
-   "gradients through a queue are undefined",
-   "the keys must change slowly, or old queue entries stop being comparable with new queries",
-   "it makes the loss convex"
+   "it saves the memory the backward pass would need",
+   "gradients cannot be taken through a queue of stored vectors",
+   "the keys must change slowly to stay mutually comparable",
+   "the momentum update makes the InfoNCE loss convex"
   ],
   "correct": [
    2
@@ -7642,10 +7642,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "The gradient reversal layer is:",
   "options": [
-   "a layer that reverses the order of the features",
-   "applied to the domain classifier's own weights",
-   "a multiplication by $-\\lambda$ in both directions",
-   "the identity in the forward pass, and a multiplication by $-\\lambda$ in the backward pass"
+   "a layer that reverses the order of the feature vector",
+   "a multiplication by $-\\lambda$ on the domain classifier's own weights",
+   "a multiplication by $-\\lambda$ in the forward and the backward pass",
+   "the identity forwards, and a multiplication by $-\\lambda$ backwards"
   ],
   "correct": [
    3
@@ -7663,9 +7663,9 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of <strong>cycle consistency</strong> in domain translation:",
   "options": [
-   "it exists because a discriminator checks realism and never correspondence",
+   "a discriminator checks realism, never correspondence",
    "it guarantees that no content is hallucinated or deleted",
-   "it requires paired data",
+   "it requires paired source and target images for training",
    "it asks that $F(G(x_S)) \\approx x_S$, so a translation should be reversible"
   ],
   "correct": [
@@ -7708,7 +7708,7 @@ window.QUESTIONS = [
   "options": [
    "the noise levels are visited from small to large",
    "the state is carried forward from one noise level into the next",
-   "the step size scales like $\\sigma_i^2$, so halving $\\sigma$ quarters the step",
+   "the step size scales like $\\sigma_i^2$",
    "each noise level needs its own separately trained network"
   ],
   "correct": [
@@ -7728,10 +7728,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "A sample receives a high likelihood under a trained generative model. This tells you:",
   "options": [
-   "it is in-distribution",
-   "it was in the training set",
-   "very little — a high likelihood is not a membership test",
-   "it is an outlier"
+   "that the sample is in-distribution",
+   "that the sample was in the training set",
+   "very little about the sample",
+   "that the sample is an outlier"
   ],
   "correct": [
    2
@@ -7774,9 +7774,9 @@ window.QUESTIONS = [
   "stem": "Novel view synthesis methods such as NeRF need a <strong>calibrated pose</strong> for every input photograph. A calibrated pose, as the lecture uses the term, includes:",
   "options": [
    "position, orientation <em>and</em> the camera intrinsics",
-   "position only",
-   "position and orientation only",
-   "the intrinsics only"
+   "position and the camera intrinsics, but not orientation",
+   "position and orientation, but not the intrinsics",
+   "the camera intrinsics, but neither position nor orientation"
   ],
   "correct": [
    0
@@ -7794,9 +7794,9 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of training a policy inside a learned world model:",
   "options": [
-   "it removes the need for real interaction entirely",
+   "it removes the need for real interaction with the world entirely",
    "Dreamer works by planning with online search at every step",
-   "it is cheaper, safer and more sample-efficient than acting in the world",
+   "it is cheaper, safer and more sample-efficient",
    "real interaction is still needed to collect the data that trains the model itself"
   ],
   "correct": [
@@ -9087,10 +9087,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "A $1\\times1$ convolution is used to:",
   "options": [
-   "enlarge the receptive field",
-   "downsample spatially",
+   "enlarge the receptive field of a unit",
+   "downsample the feature map spatially",
    "reduce or expand the number of channels",
-   "add translation invariance"
+   "add translation invariance to the feature map"
   ],
   "correct": [
    2
@@ -9108,7 +9108,7 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the <strong>residual</strong> connection around each transformer sub-layer:",
   "options": [
-   "it gives the gradient an identity path, so the derivative through the layer carries a $+1$ term",
+   "it gives the gradient an identity path through the layer",
    "it is what makes the sub-layer permutation equivariant",
    "it removes the need for layer normalisation",
    "it stabilises training and speeds convergence"
@@ -9130,10 +9130,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "T5's corruption objective differs from BERT's in that:",
   "options": [
-   "it masks half the tokens rather than $15\\%$",
-   "it corrupts whole <em>spans</em>, marks each with a unique sentinel, and <em>generates</em> the span",
+   "it masks half the tokens rather than $15\\%$ of them",
+   "it corrupts whole <em>spans</em> and <em>generates</em> the span",
    "it predicts the next sentence instead of the masked token",
-   "it uses no masking at all"
+   "it uses no corruption of the input at all"
   ],
   "correct": [
    1
@@ -9194,7 +9194,7 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of <strong>Point Transformer v3</strong>:",
   "options": [
    "its gain comes from making the attention more geometrically correct",
-   "it serialises the points along a space-filling curve, then attends inside windows",
+   "it serialises the points along a space-filling curve",
    "Z-order preserves locality better than a Hilbert curve",
    "it drops positional encoding entirely"
   ],
@@ -9214,10 +9214,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "DETR's CNN backbone hands the encoder a feature map that has been:",
   "options": [
-   "reduced $8\\times$ spatially, with $512$ channels",
-   "kept at full resolution, with $256$ channels",
-   "reduced $16\\times$ spatially, with $1024$ channels",
-   "reduced $32\\times$ spatially, with its $2048$ channels projected down to $256$"
+   "reduced $8\\times$ spatially, with $512$ channels projected to $256$",
+   "kept at full resolution, with $256$ channels throughout",
+   "reduced $16\\times$ spatially, with $1024$ channels projected down to $512$",
+   "reduced $32\\times$ spatially, with $2048$ channels projected to $256$"
   ],
   "correct": [
    3
@@ -9259,8 +9259,8 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "ScanComplete generalises to scenes of any size because:",
   "options": [
-   "it is fully convolutional, and convolution is spatially invariant, so the parameter count does not depend on the input extent",
-   "it pads every scene to a fixed size",
+   "it is fully convolutional, so the input extent is free",
+   "it pads every scene out to one fixed size",
    "it uses a transformer with relative positional encoding",
    "it slides a window over the scene and averages the overlaps"
   ],
@@ -9282,7 +9282,7 @@ window.QUESTIONS = [
   "options": [
    "signals, time series and symbolic sequences are all order-dependent",
    "a 1D CNN is the natural choice for long-term dependencies",
-   "the libraries implement cross-correlation rather than convolution, and it does not matter because the weights are learned",
+   "the libraries implement cross-correlation, and it does not matter",
    "causal convolution is what gives a 1D CNN its large receptive field"
   ],
   "correct": [
@@ -9323,10 +9323,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "A task needs two nodes in <em>different</em> connected components to influence each other. Mark all that would help:",
   "options": [
-   "adding more GNN layers",
-   "adding a virtual global node joined to every node",
+   "adding more message-passing layers to the network",
+   "adding a virtual node joined to every node",
    "adding edges between the two components",
-   "propagating with $A + A^2$ instead of $A$"
+   "propagating with $A + A^2$ in place of $A$"
   ],
   "correct": [
    1,
@@ -9346,9 +9346,9 @@ window.QUESTIONS = [
   "stem": "In <strong>transductive</strong> semi-supervised node classification:",
   "options": [
    "the test nodes are hidden from the model entirely during training",
-   "only the labelled nodes send messages",
-   "the whole graph is visible during training, test nodes' features and edges included; only their labels are hidden",
-   "a separate model is trained for each node"
+   "only the labelled nodes send messages during training",
+   "the whole graph is visible; only the test labels are hidden",
+   "a separate model is trained for each test node"
   ],
   "correct": [
    2
@@ -9366,9 +9366,9 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Hard negatives for the triplet loss can be mined online, inside each batch, or offline. Mark all that are true of <strong>offline</strong> mining:",
   "options": [
-   "it searches a stored snapshot of embeddings over the whole dataset",
+   "it searches a stored snapshot of the whole dataset",
    "that snapshot goes stale as training moves on",
-   "it needs a structured $P \\times K$ batch",
+   "it needs a structured $P \\times K$ batch to work at all",
    "it is the option left when a batch cannot hold enough classes"
   ],
   "correct": [
@@ -9389,9 +9389,9 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "An embedding trained with a softmax classification loss alone has two weaknesses: the samples of one class spread widely, and neighbouring classes have no gap between them. Adding centre loss to the softmax objective fixes:",
   "options": [
-   "intra-class spread, while creating no gap between classes",
-   "the inter-class gap, while leaving the intra-class spread alone",
-   "both of them",
+   "the intra-class spread, but not the gap between classes",
+   "the inter-class gap, but not the intra-class spread",
+   "both the intra-class spread and the inter-class gap",
    "neither; it only speeds up convergence"
   ],
   "correct": [
@@ -9410,10 +9410,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "The McGurk effect matters for multimodal learning because it demonstrates:",
   "options": [
-   "that audio is the more reliable modality",
-   "that late fusion is sufficient",
-   "that the modalities should be weighted equally",
-   "a percept present in neither channel alone, which no weighted average of two votes can produce"
+   "that audio is the more reliable of the two modalities",
+   "that late fusion is sufficient for the two modalities",
+   "that the two modalities should be weighted equally",
+   "a percept that is present in neither channel alone"
   ],
   "correct": [
    3
@@ -9497,10 +9497,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "iBOT and MAE both mask patches. They differ in that:",
   "options": [
-   "iBOT masks a much larger fraction",
+   "iBOT masks a much larger fraction of the patches",
    "MAE uses a teacher network and iBOT does not",
    "iBOT reconstructs pixels and MAE reconstructs features",
-   "MAE reconstructs pixels and iBOT predicts the teacher's features"
+   "MAE reconstructs pixels and iBOT predicts features"
   ],
   "correct": [
    3
@@ -9540,10 +9540,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Elastic Weight Consolidation belongs to which family of continual-learning method?",
   "options": [
-   "replay-based",
-   "regularisation-based",
-   "optimisation-based",
-   "architecture-based"
+   "replay-based, as experience replay is",
+   "regularisation-based, as distillation is",
+   "optimisation-based, as gradient projection is",
+   "architecture-based, as modular networks are"
   ],
   "correct": [
    1
@@ -9584,10 +9584,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Why can a network not simply output $p_\\theta(\\mathbf{x})$ directly?",
   "options": [
-   "the output would be too high-dimensional",
-   "the gradient would vanish",
-   "making it integrate to one over all of data space is intractable",
-   "a network cannot produce positive numbers"
+   "the output would be far too high-dimensional",
+   "the gradient would vanish during training",
+   "normalising it to integrate to one is intractable",
+   "a network cannot be made to produce positive numbers"
   ],
   "correct": [
    2
@@ -9605,10 +9605,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of <strong>flow matching</strong>:",
   "options": [
-   "it learns the velocity field $v_t$ directly, which makes training a plain regression",
-   "conditional paths are used because the true $v_t$ is unknown while a conditional one is computable",
+   "it learns the velocity field $v_t$ directly, by regression",
+   "conditional paths are used because the true $v_t$ is unknown",
    "it is an alternative to diffusion and cannot express it",
-   "it needs an adversarial discriminator"
+   "it needs an adversarial discriminator to train"
   ],
   "correct": [
    0,
@@ -9627,10 +9627,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "A diffusion model's network can be trained to predict the clean image $\\mathbf{x}_0$, the added noise $\\varepsilon$ or the velocity $v$. The three are equivalent prediction targets up to a transformation. They nevertheless behave differently because:",
   "options": [
-   "they present different loss landscapes and gradients, even with the same minimiser",
-   "only one of them is an unbiased target",
+   "they give different loss landscapes and gradients",
+   "only one of the three is an unbiased target",
    "two of them cannot be computed at training time",
-   "they converge to different distributions"
+   "they converge to different distributions entirely"
   ],
   "correct": [
    0
@@ -9674,8 +9674,8 @@ window.QUESTIONS = [
   "options": [
    "diffusion is naturally causal, which is what suits it to sequence prediction",
    "it generates a whole sequence jointly, so past and future are symmetric",
-   "diffusion forcing gives each timestep its own noise level — the past nearly clean, the future noisy",
-   "DreamerV4 pairs a transformer world model with diffusion forcing, and reaches Minecraft diamonds from offline data"
+   "diffusion forcing gives each timestep its own noise level",
+   "DreamerV4 pairs a transformer world model with diffusion forcing"
   ],
   "correct": [
    1,
@@ -10957,9 +10957,9 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of momentum and Adam:",
   "options": [
    "momentum accumulates a running average of past gradients",
-   "Adam divides the step by a running estimate of the gradient's magnitude",
-   "both remove the need to choose a learning rate",
-   "Adam is guaranteed to reach a global minimum"
+   "Adam divides the step by an estimate of the gradient's size",
+   "both remove the need to choose a learning rate at all",
+   "Adam is guaranteed to reach a global minimum of the loss"
   ],
   "correct": [
    0,
@@ -10978,10 +10978,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Your network will not learn. The lecture's first diagnostic is:",
   "options": [
-   "add more layers",
-   "try to overfit about ten images; if it cannot, the bug is real",
+   "add more layers to increase capacity",
+   "try to overfit about ten images",
    "divide the learning rate by ten",
-   "add batch normalisation"
+   "add batch normalisation to every block"
   ],
   "correct": [
    1
@@ -10999,10 +10999,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the <strong>Universal Transformer</strong>:",
   "options": [
-   "it introduces recurrence over the <em>sequence</em>",
-   "each of its layers has its own parameters",
-   "Adaptive Computation Time lets different positions stop at different depths",
-   "it removes the need for positional encoding"
+   "it introduces recurrence over the <em>sequence</em>, as an RNN does",
+   "each of its layers has its own separate parameters",
+   "Adaptive Computation Time lets positions halt at different depths",
+   "it removes the need for any positional encoding"
   ],
   "correct": [
    2
@@ -11020,10 +11020,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "The Compressive Transformer differs from Transformer-XL in that it:",
   "options": [
-   "returns to absolute positional encoding",
-   "attends over the whole document at once",
-   "drops the segment recurrence",
-   "<em>compresses</em> old memories instead of discarding them"
+   "returns to absolute positional encoding throughout",
+   "attends over the whole document in one pass",
+   "drops Transformer-XL's segment recurrence",
+   "<em>compresses</em> old memories instead of dropping them"
   ],
   "correct": [
    3
@@ -11066,8 +11066,8 @@ window.QUESTIONS = [
   "stem": "The two ways the lecture says images differ from text, and which motivate Swin, are:",
   "options": [
    "scale variability, and much higher resolution",
-   "colour, and depth",
-   "permutation invariance, and sparsity",
+   "the colour channels, and the depth axis",
+   "permutation invariance, and sparsity of content",
    "locality, and translation equivariance"
   ],
   "correct": [
@@ -11131,10 +11131,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of <strong>voxelisation</strong>:",
   "options": [
-   "a voxel is marked occupied when at least one point falls inside it",
+   "a voxel is occupied when at least one point falls inside it",
    "it preserves the exact coordinates of the points",
    "the per-voxel features must be aggregated by max pooling",
-   "it is reversible"
+   "it is reversible: the points can be recovered"
   ],
   "correct": [
    0
@@ -11152,10 +11152,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "A <em>truncated</em> signed distance field differs from a plain SDF in that:",
   "options": [
-   "it stores only the sign",
-   "it is defined on a point cloud rather than a grid",
-   "its values are clamped to a band around the surface, which allows local updates and costs less memory",
-   "it does away with the sign"
+   "it stores only the sign of the distance",
+   "it is defined on a point cloud rather than on a grid",
+   "its values are clamped to a band around the surface",
+   "it does away with the sign and keeps the distance"
   ],
   "correct": [
    2
@@ -11173,10 +11173,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of projection-based LiDAR methods:",
   "options": [
-   "RangeNet++ works directly on the 3D points, without projecting",
-   "RangeNet++ builds a $5$-channel range image of $64\\times2048$ and back-projects afterwards",
-   "it downsamples horizontally because the range image is wide and short",
-   "EfficientLPS predicts a <em>dilation factor</em> from range-encoded features, giving a distance-invariant receptive field"
+   "RangeNet++ works on the 3D points directly, without projecting",
+   "RangeNet++ builds a $5$-channel $64\\times2048$ range image",
+   "it downsamples horizontally, because the image is wide and short",
+   "EfficientLPS predicts a <em>dilation factor</em> from range features"
   ],
   "correct": [
    1,
@@ -11196,10 +11196,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Deep sets, $\\phi\\bigl(\\sum_i \\psi(\\mathbf{x}_i)\\bigr)$, is:",
   "options": [
-   "equivariant but not invariant",
-   "invariant, but ignores the adjacency entirely",
-   "neither invariant nor equivariant",
-   "the same thing as a GCN layer"
+   "equivariant, but not invariant",
+   "invariant, but blind to the adjacency",
+   "neither invariant nor equivariant to permutation",
+   "the same computation as a GCN layer"
   ],
   "correct": [
    1
@@ -11242,7 +11242,7 @@ window.QUESTIONS = [
    "it is a $2 \\times |\\mathcal{E}|$ array of source and target indices",
    "it costs $O(|\\mathcal{E}|)$ rather than $O(N^2)$",
    "it is what PyTorch Geometric uses",
-   "it requires the graph to be undirected"
+   "it requires the graph to be undirected throughout"
   ],
   "correct": [
    0,
@@ -11262,10 +11262,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of dropping the <em>identity of indiscernibles</em> from the metric axioms:",
   "options": [
-   "it makes the distance asymmetric",
-   "it breaks the triangle inequality",
-   "it lets the distance take negative values",
-   "it gives a <em>pseudo</em>-metric, in which two photographs of one person may sit at distance zero"
+   "it makes the distance asymmetric, so $\\mathcal{D}(x,y) \\ne \\mathcal{D}(y,x)$",
+   "it breaks the triangle inequality, so ranking is inconsistent",
+   "it lets the distance take negative values below zero",
+   "it gives a <em>pseudo</em>-metric: distinct inputs may be at distance zero"
   ],
   "correct": [
    3
@@ -11283,10 +11283,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "In the contrastive loss the pull term is squared and the push term is hinged. The hinge is there because:",
   "options": [
-   "it keeps the loss differentiable",
+   "it keeps the loss differentiable everywhere",
    "it makes the gradient larger for distant pairs",
-   "once a pair is far enough apart there is nothing left to learn, so the gradient should be zero",
-   "it prevents the embedding from collapsing"
+   "a pair past the margin should contribute no gradient",
+   "it prevents the embedding from collapsing to a point"
   ],
   "correct": [
    2
@@ -11349,10 +11349,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the token-count problem in multimodal transformers:",
   "options": [
-   "concatenating two modalities lengthens the sequence, and attention is quadratic in it",
-   "it is solved by moving to late fusion",
-   "dropping tokens at random would destroy the alignment",
-   "VATT drops tokens at random, and the efficient transformers of Week 3 are the other route"
+   "concatenation lengthens the sequence, and attention is quadratic",
+   "it is solved by moving from early to late fusion",
+   "dropping tokens at random would destroy the cross-modal alignment",
+   "VATT drops tokens at random; efficient attention is the other route"
   ],
   "correct": [
    0,
@@ -11417,7 +11417,7 @@ window.QUESTIONS = [
    "two global crops go to both networks",
    "several local crops go to the student only",
    "the teacher sees the local crops as well",
-   "it makes a local view predict the global one, a local-to-global correspondence"
+   "it makes a local view predict the global one"
   ],
   "correct": [
    0,
@@ -11438,9 +11438,9 @@ window.QUESTIONS = [
   "stem": "QLoRA is:",
   "options": [
    "LoRA applied only to the query projection",
-   "quantisation of the frozen weights, combined with LoRA",
-   "LoRA with a learned rank",
-   "a quantised optimiser"
+   "quantisation of the frozen weights, plus LoRA",
+   "LoRA with a rank learned during training",
+   "a quantised optimiser state, with full-precision weights"
   ],
   "correct": [
    1
@@ -11483,8 +11483,8 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of continual learning's objectives:",
   "options": [
    "with enough capacity they can all be satisfied at once",
-   "maintaining <em>plasticity</em> is one of them, alongside minimising forgetting",
-   "forward transfer is the past helping the future; backward transfer is the new task helping the past",
+   "maintaining <em>plasticity</em> is an objective in its own right",
+   "forward transfer is the past helping the future, backward the reverse",
    "the aim is one model per task, which is what avoids interference"
   ],
   "correct": [
@@ -11504,8 +11504,8 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "In the generative-models lecture (score matching and diffusion), the slides mark exactly two formulas in red, as the ones to know by heart. They are:",
   "options": [
-   "the forward SDE and the reverse SDE",
-   "the ELBO and the probability flow ODE",
+   "the forward SDE together with the reverse SDE",
+   "the ELBO and the probability-flow ODE together",
    "Langevin dynamics and classifier-free guidance",
    "the Fisher divergence and the forward diffusion step"
   ],
@@ -11525,9 +11525,9 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the variance-exploding and variance-preserving SDEs:",
   "options": [
-   "variance-exploding has zero drift, so the variance grows without bound",
+   "variance-exploding has zero drift, so the variance grows",
    "variance-preserving is NCSN and variance-exploding is DDPM",
-   "variance-preserving has drift $-\\tfrac12\\beta_t\\mathbf{x}$, which contracts and keeps the variance finite",
+   "variance-preserving has drift $-\\tfrac12\\beta_t\\mathbf{x}$, which contracts",
    "looking at the drift alone is enough to tell them apart"
   ],
   "correct": [
@@ -11548,9 +11548,9 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Diffusion is attractive for robot trajectory prediction because:",
   "options": [
-   "it is faster to evaluate than an MLP",
-   "it needs no training data",
-   "it represents several plausible futures rather than their average",
+   "it is faster to evaluate than a plain MLP",
+   "it needs no training data, only a simulator",
+   "it represents several futures rather than their average",
    "it is deterministic, so the robot behaves predictably"
   ],
   "correct": [
@@ -11569,10 +11569,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "NeRF jitters its samples along the ray because:",
   "options": [
-   "fixed depths let the network become a lookup table at those positions, leaving the field between them unconstrained",
-   "it reduces the number of samples needed",
+   "fixed depths would let the network become a lookup table",
+   "it reduces the number of samples needed along a ray",
    "it is what makes the renderer differentiable",
-   "it removes the need for positional encoding"
+   "it removes the need for a positional encoding"
   ],
   "correct": [
    0
@@ -12831,13 +12831,13 @@ window.QUESTIONS = [
   "exam": 8,
   "num": 2,
   "week": "W1",
-  "explanation": "<p>The difference is in the derivative.</p><p>$\\partial(\\lambda\\lVert\\mathbf{w}\\rVert_2^2)/\\partial w = 2\\lambda w$: the pull towards zero is <em>proportional to the weight</em>, so a weight already near zero is barely pushed and never quite arrives. $L_2$ shrinks everything and zeroes nothing.</p><p>$\\partial(\\lambda\\lVert\\mathbf{w}\\rVert_1)/\\partial w = \\lambda\\operatorname{sign}(w)$: a constant pull of the same size no matter how small $w$ has become. Once the data's own gradient falls below $\\lambda$, the penalty wins outright and the weight is driven to exactly zero and held there. That is why $L_1$ produces <em>sparse</em> solutions, which is (c), and it is also what makes it useful for feature selection.</p><p><strong>Why not (a).</strong> $|w|$ is not differentiable at zero — the kink is where the sparsity comes from. $L_2$ is the smooth one.</p><p><strong>Why not (b).</strong> $L_2$ penalises large weights more heavily, since the penalty is quadratic. $L_1$ is the more forgiving of the two at large $|w|$, which is the same reason it is more robust to outliers when used as a <em>loss</em>.</p>",
+  "explanation": "<p>The difference is in the derivative.</p><p>$\\partial(\\lambda\\lVert\\mathbf{w}\\rVert_2^2)/\\partial w = 2\\lambda w$: the pull towards zero is <em>proportional to the weight</em>, so a weight already near zero is barely pushed and never quite arrives. $L_2$ shrinks everything and zeroes nothing.</p><p>$\\partial(\\lambda\\lVert\\mathbf{w}\\rVert_1)/\\partial w = \\lambda\\operatorname{sign}(w)$: a constant pull of the same size no matter how small $w$ has become. Once the data's own gradient falls below $\\lambda$, the penalty wins outright and the weight is driven to exactly zero and held there — which is (c). That is why $L_1$ produces <em>sparse</em> solutions, and it is also what makes it useful for feature selection.</p><p><strong>Why not (a).</strong> $|w|$ is not differentiable at zero — the kink is where the sparsity comes from. $L_2$ is the smooth one.</p><p><strong>Why not (b).</strong> $L_2$ penalises large weights more heavily, since the penalty is quadratic. $L_1$ is the more forgiving of the two at large $|w|$, which is the same reason it is more robust to outliers when used as a <em>loss</em>.</p>",
   "type": "single",
   "stem": "Adding $\\lambda\\lVert\\mathbf{w}\\rVert_1$ to the loss rather than $\\lambda\\lVert\\mathbf{w}\\rVert_2^2$:",
   "options": [
-   "is smoother at zero",
+   "is differentiable at zero",
    "penalises large weights more heavily",
-   "drives weights exactly to zero, giving a sparse solution",
+   "drives weights exactly to zero",
    "leaves the optimum unchanged"
   ],
   "correct": [
@@ -12857,9 +12857,9 @@ window.QUESTIONS = [
   "stem": "Semantic segmentation cannot:",
   "options": [
    "separate two adjacent instances of the same class",
-   "assign a label to every pixel",
-   "run on images of varying size",
-   "be trained end to end"
+   "assign a class label to every pixel of the image",
+   "run on images of any size without retraining",
+   "be trained end to end from pixels to labels"
   ],
   "correct": [
    0
@@ -12898,10 +12898,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "ALBERT reduces size mainly by:",
   "options": [
-   "knowledge distillation from a larger BERT",
-   "pruning attention heads",
-   "quantising the weights",
-   "factorising the embedding and sharing parameters across layers"
+   "distilling a larger BERT into a smaller student model",
+   "pruning whole attention heads after pre-training",
+   "quantising the weights to eight-bit integers",
+   "factorising the embedding and sharing weights across layers"
   ],
   "correct": [
    3
@@ -12920,7 +12920,7 @@ window.QUESTIONS = [
   "stem": "Longformer scales to long documents by:",
   "options": [
    "compressing old memories rather than discarding them",
-   "combining local windowed attention with a few global tokens, which scales linearly",
+   "combining local windowed attention with a few global tokens",
    "recurring over depth rather than over the sequence",
    "factorising attention into two patterns of about $\\sqrt{n}$ connections each"
   ],
@@ -12940,10 +12940,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "In DETR, the roles the encoder's and the decoder's attention are observed to play are:",
   "options": [
-   "both attend more or less uniformly",
+   "both attend more or less uniformly over the image",
    "the encoder focuses on boundaries and the decoder separates instances",
-   "neither is interpretable",
-   "the encoder separates instances, and the decoder focuses on boundaries and distinctive parts"
+   "each attends only inside the box the model predicts",
+   "the encoder separates instances, and the decoder focuses on boundaries"
   ],
   "correct": [
    3
@@ -12986,9 +12986,9 @@ window.QUESTIONS = [
   "stem": "The lecture's advice is to prefer a CNN over a ViT when:",
   "options": [
    "training from scratch on limited data, or deploying to an edge device",
-   "the images are very high resolution",
-   "the task is segmentation rather than classification",
-   "a large pre-trained checkpoint is available"
+   "the images are very high resolution, or the scene is cluttered",
+   "the task is segmentation, or the training labels are noisy",
+   "a large pre-trained checkpoint is available, and the budget allows fine-tuning"
   ],
   "correct": [
    0
@@ -13006,10 +13006,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "ScanComplete's coarse-to-fine hierarchy resolves the conflict between:",
   "options": [
-   "speed and accuracy",
-   "occupancy grids and distance fields",
-   "wanting large context and wanting high resolution",
-   "completion and semantics"
+   "inference speed and reconstruction accuracy",
+   "occupancy grids and signed distance fields",
+   "large context and high resolution",
+   "geometric completion and semantic labelling"
   ],
   "correct": [
    2
@@ -13049,10 +13049,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "The particular difficulty of 3D object detection is that:",
   "options": [
-   "point clouds are too large to fit in memory",
-   "the evidence lies on the object's <em>surface</em> while the box is anchored at its <em>centre</em>",
-   "the classes are badly unbalanced",
-   "rotation cannot be represented"
+   "point clouds are too large to fit in GPU memory at native resolution",
+   "the points lie on the <em>surface</em> but the box is anchored at the <em>centre</em>",
+   "the classes are badly unbalanced in most 3D datasets",
+   "a box's rotation cannot be represented without ambiguity"
   ],
   "correct": [
    1
@@ -13093,10 +13093,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Represented as graphs, a sentence and an image are respectively:",
   "options": [
-   "both complete graphs",
-   "a chain with directed edges, and a grid with edges to immediate neighbours",
-   "a grid, and a chain",
-   "both trees"
+   "both complete graphs, with every node joined to every other",
+   "a chain with directed edges, and a grid of nearest neighbours",
+   "a grid of nearest neighbours, and a chain with directed edges",
+   "both trees, rooted at the first token and the top-left pixel"
   ],
   "correct": [
    1
@@ -13114,10 +13114,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "The lecture's three questions for reading any GNN paper are:",
   "options": [
-   "how deep, how wide, how fast",
-   "which dataset, which baseline, which metric",
-   "how is information passed, how is it aggregated, what invariance is preserved",
-   "is it node-, edge- or graph-level"
+   "how deep is it, how wide is it, and how fast does it run at inference",
+   "which dataset, which baseline, and which metric was reported",
+   "what is passed, how is it aggregated, and what invariance is preserved",
+   "is it node-level, is it edge-level, or is it graph-level"
   ],
   "correct": [
    2
@@ -13136,7 +13136,7 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of a network that takes <em>two</em> inputs and outputs a same/different score:",
   "options": [
    "it produces something that can be stored and indexed",
-   "answering a recognition query means running it against every gallery entry",
+   "a recognition query means one run per gallery entry",
    "it can be used to cluster a collection directly",
    "it satisfies the triangle inequality by construction"
   ],
@@ -13156,10 +13156,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Setting the triplet margin too <em>large</em>:",
   "options": [
-   "makes every triplet active, so the loss stops distinguishing hard examples from ordinary ones",
-   "makes the loss zero everywhere",
+   "makes every triplet active, hard or easy",
+   "makes the loss zero on every triplet",
    "has no effect once the embeddings are normalised",
-   "guarantees immediate collapse"
+   "guarantees the encoder collapses at once"
   ],
   "correct": [
    0
@@ -13177,9 +13177,9 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "In similarity learning (for example, face verification), what replaces the class label as the thing being learned is:",
   "options": [
-   "a similarity score",
-   "a decision threshold",
-   "a set of class centroids",
+   "a similarity score for each pair of inputs",
+   "a threshold on the distance, chosen on a validation set",
+   "a set of class centroids, one for each identity",
    "an embedding in which distance means dissimilarity"
   ],
   "correct": [
@@ -13198,7 +13198,7 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "The lecture names three paradigms for relating modalities in multimodal learning. The third, alongside fusion and coordination, is:",
   "options": [
-   "fission — a shared representation decomposed back into the separate modalities",
+   "fission",
    "distillation",
    "alignment",
    "translation"
@@ -13242,8 +13242,8 @@ window.QUESTIONS = [
   "stem": "The jigsaw pretext task uses only a subset of the $9! = 362{,}880$ permutations, chosen to be:",
   "options": [
    "the ones that leave the centre tile fixed",
-   "drawn uniformly at random",
-   "far apart from one another in Hamming distance",
+   "drawn uniformly at random from all $9!$",
+   "far apart in Hamming distance",
    "the ones a person can solve reliably"
   ],
   "correct": [
@@ -13262,7 +13262,7 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the <strong>context encoder</strong>:",
   "options": [
-   "it masks many small patches at random",
+   "it masks many small patches scattered at random",
    "it removes one large region and inpaints it",
    "its encoder processes the whole image, hole included",
    "it combines a reconstruction loss with an adversarial one"
@@ -13286,8 +13286,8 @@ window.QUESTIONS = [
   "stem": "Prompt tuning means:",
   "options": [
    "rewriting the prompt by hand until it works",
-   "prepending <em>learnable</em> tokens and training only those, backpropagating through a frozen model",
-   "fine-tuning the first layer only",
+   "prepending <em>learnable</em> tokens and training only those",
+   "fine-tuning the model's first layer only",
    "training a second model to write prompts for the first"
   ],
   "correct": [
@@ -13326,14 +13326,14 @@ window.QUESTIONS = [
   "exam": 8,
   "num": 25,
   "week": "W9",
-  "explanation": "<p>The support is the same — every kind of example that occurs in the target also occurs in the source — but the <em>frequencies</em> differ. Night scenes are one per cent of the training set and thirty per cent of deployment.</p><p><strong>Why that alone is enough to hurt.</strong> Empirical risk minimisation weights each example equally, so the fitted model minimises error under the <em>training</em> distribution. If night scenes are rare in training, getting them wrong barely moves the loss, and the model will trade night accuracy for a fraction of a per cent on daylight. It is optimising the right objective for the wrong distribution.</p><p><strong>Why it is the easy case.</strong> Because the source covers the target, the fix is available: reweight the source examples by $p_T(x)/p_S(x)$, estimated as $(1-c)/c$ from a domain classifier. That is the first rung of the ladder, and it works <em>only</em> under this assumption. When the target contains something the source never had — fog, a new sensor — no reweighting recovers it, and you must climb to feature alignment.</p><p><strong>Why not (b).</strong> A different label space is a different problem entirely, and not one domain adaptation addresses — DA holds the task fixed.</p>",
+  "explanation": "<p>The support is the same — every kind of example that occurs in the target also occurs in the source — but the <em>frequencies</em> differ. Night scenes are one per cent of the training set and thirty per cent of deployment.</p><p><strong>Why that alone is enough to hurt.</strong> Empirical risk minimisation weights each example equally, so the fitted model minimises error under the <em>training</em> distribution. If night scenes are rare in training, getting them wrong barely moves the loss, and the model will trade night accuracy for a fraction of a per cent on daylight. It is optimising the right objective for the wrong distribution.</p><p><strong>Why it is the easy case.</strong> Because the source covers the target, the fix is available: reweight the source examples by $p_T(x)/p_S(x)$, estimated as $(1-c)/c$ from a domain classifier. That is the first rung of the ladder, and it works <em>only</em> under this assumption. When the target contains something the source never had — fog, a new sensor — no reweighting recovers it, and you must climb to feature alignment.</p><p><strong>Why not (b).</strong> A different label space is a different problem entirely, and not one domain adaptation addresses — DA holds the task fixed.</p><p><strong>Why not (c).</strong> A condition the target has and the source never had is the harder case, one rung further up the ladder: the supports no longer match, so no reweighting of the source can recover it.</p>",
   "type": "single",
   "stem": "Sample selection bias is:",
   "options": [
    "labelling errors concentrated in one class",
    "source and target having different label spaces",
-   "a poor random number generator",
-   "the same samples appearing at different <em>frequencies</em>, so the model is optimised for the wrong distribution"
+   "the target containing a condition the source lacks",
+   "the same samples appearing at different <em>frequencies</em>"
   ],
   "correct": [
    3
@@ -13351,10 +13351,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "A learned domain translation can be used in two ways. They are:",
   "options": [
-   "at training time only, or not at all",
+   "translate the unlabelled target into the source and train there; or translate each source sample into the target at inference",
    "translate labelled source into the target and train there; or train on source and translate each target sample back at inference",
-   "translate the labels rather than the images",
-   "translate in both directions at once and average"
+   "translate the labels into the target domain before training; or translate the predicted labels back into the source domain after inference",
+   "translate both domains into a third, neutral domain before training; or average the two translations of every sample at inference"
   ],
   "correct": [
    1
@@ -13372,10 +13372,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the energy-based form $p(\\mathbf{x}) = \\tfrac1Z e^{-\\beta E(\\mathbf{x})}$:",
   "options": [
-   "the exponential is what guarantees the density is positive",
-   "$Z$ is a function of $\\mathbf{x}$",
-   "$E$ has to be non-negative",
-   "$Z$ is what makes it a normalised distribution, and what makes it intractable"
+   "the exponential is what keeps the density positive",
+   "$Z$ depends on $\\mathbf{x}$, so it changes with the input",
+   "$E$ has to be non-negative for $p$ to be a density",
+   "$Z$ is what makes it normalised, and what makes it intractable"
   ],
   "correct": [
    0,
@@ -14638,9 +14638,9 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the sigmoid activation:",
   "options": [
-   "it is not zero-centred, so the gradients of a whole layer share a sign",
-   "its derivative reaches a maximum of $1$",
-   "it saturates at both ends, where the gradient is close to zero",
+   "it is not zero-centred, so a layer's gradients share a sign",
+   "its derivative reaches a maximum of $1$ at the origin",
+   "it saturates at both ends, where the gradient is near zero",
    "it is the standard choice inside a deep hidden stack"
   ],
   "correct": [
@@ -14660,10 +14660,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "A network for a sequence task can be built encoder-only, decoder-only, or as an encoder–decoder. Which of these is the reason to reach for the encoder–decoder shape rather than for encoder-only or decoder-only?",
   "options": [
-   "the input is high-dimensional",
-   "the output is a sequence produced from a <em>complete</em> input, with no positional correspondence between the two, and its length is decided by the model",
+   "the input is high-dimensional, as an image is",
+   "the output is a sequence with no positional match to the input",
    "the input and the output have different lengths",
-   "the task needs bidirectional attention over the input"
+   "the task needs bidirectional attention over the whole input"
   ],
   "correct": [
    1
@@ -14681,10 +14681,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the path length between two positions:",
   "options": [
-   "a recurrent layer's is $O(1)$",
-   "self-attention's is $O(1)$, because any two positions interact directly",
-   "a convolutional stack's is $O(\\log_k n)$",
-   "a short path is what stops the gradient between distant positions from vanishing"
+   "a recurrent layer's is $O(1)$ in the sequence length",
+   "self-attention's is $O(1)$, since any two positions meet",
+   "a convolutional stack's is $O(\\log_k n)$ in the length",
+   "a short path is what keeps distant gradients from vanishing"
   ],
   "correct": [
    1,
@@ -14704,10 +14704,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of DeBERTa:",
   "options": [
-   "it compresses old memories",
-   "it shares parameters across layers",
-   "it uses a sliding window with global tokens",
-   "it disentangles content from position in the attention computation"
+   "it compresses old memories rather than dropping them",
+   "it shares its parameters across all of its layers",
+   "it uses a sliding window with a few global tokens",
+   "it disentangles content from position in the attention"
   ],
   "correct": [
    3
@@ -14747,8 +14747,8 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of <strong>iGPT</strong>:",
   "options": [
    "it treats an image as a sequence of <em>pixels</em>",
-   "it was trained with two objectives — autoregressive next-pixel and BERT-style masked pixel",
-   "it introduced the $16\\times16$ patch",
+   "it was trained with two objectives, autoregressive and masked",
+   "it introduced the $16\\times16$ image patch",
    "it remains the leading approach to image generation"
   ],
   "correct": [
@@ -14768,10 +14768,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "For video, the number of tokens a transformer must attend over is:",
   "options": [
-   "$n_t \\cdot n_h \\cdot n_w$, and full attention is quadratic in that",
+   "$n_t \\cdot n_h \\cdot n_w$, and attention is quadratic in that",
    "$n_t + n_h \\cdot n_w$, since time is handled separately",
-   "$n_h \\cdot n_w$, with time folded into the channels",
-   "independent of the clip length"
+   "$n_h \\cdot n_w$, with time folded into the channel axis",
+   "independent of the clip length altogether"
   ],
   "correct": [
    0
@@ -14813,9 +14813,9 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of <em>explicit</em> against <em>implicit</em> volumetric grids:",
   "options": [
-   "an occupancy grid is implicit",
+   "an occupancy grid is one of the implicit ones",
    "occupancy and ternary grids are the explicit ones",
-   "distance fields and signed distance fields are the implicit ones",
+   "distance fields and SDFs are the implicit ones",
    "a ternary grid adds a <em>free</em> state to occupied and unknown"
   ],
   "correct": [
@@ -14835,10 +14835,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "PointNet++'s <strong>MSG</strong> and <strong>MRG</strong> are respectively:",
   "options": [
-   "two sampling strategies",
-   "two ways of pooling within a group",
-   "several radii concatenated, and several abstraction levels combined",
-   "two loss functions"
+   "two strategies for sampling the centroids",
+   "two ways of pooling the points within a group",
+   "several radii, and several abstraction levels",
+   "two loss functions used during training"
   ],
   "correct": [
    2
@@ -14879,10 +14879,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of what makes a layer <em>anisotropic</em>:",
   "options": [
-   "it uses more than one attention head",
-   "it is deeper than three layers",
-   "the weight on a neighbour depends on features, or on the edge, rather than only on structure",
-   "it normalises by degree"
+   "it uses more than one attention head per layer",
+   "it is deeper than three message-passing layers",
+   "the weight on a neighbour depends on features or edges",
+   "it normalises the neighbour weights by degree"
   ],
   "correct": [
    2
@@ -14900,10 +14900,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "The adjacency matrix, in one phrase, records:",
   "options": [
-   "how far apart two nodes are",
+   "how far apart any two nodes are",
    "which nodes may exchange information",
-   "the degree of each node",
-   "the ordering of the nodes"
+   "the degree of each node in the graph",
+   "the ordering the nodes were listed in"
   ],
   "correct": [
    1
@@ -14944,7 +14944,7 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the three task families in similarity learning:",
   "options": [
-   "comparison asks “which of these is closest?”",
+   "comparison asks “which of these is closest?”, and is answered by sorting",
    "comparison asks “are these two the same?”, and is answered with a threshold",
    "ranking asks “which stored identity is this?”, and is answered by a nearest-neighbour lookup",
    "recognition asks “which stored identity is this?”, and is answered by a nearest-neighbour lookup"
@@ -14966,9 +14966,9 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "CLIP's two encoders do <em>not</em> share weights. The principled reason is:",
   "options": [
-   "it trains faster that way",
-   "tying them would cause collapse",
-   "pixels and tokens have no shared parameterisation to tie",
+   "the two towers train faster when untied",
+   "tying them would cause the embedding to collapse",
+   "pixels and tokens have no parameterisation to share",
    "the loss is contrastive rather than triplet"
   ],
   "correct": [
@@ -15029,14 +15029,14 @@ window.QUESTIONS = [
   "exam": 9,
   "num": 19,
   "week": "W7",
-  "explanation": "<p>Both are single-stream; the difference is the tokeniser, which is where the runtime goes.</p><p><strong>Pixel-BERT uses CNN grid features</strong> — a ResNet or ResNeXt run over the image, with the resulting feature map flattened into tokens. No object detector, so no fixed class list, no discarded background, and none of the $\\sim\\!880$ ms UNITER spends before its transformer starts. Its runtime is $\\sim\\!60$–$160$ ms against UNITER's $\\sim\\!900$.</p><p><strong>It samples pixels randomly during training</strong>, the second half of the option. Grid features give many tokens; sampling a subset each step cuts the sequence length and acts as a regulariser — the same idea as VATT's random token dropping.</p><p><strong>Why not (b).</strong> Both are single-stream. The stream count barely affects runtime: UNITER at $\\sim\\!900$ ms and ViLBERT at $\\sim\\!920$ differ by the cost of the second stream, about $20$ ms, while ViLT at $\\sim\\!15$ ms differs from both by the tokeniser.</p><p><strong>Runtime ordering:</strong> ViLT (linear patch projection) $\\ll$ Pixel-BERT (CNN grid) $\\ll$ UNITER, ViLBERT (region features).</p>",
+  "explanation": "<p>Both are single-stream; the difference is the tokeniser, which is where the runtime goes.</p><p><strong>Pixel-BERT uses CNN grid features</strong> — a ResNet or ResNeXt run over the image, with the resulting feature map flattened into tokens. No object detector, so no fixed class list, no discarded background, and none of the $\\sim\\!880$ ms UNITER spends before its transformer starts. Its runtime is $\\sim\\!60$–$160$ ms against UNITER's $\\sim\\!900$.</p><p><strong>It also samples pixels randomly during training.</strong> Grid features give many tokens; sampling a subset each step cuts the sequence length and acts as a regulariser — the same idea as VATT's random token dropping.</p><p><strong>Why not (b).</strong> Both are single-stream. The stream count barely affects runtime: UNITER at $\\sim\\!900$ ms and ViLBERT at $\\sim\\!920$ differ by the cost of the second stream, about $20$ ms, while ViLT at $\\sim\\!15$ ms differs from both by the tokeniser.</p><p><strong>Runtime ordering:</strong> ViLT (linear patch projection) $\\ll$ Pixel-BERT (CNN grid) $\\ll$ UNITER, ViLBERT (region features).</p>",
   "type": "single",
   "stem": "Pixel-BERT differs from UNITER chiefly in that it:",
   "options": [
-   "tokenises with a CNN grid rather than with detected regions, and samples pixels randomly",
-   "uses two streams rather than one",
-   "drops the masked-language objective",
-   "is trained on unpaired data"
+   "tokenises with a CNN grid rather than detected regions",
+   "uses two separate streams rather than a single one",
+   "drops the masked-language objective entirely",
+   "is trained on unpaired images and captions"
   ],
   "correct": [
    0
@@ -15054,10 +15054,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of RT-2-X and CMRNext as the lecture presents them:",
   "options": [
-   "both are vision–language models for captioning",
-   "RT-2-X tokenises the <em>action</em> space, so a pre-trained vision–language stack can be reused",
-   "CMRNext generalises across sensors because it learns the shared <em>geometry</em> rather than one sensor's appearance",
-   "both illustrate that a modality is whatever you can tokenise"
+   "both are vision–language models built for captioning",
+   "RT-2-X tokenises the <em>action</em> space, so a VLM can emit actions",
+   "CMRNext generalises across sensors by learning the <em>geometry</em>",
+   "both show that a modality is whatever you can tokenise"
   ],
   "correct": [
    1,
@@ -15120,9 +15120,9 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of DINOv2 and DINOv3:",
   "options": [
    "DINOv2 replaced self-distillation with masked modelling",
-   "DINOv3 introduced a new training paradigm",
-   "DINOv2 is iBOT engineered and scaled, on $142$M images curated from $1.2$B",
-   "DINOv3 adds Gram anchoring to stop the patch features degrading at scale"
+   "DINOv3 introduced an entirely new training paradigm",
+   "DINOv2 is iBOT engineered and scaled to $142$M images",
+   "DINOv3 adds Gram anchoring to hold the patch features"
   ],
   "correct": [
    2,
@@ -15164,10 +15164,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "The limitations of LoRA the lecture names are:",
   "options": [
-   "it adds inference latency and cannot be merged",
-   "it only applies to convolutional layers",
-   "sensitivity to the learning rate, two new hyperparameters, and difficulty with complex novel tasks",
-   "it requires the source and target tasks to be identical"
+   "added inference latency, extra memory, and no way to merge it",
+   "convolutional layers only, with no gain on attention blocks",
+   "learning-rate sensitivity, two new hyperparameters, and novel tasks",
+   "identical source and target tasks, and a rank fixed in advance"
   ],
   "correct": [
    2
@@ -15209,9 +15209,9 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of NCSN's central problem and its fix:",
   "options": [
-   "the learned score is least reliable near the data",
-   "the learned score is least reliable in low-density regions, which is where sampling begins",
-   "the fix is to train at several noise levels and condition the network on the level",
+   "the learned score is least reliable near the data itself",
+   "the learned score is least reliable where sampling begins",
+   "the fix is several noise levels, with the level as an input",
    "each noise level needs its own separately trained network"
   ],
   "correct": [
@@ -15231,10 +15231,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "In a diffusion model's noise schedule, setting the signal-to-noise ratio to zero at the final timestep:",
   "options": [
-   "speeds up sampling",
-   "closes a train/test mismatch, since otherwise a trace of the training image survives at the top of the chain",
-   "is what makes the reverse step Gaussian",
-   "removes the need for guidance"
+   "speeds sampling up by shortening the chain",
+   "closes a train/test mismatch at the top of the chain",
+   "is what makes each reverse step Gaussian",
+   "removes the need for guidance at sampling time"
   ],
   "correct": [
    1
@@ -15252,9 +15252,9 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Reconstructing a scene from a <em>single</em> image is generally impossible because of:",
   "options": [
-   "sensor noise",
+   "sensor noise in the camera",
    "the lack of a differentiable renderer",
-   "limited compute",
+   "limited compute for the optimisation",
    "occlusion, and depth ambiguity"
   ],
   "correct": [
@@ -15273,10 +15273,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "<strong>JEPA</strong>-style world models differ from the rest in that they predict:",
   "options": [
-   "future <em>representations</em> rather than future pixels",
-   "rewards rather than observations",
-   "actions rather than states",
-   "nothing — they are purely contrastive"
+   "future <em>representations</em> rather than pixels",
+   "rewards rather than future observations",
+   "actions rather than the states they lead to",
+   "nothing at all — they are purely contrastive"
   ],
   "correct": [
    0
@@ -16445,10 +16445,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of a residual connection:",
   "options": [
-   "it gives the gradient a path that does not pass through the block's weights",
-   "it lets the block learn a perturbation of the identity rather than a whole mapping",
-   "it removes the need for any normalisation layer",
-   "it adds parameters in proportion to the width of the block"
+   "it gives the gradient a path around the block's weights",
+   "it lets the block learn a perturbation of the identity",
+   "it removes the need for a normalisation layer in the block",
+   "it adds parameters in proportion to the block's width"
   ],
   "correct": [
    0,
@@ -16468,9 +16468,9 @@ window.QUESTIONS = [
   "stem": "Global average pooling before the classifier:",
   "options": [
    "adds parameters in proportion to the feature map's spatial size",
-   "is equivalent to a $1\\times1$ convolution",
-   "removes the dependence on input size, so the network accepts images of any resolution",
-   "is meaningful only in a segmentation head"
+   "mixes the channels at each position, as a $1\\times1$ convolution does",
+   "removes the head's dependence on the input's spatial size",
+   "belongs in a segmentation head rather than in a classifier"
   ],
   "correct": [
    2
@@ -16512,10 +16512,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Dividing the attention scores by $\\sqrt{d_k}$:",
   "options": [
-   "stops the logits' variance from growing with $d_k$, which would saturate the softmax",
-   "is what normalises the attention weights so that they sum to one",
+   "keeps the logits' variance from growing with $d_k$",
+   "is what makes the attention weights sum to one",
    "compensates for splitting the model into $h$ heads",
-   "is what makes the causal mask correct"
+   "is what makes the causal mask work correctly"
   ],
   "correct": [
    0
@@ -16533,9 +16533,9 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of byte-pair encoding:",
   "options": [
-   "it begins from characters and repeatedly merges the most frequent adjacent pair",
-   "it gives a fixed-size vocabulary that can still spell a word it has never seen",
-   "it produces exactly one token per word",
+   "it starts from characters and merges the most frequent pair",
+   "it can still spell a word it has never seen",
+   "it produces exactly one token per word of the corpus",
    "it makes an unknown-word symbol unnecessary"
   ],
   "correct": [
@@ -16558,8 +16558,8 @@ window.QUESTIONS = [
   "options": [
    "shares one embedding between content and position",
    "discards positional information and relies on the mask instead",
-   "inserts a convolution before the attention",
-   "keeps content and relative position as separate vectors and sums their interaction terms"
+   "inserts a convolution in front of the attention block",
+   "keeps content and relative position as separate vectors"
   ],
   "correct": [
    3
@@ -16602,9 +16602,9 @@ window.QUESTIONS = [
   "stem": "Swin's patch merging:",
   "options": [
    "halves the number of channels and leaves the resolution alone",
-   "concatenates $2\\times2$ neighbours and projects, quartering the positions and doubling the width",
+   "concatenates each $2\\times2$ group of patches and projects",
    "is a strided convolution applied once to the whole image",
-   "happens inside every transformer block"
+   "happens inside every transformer block of the stage"
   ],
   "correct": [
    1
@@ -16668,10 +16668,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "PointNet++ groups with a ball query rather than $k$ nearest neighbours because:",
   "options": [
-   "it is cheaper to compute",
+   "it is the cheaper of the two to compute",
    "it always returns the same number of points",
-   "it fixes a physical radius, so a neighbourhood means the same thing in a dense and in a sparse region",
-   "it is permutation invariant, which $k$NN is not"
+   "it fixes a physical radius rather than a count",
+   "it is permutation invariant, where $k$NN is not"
   ],
   "correct": [
    2
@@ -16689,10 +16689,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of projecting a LiDAR scan to a range image:",
   "options": [
-   "an ordinary 2D CNN can be reused unchanged",
-   "the projection is lossless",
-   "points can be hidden behind other points and vanish",
-   "pixels that are neighbours in the image need not be neighbours in 3D"
+   "an ordinary 2D CNN can be reused on it unchanged",
+   "the projection preserves the points' exact coordinates",
+   "a point can be hidden behind another and vanish",
+   "image neighbours need not be neighbours in 3D"
   ],
   "correct": [
    0,
@@ -16757,10 +16757,10 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of a graph attention layer:",
   "options": [
-   "the coefficient on an edge depends on the features of both of its endpoints",
+   "the coefficient on an edge depends on both endpoints' features",
    "it weights every neighbour equally, exactly as a GCN does",
-   "the softmax is taken over the neighbourhood, so the graph is still required",
-   "heads are concatenated in the hidden layers and averaged at the output layer"
+   "the softmax is taken over the neighbourhood alone",
+   "heads are concatenated in hidden layers, averaged at the output"
   ],
   "correct": [
    0,
@@ -16780,9 +16780,9 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Batch-hard mining differs from batch-all in that:",
   "options": [
-   "it keeps only the hardest positive and the hardest negative for each anchor",
-   "it uses more triplets per batch",
-   "it drops the margin",
+   "it keeps the hardest positive and negative per anchor",
+   "it forms more triplets per batch than batch-all",
+   "it drops the margin from the triplet loss entirely",
    "it requires a memory bank of past embeddings"
   ],
   "correct": [
@@ -16802,9 +16802,9 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of ArcFace:",
   "options": [
    "triplets must be mined explicitly before each step",
-   "the weights and the features are normalised, so the logit is a cosine",
-   "the margin is added to the <em>angle</em> rather than to a distance",
-   "a scale $s$ is needed because cosines are confined to $[-1, 1]$"
+   "normalising weights and features makes the logit a cosine",
+   "the margin is added to the <em>angle</em>, not to a distance",
+   "a scale $s$ is needed because cosines lie in $[-1, 1]$"
   ],
   "correct": [
    1,
@@ -16846,10 +16846,10 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "Late fusion means:",
   "options": [
-   "combining the raw inputs before any encoder",
+   "combining the raw inputs before any encoder runs",
    "combining at several depths of the network at once",
    "training on one modality first and on the other afterwards",
-   "combining decisions or high-level features after separate per-modality encoders"
+   "combining the decisions of separate per-modality encoders"
   ],
   "correct": [
    3
@@ -16913,8 +16913,8 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of SimCLR's projection head:",
   "options": [
-   "it is kept, and its output is the representation used downstream",
-   "it absorbs the invariances the loss demands, leaving a richer representation upstream",
+   "it is kept, and its output is used downstream",
+   "it absorbs the invariances that the loss demands",
    "its purpose is to reduce the dimension for storage",
    "it becomes the classifier during fine-tuning"
   ],
@@ -16957,9 +16957,9 @@ window.QUESTIONS = [
   "stem": "Mark all that are true of catastrophic forgetting:",
   "options": [
    "it is what happens when <em>stability</em> wins the stability–plasticity dilemma",
-   "lowering the learning rate removes it",
-   "rehearsal counters it by replaying stored or generated examples of earlier tasks",
-   "EWC counters it by penalising movement in the parameters that mattered to earlier tasks"
+   "lowering the learning rate is enough to remove it",
+   "rehearsal counters it by replaying examples of earlier tasks",
+   "EWC counters it by penalising movement in important parameters"
   ],
   "correct": [
    2,
@@ -16979,7 +16979,7 @@ window.QUESTIONS = [
   "stem": "Negative transfer is:",
   "options": [
    "transferring into a smaller model than the source",
-   "the source making the target worse, because the two are too dissimilar",
+   "the source leaving the target worse than training from scratch",
    "the effect of the gradient reversal layer on the encoder",
    "forgetting the source task while fine-tuning on the target"
   ],
@@ -16999,9 +16999,9 @@ window.QUESTIONS = [
   "type": "multi",
   "stem": "Mark all that are true of the reparameterisation trick:",
   "options": [
-   "it removes the KL term from the ELBO",
-   "it makes the decoder deterministic",
-   "it writes $\\mathbf{z} = \\boldsymbol{\\mu} + \\boldsymbol{\\sigma}\\odot\\boldsymbol{\\varepsilon}$, so the randomness is an <em>input</em> rather than a node to differentiate through",
+   "it removes the KL divergence term from the ELBO",
+   "it makes the decoder's output deterministic",
+   "it makes the randomness an <em>input</em> rather than a graph node",
    "it is needed only when the prior is something other than a Gaussian"
   ],
   "correct": [
@@ -17021,9 +17021,9 @@ window.QUESTIONS = [
   "stem": "Mode collapse in a GAN is:",
   "options": [
    "the discriminator winning so completely that the generator has no gradient",
-   "the generator's weights collapsing to zero",
-   "the generator covering only a few of the data's modes, because nothing in the loss asks for coverage",
-   "the same phenomenon as posterior collapse in a VAE"
+   "the generator's weights collapsing towards zero",
+   "the generator covering only a few of the data's modes",
+   "the same phenomenon as a VAE's posterior collapse"
   ],
   "correct": [
    2
@@ -17065,7 +17065,7 @@ window.QUESTIONS = [
   "type": "single",
   "stem": "NeRF needs a positional encoding of the input coordinate because:",
   "options": [
-   "a coordinate MLP is biased towards smooth functions and cannot fit high-frequency detail",
+   "a coordinate MLP cannot fit high-frequency detail",
    "an MLP has no notion of the order of its inputs",
    "it is what makes the rendering step differentiable",
    "it reduces the number of samples needed along a ray"
@@ -17089,7 +17089,7 @@ window.QUESTIONS = [
    "it stores the scene in the weights of a network",
    "rendering requires an MLP query at every sample along a ray",
    "it needs less memory than a NeRF for the same scene",
-   "it uses the same alpha-compositing sum as NeRF, and only the source of $\\alpha_i$ differs"
+   "it uses NeRF's alpha-compositing sum, with a different $\\alpha_i$"
   ],
   "correct": [
    3
