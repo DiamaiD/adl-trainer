@@ -150,7 +150,12 @@ def main():
     # seeing it means one was not converted -- a tabular nested in a tabular
     # cell, which printed "tabular@c|cc@" and merged five tables into nonsense.
     # "@{}" does not catch it: the grouping-brace strip leaves "@cc@" behind.
-    LEFTOVERS = ("7pt", "@{}", "tabcolsep", "c c c@", "\\setlength", "tabular")
+    # "lstlisting"/"verbatim": a converted code block never prints its own
+    # environment name either. Seeing one means the listing was flattened into
+    # the prose -- which is what happened to the stem of e01q45, where only
+    # paragraphs() knew about code environments and text() did not.
+    LEFTOVERS = ("7pt", "@{}", "tabcolsep", "c c c@", "\\setlength", "tabular",
+                 "lstlisting", "verbatim")
     for q in db:
         for where, val in fields(q):
             if not val:

@@ -281,8 +281,23 @@ def _plain(s):
     return s.replace(SENT_L, "{").replace(SENT_R, "}")
 
 
+CODE_ENV = re.compile(r"\\begin\{(lstlisting|verbatim)\}(\[[^\]]*\])?(.*?)\\end\{\1\}", re.S)
+
+
 def text(s):
     """LaTeX body text -> HTML, with $...$ handed to KaTeX untouched."""
+    # A code listing can sit in a question *stem*, not only in an explanation --
+    # "How many parameters does this network have? <nn.Sequential ...>". Only
+    # paragraphs() knew about environments, so text() stripped the commands and
+    # the markers leaked as the words "lstlisting ... lstlisting" with the code
+    # flattened into the sentence. Stash the block, convert the prose, put it back.
+    blocks = []
+
+    def _stash(m):
+        blocks.append(verbatim(m.group(3)))
+        return "\x00CODE%d\x00" % (len(blocks) - 1)
+
+    s = CODE_ENV.sub(_stash, s)
     s = re.sub(r"(?<!\\)%.*", "", s)
     s = s.replace("\n", " ")
     # "\\[3pt]" is a line break with extra space, but its second half reads as
@@ -294,7 +309,10 @@ def text(s):
     s = _displays(s)
     out = re.sub(r"[ \t]+", " ", _convert(s)).strip()
     # a \\ at the very start or end of a block is paper spacing, not a line
-    return re.sub(r"^(?:<br>\s*)+|(?:\s*<br>)+$", "", out)
+    out = re.sub(r"^(?:<br>\s*)+|(?:\s*<br>)+$", "", out)
+    for i, block in enumerate(blocks):
+        out = out.replace("\x00CODE%d\x00" % i, block)
+    return out
 
 
 def _env_span(s, name, start):
